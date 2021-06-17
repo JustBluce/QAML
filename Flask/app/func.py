@@ -8,6 +8,7 @@ import click
 from sklearn.feature_extraction.text import TfidfVectorizer
 from flask import Flask, jsonify, request
 import sys
+from app import db
 sys.path.append("..")
 
 func = Blueprint('func', __name__)
@@ -36,4 +37,8 @@ def act():
     if request.method == 'POST':
         question = request.form.get('text')
     answer = guess(question=[question])
+
+    sql = "insert into QA (Question, Answer) VALUES ('"+question+"', '"+answer +"'); "
+    result_sql=db.session.execute(sql)
+
     return jsonify({'guess': answer})

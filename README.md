@@ -3,19 +3,68 @@
 - This project tries to create a Vue/Flask app which is able to answer the given input question on the quanta QA dataset(https://s3-us-west-2.amazonaws.com/pinafore-us-west-2/qanta-jmlr-datasets/qanta.train.2018.04.18.json).
 - The framework used on the front end is Vue.
 - The framework used on the back end is Flask.
-- The method I used is tf-idf, because it is easy to implement and achieves relatively good results. After the model has been called, it pre-process the real question, filter part of the questions using the inverted table, use the tf_idf vectors of the real question and the filtered question list for cosine similarity calculation, and then use the priority queue to find the most similar answer to the question.
+- The databased used is mysql.
+
+## Preparations
+
+- Install mysql in your computer
+- Use the sql file `QA_QA.sql` to set up your database
+- Write `Flask/config.py` to use your mysql settings
+- Run https://github.com/Pinafore/qanta-codalab locally and you will get `qanta-codalab/src/tfidf.pickle`
+- Remove and rename `qanta-codalab/src/tfidf.pickle` to `TRYOUT-PROJECT/Flask/model/model.pickle`
 
 ## Steps to run the code
 
 Run the below commands in the terminal for running the code:
-Run the Flask app:
+
+### Run the Flask app
 
 1. **cd Flask**
 2. **python run.py**
-   Run the Vue framework:
+### Run the Vue framework
 3. **cd Vue**
 4. **npm install**
 5. **npm run dev**
+
+## Tips
+
+- The Vue code for interface is `Vue/src/views/friends/test6/index.vue`
+- We can create new interface in `Vue/src/views` and register this interface in the navigation bar in `Vue/router/index.js`
+- The Flask code for answering questions, storing data and calling the model is `Flask/app/func.py`
+- If you want to connect the Vue to Flask, youneed to ensure that the web request method is set correctly.
+- Vue file
+
+```javascript
+this.axios({
+        url: "http://127.0.0.1:5000/func/act",
+        method: "POST",
+        data: formData,
+        // header:{
+        //   'Content-Type':'application/json'  //如果写成contentType会报错
+        // }
+      }).then((response) => {
+        this.returndata = response.data;
+        this.answer = response.data["guess"];
+        console.log(response);
+        console.log(this.text);
+        console.log(this.answer);
+      });
+```
+
+- Flask file
+
+```Python
+@func.route('/act', methods=['POST'])
+def act():
+    if request.method == 'POST':
+        question = request.form.get('text')
+    answer = guess(question=[question])
+
+    sql = "insert into QA (Question, Answer) VALUES ('"+question+"', '"+answer +"'); "
+    result_sql=db.session.execute(sql)
+
+    return jsonify({'guess': answer})
+```
 
 ## Results
 
