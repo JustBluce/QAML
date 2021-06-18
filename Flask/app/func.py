@@ -8,17 +8,18 @@ import click
 from sklearn.feature_extraction.text import TfidfVectorizer
 from flask import Flask, jsonify, request
 import sys
-from app import db
+from app import db, metadata
+
 sys.path.append("..")
 
-func = Blueprint('func', __name__)
+func = Blueprint("func", __name__)
 
-with open('./model/model.pickle', 'rb') as f:
+with open("./model/model.pickle", "rb") as f:
     params = pickle.load(f)
 
-vectorizer = params['tfidf_vectorizer']
-Matrix = params['tfidf_matrix']
-ans = params['i_to_ans']
+vectorizer = params["tfidf_vectorizer"]
+Matrix = params["tfidf_matrix"]
+ans = params["i_to_ans"]
 
 
 def guess(question, max=12):
@@ -32,13 +33,13 @@ def guess(question, max=12):
     return answer[0][0][0]
 
 
-@func.route('/act', methods=['POST'])
+@func.route("/act", methods=["POST"])
 def act():
-    if request.method == 'POST':
-        question = request.form.get('text')
+    if request.method == "POST":
+        question = request.form.get("text")
     answer = guess(question=[question])
 
-    sql = "insert into QA (Question, Answer) VALUES ('"+question+"', '"+answer +"'); "
-    result_sql=db.session.execute(sql)
+    qa_table = metadata.tables["QA"]
+    db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
 
-    return jsonify({'guess': answer})
+    return jsonify({"guess": answer})
