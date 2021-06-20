@@ -114,8 +114,8 @@ def check_drop_in_confidence(question, max=12, ind = -1):
             return answer[0][i][1]
     return 0
 
-def make_colored(score, text ,max):
-    colored_text = colored(0,int(255 * score/max), 0, text)
+def make_colored(score, text , max, min):
+    colored_text = colored(0,int(255 * (score-min)/(max-min) ), 0, text)
     return colored_text
 
 def get_importance_of_each_sentence(question):
@@ -124,6 +124,7 @@ def get_importance_of_each_sentence(question):
     actual_confidence = actual_answer[1]
     temp_sentence_array = break_into_sentences(question)
     highest_confidence = -10
+    least_confidence = 10
     highest_confidence_sentence = -1
     array_of_importances = []
     for i in range(len(temp_sentence_array)):
@@ -132,13 +133,16 @@ def get_importance_of_each_sentence(question):
         drop_in_confidence = check_drop_in_confidence(question = [temp_sentence_string], ind = index_of_answer)
         print("Importance of sentence number "+ str(i)+ "= ", actual_confidence-drop_in_confidence)
         array_of_importances.append(actual_confidence-drop_in_confidence)
+        if(least_confidence > (actual_confidence-drop_in_confidence)):
+            least_confidence = (actual_confidence-drop_in_confidence)
         if(highest_confidence< (actual_confidence-drop_in_confidence)):
             highest_confidence_sentence = i
             highest_confidence = (actual_confidence-drop_in_confidence)
     print("Sentence number with the most importance: "+ str(highest_confidence_sentence) + " "+str( highest_confidence))
     colored_string = ""
     for i in range(len(temp_sentence_array)):
-        colored_string = colored_string + " " + make_colored(array_of_importances[i],temp_sentence_array[i],highest_confidence)
+        colored_string = colored_string + " " + make_colored(array_of_importances[i],temp_sentence_array[i], highest_confidence, least_confidence)
+    print(colored( 0, 1, 0,""))
     print(colored_string)
     print(colored(255,255,255,""))
     return
@@ -149,6 +153,7 @@ def get_importance_of_each_word(question):
     actual_confidence = actual_answer[1]
     temp_sentence_array = break_into_words(question)
     highest_confidence = -10
+    least_confidence = 10
     highest_confidence_word = ""
     array_of_importances = []
     for i in range(len(temp_sentence_array)):
@@ -157,13 +162,15 @@ def get_importance_of_each_word(question):
         drop_in_confidence = check_drop_in_confidence(question = [temp_sentence_string], ind = index_of_answer)
         print("Importance of word "+ temp_sentence_array[i] + "= ", actual_confidence-drop_in_confidence)
         array_of_importances.append(actual_confidence-drop_in_confidence)
+        if(least_confidence > (actual_confidence-drop_in_confidence)):
+            least_confidence = (actual_confidence-drop_in_confidence)
         if(highest_confidence< (actual_confidence-drop_in_confidence)):
             highest_confidence_word = temp_sentence_array[i]
             highest_confidence = (actual_confidence-drop_in_confidence)
     print("Word with the most importance: "+ str(highest_confidence_word) + " "+str( highest_confidence))
     colored_string = ""
     for i in range(len(temp_sentence_array)):
-        colored_string = colored_string + " " + make_colored(array_of_importances[i],temp_sentence_array[i],highest_confidence)
+        colored_string = colored_string + " " + make_colored(array_of_importances[i],temp_sentence_array[i], highest_confidence, least_confidence)
     print(colored_string)
     print(colored(255,255,255,""))
     return
