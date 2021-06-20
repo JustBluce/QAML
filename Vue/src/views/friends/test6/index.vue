@@ -29,6 +29,7 @@
       placeholder="Answer"
       v-model="answer"
     ></textarea>
+    
     <!--    <br>-->
     <!--    <textarea style="border:0;border-radius:5px;background-color:rgba(241,241,241,.98);width: 355px;height: 100px;padding: 10px;resize: none;" placeholder="相似句" v-model="text3"></textarea>-->
   </div>
@@ -46,7 +47,7 @@ export default {
     return {
       returndata: ["", ""],
       text: "",
-      answer: "",
+      answer: ["",""],
     };
   },
   methods: {
