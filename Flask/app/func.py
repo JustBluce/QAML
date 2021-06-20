@@ -9,6 +9,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from flask import Flask, jsonify, request
 import sys
 from app import db
+from transformers import BertTokenizer, BertForSequenceClassification
+import torch
+import numpy as np
 sys.path.append("..")
 
 func = Blueprint('func', __name__)
@@ -29,7 +32,23 @@ def guess(question, max=12):
     for i in range(len(question)):
         idx = indices[i]
         answer.append([(ans[j], matrix[i, j]) for j in idx])
+    print(answer[0][0][0])
     return answer[0][0][0]
+
+#classify function was written by Atith Gandhi
+def classify(question):
+    model = BertForSequenceClassification.from_pretrained('./model/difficulty_models/BERT_full_question')
+    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') 
+
+    inputs = tokenizer(question, return_tensors="pt")
+    outputs = model(**inputs)
+    logits = outputs.logits.detach().cpu().numpy()
+    difficulty = np.argmax(logits).flatten()
+    print(difficulty)
+    if(difficulty == 0):
+        return 'Easy'
+    elif (difficulty == 1):
+        return 'Hard'
 
 
 @func.route('/act', methods=['POST'])
@@ -37,8 +56,9 @@ def act():
     if request.method == 'POST':
         question = request.form.get('text')
     answer = guess(question=[question])
+    difficulty = classify(question = [question])
+    if(difficulty == "Hard"):
+        sql = "insert into QA (Question, Answer) VALUES ('"+question+"', '"+answer +"'); "
+        result_sql=db.session.execute(sql)
 
-    sql = "insert into QA (Question, Answer) VALUES ('"+question+"', '"+answer +"'); "
-    result_sql=db.session.execute(sql)
-
-    return jsonify({'guess': answer})
+    return jsonify({'guess': answer, "difficulty": difficulty})
