@@ -8,6 +8,10 @@ import click
 from sklearn.feature_extraction.text import TfidfVectorizer
 from flask import Flask, jsonify, request
 import sys
+from app import db
+from transformers import BertTokenizer, BertForSequenceClassification
+import torch
+import numpy as np
 from app import db, metadata
 
 sys.path.append("..")
@@ -30,7 +34,23 @@ def guess(question, max=12):
     for i in range(len(question)):
         idx = indices[i]
         answer.append([(ans[j], matrix[i, j]) for j in idx])
+    print(answer[0][0][0])
     return answer[0][0][0]
+
+#classify function was written by Atith Gandhi
+def classify(question):
+    model = BertForSequenceClassification.from_pretrained('./model/difficulty_models/BERT_full_question')
+    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') 
+
+    inputs = tokenizer(question, return_tensors="pt")
+    outputs = model(**inputs)
+    logits = outputs.logits.detach().cpu().numpy()
+    difficulty = np.argmax(logits).flatten()
+    print(difficulty)
+    if(difficulty == 0):
+        return 'Easy'
+    elif (difficulty == 1):
+        return 'Hard'
 
 
 @func.route("/act", methods=["POST"])
@@ -38,8 +58,10 @@ def act():
     if request.method == "POST":
         question = request.form.get("text")
     answer = guess(question=[question])
-
-    qa_table = metadata.tables["QA"]
-    db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
+    difficulty = classify(question = [question])
+    if(difficulty == "Hard"):
+        qa_table = metadata.tables["QA"]
+        db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
 
     return jsonify({"guess": answer})
+
