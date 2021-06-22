@@ -115,7 +115,7 @@ def check_drop_in_confidence(question, max=12, ind = -1):
     return 0
 
 def make_colored(score, text , max, min):
-    colored_text = colored(0,int(255 * (score-min)/(max-min) ), 0, text)
+    colored_text = colored(int(255 * (1 - (score -min)/(max-min))) , 255, int(255 * (1 - (score -min)/(max-min))), text)
     return colored_text
 
 def get_importance_of_each_sentence(question):
@@ -187,6 +187,7 @@ def act():
 
     get_importance_of_each_sentence(question)  
     answer = guess_by_sentences(question)
+
     list_answer= []
     for ans,score in answer:
         list_answer.append([ans,score])
