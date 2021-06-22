@@ -1,0 +1,5 @@
+nlp
+transformers
+datasets
+torch
+nltk

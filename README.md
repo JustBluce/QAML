@@ -21,10 +21,12 @@ Run the below commands in the terminal for running the code:
 
 1. **cd Flask**
 2. **python run.py**
+3. **pip install -r requirements.txt**
+4. **Download pre-trained BERT_full_question model from [here](https://drive.google.com/drive/folders/18dGwaxI7kx4Yx7gTMTiCbUv2YLxzNPmZ?usp=sharing) and move it to model/difficulty_models/  folder**
 ### Run the Vue framework
-3. **cd Vue**
-4. **npm install**
-5. **npm run dev**
+5. **cd Vue**
+6. **npm install**
+7. **npm run dev**
 
 ## Tips
 
