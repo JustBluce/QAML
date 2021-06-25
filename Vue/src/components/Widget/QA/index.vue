@@ -52,13 +52,14 @@ textarea {
   width: 800px;
   padding: 10px;
   margin-top: 10px;
-  margin-bottom: 10px;
   resize: none;
+  outline: none;
 }
 
 .el-button {
   background: steelblue;
   width: 100px;
+  margin-top: 10px;
   opacity: 1;
   transition: opacity 0.3s;
 }
@@ -68,6 +69,6 @@ textarea {
 }
 
 .el-button:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 </style>

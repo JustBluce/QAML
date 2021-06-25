@@ -19,13 +19,15 @@
         opacity: expanded ? '1' : '0',
       }"
     >
-      <QA v-show="widget.type === 'QA'" />
+      <QA v-if="widget.type === 'QA'" />
+      <Timer v-if="widget.type === 'Timer'" :end="getEnd()" />
     </div>
   </div>
 </template>
 
 <script>
 import QA from "./QA";
+import Timer from "./Timer";
 
 export default {
   name: "Widget",
@@ -34,6 +36,7 @@ export default {
   },
   components: {
     QA,
+    Timer,
   },
   data() {
     return {
@@ -57,6 +60,9 @@ export default {
       if (!this.expanded) {
         this.$refs.widgetContainer.style.display = "none";
       }
+    },
+    getEnd() {
+      return new Date("June 27, 2021 12:00:00").getTime();
     },
   },
   beforeUpdate() {
