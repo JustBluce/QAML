@@ -5,14 +5,14 @@ Developers: Cai Zefan and Jason Liu
 <template>
   <div>
     <textarea
-      class="output"
+      class="container"
       rows="6"
       placeholder="Please enter your question"
       v-model="text"
     ></textarea>
     <el-button type="primary" @click="searchData"> Answer </el-button>
     <textarea
-      class="output"
+      class="container"
       rows="1"
       placeholder="Answer"
       v-model="answer"

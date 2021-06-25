@@ -4,15 +4,18 @@ Developer: Damien Rene and Jason Liu
 
 <template>
   <div>
-    <div readonly class="output output-container" @click="clickMethod">
-      <input
-        readonly
-        v-show="!text"
-        class="output"
-        placeholder="Please enter your question"
-      />
+    <select class="container" v-model="qa_id">
+      <option
+        v-for="qa_widget in qa_widgets"
+        :key="qa_widget.id"
+        :value="qa_widget.id"
+      >
+        {{ qa_widget.title }}
+      </option>
+    </select>
+    <div readonly class="container output" @click="clickMethod">
+      <div class="placeholder" v-show="!text">Please enter your question</div>
       <Highlighter
-        class="my-highlight"
         :style="{ color: 'black' }"
         highlightClassName="highlight"
         :searchWords="keywords"
@@ -27,22 +30,27 @@ Developer: Damien Rene and Jason Liu
 import Highlighter from "vue-highlight-words";
 export default {
   name: "Pronunciation",
-  props: {
-    question_id: String,
-  },
   components: {
     Highlighter,
   },
   data() {
     return {
+      qa_id: "0",
       words: "and or the quick",
     };
   },
   computed: {
-    text: {
-      get() {
-        return this.$store.getters.questions(this.question_id).text;
-      },
+    qa_widgets() {
+      let qa_widgets = this.$store.state.widgets.filter(
+        (widget) => widget.type === "QA"
+      );
+      if (!qa_widgets.some((widget) => widget.id === this.qa_id)) {
+        this.qa_id = qa_widgets[0].id;
+      }
+      return qa_widgets;
+    },
+    text() {
+      return this.$store.getters.questions(this.qa_id).text;
     },
     keywords() {
       return this.words.split(" ");
@@ -57,14 +65,26 @@ export default {
 </script>
 
 <style scoped>
-.output-container {
+select {
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+select:hover {
+  opacity: 0.7;
+}
+
+.output {
   overflow: auto;
   height: 128px;
 }
 
-input {
-  margin: 0;
-  padding: 0;
-  width: 200px;
+.placeholder {
+  color: #757575;
+}
+
+.highlight {
+  background-color: #c8ebfb;
 }
 </style>
