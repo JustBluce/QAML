@@ -14,8 +14,11 @@ import click
 from sklearn.feature_extraction.text import TfidfVectorizer
 from flask import Flask, jsonify, request
 import sys
+from transformers import BertTokenizer, BertForSequenceClassification
+import torch
 import numpy as np
-from app import db
+from app import db, metadata
+
 sys.path.append("..")
 import nltk
 # nltk.download('punkt') #Download once
