@@ -26,25 +26,31 @@ Developers: Jason Liu and Cai Zefan
 </template>
 
 <script>
-import { VueEditor } from "vue2-editor";
 import Widget from "@/components/Widget";
 import Modal from "@/components/Modal";
 import draggable from "vuedraggable";
 
 export default {
   components: {
-    VueEditor,
     Widget,
     Modal,
     draggable,
   },
   data() {
     return {
-      widgets: [],
       drag: false,
     };
   },
   computed: {
+    widgets: {
+      get() {
+        return this.$store.state.widgets;
+      },
+
+      set(widgets) {
+        this.$store.state.widgets = widgets;
+      },
+    },
     showModal() {
       return this.$store.state.modal.opened;
     },
@@ -57,40 +63,8 @@ export default {
   },
   methods: {
     deleteWidget(id) {
-      this.widgets = this.widgets.filter((widget) => widget.id !== id);
+      this.$store.commit("deleteWidget", id);
     },
-  },
-  created() {
-    this.widgets = [
-      {
-        id: "0",
-        title: "QA1",
-        type: "QA",
-        removable: false,
-        maxHeight: "350px",
-      },
-      {
-        id: "1",
-        title: "QA2",
-        type: "QA",
-        removable: true,
-        maxHeight: "350px",
-      },
-      {
-        id: "2",
-        title: "Timer",
-        type: "Timer",
-        removable: true,
-        maxHeight: "200px",
-      },
-      {
-        id: "3",
-        title: "Pronunciation difficulty",
-        type: "Pronunciation",
-        removable: true,
-        maxHeight: "250px",
-      },
-    ];
   },
 };
 </script>
@@ -106,7 +80,7 @@ export default {
 }
 
 .flip-list-move {
-  transition: transform 0.5s;
+  transition: transform 0.3s;
 }
 
 .ghost {
@@ -115,7 +89,7 @@ export default {
   background: #c8ebfb;
 }
 
-.output {
+.container {
   border: 100px;
   border-radius: 5px;
   box-sizing: border-box;

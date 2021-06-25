@@ -13,6 +13,36 @@ const store = new Vuex.Store({
 			difficulty: 'Easy',
 			question_saved: false
 		},
+		widgets: [
+			{
+				id: '0',
+				title: 'QA1',
+				type: 'QA',
+				removable: false,
+				maxHeight: '350px'
+			},
+			{
+				id: '1',
+				title: 'QA2',
+				type: 'QA',
+				removable: true,
+				maxHeight: '350px'
+			},
+			{
+				id: '2',
+				title: 'Timer',
+				type: 'Timer',
+				removable: true,
+				maxHeight: '200px'
+			},
+			{
+				id: '3',
+				title: 'Pronunciation difficulty',
+				type: 'Pronunciation',
+				removable: true,
+				maxHeight: '250px'
+			}
+		],
 		questions: []
 	},
 	modules: {
@@ -21,6 +51,12 @@ const store = new Vuex.Store({
 		user
 	},
 	mutations: {
+		addWidget(state, widget) {
+			state.widgets.push(widget);
+		},
+		deleteWidget(state, id) {
+			state.widgets = state.widgets.filter((widget) => widget.id !== id);
+		},
 		addQuestion(state, id) {
 			state.questions.push({
 				id: id,
@@ -39,7 +75,6 @@ const store = new Vuex.Store({
 		token: (state) => state.user.token,
 		avatar: (state) => state.user.avatar,
 		name: (state) => state.user.name,
-		questions: (state) => state.questions,
 		questions: (state) => (id) => state.questions.filter((question) => question.id === id)[0]
 	}
 });

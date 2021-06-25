@@ -3,7 +3,7 @@ Developer: Jason Liu
 -->
 
 <template>
-  <div class="container">
+  <div class="widget-container">
     <h2 ref="header">
       <a class="fas fa-bars handle" @mousedown="hideWidget" />
       {{ widget.title }}
@@ -16,8 +16,8 @@ Developer: Jason Liu
       <a v-show="!expanded" class="fas fa-plus" @click="toggleWidget" />
     </h2>
     <div
-      class="widget-container"
-      ref="widgetContainer"
+      class="ui-container"
+      ref="uiContainer"
       :style="{
         maxHeight: expanded ? widget.maxHeight : '0px',
         opacity: expanded ? '1' : '0',
@@ -25,7 +25,7 @@ Developer: Jason Liu
     >
       <QA v-if="widget.type === 'QA'" :id="widget.id" />
       <Timer v-if="widget.type === 'Timer'" :end="getEnd()" />
-      <Pronunciation v-if="widget.type === 'Pronunciation'" question_id="0" />
+      <Pronunciation v-if="widget.type === 'Pronunciation'"/>
     </div>
   </div>
 </template>
@@ -53,16 +53,16 @@ export default {
   },
   methods: {
     toggleWidget() {
-      this.$refs.widgetContainer.style.display = "block";
+      this.$refs.uiContainer.style.display = "block";
       this.expanded = !this.expanded;
     },
     hideWidget() {
       if (!this.expanded) {
-        if (this.$refs.widgetContainer.offsetWidth) {
+        if (this.$refs.uiContainer.offsetWidth) {
           this.$refs.header.style.width =
-            this.$refs.widgetContainer.offsetWidth + "px";
+            this.$refs.uiContainer.offsetWidth + "px";
         }
-        this.$refs.widgetContainer.style.display = "none";
+        this.$refs.uiContainer.style.display = "none";
       }
     },
     getEnd() {
@@ -111,14 +111,14 @@ h2 {
   color: #296e01;
 }
 
-.container {
+.widget-container {
   border: 2px solid steelblue;
   border-radius: 5px;
   padding: 30px;
   margin: 0px;
 }
 
-.widget-container {
+.ui-container {
   overflow: hidden;
   transition: max-height 0.5s linear 0s, opacity 0.4s linear 0.1s;
 }
