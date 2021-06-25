@@ -1,3 +1,7 @@
+<!--
+Developer: Jason Liu
+-->
+
 <template>
   <div id="timer">
     <input id="hours" v-model="hours" type="number" />:
@@ -49,10 +53,12 @@ export default {
     update() {
       let diff = (this.end - Date.now()) / 1000;
       this.hours = String(Math.floor(diff / 3600));
-      this.minutes = String(Math.floor(diff / 60 - 60 * this.hours));
+      this.minutes = String(
+        Math.floor(diff / 60 - 60 * this.hours)
+      ).padStart(2, "0");
       this.seconds = String(
         Math.floor(diff - 3600 * this.hours - 60 * this.minutes)
-      );
+      ).padStart(2, "0");
     },
   },
   mounted() {

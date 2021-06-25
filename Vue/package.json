@@ -27,6 +27,7 @@
     "sortablejs": "^1.12.0",
     "vue": "2.6.10",
     "vue-axios": "^2.1.5",
+    "vue-highlight-words": "^1.2.0",
     "vue-router": "^3.5.2",
     "vue2-editor": "^2.10.2",
     "vuedraggable": "^2.24.3",

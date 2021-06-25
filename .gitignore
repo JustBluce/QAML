@@ -16,6 +16,6 @@ yarn-error.log*
 selenium-debug.log
 
 # Editor directories and files
-.vscode
+.vscode/
 __pycache__/
 model/

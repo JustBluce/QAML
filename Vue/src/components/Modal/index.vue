@@ -1,4 +1,7 @@
-<!-- Written by Atith Gandhi-->
+<!--
+Developer: Atith Gandhi
+-->
+
 <template>
   <transition name="modal-fade">
     <div class="modal-backdrop">
@@ -61,6 +64,7 @@ export default {
 
 .modal {
   background: #ffffff;
+  border-radius: 5px;
   box-shadow: 2px 2px 20px 1px;
   overflow-x: auto;
   display: flex;

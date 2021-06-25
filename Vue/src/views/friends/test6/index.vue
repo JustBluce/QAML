@@ -1,3 +1,7 @@
+<!--
+Developers: Jason Liu and Cai Zefan
+-->
+
 <template>
   <div id="app">
     <draggable
@@ -59,22 +63,32 @@ export default {
   created() {
     this.widgets = [
       {
-        id: 0,
+        id: "0",
         title: "QA1",
         type: "QA",
         removable: false,
+        maxHeight: "350px",
       },
       {
-        id: 1,
+        id: "1",
         title: "QA2",
         type: "QA",
         removable: true,
+        maxHeight: "350px",
       },
       {
-        id: 2,
+        id: "2",
         title: "Timer",
         type: "Timer",
         removable: true,
+        maxHeight: "200px",
+      },
+      {
+        id: "3",
+        title: "Pronunciation difficulty",
+        type: "Pronunciation",
+        removable: true,
+        maxHeight: "250px",
       },
     ];
   },
@@ -99,5 +113,17 @@ export default {
   overflow: hidden;
   opacity: 0.5;
   background: #c8ebfb;
+}
+
+.output {
+  border: 100px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: rgba(241, 241, 241, 0.98);
+  width: 800px;
+  padding: 10px;
+  margin-top: 10px;
+  resize: none;
+  outline: none;
 }
 </style>
