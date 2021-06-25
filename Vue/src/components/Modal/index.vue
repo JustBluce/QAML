@@ -27,6 +27,7 @@
 
 <script>
 export default {
+  name: "Modal",
   props: {
     difficulty: {
       type: String,
@@ -37,7 +38,6 @@ export default {
       default: false,
     },
   },
-  name: "Modal",
   methods: {
     close() {
       this.$store.state.modal.opened = false;
