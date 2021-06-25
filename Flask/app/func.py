@@ -32,9 +32,7 @@ def guess(question, max=12):
     matrix = Matrix.dot(repre.T).T
     indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
     for i in range(len(question)):
-        idx = indices[i]
-        answer.append([(ans[j], matrix[i, j]) for j in idx])
-    print(answer[0][0][0])
+        answer.append([(ans[j], matrix[i, j]) for j in indices[i]])
     return answer[0][0][0]
 
 #classify function was written by Atith Gandhi
@@ -46,7 +44,6 @@ def classify(question):
     outputs = model(**inputs)
     logits = outputs.logits.detach().cpu().numpy()
     difficulty = np.argmax(logits).flatten()
-    print(difficulty)
     if(difficulty == 0):
         return 'Easy'
     elif (difficulty == 1):
