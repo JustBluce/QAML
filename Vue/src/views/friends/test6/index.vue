@@ -1,98 +1,103 @@
 <template>
   <div id="app">
-    
-    <textarea
-      style="
-        border: 100px;
-        border-radius: 5px;
-        background-color: rgba(241, 241, 241, 0.98);
-        width: 800px;
-        height: 150px;
-        padding: 10px;
-        resize: none;
-      "
-      placeholder="Please enter your question"
-      v-model="text"
-    ></textarea>
-    <br />
-    <el-button type="primary" @click="SearchData"> Answer </el-button>
-    <br />
-    <textarea
-      style="
-        border: 0;
-        border-radius: 5px;
-        background-color: rgba(241, 241, 241, 0.98);
-        width: 800px;
-        height: 100px;
-        padding: 10px;
-        resize: none;
-      "
-      placeholder="Answer"
-      v-model="answer"
-    ></textarea>
-    
-    <!--    <br>-->
-    <!--    <textarea style="border:0;border-radius:5px;background-color:rgba(241,241,241,.98);width: 355px;height: 100px;padding: 10px;resize: none;" placeholder="相似句" v-model="text3"></textarea>-->
+    <draggable
+      v-model="widgets"
+      ghost-class="ghost"
+      handle=".handle"
+      @start="drag = true"
+      @end="drag = false"
+    >
+      <transition-group type="transition" name="flip-list">
+        <div class="fit" v-for="widget in widgets" :key="widget.id">
+          <Widget :widget="widget" @delete-widget="deleteWidget" />
+        </div>
+      </transition-group>
+    </draggable>
     <Modal
-      v-show="isModalVisible"
-      @close="closeModal"
-      :difficulty="difficulty"
-      :question_saved="question_saved"
+      v-show="showModal"
+      :difficulty="getDifficulty"
+      :question_saved="getQuestionSaved"
     />
   </div>
 </template>
 
 <script>
 import { VueEditor } from "vue2-editor";
-import Modal from "./Modal"
+import Widget from "@/components/Widget";
+import Modal from "@/components/Modal";
+import draggable from "vuedraggable";
+
 export default {
   components: {
     VueEditor,
-    Modal
+    Widget,
+    Modal,
+    draggable,
   },
-
   data() {
     return {
-      returndata: ["", ""],
-      text: "",
-      answer: "",
-      difficulty: "School",
-      isModalVisible: false,
-      question_saved: false
+      widgets: [],
+      drag: false,
     };
   },
-  methods: {
-    SearchData: function () {
-      let formData = new FormData();
-      formData.append("text", this.text);
-
-      var jsons = {
-        text: this.text,
-      };
-
-      this.axios({
-        url: "http://127.0.0.1:5000/func/act",
-        method: "POST",
-        data: formData,
-        // header:{
-        //   'Content-Type':'application/json'  //如果写成contentType会报错
-        // }
-      }).then((response) => {
-        this.returndata = response.data;
-        this.answer = response.data["guess"];
-        this.difficulty = response.data["difficulty"];
-        this.question_saved = response.data["difficulty"] == "Hard"
-        this.isModalVisible = true;
-        console.log(response);
-        console.log(this.text);
-        console.log(this.answer);
-        console.log(this.isModalVisible);
-        console.log(this.difficulty)
-      });
+  computed: {
+    showModal() {
+      return this.$store.state.modal.opened;
     },
-    closeModal() {
-      this.isModalVisible = false;
-    }
+    getDifficulty() {
+      return this.$store.state.modal.difficulty;
+    },
+    getQuestionSaved() {
+      return this.$store.state.modal.question_saved;
+    },
+  },
+  methods: {
+    deleteWidget(id) {
+      this.widgets = this.widgets.filter((widget) => widget.id !== id);
+    },
+  },
+  created() {
+    this.widgets = [
+      {
+        id: 0,
+        title: "QA1",
+        type: "QA",
+        removable: false,
+      },
+      {
+        id: 1,
+        title: "QA2",
+        type: "QA",
+        removable: true,
+      },
+      {
+        id: 2,
+        title: "Timer",
+        type: "Timer",
+        removable: true,
+      },
+    ];
   },
 };
 </script>
+
+<style>
+.fit {
+  width: -webkit-fit-content;
+  height: -webkit-fit-content;
+  width: -moz-fit-content;
+  height: -moz-fit-content;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+
+.ghost {
+  overflow: hidden;
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+</style>
