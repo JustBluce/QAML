@@ -1,26 +1,48 @@
+<!--
+Developers: Cai Zefan and Jason Liu
+-->
+
 <template>
   <div>
     <textarea
-      style="height: 150px"
+      class="output"
+      rows="6"
       placeholder="Please enter your question"
       v-model="text"
     ></textarea>
-    <el-button type="primary" @click="SearchData"> Answer </el-button>
-    <textarea placeholder="Answer" v-model="answer"></textarea>
+    <el-button type="primary" @click="searchData"> Answer </el-button>
+    <textarea
+      class="output"
+      rows="1"
+      placeholder="Answer"
+      v-model="answer"
+    ></textarea>
   </div>
 </template>
 
 <script>
 export default {
   name: "QA",
+  props: {
+    id: String,
+  },
   data() {
     return {
-      text: "",
       answer: "",
     };
   },
+  computed: {
+    text: {
+      get() {
+        return this.$store.getters.questions(this.id).text;
+      },
+      set(value) {
+        this.$store.commit("updateQuestion", { id: this.id, text: value });
+      },
+    },
+  },
   methods: {
-    SearchData: function () {
+    searchData() {
       let formData = new FormData();
       formData.append("text", this.text);
 
@@ -32,9 +54,13 @@ export default {
         this.answer = response.data["guess"];
         this.$store.state.modal.opened = true;
         this.$store.state.modal.difficulty = response.data["difficulty"];
-        this.$store.state.modal.question_saved = response.data["difficulty"] === "Hard";
+        this.$store.state.modal.question_saved =
+          response.data["difficulty"] === "Hard";
       });
     },
+  },
+  created() {
+    this.$store.commit("addQuestion", this.id);
   },
 };
 </script>
@@ -43,17 +69,6 @@ export default {
 div {
   display: flex;
   flex-direction: column;
-}
-
-textarea {
-  border: 100px;
-  border-radius: 5px;
-  background-color: rgba(241, 241, 241, 0.98);
-  width: 800px;
-  padding: 10px;
-  margin-top: 10px;
-  resize: none;
-  outline: none;
 }
 
 .el-button {

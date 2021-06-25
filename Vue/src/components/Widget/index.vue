@@ -1,6 +1,10 @@
+<!--
+Developer: Jason Liu
+-->
+
 <template>
   <div class="container">
-    <h2 :style="getWidgetWidth()">
+    <h2 ref="header">
       <a class="fas fa-bars handle" @mousedown="hideWidget" />
       {{ widget.title }}
       <a
@@ -15,12 +19,13 @@
       class="widget-container"
       ref="widgetContainer"
       :style="{
-        maxHeight: expanded ? '500px' : '0px',
+        maxHeight: expanded ? widget.maxHeight : '0px',
         opacity: expanded ? '1' : '0',
       }"
     >
-      <QA v-if="widget.type === 'QA'" />
+      <QA v-if="widget.type === 'QA'" :id="widget.id" />
       <Timer v-if="widget.type === 'Timer'" :end="getEnd()" />
+      <Pronunciation v-if="widget.type === 'Pronunciation'" question_id="0" />
     </div>
   </div>
 </template>
@@ -28,6 +33,7 @@
 <script>
 import QA from "./QA";
 import Timer from "./Timer";
+import Pronunciation from "./Pronunciation";
 
 export default {
   name: "Widget",
@@ -37,6 +43,7 @@ export default {
   components: {
     QA,
     Timer,
+    Pronunciation,
   },
   data() {
     return {
@@ -45,28 +52,22 @@ export default {
     };
   },
   methods: {
-    getWidgetWidth() {
-      if (this.widget_width) {
-        return { width: this.widget_width + "px" };
-      } else {
-        return {};
-      }
-    },
     toggleWidget() {
       this.$refs.widgetContainer.style.display = "block";
       this.expanded = !this.expanded;
     },
     hideWidget() {
       if (!this.expanded) {
+        if (this.$refs.widgetContainer.offsetWidth) {
+          this.$refs.header.style.width =
+            this.$refs.widgetContainer.offsetWidth + "px";
+        }
         this.$refs.widgetContainer.style.display = "none";
       }
     },
     getEnd() {
       return new Date("June 27, 2021 12:00:00").getTime();
     },
-  },
-  beforeUpdate() {
-    this.widget_width = this.$refs.widgetContainer.offsetWidth;
   },
 };
 </script>
