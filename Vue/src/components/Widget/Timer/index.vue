@@ -3,7 +3,7 @@ Developer: Jason Liu
 -->
 
 <template>
-  <div id="timer">
+  <div class="timer">
     <input id="hours" v-model="hours" type="number" />:
     <input id="minutes" v-model="minutes" type="number" />:
     <input id="seconds" v-model="seconds" type="number" />
@@ -13,14 +13,12 @@ Developer: Jason Liu
 <script>
 export default {
   name: "Timer",
-  props: {
-    end: Number,
-  },
   data() {
     return {
       hours: "1",
       minutes: "00",
       seconds: "00",
+      end: new Date("June 27, 2021 12:00:00").getTime(),
     };
   },
   methods: {
@@ -69,7 +67,7 @@ export default {
 </script>
 
 <style scoped>
-#timer {
+.timer {
   display: flex;
   flex-direction: row;
   width: 400px;

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { initial_widgets, widget_types, widgetTemplate } from './widgets';
 import app from './modules/app';
 import settings from './modules/settings';
 import user from './modules/user';
@@ -13,37 +14,10 @@ const store = new Vuex.Store({
 			difficulty: 'Easy',
 			question_saved: false
 		},
-		widgets: [
-			{
-				id: '0',
-				title: 'QA1',
-				type: 'QA',
-				removable: false,
-				maxHeight: '350px'
-			},
-			{
-				id: '1',
-				title: 'QA2',
-				type: 'QA',
-				removable: true,
-				maxHeight: '350px'
-			},
-			{
-				id: '2',
-				title: 'Timer',
-				type: 'Timer',
-				removable: true,
-				maxHeight: '200px'
-			},
-			{
-				id: '3',
-				title: 'Pronunciation difficulty',
-				type: 'Pronunciation',
-				removable: true,
-				maxHeight: '250px'
-			}
-		],
-		questions: []
+		widgets: initial_widgets,
+		widget_types: widget_types,
+		widget_index: initial_widgets.length,
+		qa_index: initial_widgets.filter((widget) => widget.type === 'QA').length
 	},
 	modules: {
 		app,
@@ -51,21 +25,23 @@ const store = new Vuex.Store({
 		user
 	},
 	mutations: {
-		addWidget(state, widget) {
-			state.widgets.push(widget);
+		addWidget(state, type) {
+			type === 'QA' && state.qa_index++;
+
+			state.widgets.push(widgetTemplate(state, type));
+			state.widget_index++;
 		},
 		deleteWidget(state, id) {
 			state.widgets = state.widgets.filter((widget) => widget.id !== id);
 		},
-		addQuestion(state, id) {
-			state.questions.push({
-				id: id,
-				text: ''
-			});
+		toggleWidget(state, id) {
+			state.widgets = state.widgets.map(
+				(widget) => (widget.id === id ? { ...widget, expanded: !widget.expanded } : widget)
+			);
 		},
-		updateQuestion(state, payload) {
-			state.questions = state.questions.map(
-				(question) => (question.id === payload.id ? { ...question, text: payload.text } : question)
+		updateWidget(state, payload) {
+			state.widgets = state.widgets.map(
+				(widget) => (widget.id === payload.id ? Object.assign(widget, payload) : widget)
 			);
 		}
 	},
@@ -75,7 +51,8 @@ const store = new Vuex.Store({
 		token: (state) => state.user.token,
 		avatar: (state) => state.user.avatar,
 		name: (state) => state.user.name,
-		questions: (state) => (id) => state.questions.filter((question) => question.id === id)[0]
+		widget: (state) => (id) => state.widgets.filter((widget) => widget.id === id)[0],
+		widget_template: (state) => (type) => widgetTemplate(state, type)
 	}
 });
 

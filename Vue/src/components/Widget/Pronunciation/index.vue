@@ -30,16 +30,26 @@ Developer: Damien Rene and Jason Liu
 import Highlighter from "vue-highlight-words";
 export default {
   name: "Pronunciation",
+  props: {
+    id: Number,
+  },
   components: {
     Highlighter,
   },
   data() {
     return {
-      qa_id: "0",
       words: "and or the quick",
     };
   },
   computed: {
+    qa_id: {
+      get() {
+        return this.$store.getters.widget(this.id).qa_id;
+      },
+      set(value) {
+        this.$store.commit("updateWidget", { id: this.id, qa_id: value });
+      },
+    },
     qa_widgets() {
       let qa_widgets = this.$store.state.widgets.filter(
         (widget) => widget.type === "QA"
@@ -50,7 +60,7 @@ export default {
       return qa_widgets;
     },
     text() {
-      return this.$store.getters.questions(this.qa_id).text;
+      return this.$store.getters.widget(this.qa_id).text;
     },
     keywords() {
       return this.words.split(" ");
@@ -76,6 +86,7 @@ select:hover {
 }
 
 .output {
+  cursor: default;
   overflow: auto;
   height: 128px;
 }
