@@ -3,6 +3,3 @@ transformers
 datasets
 torch
 nltk
-gtts
-pydub
-pyttsx3

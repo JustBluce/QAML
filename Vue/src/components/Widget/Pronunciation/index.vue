@@ -1,5 +1,5 @@
 <!--
-Developer: Damian Rene and Jason Liu
+Developer: Damien Rene and Jason Liu
 -->
 
 <template>

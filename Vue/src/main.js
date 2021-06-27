@@ -21,10 +21,6 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
-import firebase from "firebase";
-import '@firebase/auth';
-import '@firebase/firestore';
-
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -52,21 +48,3 @@ new Vue({
   store,
   render: h => h(App)
 })
-
-
-//firebase config DONT CHANGE FOR NOW
-const firebaseConfig = {
-  apiKey: "AIzaSyA05i1aGUSmcyhX1jAAXWBpwty9j2OCUu0",
-  authDomain: "auth-dc32d.firebaseapp.com",
-  projectId: "auth-dc32d",
-  storageBucket: "auth-dc32d.appspot.com",
-  messagingSenderId: "852543834096",
-  appId: "1:852543834096:web:23dc6ae652c54bad853f35"
-};
-//init firebase and config
-firebase.initializeApp(firebaseConfig);
-
-
-
-export default firebase; 
-

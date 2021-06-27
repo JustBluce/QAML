@@ -10,9 +10,6 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login'] // no redirect whitelist
 
-/*  USED TO BE USED FOR LOGIN CHECKS I MOVED THIS TO THE NEW GOOGLE LOGIN FILE 
-
-
 router.beforeEach(async(to, from, next) => {
   // start progress bar
   NProgress.start()
@@ -23,7 +20,6 @@ router.beforeEach(async(to, from, next) => {
   // determine whether the user has logged in
   const hasToken = getToken()
 
-  
   if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
@@ -49,7 +45,7 @@ router.beforeEach(async(to, from, next) => {
       }
     }
   } else {
-    //has no token
+    /* has no token*/
 
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
@@ -62,10 +58,7 @@ router.beforeEach(async(to, from, next) => {
   }
 })
 
-
 router.afterEach(() => {
   // finish progress bar
   NProgress.done()
 })
-
-*/
