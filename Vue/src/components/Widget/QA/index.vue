@@ -24,7 +24,7 @@ Developers: Cai Zefan and Jason Liu
 export default {
   name: "QA",
   props: {
-    id: String,
+    id: Number,
   },
   data() {
     return {
@@ -34,10 +34,10 @@ export default {
   computed: {
     text: {
       get() {
-        return this.$store.getters.questions(this.id).text;
+        return this.$store.getters.widget(this.id).text;
       },
       set(value) {
-        this.$store.commit("updateQuestion", { id: this.id, text: value });
+        this.$store.commit("updateWidget", { id: this.id, text: value });
       },
     },
   },
@@ -58,9 +58,6 @@ export default {
           response.data["difficulty"] === "Hard";
       });
     },
-  },
-  created() {
-    this.$store.commit("addQuestion", this.id);
   },
 };
 </script>

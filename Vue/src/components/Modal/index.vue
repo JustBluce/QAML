@@ -8,11 +8,11 @@ Developer: Atith Gandhi
       <div class="modal">
         <header v-if="question_saved" class="modal-header" style="color: green">
           <slot name="header"> Saved !!! </slot>
-          <a class="fas fa-times" @click="close" />
+          <a class="fas fa-times btn" @click="close" />
         </header>
         <header v-else class="modal-header" style="color: red">
           <slot name="header"> Not Saved !!! </slot>
-          <a class="fas fa-times" @click="close" />
+          <a class="fas fa-times btn" @click="close" />
         </header>
 
         <section class="modal-body" v-if="question_saved">
@@ -93,24 +93,11 @@ export default {
   padding: 20px 10px;
 }
 
-.fas {
+.btn {
   position: absolute;
   top: 0;
   right: 0;
   font-size: 20px;
   padding: 10px;
-  cursor: pointer;
-  color: steelblue;
-  opacity: 1;
-  transition: opacity 0.3s;
-}
-
-.fas:hover {
-  color: steelblue;
-  opacity: 0.7;
-}
-
-.fas:active {
-  transform: scale(0.9);
 }
 </style>

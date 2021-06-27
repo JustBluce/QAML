@@ -4,16 +4,23 @@ Developers: Jason Liu and Cai Zefan
 
 <template>
   <div id="app">
+    <WidgetMenu />
     <draggable
       v-model="widgets"
       ghost-class="ghost"
       handle=".handle"
+      group="widgets"
       @start="drag = true"
-      @end="drag = false"
+      @end="(drag = false), (displayUI = 'block')"
     >
-      <transition-group type="transition" name="flip-list">
-        <div class="fit" v-for="widget in widgets" :key="widget.id">
-          <Widget :widget="widget" @delete-widget="deleteWidget" />
+      <transition-group type="transition" name="widgets">
+        <div class="fit widget-item" v-for="widget in widgets" :key="widget.id">
+          <Widget
+            :widget="widget"
+            :displayUI="displayUI"
+            @mousedown.native="displayUI = 'none'"
+            @mouseup.native="displayUI = 'block'"
+          />
         </div>
       </transition-group>
     </draggable>
@@ -27,18 +34,21 @@ Developers: Jason Liu and Cai Zefan
 
 <script>
 import Widget from "@/components/Widget";
+import WidgetMenu from "@/components/WidgetMenu";
 import Modal from "@/components/Modal";
 import draggable from "vuedraggable";
 
 export default {
   components: {
     Widget,
+    WidgetMenu,
     Modal,
     draggable,
   },
   data() {
     return {
       drag: false,
+      displayUI: "block",
     };
   },
   computed: {
@@ -61,11 +71,6 @@ export default {
       return this.$store.state.modal.question_saved;
     },
   },
-  methods: {
-    deleteWidget(id) {
-      this.$store.commit("deleteWidget", id);
-    },
-  },
 };
 </script>
 
@@ -75,18 +80,30 @@ export default {
   height: -webkit-fit-content;
   width: -moz-fit-content;
   height: -moz-fit-content;
+}
+
+.widget-item {
   margin-top: 20px;
   margin-left: 20px;
 }
 
-.flip-list-move {
-  transition: transform 0.3s;
+.widgets-move {
+  transition: all 0.3s ease;
+}
+
+.widgets-enter-active,
+.widgets-leave-active {
+  transition: all 0.3s ease;
+  position: absolute;
+}
+
+.widgets-enter,
+.widgets-leave-to {
+  opacity: 0;
 }
 
 .ghost {
-  overflow: hidden;
-  opacity: 0.5;
-  background: #c8ebfb;
+  opacity: 0.3;
 }
 
 .container {
@@ -99,5 +116,21 @@ export default {
   margin-top: 10px;
   resize: none;
   outline: none;
+}
+
+.btn {
+  color: steelblue;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.btn:hover {
+  color: steelblue;
+  opacity: 0.7;
+}
+
+.btn:active {
+  transform: scale(0.9);
 }
 </style>

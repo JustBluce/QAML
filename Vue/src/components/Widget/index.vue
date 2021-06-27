@@ -4,28 +4,22 @@ Developer: Jason Liu
 
 <template>
   <div class="widget-container">
-    <h2 ref="header">
-      <a class="fas fa-bars handle" @mousedown="hideWidget" />
+    <h2 :style="{ width: widget.maxWidth }">
+      <a class="fas fa-bars btn handle" />
       {{ widget.title }}
-      <a
-        v-show="widget.removable"
-        class="fas fa-times"
-        @click="$emit('delete-widget', widget.id)"
-      />
-      <a v-show="expanded" class="fas fa-minus" @click="toggleWidget" />
-      <a v-show="!expanded" class="fas fa-plus" @click="toggleWidget" />
+      <a v-show="widget.removable" class="fas fa-times btn" @click="deleteWidget" />
+      <a v-show="widget.expanded" class="fas fa-minus btn" @click="toggleWidget" />
+      <a v-show="!widget.expanded" class="fas fa-plus btn" @click="toggleWidget" />
     </h2>
     <div
       class="ui-container"
-      ref="uiContainer"
       :style="{
-        maxHeight: expanded ? widget.maxHeight : '0px',
-        opacity: expanded ? '1' : '0',
+        display: !widget.expanded ? displayUI : 'block',
+        maxHeight: widget.expanded ? widget.maxHeight : '0px',
+        opacity: widget.expanded ? '1' : '0',
       }"
     >
-      <QA v-if="widget.type === 'QA'" :id="widget.id" />
-      <Timer v-if="widget.type === 'Timer'" :end="getEnd()" />
-      <Pronunciation v-if="widget.type === 'Pronunciation'"/>
+      <component :is="widget.type" :id="widget.id" />
     </div>
   </div>
 </template>
@@ -39,34 +33,19 @@ export default {
   name: "Widget",
   props: {
     widget: Object,
+    displayUI: String,
   },
   components: {
     QA,
     Timer,
     Pronunciation,
   },
-  data() {
-    return {
-      expanded: true,
-      widget_width: 0,
-    };
-  },
   methods: {
     toggleWidget() {
-      this.$refs.uiContainer.style.display = "block";
-      this.expanded = !this.expanded;
+      this.$store.commit('toggleWidget', this.widget.id);
     },
-    hideWidget() {
-      if (!this.expanded) {
-        if (this.$refs.uiContainer.offsetWidth) {
-          this.$refs.header.style.width =
-            this.$refs.uiContainer.offsetWidth + "px";
-        }
-        this.$refs.uiContainer.style.display = "none";
-      }
-    },
-    getEnd() {
-      return new Date("June 27, 2021 12:00:00").getTime();
+    deleteWidget() {
+      this.$store.commit("deleteWidget", this.widget.id);
     },
   },
 };
@@ -79,20 +58,7 @@ h2 {
 
 .fas {
   float: right;
-  color: steelblue;
-  cursor: pointer;
   margin-left: 10px;
-  opacity: 1;
-  transition: opacity 0.3s;
-}
-
-.fas:hover {
-  color: steelblue;
-  opacity: 0.7;
-}
-
-.fas:active {
-  transform: scale(0.9);
 }
 
 .fa-bars {
@@ -112,6 +78,7 @@ h2 {
 }
 
 .widget-container {
+  background: white;
   border: 2px solid steelblue;
   border-radius: 5px;
   padding: 30px;
@@ -120,6 +87,6 @@ h2 {
 
 .ui-container {
   overflow: hidden;
-  transition: max-height 0.5s linear 0s, opacity 0.4s linear 0.1s;
+  transition: max-height 0.3s linear 0s, opacity 0.2s linear 0.1s;
 }
 </style>
