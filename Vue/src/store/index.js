@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { initial_widgets, widget_types, widgetTemplate } from './widgets';
+import { initial_widgets, widgetTemplate } from './widgets';
 import app from './modules/app';
 import settings from './modules/settings';
 import user from './modules/user';
@@ -15,7 +15,7 @@ const store = new Vuex.Store({
 			question_saved: false
 		},
 		widgets: initial_widgets,
-		widget_types: widget_types,
+		widget_types: [],
 		widget_index: initial_widgets.length,
 		qa_index: initial_widgets.filter((widget) => widget.type === 'QA').length
 	},

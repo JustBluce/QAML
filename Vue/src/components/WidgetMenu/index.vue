@@ -21,10 +21,10 @@ Developer: Jason Liu
 <script>
 export default {
   name: "WidgetMenu",
-  data() {
-    return {
-      widget_types: this.$store.state.widget_types,
-    };
+  computed: {
+    widget_types() {
+      return this.$store.state.widget_types;
+    },
   },
   methods: {
     addWidget(type) {
@@ -39,7 +39,8 @@ export default {
   display: flex;
   flex-direction: column;
   float: right;
-  margin-right: 30px;
+  right: 30px;
+  position: absolute;
 }
 
 .btn-container {
@@ -47,6 +48,7 @@ export default {
   font-size: 24px;
   border: 2px solid steelblue;
   border-radius: 20px;
+  background: white;
   padding: 10px;
   cursor: pointer;
 }
@@ -60,8 +62,10 @@ export default {
   visibility: hidden;
   max-height: 0px;
   margin-top: 0px;
+  padding: 0px;
   width: auto;
   transition: max-height 0.3s, visibility 0s 0.3s linear;
+  box-sizing: border-box;
 }
 
 .widget-menu:hover .container {
@@ -73,5 +77,6 @@ export default {
 .widget-type-item {
   font-size: 18px;
   cursor: pointer;
+  padding: 4px;
 }
 </style>
