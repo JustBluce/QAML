@@ -30,8 +30,6 @@ export const initial_widgets = [
 	}
 ];
 
-export const widget_types = [ 'QA', 'Timer', 'Pronunciation' ];
-
 export function widgetTemplate(state, type) {
 	let widget_templates = {
 		QA: {

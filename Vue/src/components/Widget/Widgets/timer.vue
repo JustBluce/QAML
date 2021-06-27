@@ -18,7 +18,7 @@ export default {
       hours: "1",
       minutes: "00",
       seconds: "00",
-      end: new Date("June 27, 2021 12:00:00").getTime(),
+      end: new Date("June 28, 2021 12:00:00").getTime(),
     };
   },
   methods: {

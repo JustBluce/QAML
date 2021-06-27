@@ -7,9 +7,21 @@ Developer: Jason Liu
     <h2 :style="{ width: widget.maxWidth }">
       <a class="fas fa-bars btn handle" />
       {{ widget.title }}
-      <a v-show="widget.removable" class="fas fa-times btn" @click="deleteWidget" />
-      <a v-show="widget.expanded" class="fas fa-minus btn" @click="toggleWidget" />
-      <a v-show="!widget.expanded" class="fas fa-plus btn" @click="toggleWidget" />
+      <a
+        v-show="widget.removable"
+        class="fas fa-times btn"
+        @click="deleteWidget"
+      />
+      <a
+        v-show="widget.expanded"
+        class="fas fa-minus btn"
+        @click="toggleWidget"
+      />
+      <a
+        v-show="!widget.expanded"
+        class="fas fa-plus btn"
+        @click="toggleWidget"
+      />
     </h2>
     <div
       class="ui-container"
@@ -25,9 +37,15 @@ Developer: Jason Liu
 </template>
 
 <script>
-import QA from "./QA";
-import Timer from "./Timer";
-import Pronunciation from "./Pronunciation";
+import Vue from "vue";
+
+const Widgets = require.context("./Widgets", true, /\.vue$/i);
+let widget_types = [];
+Widgets.keys().forEach((path) => {
+  let widget_type = Widgets(path).default.name;
+  widget_types.push(widget_type);
+  Vue.component(widget_type, Widgets(path).default);
+});
 
 export default {
   name: "Widget",
@@ -35,18 +53,16 @@ export default {
     widget: Object,
     displayUI: String,
   },
-  components: {
-    QA,
-    Timer,
-    Pronunciation,
-  },
   methods: {
     toggleWidget() {
-      this.$store.commit('toggleWidget', this.widget.id);
+      this.$store.commit("toggleWidget", this.widget.id);
     },
     deleteWidget() {
       this.$store.commit("deleteWidget", this.widget.id);
     },
+  },
+  mounted() {
+    this.$store.state.widget_types = widget_types;
   },
 };
 </script>
