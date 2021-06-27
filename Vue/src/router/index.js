@@ -34,7 +34,7 @@ import tableRouter from './modules/table'
 export const constantRoutes = [
   {
     path: '/login',
-    component: () => import('@/views/login/index'),
+    component: () => import('@/views/login/google-login'),
     hidden: true
   },
 
@@ -52,7 +52,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Data', icon: 'dashboard' }
+      meta: { requiresAuth: true, title: 'Data', icon: 'dashboard' }
     }]
   },
 
@@ -68,7 +68,7 @@ export const constantRoutes = [
         path: 'tset6',
         name: 'test6',
         component: () => import('@/views/friends/test6/index'),
-        meta: { title: 'Answer', icon: 'table ' }
+        meta: { requiresAuth: true, title: 'Answer', icon: 'table ' }
       }
     ]
   },
@@ -180,5 +180,8 @@ export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
+
+
+
 
 export default router

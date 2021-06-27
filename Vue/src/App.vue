@@ -5,7 +5,21 @@
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+  import { mapActions, mapGetters } from 'vuex';
+  
+  export default {
+    name: 'app',
+    computed: {
+      ...mapGetters('user', {
+        userProfile: 'userProfile',
+        loggedIn: 'loggedIn'
+      })
+    },
+    methods: {
+      ...mapActions('user', {
+        login: 'login',
+        logout: 'logout'
+      })
+    }
+  };
 </script>
