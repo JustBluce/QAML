@@ -4,7 +4,6 @@ Developers: Jason Liu and Cai Zefan
 
 <template>
   <div id="app">
-    <WidgetMenu />
     <Workspace />
     <Modal
       v-show="showModal"
@@ -15,14 +14,12 @@ Developers: Jason Liu and Cai Zefan
 </template>
 
 <script>
-import WidgetMenu from "@/components/WidgetMenu";
 import Workspace from "@/components/Workspace";
 import Modal from "@/components/Modal";
 import draggable from "vuedraggable";
 
 export default {
   components: {
-    WidgetMenu,
     Workspace,
     Modal,
     draggable,
@@ -81,5 +78,15 @@ export default {
 
 .btn:active {
   transform: scale(0.9);
+}
+
+.fa-minus,
+.fa-minus:hover {
+  color: #a62c2b;
+}
+
+.fa-plus,
+.fa-plus:hover {
+  color: #296e01;
 }
 </style>

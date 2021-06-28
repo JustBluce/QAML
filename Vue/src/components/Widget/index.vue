@@ -6,12 +6,7 @@ Developer: Jason Liu
   <div class="widget-container">
     <h2 :style="{ width: widget.maxWidth }">
       <a class="fas fa-bars btn handle" />
-      {{ widget.title }}
-      <a
-        v-show="widget.removable"
-        class="fas fa-times btn"
-        @click="deleteWidget"
-      />
+      <input v-model="title" />
       <a
         v-show="widget.expanded"
         class="fas fa-minus btn"
@@ -21,6 +16,11 @@ Developer: Jason Liu
         v-show="!widget.expanded"
         class="fas fa-plus btn"
         @click="toggleWidget"
+      />
+      <a
+        v-show="widget.removable"
+        class="fas fa-times btn"
+        @click="deleteWidget"
       />
     </h2>
     <div
@@ -39,12 +39,12 @@ Developer: Jason Liu
 <script>
 import Vue from "vue";
 
-const Widgets = require.context("./Widgets", true, /\.vue$/i);
+const UIs = require.context("./UI", true, /\.vue$/i);
 let widget_types = [];
-Widgets.keys().forEach((path) => {
-  let widget_type = Widgets(path).default.name;
+UIs.keys().forEach((path) => {
+  let widget_type = UIs(path).default.name;
   widget_types.push(widget_type);
-  Vue.component(widget_type, Widgets(path).default);
+  Vue.component(widget_type, UIs(path).default);
 });
 
 export default {
@@ -52,6 +52,20 @@ export default {
   props: {
     widget: Object,
     displayUI: String,
+  },
+  computed: {
+    title: {
+      get() {
+        return this.$store.getters.widget(this.widget.id).title;
+      },
+
+      set(value) {
+        this.$store.commit("updateWidget", {
+          id: this.widget.id,
+          title: value,
+        });
+      },
+    },
   },
   methods: {
     toggleWidget() {
@@ -68,37 +82,36 @@ export default {
 </script>
 
 <style scoped>
-h2 {
-  margin: 0px;
-}
-
-.fas {
-  float: right;
-  margin-left: 10px;
-}
-
-.fa-bars {
-  margin-left: 0px;
-  margin-right: 5px;
-  float: none;
-}
-
-.fa-minus,
-.fa-minus:hover {
-  color: #a62c2b;
-}
-
-.fa-plus,
-.fa-plus:hover {
-  color: #296e01;
-}
-
 .widget-container {
   background: white;
   border: 2px solid steelblue;
   border-radius: 5px;
-  padding: 30px;
+  padding: 20px;
   margin: 0px;
+}
+
+h2 {
+  display: flex;
+  margin: 0px;
+}
+
+input {
+  width: auto;
+  border: 0;
+  font-weight: bold;
+  outline: none;
+  flex-grow: 1;
+  text-overflow: ellipsis;
+  padding: 0;
+}
+
+.fas {
+  width: 30px;
+  text-align: right;
+}
+
+.fa-bars {
+  text-align: left;
 }
 
 .ui-container {
