@@ -3,7 +3,11 @@ Developers: Jason Liu
 -->
 
 <template>
-  <div class="fit workspace-container">
+  <div
+    class="fit workspace-container"
+    :style="{ left: positions.left + 'px', top: positions.top + 'px' }"
+  >
+    <div class="drag-bar" @mousedown="startDrag" />
     <h2>
       <div class="dropdown">
         <a class="fas fa-chevron-circle-down btn" />
@@ -58,6 +62,12 @@ export default {
   },
   data() {
     return {
+      positions: {
+        clientX: undefined,
+        clientY: undefined,
+        left: 0,
+        top: 0,
+      },
       drag: false,
       displayUI: "block",
     };
@@ -77,6 +87,26 @@ export default {
     },
   },
   methods: {
+    startDrag(event) {
+      event.preventDefault();
+      this.positions.clientX = event.clientX;
+      this.positions.clientY = event.clientY;
+      document.onmousemove = this.elementDrag;
+      document.onmouseup = this.stopDrag;
+    },
+    elementDrag(event) {
+      event.preventDefault();
+      let movementX = this.positions.clientX - event.clientX;
+      let movementY = this.positions.clientY - event.clientY;
+      this.positions.clientX = event.clientX;
+      this.positions.clientY = event.clientY;
+      this.positions.left = Math.max(0, this.positions.left - movementX);
+      this.positions.top = Math.max(0, this.positions.top - movementY);
+    },
+    stopDrag() {
+      document.onmousemove = null;
+      document.onmouseup = null;
+    },
     addWidget(type) {
       this.$store.commit("addWidget", type);
     },
@@ -88,8 +118,15 @@ export default {
 
 <style scoped>
 .workspace-container {
+  position: absolute;
   margin: 20px;
   border: 4px solid steelblue;
+}
+
+.drag-bar {
+  cursor: move;
+  height: 10px;
+  background-color: steelblue;
 }
 
 h2 {
@@ -149,11 +186,11 @@ input {
 
 .widgets-container {
   background-color: #f1f1f1;
+  resize: vertical;
   overflow: auto;
   overflow: overlay;
   padding: 20px;
   padding-top: 0px;
-  height: 1000px;
 }
 
 .widget-item {
