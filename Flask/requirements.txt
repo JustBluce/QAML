@@ -6,3 +6,5 @@ nltk
 gtts
 pydub
 sklearn
+scikit-learn
+
