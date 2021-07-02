@@ -6,7 +6,7 @@ Developer: Jason Liu
   <div class="widget-container">
     <h2 :style="{ width: widget.maxWidth }">
       <a class="fas fa-bars btn handle" />
-      <input v-model="title" />
+      <input v-model="title" :readonly="widget.readonly" />
       <a
         v-show="widget.expanded"
         class="fas fa-minus btn"
@@ -17,11 +17,7 @@ Developer: Jason Liu
         class="fas fa-plus btn"
         @click="toggleWidget"
       />
-      <a
-        v-show="widget.removable"
-        class="fas fa-times btn"
-        @click="deleteWidget"
-      />
+      <a class="fas fa-times btn" @click="deleteWidget" />
     </h2>
     <div
       class="ui-container"
@@ -31,7 +27,11 @@ Developer: Jason Liu
         opacity: widget.expanded ? '1' : '0',
       }"
     >
-      <component :is="widget.type" :id="widget.id" />
+      <component
+        :is="widget.type"
+        :workspace_id="workspace_id"
+        :widget_id="widget.id"
+      />
     </div>
   </div>
 </template>
@@ -50,29 +50,37 @@ UIs.keys().forEach((path) => {
 export default {
   name: "Widget",
   props: {
+    workspace_id: Number,
     widget: Object,
     displayUI: String,
   },
   computed: {
     title: {
       get() {
-        return this.$store.getters.widget(this.widget.id).title;
+        return this.$store.getters.widget(this.workspace_id, this.widget.id)
+          .title;
       },
 
       set(value) {
         this.$store.commit("updateWidget", {
-          id: this.widget.id,
-          title: value,
+          workspace_id: this.workspace_id,
+          payload: { id: this.widget.id, title: value },
         });
       },
     },
   },
   methods: {
     toggleWidget() {
-      this.$store.commit("toggleWidget", this.widget.id);
+      this.$store.commit("toggleWidget", {
+        workspace_id: this.workspace_id,
+        widget_id: this.widget.id,
+      });
     },
     deleteWidget() {
-      this.$store.commit("deleteWidget", this.widget.id);
+      this.$store.commit("deleteWidget", {
+        workspace_id: this.workspace_id,
+        widget_id: this.widget.id,
+      });
     },
   },
   mounted() {
