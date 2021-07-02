@@ -5,7 +5,7 @@ Developers: Jason Liu and Cai Zefan
 <template>
   <div id="app">
     <div v-for="workspace in workspaces" :key="workspace.id">
-      <Workspace :id="workspace.id"/>
+      <Workspace :id="workspace.id" />
     </div>
     <Modal
       v-show="showModal"
@@ -67,6 +67,8 @@ export default {
   margin-top: 10px;
   resize: none;
   outline: none;
+  overflow: auto;
+  overflow: overlay;
 }
 
 .btn {

@@ -125,6 +125,7 @@ export default {
       document.onmouseup = null;
     },
     toggleSubMenu(event) {
+      event.preventDefault();
       this.showSubMenus[event.target.id] = !this.showSubMenus[event.target.id];
     },
     classSubMenu(name) {
@@ -144,6 +145,8 @@ export default {
 
 <style scoped>
 .workspace-container {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   padding: 20px;
   outline: 4px solid steelblue;
@@ -237,13 +240,13 @@ input {
 
 .widgets-container {
   background-color: #f1f1f1;
-  resize: vertical;
   height: 500px;
   max-height: 1000px;
-  overflow: auto;
-  overflow: overlay;
+  overflow-y: scroll;
   padding: 20px;
+  padding-right: 5px;
   padding-top: 0px;
+  resize: vertical;
 }
 
 .widget-item {
