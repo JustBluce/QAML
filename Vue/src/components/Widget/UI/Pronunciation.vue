@@ -5,6 +5,9 @@ Developer: Damien Rene and Jason Liu
 <template>
   <div>
     <select class="container" v-model="qa_id">
+      <option v-if="qa_widgets.length == 0" :value="qa_id">
+        Please create a QA widget
+      </option>
       <option
         v-for="qa_widget in qa_widgets"
         :key="qa_widget.id"
@@ -31,7 +34,8 @@ import Highlighter from "vue-highlight-words";
 export default {
   name: "Pronunciation",
   props: {
-    id: Number,
+    workspace_id: Number,
+    widget_id: Number,
   },
   components: {
     Highlighter,
@@ -44,23 +48,33 @@ export default {
   computed: {
     qa_id: {
       get() {
-        return this.$store.getters.widget(this.id).qa_id;
+        return this.$store.getters.widget(this.workspace_id, this.widget_id)
+          .qa_id;
       },
       set(value) {
-        this.$store.commit("updateWidget", { id: this.id, qa_id: value });
+        this.$store.commit("updateWidget", {
+          workspace_id: this.workspace_id,
+          payload: { id: this.widget_id, qa_id: value },
+        });
       },
     },
     qa_widgets() {
-      let qa_widgets = this.$store.state.widgets.filter(
-        (widget) => widget.type === "QA"
-      );
-      if (!qa_widgets.some((widget) => widget.id === this.qa_id)) {
+      let qa_widgets = this.$store.getters
+        .workspace(this.workspace_id)
+        .widgets.filter((widget) => widget.type === "QA");
+      if (
+        qa_widgets.length > 0 &&
+        !qa_widgets.some((widget) => widget.id === this.qa_id)
+      ) {
         this.qa_id = qa_widgets[0].id;
       }
       return qa_widgets;
     },
     text() {
-      return this.$store.getters.widget(this.qa_id).text;
+      if (this.qa_widgets.length === 0) {
+        return "";
+      }
+      return this.$store.getters.widget(this.workspace_id, this.qa_id).text;
     },
     keywords() {
       return this.words.split(" ");
