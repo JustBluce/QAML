@@ -3,3 +3,4 @@ transformers
 datasets
 torch
 nltk
+scikit-learn
