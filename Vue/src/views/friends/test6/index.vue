@@ -4,7 +4,9 @@ Developers: Jason Liu and Cai Zefan
 
 <template>
   <div id="app">
-    <Workspace />
+    <div v-for="workspace in workspaces" :key="workspace.id">
+      <Workspace :id="workspace.id"/>
+    </div>
     <Modal
       v-show="showModal"
       :difficulty="getDifficulty"
@@ -31,6 +33,9 @@ export default {
     };
   },
   computed: {
+    workspaces() {
+      return this.$store.state.workspaces;
+    },
     showModal() {
       return this.$store.state.modal.opened;
     },

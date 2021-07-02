@@ -10,7 +10,7 @@ Developers: Cai Zefan and Jason Liu
       placeholder="Please enter your question"
       v-model="text"
     ></textarea>
-    <el-button type="primary" @click="searchData"> Answer </el-button>
+    <el-button type="primary" @click="searchData">Submit</el-button>
     <textarea
       class="container"
       rows="1"
@@ -24,7 +24,8 @@ Developers: Cai Zefan and Jason Liu
 export default {
   name: "QA",
   props: {
-    id: Number,
+    workspace_id: Number,
+    widget_id: Number,
   },
   data() {
     return {
@@ -34,10 +35,14 @@ export default {
   computed: {
     text: {
       get() {
-        return this.$store.getters.widget(this.id).text;
+        return this.$store.getters.widget(this.workspace_id, this.widget_id)
+          .text;
       },
       set(value) {
-        this.$store.commit("updateWidget", { id: this.id, text: value });
+        this.$store.commit("updateWidget", {
+          workspace_id: this.workspace_id,
+          payload: { id: this.widget_id, text: value },
+        });
       },
     },
   },
