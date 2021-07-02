@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { initial_widgets, widgetTemplate } from './widgets';
+import * as getters from './getters';
+import { defaultWorkspace, initial_workspaces } from './workspace';
+import { widgetTemplate } from './widget_template';
 import app from './modules/app';
 import settings from './modules/settings';
 import user from './modules/user';
@@ -14,10 +16,9 @@ const store = new Vuex.Store({
 			difficulty: 'Easy',
 			question_saved: false
 		},
-		widgets: initial_widgets,
-		widget_types: [],
-		widget_index: initial_widgets.length,
-		qa_index: initial_widgets.filter((widget) => widget.type === 'QA').length
+		workspaces: initial_workspaces,
+		workspace_index: initial_workspaces.length,
+		widget_types: []
 	},
 	modules: {
 		app,
@@ -25,22 +26,31 @@ const store = new Vuex.Store({
 		user
 	},
 	mutations: {
-		addWidget(state, type) {
-			type === 'QA' && state.qa_index++;
-
-			state.widgets.push(widgetTemplate(state, type));
-			state.widget_index++;
+		addWorkspace(state) {
+			workspaces.push(defaultWorkspace(state.workspace_index));
+			workspace_index++;
 		},
-		deleteWidget(state, id) {
-			state.widgets = state.widgets.filter((widget) => widget.id !== id);
+		deleteWorkspace(state, id) {
+			state.workspaces = state.workspaces.filter((workspace) => workspace.id !== id);
 		},
-		toggleWidget(state, id) {
-			state.widgets = state.widgets.map(
-				(widget) => (widget.id === id ? { ...widget, expanded: !widget.expanded } : widget)
+		addWidget(state, { workspace_id, type }) {
+			let workspace = getters.workspace(state)(workspace_id);
+			workspace.widgets.push(widgetTemplate(workspace, type));
+			workspace.widget_index++;
+		},
+		deleteWidget(state, { workspace_id, widget_id }) {
+			let workspace = getters.workspace(state)(workspace_id);
+			workspace.widgets = workspace.widgets.filter((widget) => widget.id !== widget_id);
+		},
+		toggleWidget(state, { workspace_id, widget_id }) {
+			let workspace = getters.workspace(state)(workspace_id);
+			workspace.widgets = workspace.widgets.map(
+				(widget) => (widget.id === widget_id ? { ...widget, expanded: !widget.expanded } : widget)
 			);
 		},
-		updateWidget(state, payload) {
-			state.widgets = state.widgets.map(
+		updateWidget(state, { workspace_id, payload }) {
+			let workspace = getters.workspace(state)(workspace_id);
+			workspace.widgets = workspace.widgets.map(
 				(widget) => (widget.id === payload.id ? Object.assign(widget, payload) : widget)
 			);
 		}
@@ -51,8 +61,7 @@ const store = new Vuex.Store({
 		token: (state) => state.user.token,
 		avatar: (state) => state.user.avatar,
 		name: (state) => state.user.name,
-		widget: (state) => (id) => state.widgets.filter((widget) => widget.id === id)[0],
-		widget_template: (state) => (type) => widgetTemplate(state, type)
+		...getters
 	}
 });
 
