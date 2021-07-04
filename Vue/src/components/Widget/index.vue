@@ -4,9 +4,9 @@ Developer: Jason Liu
 
 <template>
   <div class="widget-container">
-    <h2 :style="{ width: widget.maxWidth }">
+    <div class="header">
       <a class="fas fa-bars btn handle" />
-      <input v-model="title" :readonly="widget.readonly" />
+      <div class="title">{{ widget.title }}</div>
       <a
         v-show="widget.expanded"
         class="fas fa-minus btn"
@@ -18,7 +18,7 @@ Developer: Jason Liu
         @click="toggleWidget"
       />
       <a class="fas fa-times btn" @click="deleteWidget" />
-    </h2>
+    </div>
     <div
       class="ui-container"
       :style="{
@@ -40,11 +40,8 @@ Developer: Jason Liu
 import Vue from "vue";
 
 const UIs = require.context("./UI", true, /\.vue$/i);
-let widget_types = [];
 UIs.keys().forEach((path) => {
-  let widget_type = UIs(path).default.name;
-  widget_types.push(widget_type);
-  Vue.component(widget_type, UIs(path).default);
+  Vue.component(UIs(path).default.name, UIs(path).default);
 });
 
 export default {
@@ -71,6 +68,7 @@ export default {
   },
   methods: {
     toggleWidget() {
+      console.log("here");
       this.$store.commit("toggleWidget", {
         workspace_id: this.workspace_id,
         widget_id: this.widget.id,
@@ -83,9 +81,6 @@ export default {
       });
     },
   },
-  mounted() {
-    this.$store.state.widget_types = widget_types;
-  },
 };
 </script>
 
@@ -96,25 +91,24 @@ export default {
   border-radius: 5px;
   padding: 20px;
   margin: 0px;
+  width: 100%;
 }
 
-h2 {
+.header {
   display: flex;
-  margin: 0px;
+  width: 100%;
+  font-size: 20px;
+  align-items: center;
 }
 
-input {
+.title {
   width: auto;
-  border: 0;
   font-weight: bold;
-  outline: none;
   flex-grow: 1;
-  text-overflow: ellipsis;
-  padding: 0;
 }
 
 .fas {
-  width: 30px;
+  width: 24px;
   text-align: right;
 }
 

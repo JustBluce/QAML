@@ -50,19 +50,11 @@ export default {
 </script>
 
 <style>
-.fit {
-  width: -webkit-fit-content;
-  height: -webkit-fit-content;
-  width: -moz-fit-content;
-  height: -moz-fit-content;
-}
-
 .container {
   border: 100px;
   border-radius: 5px;
   box-sizing: border-box;
   background-color: rgba(241, 241, 241, 0.98);
-  width: 800px;
   padding: 10px;
   margin-top: 10px;
   resize: none;

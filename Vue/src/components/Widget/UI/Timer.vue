@@ -4,9 +4,9 @@ Developer: Jason Liu
 
 <template>
   <div class="timer">
-    <input id="hours" v-model="hours" type="number" />:
-    <input id="minutes" v-model="minutes" type="number" />:
-    <input id="seconds" v-model="seconds" type="number" />
+    <div id="hours">{{ hours }}</div>:
+    <div id="minutes">{{ minutes }}</div>:
+    <div id="seconds">{{ seconds }}</div>
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
       hours: "1",
       minutes: "00",
       seconds: "00",
-      end: new Date("June 28, 2021 12:00:00").getTime(),
+      end: new Date("July 4, 2021 12:00:00").getTime(),
     };
   },
   methods: {
@@ -51,9 +51,10 @@ export default {
     update() {
       let diff = (this.end - Date.now()) / 1000;
       this.hours = String(Math.floor(diff / 3600));
-      this.minutes = String(
-        Math.floor(diff / 60 - 60 * this.hours)
-      ).padStart(2, "0");
+      this.minutes = String(Math.floor(diff / 60 - 60 * this.hours)).padStart(
+        2,
+        "0"
+      );
       this.seconds = String(
         Math.floor(diff - 3600 * this.hours - 60 * this.minutes)
       ).padStart(2, "0");
@@ -70,17 +71,20 @@ export default {
 .timer {
   display: flex;
   flex-direction: row;
-  width: 400px;
-  font-size: 80px;
+  font-size: 64px;
   margin-top: 10px;
 }
 
-input {
+#hours,
+#minutes,
+#seconds {
   background-color: rgba(241, 241, 241, 0.98);
   border: none;
   border-radius: 8px;
-  width: 120px;
-  text-align: right;
+  width: 85px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: center;
   outline: none;
 }
 </style>
