@@ -3,10 +3,11 @@ Developers: Cai Zefan and Jason Liu
 -->
 
 <template>
-  <div>
+  <div class="qa-container">
+    <input class="title" v-model="qa.title" />
     <textarea
       class="container"
-      rows="6"
+      rows="18"
       placeholder="Please enter your question"
       v-model="text"
     ></textarea>
@@ -25,7 +26,7 @@ export default {
   name: "QA",
   props: {
     workspace_id: Number,
-    widget_id: Number,
+    qa_id: Number,
   },
   data() {
     return {
@@ -33,15 +34,17 @@ export default {
     };
   },
   computed: {
+    qa() {
+      return this.$store.getters.qa(this.workspace_id, this.qa_id);
+    },
     text: {
       get() {
-        return this.$store.getters.widget(this.workspace_id, this.widget_id)
-          .text;
+        return this.qa.text;
       },
       set(value) {
-        this.$store.commit("updateWidget", {
+        this.$store.commit("updateQA", {
           workspace_id: this.workspace_id,
-          payload: { id: this.widget_id, text: value },
+          payload: { id: this.qa_id, text: value },
         });
       },
     },
@@ -68,9 +71,21 @@ export default {
 </script>
 
 <style scoped>
-div {
+.qa-container {
   display: flex;
   flex-direction: column;
+  height: 500px;
+  padding: 20px;
+  flex-grow: 100;
+}
+
+.title {
+  border: 0;
+  font-weight: bold;
+  font-size: 24px;
+  outline: none;
+  text-overflow: ellipsis;
+  padding: 0;
 }
 
 .el-button {
