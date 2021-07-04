@@ -1,19 +1,17 @@
 export function defaultWorkspace(id) {
 	return {
 		id: id,
-		widgets: [
+		qas: [
 			{
 				id: 0,
-				title: 'QA',
-				type: 'QA',
-				expanded: true,
-				autosave: true,
-				maxHeight: '350px',
-				maxWidth: '800px',
-				text: ''
+				title: "QA",
+				text: "",
 			}
 		],
-		widget_index: 1
+		qa_selected: 0,
+		widgets: [
+		],
+		widget_index: 0,
 	};
 }
 

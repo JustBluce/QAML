@@ -18,7 +18,7 @@ const store = new Vuex.Store({
 		},
 		workspaces: initial_workspaces,
 		workspace_index: initial_workspaces.length,
-		widget_types: []
+		widget_types: ["Pronunciation", "Timer"]
 	},
 	modules: {
 		app,
@@ -53,6 +53,10 @@ const store = new Vuex.Store({
 			workspace.widgets = workspace.widgets.map(
 				(widget) => (widget.id === payload.id ? Object.assign(widget, payload) : widget)
 			);
+		},
+		updateQA(state, { workspace_id, payload }) {
+			let workspace = getters.workspace(state)(workspace_id);
+			workspace.qas = workspace.qas.map((qa) => (qa.id === payload.id ? Object.assign(qa, payload) : qa));
 		}
 	},
 	getters: {
