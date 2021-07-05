@@ -13,8 +13,8 @@ const store = new Vuex.Store({
 	state: {
 		modal: {
 			opened: false,
-			difficulty: 'Easy',
-			question_saved: false
+			header: "",
+			body: "",
 		},
 		workspaces: initial_workspaces,
 		workspace_index: initial_workspaces.length,
@@ -57,6 +57,10 @@ const store = new Vuex.Store({
 		updateQA(state, { workspace_id, payload }) {
 			let workspace = getters.workspace(state)(workspace_id);
 			workspace.qas = workspace.qas.map((qa) => (qa.id === payload.id ? Object.assign(qa, payload) : qa));
+		},
+		modalText(state, { header, body }) {
+			state.modal.header = header;
+			state.modal.body = body;
 		}
 	},
 	getters: {
