@@ -22,6 +22,9 @@ Developers: Cai Zefan and Jason Liu
 </template>
 
 <script>
+import axios from 'axios';
+
+
 export default {
   name: "QA",
   props: {
@@ -55,7 +58,8 @@ export default {
       formData.append("text", this.text);
 
       this.axios({
-        url: "http://127.0.0.1:5000/func/act",
+        //url: "http://127.0.0.1:5000/func/act",
+        url:"http://127.0.0.1:5000/ngram",
         method: "POST",
         data: formData,
       }).then((response) => {

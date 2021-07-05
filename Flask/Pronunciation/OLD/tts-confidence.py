@@ -1,3 +1,4 @@
+## GOOGLE TTS_CONFIDENCE ##
 ## export GOOGLE_APPLICATION_CREDENTIALS="""
 
 from google.cloud import speech_v1p1beta1 as speech

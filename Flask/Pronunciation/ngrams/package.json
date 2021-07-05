@@ -1,0 +1,15 @@
+{
+  "name": "language-detector",
+  "version": "1.0.0",
+  "description": "Language Detector Using NGrams",
+  "main": "train.js",
+  "author": "Mark Galea",
+  "scripts": {
+    "train": "./train.js",
+    "detect": "./detect.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "glob": "^7.0.3"
+  }
+}

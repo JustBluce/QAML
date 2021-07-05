@@ -28,7 +28,7 @@ export default {
   },
   data() {
     return {
-      words: "and or the quick",
+      words: "once",
     };
   },
   computed: {

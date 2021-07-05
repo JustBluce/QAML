@@ -1,7 +1,6 @@
 ## DESIGNED by Damian R ##
 ##Used to create and play audio file#
 
-
 #gtts is google text to speech so it does require internet
 from gtts import gTTS
 from pydub import AudioSegment

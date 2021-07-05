@@ -1,3 +1,5 @@
+##IBM CONFIDENCE ##
+
 import json
 from os.path import join, dirname
 from ibm_watson import SpeechToTextV1
@@ -26,16 +28,18 @@ class MyRecognizeCallback(RecognizeCallback):
 
 myRecognizeCallback = MyRecognizeCallback()
 
-audio_file = "pronunciation.mp3"
+file = "pronunciation.mp3"
 
-with open(join(dirname(__file__), './.', audio_file),'rb') as audio_file:
-    audio_source = AudioSource(audio_file)
-    speech_to_text.recognize_using_websocket(
-        audio=audio_source,
+with open(join(dirname(__file__), './.',file),'rb') as audio_file:
+    speech_recognition_results = speech_to_text.recognize(
+        audio=audio_file,
         content_type='audio/mp3',
-        recognize_callback=myRecognizeCallback,
-        model='en-US_BroadbandModel',)
-
+        word_alternatives_threshold=0.9,
+        ##keywords=['colorado', 'tornado', 'tornadoes'],
+        ##keywords_threshold=0.5
+    ).get_result()
+    
+print(json.dumps(speech_recognition_results, indent=2))
 
 
 
