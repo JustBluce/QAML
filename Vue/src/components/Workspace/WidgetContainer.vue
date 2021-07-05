@@ -1,3 +1,7 @@
+<!--
+Developers: Jason Liu
+-->
+
 <template>
   <draggable
     v-model="widgets"

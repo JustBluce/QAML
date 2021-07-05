@@ -7,11 +7,7 @@ Developers: Jason Liu and Cai Zefan
     <div v-for="workspace in workspaces" :key="workspace.id">
       <Workspace :id="workspace.id" />
     </div>
-    <Modal
-      v-show="showModal"
-      :difficulty="getDifficulty"
-      :question_saved="getQuestionSaved"
-    />
+    <Modal v-show="showModal" />
   </div>
 </template>
 
@@ -38,12 +34,6 @@ export default {
     },
     showModal() {
       return this.$store.state.modal.opened;
-    },
-    getDifficulty() {
-      return this.$store.state.modal.difficulty;
-    },
-    getQuestionSaved() {
-      return this.$store.state.modal.question_saved;
     },
   },
 };

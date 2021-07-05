@@ -14,7 +14,7 @@ Developers: Cai Zefan and Jason Liu
     <el-button type="primary" @click="searchData">Submit</el-button>
     <textarea
       class="container"
-      rows="1"
+      rows="2"
       placeholder="Answer"
       v-model="answer"
     ></textarea>
@@ -61,9 +61,17 @@ export default {
       }).then((response) => {
         this.answer = response.data["guess"];
         this.$store.state.modal.opened = true;
-        this.$store.state.modal.difficulty = response.data["difficulty"];
-        this.$store.state.modal.question_saved =
-          response.data["difficulty"] === "Hard";
+        if (response.data["difficulty"] === "Hard") {
+          this.$store.commit("modalText", {
+            header: "Saved !!!",
+            body: "Your question is submitted.",
+          });
+        } else {
+          this.$store.commit("modalText", {
+            header: "Not saved !!!",
+            body: "Your question has Easy level difficulty. Please try again.",
+          });
+        }
       });
     },
   },

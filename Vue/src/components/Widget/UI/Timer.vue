@@ -1,11 +1,13 @@
 <!--
-Developer: Jason Liu
+Developers: Jason Liu
 -->
 
 <template>
   <div class="timer">
-    <div id="hours">{{ hours }}</div>:
-    <div id="minutes">{{ minutes }}</div>:
+    <div id="hours">{{ hours }}</div>
+    :
+    <div id="minutes">{{ minutes }}</div>
+    :
     <div id="seconds">{{ seconds }}</div>
   </div>
 </template>
@@ -18,7 +20,8 @@ export default {
       hours: "1",
       minutes: "00",
       seconds: "00",
-      end: new Date("July 4, 2021 12:00:00").getTime(),
+      end: new Date("July 5, 2021 10:10:00").getTime(),
+      timer: null,
     };
   },
   methods: {
@@ -58,11 +61,20 @@ export default {
       this.seconds = String(
         Math.floor(diff - 3600 * this.hours - 60 * this.minutes)
       ).padStart(2, "0");
+
+      if (diff <= 0) {
+        this.$store.state.modal.opened = true;
+        this.$store.commit("modalText", {
+          header: "Time's up !!!",
+          body: "Your question is being evaluated.",
+        });
+        clearInterval(this.timer);
+      }
     },
   },
   mounted() {
     this.update();
-    setInterval(this.update, 1000);
+    this.timer = setInterval(this.update, 1000);
   },
 };
 </script>
@@ -84,7 +96,7 @@ export default {
   width: 85px;
   padding-left: 5px;
   padding-right: 5px;
-  text-align: center;
+  text-align: right;
   outline: none;
 }
 </style>

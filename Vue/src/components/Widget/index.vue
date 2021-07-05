@@ -1,5 +1,5 @@
 <!--
-Developer: Jason Liu
+Developers: Jason Liu
 -->
 
 <template>
