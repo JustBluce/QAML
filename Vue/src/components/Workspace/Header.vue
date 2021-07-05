@@ -1,3 +1,7 @@
+<!--
+Developers: Jason Liu
+-->
+
 <template>
   <div class="header">
     <div class="dropdown">
@@ -47,8 +51,6 @@ export default {
     toggleMenu(event) {
       event.preventDefault();
       this.showMenu[event.target.id] = !this.showMenu[event.target.id];
-      console.log(this.showMenu["menu"]);
-      console.log(this.showMenu);
     },
     classMenu(name) {
       return this.showMenu[name] ? "show-menu" : "";

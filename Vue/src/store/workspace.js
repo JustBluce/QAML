@@ -10,8 +10,15 @@ export function defaultWorkspace(id) {
 		],
 		qa_selected: 0,
 		widgets: [
+			{
+				id: 0,
+				title: 'Timer',
+				type: 'Timer',
+				expanded: true,
+				maxHeight: '200px',
+			},
 		],
-		widget_index: 0,
+		widget_index: 1,
 	};
 }
 
