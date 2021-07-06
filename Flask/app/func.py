@@ -19,6 +19,10 @@ import torch
 import numpy as np
 from app import db, metadata
 
+from app.ethnic import find_ethnicity
+from app.gender import getGender
+from app.similarity import retrieve_similar_question
+from app.country_represent import country_present
 sys.path.append("..")
 import nltk
 # nltk.download('punkt') #Download once
@@ -186,6 +190,7 @@ def get_importance_of_each_word(question):
     return
 # Raj End -------------------
 
+# Atith Start -------------------
 #classify function was written by Atith Gandhi
 def classify(question):
     model = BertForSequenceClassification.from_pretrained('./model/difficulty_models/BERT_full_question')
@@ -199,7 +204,7 @@ def classify(question):
         return 'Easy'
     elif (difficulty == 1):
         return 'Hard'
-
+# Atith End -------------------
 
 @func.route("/act", methods=["POST"])
 def act():
@@ -210,8 +215,11 @@ def act():
     # get_importance_of_each_sentence(question)  
     # answer_sentence = guess_by_sentences(question)
     difficulty = classify(question = [question])
-    if(difficulty == "Hard"):
-        qa_table = metadata.tables["QA"]
-        db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
-
-    return jsonify({"guess": answer})
+    ethnicity = find_ethnicity(answer)
+    gender = getGender(question)
+    similar_question = retrieve_similar_question(question)
+    country_representation = country_present(question)
+    # if(difficulty == "Hard"):
+    #     qa_table = metadata.tables["QA"]
+    #     db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
+    return jsonify({"guess": answer, "difficulty": difficulty, "ethnicity": ethnicity, "gender": gender, "similar_question": similar_question, "country_representation" : country_representation})
