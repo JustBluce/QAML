@@ -1,26 +1,30 @@
 # Cai Start -------------------
+import nltk
+from app import db, metadata
+import numpy as np
+import torch
+from transformers import BertTokenizer, BertForSequenceClassification
+import sys
+from flask import Flask, jsonify, request
+from sklearn.feature_extraction.text import TfidfVectorizer
+import click
+from os import path
+import json
+import pickle
+from collections import defaultdict
+from typing import List, Optional, Tuple
+from flask import Blueprint, render_template, redirect
+import warnings
+
+
 def warn(*args, **kwargs):
     pass
+
+
 threshold = 0.4
-import warnings
 warnings.warn = warn
-from flask import Blueprint, render_template, redirect
-from typing import List, Optional, Tuple
-from collections import defaultdict
-import pickle
-import json
-from os import path
-import click
-from sklearn.feature_extraction.text import TfidfVectorizer
-from flask import Flask, jsonify, request
-import sys
-from transformers import BertTokenizer, BertForSequenceClassification
-import torch
-import numpy as np
-from app import db, metadata
 
 sys.path.append("..")
-import nltk
 # nltk.download('punkt') #Download once
 func = Blueprint('func', __name__)
 
@@ -31,6 +35,7 @@ vectorizer = params["tfidf_vectorizer"]
 Matrix = params["tfidf_matrix"]
 ans = params["i_to_ans"]
 
+
 def guess(question, max=12):
     answer = []
     repre = vectorizer.transform(question)
@@ -39,6 +44,7 @@ def guess(question, max=12):
     for i in range(len(question)):
         answer.append([(ans[j], matrix[i, j]) for j in indices[i]])
     return answer[0][0][0]
+
 
 def guess_top_5(question, max=12):
     answer = []
@@ -51,12 +57,16 @@ def guess_top_5(question, max=12):
 # Cai End -------------------
 
 # Raj Start -------------------
+
+
 def colored(r, g, b, text):
     return "\033[38;2;{};{};{}m{} \033[38;2;255;255;255".format(r, g, b, text)
+
 
 def break_into_sentences(question):
     array_of_sentences_in_question = nltk.tokenize.sent_tokenize(question)
     return array_of_sentences_in_question
+
 
 def break_into_words(question):
     array_of_words = question.split(' ')
@@ -69,17 +79,19 @@ def guess_by_sentences(question):
     temp_sentence_array = break_into_sentences(question)
     break_index = -1
     for i in range(len(temp_sentence_array)):
-        question_sentence = question_sentence + " " +temp_sentence_array[i] 
-        temp_var = guess_top_5(question = [question_sentence])
+        question_sentence = question_sentence + " " + temp_sentence_array[i]
+        temp_var = guess_top_5(question=[question_sentence])
         # print(temp_var)
-        if (temp_var[0][1]>threshold):
+        if (temp_var[0][1] > threshold):
             print("Ring buzzer on sentence number " + str(i+1))
             break_index = i+1
             question_sentence = question_sentence + "||[[BUZZER]]||"
             print("[[Question Start]]"+question_sentence)
-            print("The guess is: " + temp_var[0][0] + " with score: " + str(temp_var[0][1]) + "\n")
+            print("The guess is: " +
+                  temp_var[0][0] + " with score: " + str(temp_var[0][1]) + "\n")
             break
     return temp_var
+
 
 def guess_by_words(question):
     answer = []
@@ -88,16 +100,17 @@ def guess_by_words(question):
     break_index = -1
     temp_var = 1
     for i in range(len(temp_word_array)):
-        question_sentence = question_sentence + " " +temp_word_array[i] 
-        if(((i+1)%8 == 0) or (i+1) == len(temp_word_array)):
-            temp_var = guess_top_5(question = [question_sentence])
+        question_sentence = question_sentence + " " + temp_word_array[i]
+        if(((i+1) % 8 == 0) or (i+1) == len(temp_word_array)):
+            temp_var = guess_top_5(question=[question_sentence])
             # print(temp_var)
-            if (temp_var[0][1]>threshold):
+            if (temp_var[0][1] > threshold):
                 print("Ring buzzer on word number " + str(i+1))
                 break_index = i+1
                 question_sentence = question_sentence + "||[[BUZZER]]||"
                 print("[[Question Start]]"+question_sentence)
-                print("The guess is: " + temp_var[0][0] + " with score: " + str(temp_var[0][1]) + "\n")
+                print("The guess is: " +
+                      temp_var[0][0] + " with score: " + str(temp_var[0][1]) + "\n")
                 break
     return temp_var
 
@@ -112,7 +125,8 @@ def get_actual_guess_with_index(question, max=12):
         answer.append([(ans[j], matrix[i, j]) for j in idx])
     return answer[0][0][0:], indices[0][0]
 
-def check_drop_in_confidence(question, max=12, ind = -1):
+
+def check_drop_in_confidence(question, max=12, ind=-1):
     answer = []
     repre = vectorizer.transform(question)
     matrix = Matrix.dot(repre.T).T
@@ -124,12 +138,16 @@ def check_drop_in_confidence(question, max=12, ind = -1):
             return answer[0][i][1]
     return 0
 
-def make_colored(score, text , max, min):
-    colored_text = colored(int(255 * (1 - (score -min)/(max-min))) , 255, int(255 * (1 - (score -min)/(max-min))), text)
+
+def make_colored(score, text, max, min):
+    colored_text = colored(int(255 * (1 - (score - min)/(max-min))),
+                           255, int(255 * (1 - (score - min)/(max-min))), text)
     return colored_text
 
+
 def get_importance_of_each_sentence(question):
-    actual_answer, index_of_answer = get_actual_guess_with_index(question = [question])
+    actual_answer, index_of_answer = get_actual_guess_with_index(question=[
+                                                                 question])
     print(actual_answer)
     actual_confidence = actual_answer[1]
     temp_sentence_array = break_into_sentences(question)
@@ -140,25 +158,32 @@ def get_importance_of_each_sentence(question):
     for i in range(len(temp_sentence_array)):
         temp_sentence = temp_sentence_array[:i] + temp_sentence_array[i+1:]
         temp_sentence_string = ' '.join(temp_sentence)
-        drop_in_confidence = check_drop_in_confidence(question = [temp_sentence_string], ind = index_of_answer)
-        print("Importance of sentence number "+ str(i)+ "= ", actual_confidence-drop_in_confidence)
+        drop_in_confidence = check_drop_in_confidence(
+            question=[temp_sentence_string], ind=index_of_answer)
+        print("Importance of sentence number " + str(i) +
+              "= ", actual_confidence-drop_in_confidence)
         array_of_importances.append(actual_confidence-drop_in_confidence)
         if(least_confidence > (actual_confidence-drop_in_confidence)):
             least_confidence = (actual_confidence-drop_in_confidence)
-        if(highest_confidence< (actual_confidence-drop_in_confidence)):
+        if(highest_confidence < (actual_confidence-drop_in_confidence)):
             highest_confidence_sentence = i
             highest_confidence = (actual_confidence-drop_in_confidence)
-    print("Sentence number with the most importance: "+ str(highest_confidence_sentence) + " "+str( highest_confidence))
+    print("Sentence number with the most importance: " +
+          str(highest_confidence_sentence) + " "+str(highest_confidence))
     colored_string = ""
     for i in range(len(temp_sentence_array)):
-        colored_string = colored_string + " " + make_colored(array_of_importances[i],temp_sentence_array[i], highest_confidence, least_confidence)
-    print(colored( 0, 1, 0,""))
+        colored_string = colored_string + " " + \
+            make_colored(
+                array_of_importances[i], temp_sentence_array[i], highest_confidence, least_confidence)
+    print(colored(0, 1, 0, ""))
     print(colored_string)
-    print(colored(255,255,255,""))
+    print(colored(255, 255, 255, ""))
     return
 
+
 def get_importance_of_each_word(question):
-    actual_answer, index_of_answer = get_actual_guess_with_index(question = [question])
+    actual_answer, index_of_answer = get_actual_guess_with_index(question=[
+                                                                 question])
     print(actual_answer)
     actual_confidence = actual_answer[1]
     temp_sentence_array = break_into_words(question)
@@ -169,27 +194,35 @@ def get_importance_of_each_word(question):
     for i in range(len(temp_sentence_array)):
         temp_sentence = temp_sentence_array[:i] + temp_sentence_array[i+1:]
         temp_sentence_string = ' '.join(temp_sentence)
-        drop_in_confidence = check_drop_in_confidence(question = [temp_sentence_string], ind = index_of_answer)
-        print("Importance of word "+ temp_sentence_array[i] + "= ", actual_confidence-drop_in_confidence)
+        drop_in_confidence = check_drop_in_confidence(
+            question=[temp_sentence_string], ind=index_of_answer)
+        print("Importance of word " +
+              temp_sentence_array[i] + "= ", actual_confidence-drop_in_confidence)
         array_of_importances.append(actual_confidence-drop_in_confidence)
         if(least_confidence > (actual_confidence-drop_in_confidence)):
             least_confidence = (actual_confidence-drop_in_confidence)
-        if(highest_confidence< (actual_confidence-drop_in_confidence)):
+        if(highest_confidence < (actual_confidence-drop_in_confidence)):
             highest_confidence_word = temp_sentence_array[i]
             highest_confidence = (actual_confidence-drop_in_confidence)
-    print("Word with the most importance: "+ str(highest_confidence_word) + " "+str( highest_confidence))
+    print("Word with the most importance: " +
+          str(highest_confidence_word) + " "+str(highest_confidence))
     colored_string = ""
     for i in range(len(temp_sentence_array)):
-        colored_string = colored_string + " " + make_colored(array_of_importances[i],temp_sentence_array[i], highest_confidence, least_confidence)
+        colored_string = colored_string + " " + \
+            make_colored(
+                array_of_importances[i], temp_sentence_array[i], highest_confidence, least_confidence)
     print(colored_string)
-    print(colored(255,255,255,""))
+    print(colored(255, 255, 255, ""))
     return
 # Raj End -------------------
 
-#classify function was written by Atith Gandhi
+# classify function was written by Atith Gandhi
+
+
 def classify(question):
-    model = BertForSequenceClassification.from_pretrained('./model/difficulty_models/BERT_full_question')
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') 
+    model = BertForSequenceClassification.from_pretrained(
+        './model/difficulty_models/BERT_full_question')
+    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
     inputs = tokenizer(question, return_tensors="pt")
     outputs = model(**inputs)
@@ -207,11 +240,18 @@ def act():
         question = request.form.get("text")
     answer = guess(question=[question])
     # Uncomment the below line to get the buzzer funtionality.
-    # get_importance_of_each_sentence(question)  
+    # get_importance_of_each_sentence(question)
     # answer_sentence = guess_by_sentences(question)
-    difficulty = classify(question = [question])
+    difficulty = classify(question=[question])
     if(difficulty == "Hard"):
         qa_table = metadata.tables["QA"]
-        db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
+        db.session.execute(qa_table.insert().values(
+            Question=question, Answer=answer))
 
     return jsonify({"guess": answer})
+
+
+@func.route("/timeup", methods=["GET"])
+def timeup():
+    print("timeup")
+    return "OK"

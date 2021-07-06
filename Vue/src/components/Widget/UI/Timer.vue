@@ -1,14 +1,23 @@
 <!--
 Developers: Jason Liu
+  - Created the Timer
+
+Developers: Cai
+  - Make the timer set with 1 hour when first accessed
 -->
 
 <template>
-  <div class="timer">
-    <div id="hours">{{ hours }}</div>
-    :
-    <div id="minutes">{{ minutes }}</div>
-    :
-    <div id="seconds">{{ seconds }}</div>
+  <div>
+    <div class="timer">
+      <div id="hours">{{ hours }}</div>
+      :
+      <div id="minutes">{{ minutes }}</div>
+      :
+      <div id="seconds">{{ seconds }}</div>
+    </div>
+    <!-- <div class="">
+      <h1>{{ time }}</h1>
+    </div> -->
   </div>
 </template>
 
@@ -20,12 +29,16 @@ export default {
       hours: "1",
       minutes: "00",
       seconds: "00",
-      end: new Date("July 5, 2021 10:10:00").getTime(),
+      end: new Date(new Date().getTime() + 1 * 60 * 60 * 1000),
       timer: null,
+      time: 20,
     };
   },
+  mounted() {
+    this.timer = setInterval(this.update, 1000);
+  },
   methods: {
-    /* validate() {
+    validate() {
       let hours = parseInt(this.hours);
       let minutes = parseInt(this.minutes);
       let seconds = parseInt(this.seconds);
@@ -49,7 +62,14 @@ export default {
       this.hours = String(hours);
       this.minutes = String(minutes).padStart(2, "0");
       this.seconds = String(seconds).padStart(2, "0");
-    }, */
+    },
+
+    // countdown() {
+    //   this.time--;
+    //   if (this.time == 0) {
+    //     clearInterval(this.timer);
+    //   }
+    // },
 
     update() {
       let diff = (this.end - Date.now()) / 1000;
@@ -68,14 +88,21 @@ export default {
           header: "Time's up !!!",
           body: "Your question is being evaluated.",
         });
+
+        this.axios({
+          url: "http://127.0.0.1:5000/func/timeup",
+          method: "GET",
+        }).then((response) => {
+          console.log(response);
+        });
+
         clearInterval(this.timer);
       }
     },
   },
-  mounted() {
-    this.update();
-    this.timer = setInterval(this.update, 1000);
-  },
+  // beforeDestroy() {
+  //   clearInterval(this.timer);
+  // },
 };
 </script>
 
