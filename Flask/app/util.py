@@ -15,7 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from flask import Flask, jsonify, request
 import sys
 import time
-
+from transformers import BertTokenizer, BertForSequenceClassification
 
 
 def colored(r, g, b, text):
@@ -50,4 +50,10 @@ def guess_top_n(question, params, max = 12, n = 3):
         answer.append([(ans[j], matrix[i, j]) for j in indices[i]])
     # print(answer)
     return answer[0][0:n]
+def load_bert_model():
+    model = BertForSequenceClassification.from_pretrained('./model/difficulty_models/BERT_full_question')
+    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') 
+    return model,tokenizer
+
+model, tokenizer = load_bert_model()
 params = get_pretrained_tfidf_vectorizer()

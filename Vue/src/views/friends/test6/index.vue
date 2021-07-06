@@ -60,7 +60,7 @@ export default {
       };
 
       this.axios({
-        url: "http://127.0.0.1:5000/func/act",
+        url: "http://127.0.0.1:5000/difficulty_classifier/classify",
         method: "POST",
         data: formData,
         // header:{
@@ -68,7 +68,7 @@ export default {
         // }
       }).then((response) => {
         this.returndata = response.data;
-        this.answer = response.data["guess"];
+        this.answer = response.data["difficulty"];
         console.log(response);
         console.log(this.text);
         console.log(this.answer);
