@@ -55,24 +55,6 @@ export const constantRoutes = [
       meta: { title: 'Data', icon: 'dashboard' }
     }]
   },
-
-  {
-    path: '/function',
-    alwaysShow: true,
-    component: Layout,
-    redirect: '/function',
-    name: 'function',
-    meta: { title: 'function test', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'function',
-        name: 'function',
-        component: () => import('@/views/function/index'),
-        meta: { title: 'timer', icon: 'table ' }
-      }
-    ]
-  },
-
   {
     path: '/QA',
     alwaysShow: true,
