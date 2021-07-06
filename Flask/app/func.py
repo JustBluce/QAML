@@ -50,8 +50,4 @@ def act():
         question = request.form.get("text")
 
     answer = guess(question=[question])
-    difficulty = classify(question = [question])
-    if(difficulty == "Hard"):
-        qa_table = metadata.tables["QA"]
-        db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
     return jsonify({"guess": answer})

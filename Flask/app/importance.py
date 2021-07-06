@@ -6,16 +6,6 @@ sys.path.insert(0, 'C:/Users/rajsa/Desktop/qanta-codalab-master/TryoutProject/Fl
 from app import util
 from util import *
 
-def guess_top_5(question, max=12):
-    vectorizer, Matrix, ans = get_pretrained_tfidf_vectorizer()
-    answer = []
-    repre = vectorizer.transform(question)
-    matrix = Matrix.dot(repre.T).T
-    indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
-    for i in range(len(question)):
-        answer.append([(ans[j], matrix[i, j]) for j in indices[i]])
-    # print(answer)
-    return answer[0][0:5]
 
 def guess_by_sentences(question):
     answer = []

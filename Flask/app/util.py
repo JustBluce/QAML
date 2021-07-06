@@ -14,6 +14,9 @@ import click
 from sklearn.feature_extraction.text import TfidfVectorizer
 from flask import Flask, jsonify, request
 import sys
+import time
+
+
 
 def colored(r, g, b, text):
     return "\033[38;2;{};{};{}m{} \033[38;2;255;255;255".format(r, g, b, text)
@@ -34,3 +37,17 @@ def get_pretrained_tfidf_vectorizer():
     Matrix = params["tfidf_matrix"]
     ans = params["i_to_ans"]
     return vectorizer, Matrix, ans
+
+def guess_top_n(question, params, max = 12, n = 3):
+    vectorizer, Matrix, ans = params[0], params[1], params[2]
+    answer = []
+    repre = vectorizer.transform(question)
+    # print(repre.shape)
+    
+    matrix = Matrix.dot(repre.T).T
+    indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
+    for i in range(len(question)):
+        answer.append([(ans[j], matrix[i, j]) for j in indices[i]])
+    # print(answer)
+    return answer[0][0:n]
+params = get_pretrained_tfidf_vectorizer()
