@@ -7,9 +7,14 @@
 
 ## Preparations
 
-- Install mysql in your computer
+### Install and Set Up MySQL
+- Install mysql in your computer from [here](https://dev.mysql.com/downloads/) 
+  - For Windows: use the windows installer
+  - For Mac: navigate to [here](https://dev.mysql.com/downloads/mysql/) and download the latest version
 - Use the sql file `QA_QA.sql` to set up your database
-- Write `Flask/config.py` to use your mysql settings
+- Edit `Flask/config.py` to use your mysql settings(Username and Password)
+
+### Setup Guesser
 - Run https://github.com/Pinafore/qanta-codalab locally and you will get `qanta-codalab/src/tfidf.pickle`
 - Remove and rename `qanta-codalab/src/tfidf.pickle` to `TRYOUT-PROJECT/Flask/model/model.pickle`
 
@@ -19,14 +24,17 @@ Run the below commands in the terminal for running the code:
 
 ### Run the Flask app
 
-1. **cd Flask**
-2. **python run.py**
-3. **pip install -r requirements.txt**
-4. **Download pre-trained BERT_full_question model from [here](https://drive.google.com/drive/folders/18dGwaxI7kx4Yx7gTMTiCbUv2YLxzNPmZ?usp=sharing) and move it to model/difficulty_models/  folder**
+1. `cd Flask`
+2.  `python run.py`
+3. `pip install -r requirements.txt`
+4.  Download pre-trained BERT_full_question model from [here](https://drive.google.com/drive/folders/18dGwaxI7kx4Yx7gTMTiCbUv2YLxzNPmZ?usp=sharing) and move it to model/difficulty_models/  folder
 ### Run the Vue framework
-5. **cd Vue**
-6. **npm install**
-7. **npm run dev**
+
+  In a sperate terminal, run the following:
+  
+5. `cd Vue`
+6. `npm install`
+7. `npm run dev`
 
 ## Tips
 
