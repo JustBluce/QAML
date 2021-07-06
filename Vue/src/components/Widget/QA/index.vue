@@ -6,7 +6,7 @@ Developers: Cai Zefan and Jason Liu
   <div>
     <textarea
       class="container"
-      rows="6"
+      rows="5"
       placeholder="Please enter your question"
       v-model="text"
     ></textarea>
@@ -16,6 +16,17 @@ Developers: Cai Zefan and Jason Liu
       rows="1"
       placeholder="Answer"
       v-model="answer"
+    ></textarea>
+    <textarea
+      class="container"
+      rows="2"
+      placeholder="Gender"
+      v-model="gender"
+    ></textarea>
+     <textarea
+      class="container"
+      placeholder="Countries Represented in the question"
+      v-model="country_representation"
     ></textarea>
   </div>
 </template>
@@ -29,6 +40,9 @@ export default {
   data() {
     return {
       answer: "",
+      ethnicity: "",
+      gender: "",
+      country_representation: ""
     };
   },
   computed: {
@@ -52,10 +66,16 @@ export default {
         data: formData,
       }).then((response) => {
         this.answer = response.data["guess"];
+        this.ethnicity = response.data["ethnicity"]
+        this.gender = response.data["gender"]
+        this.country_representation = response.data["country_representation"]
         this.$store.state.modal.opened = true;
         this.$store.state.modal.difficulty = response.data["difficulty"];
         this.$store.state.modal.question_saved =
           response.data["difficulty"] === "Hard";
+        this.$store.state.warning_modal.opened = response.data["similar_question"][0]
+        this.$store.state.warning_modal.similar_question = response.data["similar_question"][1]
+        t
       });
     },
   },

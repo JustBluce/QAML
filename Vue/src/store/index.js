@@ -14,6 +14,10 @@ const store = new Vuex.Store({
 			difficulty: 'Easy',
 			question_saved: false
 		},
+		warning_modal:{
+			opened: false,
+			similar_question: ' ',
+		},
 		widgets: initial_widgets,
 		widget_types: widget_types,
 		widget_index: initial_widgets.length,

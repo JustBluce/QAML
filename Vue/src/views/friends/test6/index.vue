@@ -24,10 +24,14 @@ Developers: Jason Liu and Cai Zefan
         </div>
       </transition-group>
     </draggable>
-    <Modal
-      v-show="showModal"
-      :difficulty="getDifficulty"
-      :question_saved="getQuestionSaved"
+    // <Modal
+    //   v-show="showModal"
+    //   :difficulty="getDifficulty"
+    //   :question_saved="getQuestionSaved"
+    // />
+    <Warning_Modal
+      v-show="getSimilarityWarning"
+      :similar_question="getSimilarQuestion"
     />
   </div>
 </template>
@@ -36,7 +40,8 @@ Developers: Jason Liu and Cai Zefan
 import Widget from "@/components/Widget";
 import WidgetMenu from "@/components/WidgetMenu";
 import Modal from "@/components/Modal";
-import draggable from "vuedraggable";
+import draggable from "vuedraggable"
+import Warning_Modal from "@/components/Warning_Modal";
 
 export default {
   components: {
@@ -44,6 +49,7 @@ export default {
     WidgetMenu,
     Modal,
     draggable,
+    Warning_Modal
   },
   data() {
     return {
@@ -70,6 +76,12 @@ export default {
     getQuestionSaved() {
       return this.$store.state.modal.question_saved;
     },
+    getSimilarityWarning() {
+      return this.$store.state.warning_modal.opened;
+    },
+    getSimilarQuestion (){
+      return this.$store.state.warning_modal.similar_question;
+    }
   },
 };
 </script>
