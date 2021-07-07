@@ -48,13 +48,16 @@ export default {
     };
   },
   computed: {
+    workspace() {
+      return this.$store.getters.workspace(this.workspace_id);
+    },
     widgets: {
       get() {
-        return this.$store.getters.workspace(this.workspace_id).widgets;
+        return this.workspace.widgets;
       },
 
       set(widgets) {
-        this.$store.getters.workspace(this.workspace_id).widgets = widgets;
+        this.workspace.widgets = widgets;
       },
     },
   },
@@ -70,11 +73,8 @@ export default {
   padding-right: 5px;
   padding-top: 0px;
   overflow-y: scroll;
-  resize: horizontal;
-  min-width: 30%;
-  max-width: 70%;
+  width: 30%;
   border-right: 2px solid steelblue;
-  flex-grow: -1;
 }
 
 .widget-item {
