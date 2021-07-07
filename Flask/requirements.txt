@@ -3,3 +3,8 @@ transformers
 datasets
 torch
 nltk
+gtts
+pydub
+sklearn
+scikit-learn
+

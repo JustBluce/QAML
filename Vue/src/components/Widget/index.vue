@@ -1,125 +1,123 @@
 <!--
-Developer: Jason Liu
+Developers: Jason Liu
 -->
 
 <template>
-  <div class="container">
-    <h2 ref="header">
-      <a class="fas fa-bars handle" @mousedown="hideWidget" />
-      {{ widget.title }}
+  <div class="widget-container">
+    <div class="header">
+      <a class="fas fa-bars btn handle" />
+      <div class="title">{{ widget.title }}</div>
       <a
-        v-show="widget.removable"
-        class="fas fa-times"
-        @click="$emit('delete-widget', widget.id)"
+        v-show="widget.expanded"
+        class="fas fa-minus btn"
+        @click="toggleWidget"
       />
-      <a v-show="expanded" class="fas fa-minus" @click="toggleWidget" />
-      <a v-show="!expanded" class="fas fa-plus" @click="toggleWidget" />
-    </h2>
+      <a
+        v-show="!widget.expanded"
+        class="fas fa-plus btn"
+        @click="toggleWidget"
+      />
+      <a class="fas fa-times btn" @click="deleteWidget" />
+    </div>
     <div
-      class="widget-container"
-      ref="widgetContainer"
+      class="ui-container"
       :style="{
-        maxHeight: expanded ? widget.maxHeight : '0px',
-        opacity: expanded ? '1' : '0',
+        display: !widget.expanded ? displayUI : 'block',
+        maxHeight: widget.expanded ? widget.maxHeight : '0px',
+        opacity: widget.expanded ? '1' : '0',
       }"
     >
-      <QA v-if="widget.type === 'QA'" :id="widget.id" />
-      <Timer v-if="widget.type === 'Timer'" :end="getEnd()" />
-      <Pronunciation v-if="widget.type === 'Pronunciation'" question_id="0" />
+      <component
+        :is="widget.type"
+        :workspace_id="workspace_id"
+        :widget_id="widget.id"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import QA from "./QA";
-import Timer from "./Timer";
-import Pronunciation from "./Pronunciation";
+import Vue from "vue";
+
+const UIs = require.context("./UI", true, /\.vue$/i);
+UIs.keys().forEach((path) => {
+  Vue.component(UIs(path).default.name, UIs(path).default);
+});
 
 export default {
   name: "Widget",
   props: {
+    workspace_id: Number,
     widget: Object,
+    displayUI: String,
   },
-  components: {
-    QA,
-    Timer,
-    Pronunciation,
-  },
-  data() {
-    return {
-      expanded: true,
-      widget_width: 0,
-    };
+  computed: {
+    title: {
+      get() {
+        return this.$store.getters.widget(this.workspace_id, this.widget.id)
+          .title;
+      },
+
+      set(value) {
+        this.$store.commit("updateWidget", {
+          workspace_id: this.workspace_id,
+          payload: { id: this.widget.id, title: value },
+        });
+      },
+    },
   },
   methods: {
     toggleWidget() {
-      this.$refs.widgetContainer.style.display = "block";
-      this.expanded = !this.expanded;
+      console.log("here");
+      this.$store.commit("toggleWidget", {
+        workspace_id: this.workspace_id,
+        widget_id: this.widget.id,
+      });
     },
-    hideWidget() {
-      if (!this.expanded) {
-        if (this.$refs.widgetContainer.offsetWidth) {
-          this.$refs.header.style.width =
-            this.$refs.widgetContainer.offsetWidth + "px";
-        }
-        this.$refs.widgetContainer.style.display = "none";
-      }
-    },
-    getEnd() {
-      return new Date("June 27, 2021 12:00:00").getTime();
+    deleteWidget() {
+      this.$store.commit("deleteWidget", {
+        workspace_id: this.workspace_id,
+        widget_id: this.widget.id,
+      });
     },
   },
 };
 </script>
 
 <style scoped>
-h2 {
+.widget-container {
+  background: white;
+  border: 2px solid steelblue;
+  border-radius: 5px;
+  padding: 20px;
   margin: 0px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  font-size: 20px;
+  align-items: center;
+}
+
+.title {
+  width: auto;
+  font-weight: bold;
+  flex-grow: 1;
 }
 
 .fas {
-  float: right;
-  color: steelblue;
-  cursor: pointer;
-  margin-left: 10px;
-  opacity: 1;
-  transition: opacity 0.3s;
-}
-
-.fas:hover {
-  color: steelblue;
-  opacity: 0.7;
-}
-
-.fas:active {
-  transform: scale(0.9);
+  width: 24px;
+  text-align: right;
 }
 
 .fa-bars {
-  margin-left: 0px;
-  margin-right: 5px;
-  float: none;
+  text-align: left;
 }
 
-.fa-minus,
-.fa-minus:hover {
-  color: #a62c2b;
-}
-
-.fa-plus,
-.fa-plus:hover {
-  color: #296e01;
-}
-
-.container {
-  border: 2px solid steelblue;
-  border-radius: 5px;
-  padding: 30px;
-  margin: 0px;
-}
-
-.widget-container {
+.ui-container {
   overflow: hidden;
-  transition: max-height 0.5s linear 0s, opacity 0.4s linear 0.1s;
+  transition: max-height 0.3s linear 0s, opacity 0.2s linear 0.1s;
 }
 </style>
