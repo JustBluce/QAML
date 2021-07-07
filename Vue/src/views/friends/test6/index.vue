@@ -24,11 +24,11 @@ Developers: Jason Liu and Cai Zefan
         </div>
       </transition-group>
     </draggable>
-    // <Modal
-    //   v-show="showModal"
-    //   :difficulty="getDifficulty"
-    //   :question_saved="getQuestionSaved"
-    // />
+    <Modal
+      v-show="showModal"
+      :difficulty="getDifficulty"
+      :question_saved="getQuestionSaved"
+    />
     <Warning_Modal
       v-show="getSimilarityWarning"
       :similar_question="getSimilarQuestion"
@@ -71,7 +71,7 @@ export default {
       return this.$store.state.modal.opened;
     },
     getDifficulty() {
-      return this.$store.state.modal.difficulty;
+      return this.difficulty;
     },
     getQuestionSaved() {
       return this.$store.state.modal.question_saved;

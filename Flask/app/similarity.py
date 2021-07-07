@@ -5,7 +5,8 @@ from nltk.corpus import stopwords
 import json
 import numpy as np
 import en_core_web_sm
-
+from flask import Blueprint, render_template, redirect
+from flask import Flask, jsonify, request
 nlp = en_core_web_sm.load()
 
 stopWords = stopwords.words('english')
@@ -19,8 +20,13 @@ questions = []
 for i in range(0, len(data)):
     questions.append(data[i]['text'])
 
-def retrieve_similar_question(new_question):
-    questions.append(new_question)
+similar_question = Blueprint('similar_question', __name__)
+@similar_question.route("/retrieve_similar_question", methods=["POST"])
+def retrieve_similar_question():
+    
+    if request.method == "POST":
+        question = request.form.get("text")
+    questions.append(question)
     tfidf_vectorizer = TfidfVectorizer(stop_words = stopWords)
     tfidf_matrix = tfidf_vectorizer.fit_transform(questions)
     cosine = cosine_similarity(tfidf_matrix[len(questions)-1], tfidf_matrix)[0]
@@ -29,8 +35,7 @@ def retrieve_similar_question(new_question):
 
     max_index = np.where(cosine == max_cosine)
     print([max_cosine, questions[max_index[0][0]]])
-    if max_cosine > 0.7:
+    isSimilar = False
+    if max_cosine > 0.1:
         isSimilar = True
-    else:
-        isSimilar = False
-    return [isSimilar, questions[max_index[0][0]]]
+    return jsonify({"similar_question": [isSimilar, questions[max_index[0][0]]]})

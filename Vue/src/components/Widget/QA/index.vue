@@ -20,8 +20,8 @@ Developers: Cai Zefan and Jason Liu
     <textarea
       class="container"
       rows="2"
-      placeholder="Gender"
-      v-model="gender"
+      placeholder="Ethnicity"
+      v-model="people_ethnicity"
     ></textarea>
      <textarea
       class="container"
@@ -40,9 +40,11 @@ export default {
   data() {
     return {
       answer: "",
-      ethnicity: "",
+      people_ethnicity: "",
       gender: "",
-      country_representation: ""
+      country_representation: "",
+      difficulty: 'Easy'
+      
     };
   },
   computed: {
@@ -59,23 +61,57 @@ export default {
     searchData() {
       let formData = new FormData();
       formData.append("text", this.text);
-
       this.axios({
-        url: "http://127.0.0.1:5000/func/act",
+        url: "http://127.0.0.1:5000/difficulty_classifier/classify",
         method: "POST",
         data: formData,
+        // header:{
+        //   'Content-Type':'application/json'  //如果写成contentType会报错
+        // }
       }).then((response) => {
-        this.answer = response.data["guess"];
-        this.ethnicity = response.data["ethnicity"]
-        this.gender = response.data["gender"]
-        this.country_representation = response.data["country_representation"]
-        this.$store.state.modal.opened = true;
-        this.$store.state.modal.difficulty = response.data["difficulty"];
-        this.$store.state.modal.question_saved =
-          response.data["difficulty"] === "Hard";
+        // this.returndata = response.data;
+        this.$store.state.modal.opened = true; 
+        this.difficulty = response.data["difficulty"];
+        this.$store.state.modal.question_saved = response.data["difficulty"] === "Hard";
+        console.log(response);
+        // console.log(this.text);
+        // console.log(this.answer);
+      });
+      this.axios({
+        url: "http://127.0.0.1:5000/country_represent/country_present",
+        method: "POST",
+        data: formData,
+        // header:{
+        //   'Content-Type':'application/json'  //如果写成contentType会报错
+        // }
+      }).then((response) => {
+        // this.returndata = response.data;
+        this.country_representation = response.data["country_representation"];
+        console.log(response);
+      });
+      this.axios({
+        url: "http://127.0.0.1:5000/people_info/getPeoplesInfo",
+        method: "POST",
+        data: formData,
+        // header:{
+        //   'Content-Type':'application/json'  //如果写成contentType会报错
+        // }
+      }).then((response) => {
+        // this.returndata = response.data;
+        this.people_ethnicity = response.data["people_ethnicity"];
+        console.log(response);
+      });
+      this.axios({
+        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+        method: "POST",
+        data: formData,
+        // header:{
+        //   'Content-Type':'application/json'  //如果写成contentType会报错
+        // }
+      }).then((response) => {
         this.$store.state.warning_modal.opened = response.data["similar_question"][0]
         this.$store.state.warning_modal.similar_question = response.data["similar_question"][1]
-        t
+        console.log(response);
       });
     },
   },
