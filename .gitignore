@@ -18,4 +18,5 @@ selenium-debug.log
 # Editor directories and files
 .vscode/
 __pycache__/
-model/
+Flask/config.py
+Flask/config.py
