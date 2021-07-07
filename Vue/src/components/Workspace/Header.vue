@@ -6,7 +6,10 @@ Developers: Jason Liu
   <div class="header">
     <div class="dropdown">
       <a id="menu" class="fas fa-chevron-circle-down btn" @click="toggleMenu" />
-      <div :class="['menu', 'expandable', classMenu('menu')]">
+      <div
+        :class="['menu', 'expandable', classMenu('menu')]"
+        @mouseleave="showMenu['menu'] = false"
+      >
         <a id="add-widget" class="menu-item" @click="toggleMenu">Add Widget</a>
         <div :class="['sub-menu', 'expandable', classMenu('add-widget')]">
           <div
@@ -17,8 +20,25 @@ Developers: Jason Liu
           >
             {{ widget_type }}
           </div>
+          <div v-show="widget_types.length == 0" class="sub-menu-item">
+            All widgets added
+          </div>
         </div>
         <a id="load-qa" class="menu-item" @click="toggleMenu">Load QA</a>
+        <div :class="['sub-menu', 'expandable', classMenu('load-qa')]">
+          <div
+            v-for="qa in qas"
+            class="sub-menu-item"
+            :key="qa.id"
+            @click="loadQA(qa.id)"
+          >
+            {{ qa.title }}
+          </div>
+          <div v-show="qas.length == 0" class="sub-menu-item">
+            No loadable QAs
+          </div>
+        </div>
+        <a id="create-qa" class="menu-item" @click="createQA">Create QA</a>
       </div>
     </div>
     <input value="Workspace Demo" />
@@ -34,8 +54,19 @@ export default {
     workspace_id: Number,
   },
   computed: {
+    workspace() {
+      return this.$store.getters.workspace(this.workspace_id);
+    },
     widget_types() {
-      return this.$store.state.widget_types;
+      let added_types = this.workspace.widgets.map((widget) => widget.type);
+      return this.$store.state.widget_types.filter(
+        (type) => !added_types.includes(type)
+      );
+    },
+    qas() {
+      return this.workspace.qas.filter(
+        (qa) => qa.id !== this.workspace.qa_selected
+      );
     },
   },
   data() {
@@ -60,6 +91,12 @@ export default {
         workspace_id: this.workspace_id,
         type: type,
       });
+    },
+    loadQA(id) {
+      this.workspace.qa_selected = id;
+    },
+    createQA() {
+      this.$store.commit("createQA", this.workspace_id);
     },
     minimize() {},
     close() {},
