@@ -1,27 +1,17 @@
 <!--
-Developer: Atith Gandhi
+Developers: Atith Gandhi and Jason Liu
 -->
 
 <template>
   <transition name="modal-fade">
     <div class="modal-backdrop">
       <div class="modal">
-        <header v-if="question_saved" class="modal-header" style="color: green">
-          <slot name="header"> Saved !!! </slot>
-          <a class="fas fa-times" @click="close" />
+        <header class="modal-header" style="color: red">
+          <slot name="header" >{{ modal.header }}</slot>
+          <a class="fas fa-times btn" @click="close" />
         </header>
-        <header v-else class="modal-header" style="color: red">
-          <slot name="header"> Not Saved !!! </slot>
-          <a class="fas fa-times" @click="close" />
-        </header>
-
-        <section class="modal-body" v-if="question_saved">
-          <slot name="body"> Your question is submitted </slot>
-        </section>
-        <section class="modal-body" v-else>
-          <slot name="body">
-            Your question has Easy level difficulty. Please try again.
-          </slot>
+        <section class="modal-body">
+          <slot name="body">{{ modal.body }}</slot>
         </section>
       </div>
     </div>
@@ -31,14 +21,9 @@ Developer: Atith Gandhi
 <script>
 export default {
   name: "Modal",
-  props: {
-    difficulty: {
-      type: String,
-      default: "Easy",
-    },
-    question_saved: {
-      type: Boolean,
-      default: false,
+  computed: {
+    modal() {
+      return this.$store.state.modal;
     },
   },
   methods: {
@@ -50,6 +35,16 @@ export default {
 </script>
 
 <style scoped>
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.modal-fade-enter,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -60,10 +55,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 
 .modal {
-  background: #ffffff;
   border-radius: 5px;
   box-shadow: 2px 2px 20px 1px;
   overflow-x: auto;
@@ -71,46 +66,32 @@ export default {
   flex-direction: column;
   padding: 15px;
   width: 40%;
-}
-.modal {
   background-color: #fafafa;
   display: flex;
   flex-direction: column;
 }
-.modal-header {
-  padding: 15px;
-  display: flex;
-}
 
 .modal-header {
+  font-weight: bold;
+  font-size: 24px;
+  padding: 15px;
+  display: flex;
   position: relative;
   border-bottom: 1px solid #eeeeee;
   justify-content: space-between;
 }
 
 .modal-body {
+  font-size: 18px;
   position: relative;
-  padding: 20px 10px;
+  padding: 15px;
 }
 
-.fas {
+.btn {
   position: absolute;
   top: 0;
   right: 0;
   font-size: 20px;
   padding: 10px;
-  cursor: pointer;
-  color: steelblue;
-  opacity: 1;
-  transition: opacity 0.3s;
-}
-
-.fas:hover {
-  color: steelblue;
-  opacity: 0.7;
-}
-
-.fas:active {
-  transform: scale(0.9);
 }
 </style>

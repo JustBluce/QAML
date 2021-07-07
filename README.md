@@ -7,9 +7,25 @@
 
 ## Preparations
 
-- Install mysql in your computer
-- Use the sql file `QA_QA.sql` to set up your database
-- Write `Flask/config.py` to use your mysql settings
+- Install mysql in your computer with the guide https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/
+  - pip uninstall mysql (or whatever other package you installed that way)
+  - Visit https://dev.mysql.com/downloads/mysql/ and download prober mysql
+  - Go through the setup process and REMEMBER your password(will be used later)
+- Set up your database
+  - open terminal
+```
+mysql -u root -p
+CREATE DATABASE questions;
+USE questions;
+create table QA
+(id int auto_increment primary key, Question varchar(255) null, Answer varchar(255) null);
+```
+- Write `Flask/config.py` to use your mysql settings, change 'YOURPASSWORD' to your own password for mysql
+
+```
+mysql+pymysql://root:YOURPASSWORD@localhost:3306/QA?charset=utf8
+```
+
 - Run https://github.com/Pinafore/qanta-codalab locally and you will get `qanta-codalab/src/tfidf.pickle`
 - Remove and rename `qanta-codalab/src/tfidf.pickle` to `TRYOUT-PROJECT/Flask/model/model.pickle`
 
@@ -22,8 +38,10 @@ Run the below commands in the terminal for running the code:
 1. **cd Flask**
 2. **python run.py**
 3. **pip install -r requirements.txt**
-4. **Download pre-trained BERT_full_question model from [here](https://drive.google.com/drive/folders/18dGwaxI7kx4Yx7gTMTiCbUv2YLxzNPmZ?usp=sharing) and move it to model/difficulty_models/  folder**
+4. **Download pre-trained BERT_full_question model from [here](https://drive.google.com/drive/folders/18dGwaxI7kx4Yx7gTMTiCbUv2YLxzNPmZ?usp=sharing) and move it to model/difficulty_models/ folder**
+
 ### Run the Vue framework
+
 5. **cd Vue**
 6. **npm install**
 7. **npm run dev**
@@ -38,19 +56,19 @@ Run the below commands in the terminal for running the code:
 
 ```javascript
 this.axios({
-        url: "http://127.0.0.1:5000/func/act",
-        method: "POST",
-        data: formData,
-        // header:{
-        //   'Content-Type':'application/json'  //如果写成contentType会报错
-        // }
-      }).then((response) => {
-        this.returndata = response.data;
-        this.answer = response.data["guess"];
-        console.log(response);
-        console.log(this.text);
-        console.log(this.answer);
-      });
+  url: "http://127.0.0.1:5000/func/act",
+  method: "POST",
+  data: formData,
+  // header:{
+  //   'Content-Type':'application/json'  //如果写成contentType会报错
+  // }
+}).then((response) => {
+  this.returndata = response.data;
+  this.answer = response.data["guess"];
+  console.log(response);
+  console.log(this.text);
+  console.log(this.answer);
+});
 ```
 
 - Flask file

@@ -55,111 +55,21 @@ export const constantRoutes = [
       meta: { title: 'Data', icon: 'dashboard' }
     }]
   },
-
   {
-    path: '/friends',
+    path: '/QA',
     alwaysShow: true,
     component: Layout,
-    redirect: '/friends',
-    name: 'Friends',
-    meta: { title: 'Tryout Project', icon: 'el-icon-s-help' },
+    redirect: '/QA',
+    meta: { title: 'QA System', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'tset6',
-        name: 'test6',
-        component: () => import('@/views/friends/test6/index'),
+        path: 'QA',
+        name: 'QA',
+        component: () => import('@/views/QA/index'),
         meta: { title: 'Answer', icon: 'table ' }
       }
     ]
   },
-
-
-  // {
-  //   path: '/user',
-  //   alwaysShow: true,
-  //   component: Layout,
-  //   redirect: '/user',
-  //   name: 'Data',
-  //   meta: { title: 'Functions', icon: 'el-icon-s-help' },
-  //   children: [
-  //     {
-  //       path: 'user',
-  //       name: 'user',
-  //       component: () => import('@/views/user/user/index'),
-  //       meta: { title: '用户列表', icon: 'table ' }
-  //     },
-  //     {
-  //       path: 'account',
-  //       name: 'account',
-  //       component: () => import('@/views/user/account/index'),
-  //       meta: { title: '用户账户', icon: 'table ' }
-  //     },
-  //     {
-  //       path: 'record',
-  //       name: 'record',
-  //       component: () => import('@/views/user/record/index'),
-  //       meta: { title: '支付记录', icon: 'table ' }
-  //     }
-  //   ]
-  // },
-
-
-
-
-
-
-
-  // {
-  //   path: '/store',
-  //   alwaysShow: true,
-  //   component: Layout,
-  //   redirect: '/store',
-  //   name: 'Data',
-  //   meta: { title: 'Backup', icon: 'el-icon-s-help' },
-  //   children: [
-  //     {
-  //       path: 'store1',
-  //       name: 'store1',
-  //       component: () => import('@/views/store/store1/index'),
-  //       meta: { title: '烧烤摊', icon: 'table ' }
-  //     },
-  //     {
-  //       path: 'store2',
-  //       name: 'store2',
-  //       component: () => import('@/views/store/store2/index'),
-  //       meta: { title: '水果店', icon: 'table ' }
-  //     },
-  //     {
-  //       path: 'store3',
-  //       name: 'store3',
-  //       component: () => import('@/views/store/store3/index'),
-  //       meta: { title: '游戏店', icon: 'table ' }
-  //     },
-  //   ]
-  // },
-
-  // {
-  //   path: '/merchant',
-  //   alwaysShow: true,
-  //   component: Layout,
-  //   redirect: '/merchant',
-  //   name: 'merchant',
-  //   meta: { title: 'User', icon: 'el-icon-s-help' },
-  //   children: [
-  //     {
-  //       path: 'merchant',
-  //       name: 'merchant',
-  //       component: () => import('@/views/merchant/merchant/index'),
-  //       meta: { title: '商家列表', icon: 'table ' }
-  //     },
-  //     {
-  //       path: 'account',
-  //       name: 'account',
-  //       component: () => import('@/views/merchant/account/index'),
-  //       meta: { title: '商家账户', icon: 'table ' }
-  //     }
-  //   ]
-  // },
 
   tableRouter,
 
