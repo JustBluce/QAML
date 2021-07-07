@@ -60,7 +60,6 @@ export const constantRoutes = [
     alwaysShow: true,
     component: Layout,
     redirect: '/QA',
-    name: 'QA',
     meta: { title: 'QA System', icon: 'el-icon-s-help' },
     children: [
       {
