@@ -4,7 +4,10 @@ Developers: Cai Zefan and Jason Liu
 
 <template>
   <div class="qa-container">
-    <input class="title" v-model="qa.title" />
+    <div class="header">
+      <input class="title" v-model="qa.title" />
+      <a v-show="qa_count > 1" class="fas fa-trash btn" @click="deleteQA" />
+    </div>
     <textarea
       class="container"
       rows="18"
@@ -36,6 +39,9 @@ export default {
   computed: {
     qa() {
       return this.$store.getters.qa(this.workspace_id, this.qa_id);
+    },
+    qa_count() {
+      return this.$store.getters.workspace(this.workspace_id).qas.length;
     },
     text: {
       get() {
@@ -74,6 +80,12 @@ export default {
         }
       });
     },
+    deleteQA() {
+      this.$store.commit("deleteQA", {
+        workspace_id: this.workspace_id,
+        qa_id: this.qa_id,
+      });
+    },
   },
 };
 </script>
@@ -87,13 +99,23 @@ export default {
   flex-grow: 100;
 }
 
+.header {
+  display: flex;
+  font-size: 24px;
+}
+
 .title {
   border: 0;
   font-weight: bold;
-  font-size: 24px;
   outline: none;
   text-overflow: ellipsis;
   padding: 0;
+  flex-grow: 1;
+}
+
+.fas {
+  width: 30px;
+  text-align: right;
 }
 
 .el-button {

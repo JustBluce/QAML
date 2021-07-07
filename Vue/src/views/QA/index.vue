@@ -78,4 +78,9 @@ export default {
 .fa-plus:hover {
   color: #296e01;
 }
+
+.fa-trash,
+.fa-trash:hover {
+  color: #888888;
+}
 </style>

@@ -1,4 +1,4 @@
-import { widgetTemplate } from './widget_template';
+import { widgetTemplate } from './workspace.js';
 
 export let workspace = (state) => (id) => state.workspaces.find((workspace) => workspace.id === id);
 
