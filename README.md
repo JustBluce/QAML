@@ -2,7 +2,8 @@
 
 ## Overview 
 
-![GitHub language count](https://img.shields.io/github/languages/count/JustBluce/TryoutProject)
+![GitHub language count](https://img.shields.io/github/languages/count/JustBluce/TryoutProject) 
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JustBluce/TryoutProject?include_prereleases)
 
 This project tries to create a Vue/Flask app which is able to answer the given input question on the quanta QA dataset(https://s3-us-west-2.amazonaws.com/pinafore-us-west-2/qanta-jmlr-datasets/qanta.train.2018.04.18.json).This project also tries to help question writers write more Adversarial quesitons.
 
