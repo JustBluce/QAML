@@ -67,7 +67,7 @@ export default {
 <style scoped>
 .widgets-container {
   background-color: #f1f1f1;
-  height: max(500px, 100%);
+  height: max(800px, 100%);
   max-height: 1000px;
   padding: 20px;
   padding-right: 5px;

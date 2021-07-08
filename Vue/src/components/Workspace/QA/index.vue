@@ -22,6 +22,20 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       placeholder="Answer"
       v-model="answer"
     ></textarea>
+    <textarea
+      readonly
+      class="container"
+      rows="5"
+      placeholder="Country representation"
+      v-model="country_representation"
+    ></textarea>
+    <textarea
+      readonly
+      class="container"
+      rows="5"
+      placeholder="People ethnicity"
+      v-model="people_ethnicity"
+    ></textarea>
   </div>
 </template>
 
@@ -41,6 +55,9 @@ export default {
   data() {
     return {
       answer: "",
+      country_representation: "",
+      people_ethnicity: ""
+      
     };
   },
   computed: {
@@ -110,6 +127,8 @@ export default {
       }).then((response) => {
         this.qa.country_representation =
           response.data["country_representation"].trim();
+        this.country_representation =
+          response.data["country_representation"].trim();
       });
 
       this.axios({
@@ -118,6 +137,7 @@ export default {
         data: formData,
       }).then((response) => {
         this.qa.people_ethnicity = response.data["people_ethnicity"];
+        this.people_ethnicity = response.data["people_ethnicity"];
       });
     },
 
