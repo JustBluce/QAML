@@ -11,10 +11,12 @@ import nltk
 from nltk.corpus import stopwords
 import json
 import numpy as np
-import en_core_web_sm
+import spacy
+## import en_core_web_sm
 from flask import Blueprint, render_template, redirect
 from flask import Flask, jsonify, request
-nlp = en_core_web_sm.load()
+nlp = spacy.load("en_core_web_sm")
+##nlp = en_core_web_sm.load()
 
 stopWords = stopwords.words('english')
 
