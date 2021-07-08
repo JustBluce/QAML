@@ -6,12 +6,12 @@ Developers: Atith Gandhi and Jason Liu
   <transition name="modal-fade">
     <div class="modal-backdrop">
       <div class="modal">
-        <header class="modal-header" style="color: red">
-          <slot name="header" >{{ modal.header }}</slot>
+        <header class="modal-header">
+          <slot name="header" >{{ header }}</slot>
           <a class="fas fa-times btn" @click="close" />
         </header>
         <section class="modal-body">
-          <slot name="body">{{ modal.body }}</slot>
+          <slot name="body">{{ body }}</slot>
         </section>
       </div>
     </div>
@@ -21,14 +21,14 @@ Developers: Atith Gandhi and Jason Liu
 <script>
 export default {
   name: "Modal",
-  computed: {
-    modal() {
-      return this.$store.state.modal;
-    },
+  props: {
+    header: String,
+    body: String,
   },
   methods: {
     close() {
-      this.$store.state.modal.opened = false;
+      this.$destroy();
+      this.$el.parentNode.removeChild(this.$el);
     },
   },
 };
@@ -46,7 +46,7 @@ export default {
 }
 
 .modal-backdrop {
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
@@ -65,7 +65,8 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 15px;
-  width: 40%;
+  max-width: 70%;
+  max-height: 90%;
   background-color: #fafafa;
   display: flex;
   flex-direction: column;
@@ -85,6 +86,8 @@ export default {
   font-size: 18px;
   position: relative;
   padding: 15px;
+  overflow: auto;
+  overflow: overlay;
 }
 
 .btn {

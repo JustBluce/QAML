@@ -7,19 +7,16 @@ Developers: Jason Liu and Cai Zefan
     <div v-for="workspace in workspaces" :key="workspace.id">
       <Workspace :id="workspace.id" />
     </div>
-    <Modal v-show="showModal" />
   </div>
 </template>
 
 <script>
 import Workspace from "@/components/Workspace";
-import Modal from "@/components/Modal";
 import draggable from "vuedraggable";
 
 export default {
   components: {
     Workspace,
-    Modal,
     draggable,
   },
   data() {
@@ -32,16 +29,13 @@ export default {
     workspaces() {
       return this.$store.state.workspaces;
     },
-    showModal() {
-      return this.$store.state.modal.opened;
-    },
   },
 };
 </script>
 
 <style>
 .container {
-  border: 100px;
+  border: 0px;
   border-radius: 5px;
   box-sizing: border-box;
   background-color: rgba(241, 241, 241, 0.98);
@@ -51,6 +45,7 @@ export default {
   outline: none;
   overflow: auto;
   overflow: overlay;
+  overflow-wrap: break-word;
 }
 
 .btn {

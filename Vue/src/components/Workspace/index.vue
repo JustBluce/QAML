@@ -19,7 +19,7 @@ Developers: Jason Liu
 <script>
 import Header from "./Header";
 import WidgetContainer from "./WidgetContainer";
-import QA from "./QA";
+import QA from "./QA/";
 
 export default {
   name: "Workspace",

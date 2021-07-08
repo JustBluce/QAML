@@ -56,7 +56,7 @@ def country_present():
                 else:
                     over_countries.append(country) 
     if len(under_countries) != 0: 
-        message = message + 'The country ' + ', '.join(under_countries) + ' in the question is/are from underrepresented group. The author will get 10 extra points \n'
+        message = message + 'The country ' + ', '.join(under_countries) + ' in the question is/are from underrepresented group. The author will get 10 extra points. \n'
     else:
          message = message + 'The country ' + ', '.join(over_countries) + ' in the question is/are from overrepresented group. The author can next time write question having underrepresented countries to earn extra points. \n'
     print(message)
