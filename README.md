@@ -71,5 +71,12 @@ Run the below commands in the terminal for running the code:
 8. ``npm install``
 9. ``npm run dev``
 
+## Examples
+
+https://user-images.githubusercontent.com/37555910/124949034-38e27b80-dfdf-11eb-9279-b9530c7bf893.mov
+
+
+
+
 
 
