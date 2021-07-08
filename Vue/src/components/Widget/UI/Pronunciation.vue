@@ -61,8 +61,7 @@ select:hover {
 
 .output {
   cursor: default;
-  overflow: auto;
-  height: 128px;
+  height: 172px;
 }
 
 .placeholder {

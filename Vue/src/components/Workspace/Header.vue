@@ -165,14 +165,16 @@ export default {
 .expandable {
   overflow: hidden;
   visibility: hidden;
-  max-height: 0px;
-  transition: max-height 0.2s, visibility 0s 0.2s linear;
+  opacity: 0;
+  max-height: 0;
+  transition: opacity 0.2s, visibility 0s 0.2s linear;
 }
 
 .show-menu {
   visibility: visible;
-  max-height: 150px;
-  transition: max-height 0.2s, visibility 0s 0s linear;
+  opacity: 1;
+  max-height: 1000px;
+  transition: opacity 0.2s, visibility 0s 0s linear;
 }
 
 input {

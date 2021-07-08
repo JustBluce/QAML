@@ -5,6 +5,7 @@ torch
 nltk
 gtts
 pydub
+pycountry
+ethnicolr
 sklearn
 scikit-learn
-

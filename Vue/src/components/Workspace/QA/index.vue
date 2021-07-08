@@ -1,9 +1,9 @@
 <!--
-Developers: Cai Zefan and Jason Liu
+Developers: Cai Zefan, Atith Gandhi, and Jason Liu
 -->
 
 <template>
-  <div class="qa-container">
+  <div ref="qaContainer" class="qa-container">
     <div class="header">
       <input class="title" v-model="qa.title" />
       <a v-show="qa_count > 1" class="fas fa-trash btn" @click="deleteQA" />
@@ -16,38 +16,31 @@ Developers: Cai Zefan and Jason Liu
     ></textarea>
     <el-button type="primary" @click="searchData">Submit</el-button>
     <textarea
+      readonly
       class="container"
       rows="2"
       placeholder="Answer"
       v-model="answer"
     ></textarea>
-    <textarea
-      class="container"
-      rows="3"
-      placeholder="Countries Represented in the question"
-      v-model="country_representation"
-    ></textarea>
-    <textarea
-      class="container"
-      rows="2"
-      placeholder="Ethnicity"
-      v-model="people_ethnicity"
-    ></textarea>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
+import Modal from "./Modal";
+
 export default {
   name: "QA",
   props: {
     workspace_id: Number,
     qa_id: Number,
   },
+  components: {
+    Modal,
+  },
   data() {
     return {
       answer: "",
-      country_representation: "",
-      people_ethnicity: ""
     };
   },
   computed: {
@@ -81,57 +74,62 @@ export default {
       }).then((response) => {
         this.answer = response.data["guess"];
       });
+
       this.axios({
         url: "http://127.0.0.1:5000/difficulty_classifier/classify",
         method: "POST",
         data: formData,
       }).then((response) => {
-        this.$store.state.modal.opened = true;
         if (response.data["difficulty"] === "Hard") {
-          this.$store.commit("modalText", {
-            header: "Saved !!!",
-            body: "Your question is submitted.",
-          });
+          this.addModal("Saved !!!", "Your question is submitted.");
         } else {
-          this.$store.commit("modalText", {
-            header: "Not saved !!!",
-            body: "Your question has Easy level difficulty. Please try again.",
-          });
+          this.addModal(
+            "Not saved !!!",
+            "Your question has Easy level difficulty. Please try again."
+          );
         }
       });
-      this.axios({
-        url: "http://127.0.0.1:5000/country_represent/country_present",
-        method: "POST",
-        data: formData,
-        // header:{
-        //   'Content-Type':'application/json'  //如果写成contentType会报错
-        // }
-      }).then((response) => {
-        // this.returndata = response.data;
-        this.country_representation = response.data["country_representation"];
-        console.log(response);
-      });
+
       this.axios({
         url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
         method: "POST",
         data: formData,
       }).then((response) => {
         if (response.data["similar_question"][0]) {
-          this.$store.state.modal.opened = true;
-          this.$store.commit("modalText", {
-            header: "Warning. Your question is similar to the below given question. Please rewrite it again:!!!",
-            body: response.data["similar_question"][1],
-          });
-        } 
+          this.addModal(
+            "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+            response.data["similar_question"][1]
+          );
+        }
       });
+
+      this.axios({
+        url: "http://127.0.0.1:5000/country_represent/country_present",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.country_representation =
+          response.data["country_representation"].trim();
+      });
+
       this.axios({
         url: "http://127.0.0.1:5000/people_info/getPeoplesInfo",
         method: "POST",
         data: formData,
       }).then((response) => {
-        this.people_ethnicity = response.data["people_ethnicity"];
+        this.qa.people_ethnicity = response.data["people_ethnicity"];
       });
     },
+
+    addModal(header, body) {
+      let ModalClass = Vue.extend(Modal);
+      let modal = new ModalClass({
+        propsData: { header, body },
+      });
+      modal.$mount();
+      this.$refs.qaContainer.appendChild(modal.$el);
+    },
+
     deleteQA() {
       this.$store.commit("deleteQA", {
         workspace_id: this.workspace_id,
@@ -144,6 +142,7 @@ export default {
 
 <style scoped>
 .qa-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 500px;
