@@ -2,8 +2,12 @@
 
 ## Overview 
 
-![GitHub language count](https://img.shields.io/github/languages/count/JustBluce/TryoutProject) 
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JustBluce/TryoutProject?include_prereleases)
+![GitHub repo size](https://img.shields.io/github/repo-size/JustBluce/TryoutProject?logo=Files&logoColor=white&style=for-the-badge)
+![Lines of code](https://img.shields.io/tokei/lines/github/JustBluce/TryoutProject?color=royalblue&logo=Visual%20Studio%20Code&style=for-the-badge)
+
+![GitHub language count](https://img.shields.io/github/languages/count/JustBluce/TryoutProject?color=lightgreen&style=for-the-badge) 
+![GitHub contributors](https://img.shields.io/github/contributors/JustBluce/TryoutProject?color=lightgreen&style=for-the-badge)
+
 
 This project tries to create a Vue/Flask app which is able to answer the given input question on the quanta QA [dataset](https://s3-us-west-2.amazonaws.com/pinafore-us-west-2/qanta-jmlr-datasets/qanta.train.2018.04.18.json). This project also tries to help question writers write more Adversarial quesitons.
 
@@ -11,7 +15,7 @@ Front end: Vue.js
 
 Back end: Flask
 
-Databased: MySQL
+Database: MySQL
 
 ## Preparations
 
@@ -67,6 +71,13 @@ Run the below commands in the terminal for running the code:
 7. ``cd Vue``
 8. ``npm install``
 9. ``npm run dev``
+
+## Examples
+
+https://user-images.githubusercontent.com/37555910/124949034-38e27b80-dfdf-11eb-9279-b9530c7bf893.mov
+
+
+
 
 
 
