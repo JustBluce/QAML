@@ -10,7 +10,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
     </div>
     <textarea
       class="container"
-      rows="6"
+      rows="10"
       placeholder="Please enter your question"
       v-model="text"
     ></textarea>
@@ -71,7 +71,7 @@ export default {
         this.$store.commit("updateQA", {
           workspace_id: this.workspace_id,
           payload: { id: this.qa_id, text: value },
-        });
+        });z
       },
     },
   },
