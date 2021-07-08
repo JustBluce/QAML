@@ -1,12 +1,15 @@
 # Raj
 import sys
 sys.path.append("..")
-sys.path.insert(0, 'C:/Users/rajsa/Desktop/qanta-codalab-master/TryoutProject/Flask/app')
-
+sys.path.insert(0, './app')
+from flask import Blueprint, render_template, redirect
+from flask import Flask, jsonify, request   
 from app import util
 from util import *
 
+vectorizer, Matrix, ans = params[0], params[1], params[2]
 
+importance = Blueprint('importance', __name__)
 def guess_by_sentences(question):
     answer = []
     question_sentence = ""
@@ -72,35 +75,6 @@ def make_colored(score, text , max, min):
     colored_text = colored(int(255 * (1 - (score -min)/(max-min))) , 255, int(255 * (1 - (score -min)/(max-min))), text)
     return colored_text
 
-def get_importance_of_each_sentence(question):
-    actual_answer, index_of_answer = get_actual_guess_with_index(question = [question])
-    print(actual_answer)
-    actual_confidence = actual_answer[1]
-    temp_sentence_array = break_into_sentences(question)
-    highest_confidence = -10
-    least_confidence = 10
-    highest_confidence_sentence = -1
-    array_of_importances = []
-    for i in range(len(temp_sentence_array)):
-        temp_sentence = temp_sentence_array[:i] + temp_sentence_array[i+1:]
-        temp_sentence_string = ' '.join(temp_sentence)
-        drop_in_confidence = check_drop_in_confidence(question = [temp_sentence_string], ind = index_of_answer)
-        print("Importance of sentence number "+ str(i)+ "= ", actual_confidence-drop_in_confidence)
-        array_of_importances.append(actual_confidence-drop_in_confidence)
-        if(least_confidence > (actual_confidence-drop_in_confidence)):
-            least_confidence = (actual_confidence-drop_in_confidence)
-        if(highest_confidence< (actual_confidence-drop_in_confidence)):
-            highest_confidence_sentence = i
-            highest_confidence = (actual_confidence-drop_in_confidence)
-    print("Sentence number with the most importance: "+ str(highest_confidence_sentence) + " "+str( highest_confidence))
-    colored_string = ""
-    for i in range(len(temp_sentence_array)):
-        colored_string = colored_string + " " + make_colored(array_of_importances[i],temp_sentence_array[i], highest_confidence, least_confidence)
-    print(colored( 0, 1, 0,""))
-    print(colored_string)
-    print(colored(255,255,255,""))
-    return
-
 def get_importance_of_each_word(question):
     actual_answer, index_of_answer = get_actual_guess_with_index(question = [question])
     print(actual_answer)
@@ -128,4 +102,32 @@ def get_importance_of_each_word(question):
     print(colored_string)
     print(colored(255,255,255,""))
     return
+
+def get_importance_of_each_sentence(question):
+    actual_answer, index_of_answer = get_actual_guess_with_index(question = [question])
+    actual_confidence = actual_answer[1]
+    temp_sentence_array = break_into_sentences(question)
+    highest_confidence = -10
+    least_confidence = 10
+    highest_confidence_sentence = -1
+    array_of_importances = []
+    for i in range(len(temp_sentence_array)):
+        temp_sentence = temp_sentence_array[:i] + temp_sentence_array[i+1:]
+        temp_sentence_string = ' '.join(temp_sentence)
+        drop_in_confidence = check_drop_in_confidence(question = [temp_sentence_string], ind = index_of_answer)
+        array_of_importances.append(actual_confidence-drop_in_confidence)
+        if(least_confidence > (actual_confidence-drop_in_confidence)):
+            least_confidence = (actual_confidence-drop_in_confidence)
+        if(highest_confidence< (actual_confidence-drop_in_confidence)):
+            highest_confidence_sentence = i
+            highest_confidence = (actual_confidence-drop_in_confidence)
+    # colored_string = ""
+    # for i in range(len(temp_sentence_array)):
+    #     colored_string = colored_string + " " + make_colored(array_of_importances[i],temp_sentence_array[i], highest_confidence, least_confidence)
+    return temp_sentence_array[highest_confidence_sentence]
+
+
+
+
+
 # Raj End -------------------

@@ -8,12 +8,12 @@ from flask import Flask, jsonify, request
 from app import db, metadata
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
+from flask import Flask, jsonify, request
 import sys
 import torch
 import sys
 sys.path.append("..")
-sys.path.insert(0, 'C:/Users/Rahi/Downloads/TryoutProject-main/TryoutProject-main/Flask/app')
-
+sys.path.insert(0, './app')
 
 from app import util, importance
 from util import *
@@ -31,8 +31,7 @@ def classify():
     logits = outputs.logits.detach().cpu().numpy()
     difficulty = np.argmax(logits).flatten()
     end = time.time()
-    print(end - start)
-    print(difficulty)
+    print("----TIME (s) : /difficulty_classifier/classify---",end - start)
     if(difficulty == 0):
         return jsonify({"difficulty": "Easy"})
     elif (difficulty == 1):

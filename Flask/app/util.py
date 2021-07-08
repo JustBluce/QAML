@@ -1,9 +1,11 @@
 def warn(*args, **kwargs):
     pass
-threshold = 0.5
+threshold = 0.1
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 import warnings
 import nltk
-warnings.warn = warn
+warnings.filterwarnings('ignore')
 from flask import Blueprint, render_template, redirect
 from typing import List, Optional, TYPE_CHECKING, Tuple
 from collections import defaultdict
@@ -50,6 +52,7 @@ def guess_top_n(question, params, max = 12, n = 3):
         answer.append([(ans[j], matrix[i, j]) for j in indices[i]])
     # print(answer)
     return answer[0][0:n]
+    
 def load_bert_model():
     model = BertForSequenceClassification.from_pretrained('./model/difficulty_models/BERT_full_question')
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') 
