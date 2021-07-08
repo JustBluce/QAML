@@ -14,7 +14,7 @@ Front end: Vue.js
 
 Back end: Flask
 
-Databased: MySQL
+Database: MySQL
 
 ## Preparations
 
