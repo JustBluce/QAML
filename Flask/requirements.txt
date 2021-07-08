@@ -9,3 +9,4 @@ pycountry
 ethnicolr
 sklearn
 scikit-learn
+tabulate
