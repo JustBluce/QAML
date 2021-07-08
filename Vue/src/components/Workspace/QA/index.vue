@@ -10,15 +10,20 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
     </div>
     <textarea
       class="container"
-      rows="10"
+      rows="7"
       placeholder="Please enter your question"
       v-model="text"
     ></textarea>
-    <el-button type="primary" @click="searchData"> Answer </el-button>
+    <el-button type="primary" @click="searchData"> Submit </el-button>
     <textarea
       class="container"
       rows="1"
       placeholder="Answer"
+    ></textarea>
+    <textarea
+      class="container"
+      rows="5"
+      placeholder="Machine Guesses"
       v-model="answer"
     ></textarea>
     <textarea
@@ -29,8 +34,8 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
     ></textarea>
     <textarea
       class="container"
-      rows="3"
-      placeholder="Importance of each sentence"
+      rows="2"
+      placeholder="Most Important sentence for the Machine to buzz"
       v-model="importance"
     ></textarea>
   </div>

@@ -44,13 +44,14 @@ def retrieve_similar_question():
     matrix = matrix.toarray()
     # cosine = cosine_similarity(tfidf_matrix[len(questions)-1], tfidf_matrix)[0]
     max_cosine = max(matrix[0])
-    # print(matrix)
+    
 
-    max_index = np.where(matrix == max_cosine)
-    # print([max_cosine, questions[max_index[0][0]]])
+    max_index = np.where(matrix[0] == max_cosine)
+    print(max_index[0][0])
     isSimilar = False
     if max_cosine > threshold:
         isSimilar = True
+        # print([max_cosine, questions[max_index[0]]])
     end = time.time()
     print("----TIME (s) : /similar_question/retrieve_similar_question---",end - start)
     return jsonify({"similar_question": [isSimilar, questions[max_index[0][0]]]})
