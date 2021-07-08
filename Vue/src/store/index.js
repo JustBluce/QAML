@@ -10,22 +10,9 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	state: {
-		modal: {
-			opened: false,
-			header: '',
-			body: ''
-		},
-		warning_modal:{
-			opened: false,
-			similar_question: ' ',
-		},
-		// widgets: initial_widgets,
-		// widget_types: widget_types,
-		// widget_index: initial_widgets.length,
-		// qa_index: initial_widgets.filter((widget) => widget.type === 'QA').length
 		workspaces: initial_workspaces,
 		workspace_index: initial_workspaces.length,
-		widget_types: [ 'Pronunciation', 'Timer' ]
+		widget_types: [ 'Timer', 'Pronunciation', 'Representation' ]
 	},
 	modules: {
 		app,
@@ -81,10 +68,6 @@ const store = new Vuex.Store({
 			if (workspace.qa_selected === qa_id) {
 				workspace.qa_selected = workspace.qas[0].id;
 			}
-		},
-		modalText(state, { header, body }) {
-			state.modal.header = header;
-			state.modal.body = body;
 		}
 	},
 	getters: {

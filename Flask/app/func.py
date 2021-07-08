@@ -8,7 +8,7 @@ import sys
 from flask import Flask, jsonify, request
 from sklearn.feature_extraction.text import TfidfVectorizer
 import click
-from os import path
+import os
 import json
 import pickle
 from collections import defaultdict
@@ -28,7 +28,7 @@ from app.similarity import retrieve_similar_question
 from app.country_represent import country_represent
 
 sys.path.append("..")
-sys.path.insert(0, 'C:/Users/Rahi/Downloads/TryoutProject-main/TryoutProject-main/Flask/app')
+sys.path.insert(0, os.path.dirname(__file__))
 
 from app import util
 from util import *

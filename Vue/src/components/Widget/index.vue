@@ -68,7 +68,6 @@ export default {
   },
   methods: {
     toggleWidget() {
-      console.log("here");
       this.$store.commit("toggleWidget", {
         workspace_id: this.workspace_id,
         widget_id: this.widget.id,

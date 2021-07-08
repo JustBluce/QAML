@@ -5,7 +5,9 @@ export function defaultWorkspace(id) {
 			{
 				id: 0,
 				title: 'QA',
-				text: ''
+				text: '',
+				country_representation: '',
+				people_ethnicity: '',
 			}
 		],
 		qa_index: 1,
@@ -27,7 +29,9 @@ export function defaultQA(id) {
 	return {
 		id: id,
 		title: `QA (${id})`,
-		text: ''
+		text: '',
+		country_representation: '',
+		people_ethnicity: '',
 	}
 }
 
@@ -47,7 +51,14 @@ export function widgetTemplate(workspace, type) {
 			title: 'Pronunciation difficulty',
 			type: 'Pronunciation',
 			expanded: true,
-			maxHeight: '210px',
+			maxHeight: '250px',
+		},
+		Representation: {
+			id: workspace.widget_index,
+			title: 'Representation analysis',
+			type: 'Representation',
+			expanded: true,
+			maxHeight: '300px',
 		}
 	};
 	return widget_templates[type];
