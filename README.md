@@ -2,16 +2,20 @@
 
 ## Overview 
 
-![GitHub language count](https://img.shields.io/github/languages/count/JustBluce/TryoutProject) 
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JustBluce/TryoutProject?include_prereleases)
+![GitHub repo size](https://img.shields.io/github/repo-size/JustBluce/TryoutProject?logo=Files&logoColor=white&style=for-the-badge)
+![Lines of code](https://img.shields.io/tokei/lines/github/JustBluce/TryoutProject?color=royalblue&logo=Visual%20Studio%20Code&style=for-the-badge)
 
-This project tries to create a Vue/Flask app which is able to answer the given input question on the quanta QA dataset(https://s3-us-west-2.amazonaws.com/pinafore-us-west-2/qanta-jmlr-datasets/qanta.train.2018.04.18.json).This project also tries to help question writers write more Adversarial quesitons.
+![GitHub language count](https://img.shields.io/github/languages/count/JustBluce/TryoutProject?color=lightgreen&style=for-the-badge) 
+![GitHub contributors](https://img.shields.io/github/contributors/JustBluce/TryoutProject?color=lightgreen&style=for-the-badge)
+
+
+This project tries to create a Vue/Flask app which is able to answer the given input question on the quanta QA [dataset](https://s3-us-west-2.amazonaws.com/pinafore-us-west-2/qanta-jmlr-datasets/qanta.train.2018.04.18.json). This project also tries to help question writers write more Adversarial quesitons.
 
 Front end: Vue.js
 
 Back end: Flask
 
-Databased: mysql
+Database: MySQL
 
 ## Preparations
 
@@ -39,7 +43,7 @@ mysql+pymysql://root:YOURPASSWORD@localhost:3306/QA?charset=utf8
 - Remove and rename `qanta-codalab/src/tfidf.pickle` to `TRYOUT-PROJECT/Flask/model/model.pickle`
 
 ### Vue.js ( 2.6.14 )
-- Follow [this]https://vuejs.org/v2/guide/installation.html link to install vue.js
+- Follow [this](https://vuejs.org/v2/guide/installation.html) link to install vue.js
 - We recommend using `npm install` as your instalation method
 
 ### Python Packages
@@ -56,17 +60,24 @@ Run the below commands in the terminal for running the code:
 
 1. Navigate to the root directory
 2. ``cd Flask ``
-3. `` python run.py``
-4. Download pre-trained BERT_full_question model from [here](https://drive.google.com/drive/folders/18dGwaxI7kx4Yx7gTMTiCbUv2YLxzNPmZ?usp=sharing) and move it to model/difficulty_models/ folder
-5. If the model/difficulty_models/ does not exsist feel free to add the proper folders
+3. Download pre-trained **BERT_full_question** model from [here](https://drive.google.com/drive/folders/18dGwaxI7kx4Yx7gTMTiCbUv2YLxzNPmZ?usp=sharing) and move it to model/difficulty_models/ folder
+4. If the model/difficulty_models/ does not exsist feel free to add the proper folders
+5. `` python run.py``
 
 
 ### Run the Vue Framework (Front End)
 
-6. Navigate to the root directory
+6. (In a seperate terminal) Navigate to the root directory
 7. ``cd Vue``
 8. ``npm install``
 9. ``npm run dev``
+
+## Examples
+
+https://user-images.githubusercontent.com/37555910/124949034-38e27b80-dfdf-11eb-9279-b9530c7bf893.mov
+
+
+
 
 
 
