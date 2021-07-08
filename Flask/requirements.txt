@@ -1,5 +1,6 @@
 nlp
 transformers
+flask
 datasets
 torch
 nltk

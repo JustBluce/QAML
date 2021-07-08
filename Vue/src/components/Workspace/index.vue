@@ -82,7 +82,7 @@ export default {
   padding: 20px;
   outline: 4px solid steelblue;
   outline-offset: -20px;
-  width: 1500px;
+  width: 100%;
 }
 
 .drag-bar {
