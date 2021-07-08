@@ -10,31 +10,40 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
     </div>
     <textarea
       class="container"
-      rows="18"
+      rows="6"
       placeholder="Please enter your question"
       v-model="text"
     ></textarea>
-    <el-button type="primary" @click="searchData">Submit</el-button>
+    <el-button type="primary" @click="searchData"> Answer </el-button>
     <textarea
-      readonly
       class="container"
-      rows="2"
+      rows="1"
       placeholder="Answer"
       v-model="answer"
     ></textarea>
     <textarea
-      readonly
       class="container"
-      rows="5"
-      placeholder="Country representation"
-      v-model="country_representation"
+      rows="3"
+      placeholder="Buzzer"
+      v-model="buzz"
     ></textarea>
     <textarea
-      readonly
       class="container"
-      rows="5"
-      placeholder="People ethnicity"
+      rows="3"
+      placeholder="Importance of each sentence"
+      v-model="importance"
+    ></textarea>
+    <textarea
+      class="container"
+      rows="3"
+      placeholder="Ethnicity"
       v-model="people_ethnicity"
+    ></textarea>
+    <textarea
+      class="container"
+      rows="3"
+      placeholder="Countries Represented in the question"
+      v-model="country_representation"
     ></textarea>
   </div>
 </template>
@@ -55,8 +64,12 @@ export default {
   data() {
     return {
       answer: "",
+      people_ethnicity: "",
+      buzz: "",
+      importance:"",
+      gender: "",
       country_representation: "",
-      people_ethnicity: ""
+      difficulty: 'Easy'
       
     };
   },
@@ -139,6 +152,20 @@ export default {
         this.qa.people_ethnicity = response.data["people_ethnicity"];
         this.people_ethnicity = response.data["people_ethnicity"];
       });
+      this.axios({
+        url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
+        method: "POST",
+        data: formData,
+        // header:{
+        //   'Content-Type':'application/json'  //如果写成contentType会报错
+        // }
+      }).then((response) => {
+        // this.returndata = response.data;
+        this.buzz = response.data["buzz"];
+        this.importance = response.data["importance"];
+        console.log(response);
+      });
+      
     },
 
     addModal(header, body) {
