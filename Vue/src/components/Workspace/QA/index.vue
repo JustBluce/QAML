@@ -10,40 +10,28 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
     </div>
     <textarea
       class="container"
-      rows="6"
+      rows="12"
       placeholder="Please enter your question"
       v-model="text"
     ></textarea>
     <el-button type="primary" @click="searchData"> Answer </el-button>
     <textarea
       class="container"
-      rows="1"
+      rows="2"
       placeholder="Answer"
       v-model="answer"
     ></textarea>
     <textarea
       class="container"
-      rows="3"
+      rows="5"
       placeholder="Buzzer"
       v-model="buzz"
     ></textarea>
     <textarea
       class="container"
-      rows="3"
-      placeholder="Importance of each sentence"
+      rows="5"
+      placeholder="Most important sentence"
       v-model="importance"
-    ></textarea>
-    <textarea
-      class="container"
-      rows="3"
-      placeholder="Ethnicity"
-      v-model="people_ethnicity"
-    ></textarea>
-    <textarea
-      class="container"
-      rows="3"
-      placeholder="Countries Represented in the question"
-      v-model="country_representation"
     ></textarea>
   </div>
 </template>
@@ -128,9 +116,10 @@ export default {
         if (response.data["similar_question"][0]) {
           this.addModal(
             "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
-            response.data["similar_question"][1]
+            response.data["similar_question"][1][0]['text']
           );
         }
+        this.qa.top5_similar_questions = response.data["similar_question"];
       });
 
       this.axios({
