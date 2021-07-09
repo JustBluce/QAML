@@ -113,6 +113,19 @@ export default {
         this.$store.state.warning_modal.similar_question = response.data["similar_question"][1]
         console.log(response);
       });
+      //pronunciaiton 
+      this.axios({
+        url: "http://127.0.0.1:5000/getpronunciation",
+        method: "POST",
+        data: formData,
+        // header:{
+        //   'Content-Type':'application/json'  //如果写成contentType会报错
+        // }
+      }).then((response) => {
+        // this.returndata = response.data;
+       // this.people_ethnicity = response.data["people_ethnicity"];
+        console.log(response);
+      });
     },
   },
 };

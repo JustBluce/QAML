@@ -3,7 +3,7 @@ Developers: Damien Rene and Jason Liu
 -->
 
 <template>
-  <div readonly class="container output" @click="clickMethod">
+  <div readonly class="container output">
     <div class="placeholder" v-show="!text">Please enter your question</div>
     <Highlighter
       :style="{ color: 'black' }"
@@ -41,9 +41,7 @@ export default {
     },
   },
   methods: {
-    clickMethod() {
-      //window.location.href = 'https://www.google.com/';
-    },
+    
   },
 };
 </script>
