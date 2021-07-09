@@ -10,9 +10,10 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
     </div>
     <textarea
       class="container"
-      rows="7"
+      rows="15"
       placeholder="Please enter your question"
       v-model="text"
+      @input="keep_looping"
     ></textarea>
     <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
     <textarea
@@ -20,24 +21,22 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       rows="1"
       placeholder="Answer"
     ></textarea>
-    <textarea
-      class="container"
-      rows="5"
-      placeholder="Machine Guesses"
-      v-model="answer"
-    ></textarea>
-    <textarea
-      class="container"
-      rows="3"
-      placeholder="Buzzer"
-      v-model="buzz"
-    ></textarea>
-    <textarea
-      class="container"
-      rows="2"
-      placeholder="Most Important sentence for the Machine to buzz"
-      v-model="importance"
-    ></textarea>
+    <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Machine Guess</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="user in answer" :key="user.id">
+                    <td>{{user.guess}}</td>
+                    <td>{{user.score}}</td>
+                </tr>
+            </tbody>
+        </table>
+    
+
   </div>
 </template>
 
@@ -57,8 +56,6 @@ export default {
   data() {
     return {
       answer: "",
-      buzz: "",
-      importance:"",
     };
   },
   computed: {
@@ -81,7 +78,7 @@ export default {
     },
   },
   methods: {
-    searchData() {
+    keep_looping() {
       let formData = new FormData();
       formData.append("text", this.text);
 
@@ -93,6 +90,20 @@ export default {
         this.answer = response.data["guess"];
       });
 
+      this.axios({
+        url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.binary_search_based_buzzer = response.data["buzz"];
+        this.qa.importance = response.data["importance"];
+      });
+
+    },
+
+    searchData() {
+      let formData = new FormData();
+      formData.append("text", this.text);
       this.axios({
         url: "http://127.0.0.1:5000/difficulty_classifier/classify",
         method: "POST",
@@ -136,15 +147,6 @@ export default {
         data: formData,
       }).then((response) => {
         this.qa.people_ethnicity = response.data["people_ethnicity"];
-      });
-
-      this.axios({
-        url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.buzz = response.data["buzz"];
-        this.importance = response.data["importance"];
       });
       
     },
