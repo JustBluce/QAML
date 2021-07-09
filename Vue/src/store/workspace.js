@@ -8,6 +8,7 @@ export function defaultWorkspace(id) {
 				text: '',
 				country_representation: '',
 				people_ethnicity: '',
+				top5_similar_questions: []
 			}
 		],
 		qa_index: 1,
@@ -19,6 +20,20 @@ export function defaultWorkspace(id) {
 				type: 'Timer',
 				expanded: true,
 				maxHeight: '200px'
+			},
+			{
+				id: 1,
+				title: 'Representation',
+				type: 'Representation',
+				expanded: true,
+				maxHeight: '400px'
+			},
+			{
+				id: 2,
+				title: 'Top 5 Similar Questions',
+				type: 'SimilarQuestions',
+				expanded: true,
+				maxHeight: '400px'
 			}
 		],
 		widget_index: 1
@@ -32,6 +47,7 @@ export function defaultQA(id) {
 		text: '',
 		country_representation: '',
 		people_ethnicity: '',
+		top5_similar_questions: []
 	}
 }
 
@@ -57,6 +73,13 @@ export function widgetTemplate(workspace, type) {
 			id: workspace.widget_index,
 			title: 'Representation analysis',
 			type: 'Representation',
+			expanded: true,
+			maxHeight: '300px',
+		},
+		SimilarQuestions: {
+			id: workspace.widget_index,
+			title: 'Top5 similar questions',
+			type: 'SimilarQuestions',
 			expanded: true,
 			maxHeight: '300px',
 		}
