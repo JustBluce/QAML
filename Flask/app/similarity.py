@@ -51,7 +51,7 @@ def retrieve_similar_question():
     max_index = np.where(matrix[0] == max_cosine)
     # print(max_index[0][0])
     isSimilar = False
-    if max_cosine > threshold:
+    if max_cosine > threshold_similar:
         isSimilar = True
         # print([max_cosine, questions[max_index[0]]])
     end = time.time()

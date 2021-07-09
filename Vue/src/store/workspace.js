@@ -8,6 +8,8 @@ export function defaultWorkspace(id) {
 				text: '',
 				country_representation: '',
 				people_ethnicity: '',
+				binary_search_based_buzzer:'',
+				importance:'',
 			}
 		],
 		qa_index: 1,
@@ -25,7 +27,7 @@ export function defaultWorkspace(id) {
 				id: 1,
 				title: 'Pronunciation difficulty',
 				type: 'Pronunciation',
-				container: 'left',
+				container: 'right',
 				expanded: true,
 				maxHeight: '250px',
 			},
@@ -36,9 +38,18 @@ export function defaultWorkspace(id) {
 				container: 'right',
 				expanded: true,
 				maxHeight: '300px',
+			},
+			{
+				id: 3,
+				title: 'Buzzer',
+				type: 'Buzzer',
+				container: 'left',
+				expanded: true,
+				maxHeight: '500px',
 			}
+			
 		],
-		widget_index: 3
+		widget_index: 4
 	};
 }
 
@@ -49,6 +60,8 @@ export function defaultQA(id) {
 		text: '',
 		country_representation: '',
 		people_ethnicity: '',
+		binary_search_based_buzzer: '',
+        importance:'',
 	}
 }
 
@@ -79,6 +92,14 @@ export function widgetTemplate(workspace, type) {
 			container: 'right',
 			expanded: true,
 			maxHeight: '300px',
+		},
+		Buzzer: {
+			id: workspace.widget_index,
+			title: 'Buzzer',
+			type: 'Buzzer',
+			container: 'right',
+			expanded: true,
+			maxHeight: '400px',
 		}
 	};
 	return widget_templates[type];

@@ -78,14 +78,15 @@ export default {
 <style scoped>
 .widgets-container {
   background-color: #f1f1f1;
-  padding: 20px;
+  padding: 10px;
   padding-top: 0px;
-  width: 400px;
+  width: 375px;
 }
 
 .widget-item {
   margin: 0px;
   margin-top: 20px;
+  height: fit;
   width: 100%;
 }
 

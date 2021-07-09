@@ -1,5 +1,7 @@
 # Raj
 import sys
+
+from transformers.utils.dummy_pt_objects import BertLMHeadModel
 sys.path.append("..")
 sys.path.insert(0, './app')
 from flask import Blueprint, render_template, redirect
@@ -19,7 +21,7 @@ def guess_by_sentences(question):
         question_sentence = question_sentence + " " +temp_sentence_array[i] 
         temp_var = guess_top_5(question = [question_sentence])
         # print(temp_var)
-        if (temp_var[0][1]>threshold):
+        if (temp_var[0][1]>threshold_buzz):
             print("Ring buzzer on sentence number " + str(i+1))
             break_index = i+1
             question_sentence = question_sentence + "||[[BUZZER]]||"
@@ -39,7 +41,7 @@ def guess_by_words(question):
         if(((i+1)%8 == 0) or (i+1) == len(temp_word_array)):
             temp_var = guess_top_5(question = [question_sentence])
             # print(temp_var)
-            if (temp_var[0][1]>threshold):
+            if (temp_var[0][1]>threshold_buzz):
                 print("Ring buzzer on word number " + str(i+1))
                 break_index = i+1
                 question_sentence = question_sentence + "||[[BUZZER]]||"
@@ -124,7 +126,12 @@ def get_importance_of_each_sentence(question):
     # colored_string = ""
     # for i in range(len(temp_sentence_array)):
     #     colored_string = colored_string + " " + make_colored(array_of_importances[i],temp_sentence_array[i], highest_confidence, least_confidence)
-    return temp_sentence_array[highest_confidence_sentence]
+    most_important = []
+    for i in range(len(array_of_importances)):
+        a = break_into_words(temp_sentence_array[i])
+        most_important.append({"sentence":a[0] + " ... " + a[-1], "importance":array_of_importances[i]})
+    return most_important
+    # return temp_sentence_array[highest_confidence_sentence]
 
 
 
