@@ -14,7 +14,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       placeholder="Please enter your question"
       v-model="text"
     ></textarea>
-    <el-button type="primary" @click="searchData"> Submit </el-button>
+    <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
     <textarea
       class="container"
       rows="1"
@@ -43,7 +43,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
 
 <script>
 import Vue from "vue";
-import Modal from "./Modal";
+import Modal from "@/components/Modal";
 
 export default {
   name: "QA",
@@ -173,9 +173,10 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 500px;
   padding: 20px;
-  flex-grow: 100;
+  flex-grow: 1;
+  border-left: 2px solid steelblue;
+  border-right: 2px solid steelblue;
 }
 
 .header {
