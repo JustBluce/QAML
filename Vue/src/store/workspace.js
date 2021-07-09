@@ -17,11 +17,28 @@ export function defaultWorkspace(id) {
 				id: 0,
 				title: 'Timer',
 				type: 'Timer',
+				container: 'left',
 				expanded: true,
 				maxHeight: '200px'
+			},
+			{
+				id: 1,
+				title: 'Pronunciation difficulty',
+				type: 'Pronunciation',
+				container: 'left',
+				expanded: true,
+				maxHeight: '250px',
+			},
+			{
+				id: 2,
+				title: 'Representation analysis',
+				type: 'Representation',
+				container: 'right',
+				expanded: true,
+				maxHeight: '300px',
 			}
 		],
-		widget_index: 1
+		widget_index: 3
 	};
 }
 
@@ -43,6 +60,7 @@ export function widgetTemplate(workspace, type) {
 			id: workspace.widget_index,
 			title: 'Timer',
 			type: 'Timer',
+			container: 'left',
 			expanded: true,
 			maxHeight: '200px',
 		},
@@ -50,6 +68,7 @@ export function widgetTemplate(workspace, type) {
 			id: workspace.widget_index,
 			title: 'Pronunciation difficulty',
 			type: 'Pronunciation',
+			container: 'left',
 			expanded: true,
 			maxHeight: '250px',
 		},
@@ -57,6 +76,7 @@ export function widgetTemplate(workspace, type) {
 			id: workspace.widget_index,
 			title: 'Representation analysis',
 			type: 'Representation',
+			container: 'right',
 			expanded: true,
 			maxHeight: '300px',
 		}

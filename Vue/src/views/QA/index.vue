@@ -78,4 +78,8 @@ export default {
 .fa-trash:hover {
   color: #888888;
 }
+
+.fa-upload {
+  color: #FFFFFF;
+}
 </style>
