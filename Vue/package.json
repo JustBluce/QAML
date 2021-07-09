@@ -17,6 +17,7 @@
     "axios": "^0.18.1",
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "core-js": "3.6.5",
+    "debounce": "^1.2.1",
     "echarts": "^4.9.0",
     "element-ui": "2.13.2",
     "file-saver": "^2.0.2",
