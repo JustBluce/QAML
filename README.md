@@ -48,6 +48,7 @@ mysql+pymysql://root:YOURPASSWORD@localhost:3306/QA?charset=utf8
 
 ### Python Packages
 - `cd Flask`
+- `python -m spacy download en_core_web_sm`
 - `pip3 install -r requirements.txt`
 
 
