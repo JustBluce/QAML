@@ -73,7 +73,7 @@ export default {
 }
 
 .workspaces-leave-to {
-  opacity: 0;
+  transform: scaleY(0);
 }
 
 .btn {
