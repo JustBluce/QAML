@@ -8,16 +8,23 @@ Developers: Atith Gandhi and Jason Liu
       readonly
       class="container"
       rows="5"
-      placeholder="Country representation"
-      v-model="country_representation"
-    ></textarea>
-    <textarea
-      readonly
-      class="container"
-      rows="5"
       placeholder="People ethnicity"
       v-model="people_ethnicity"
     ></textarea>
+    <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Please consider adding the following under-represented countries for 10 extra points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="user in country_representation" :key="user.id">
+                    <td>{{user.Country}}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    
   </div>
 </template>
 
