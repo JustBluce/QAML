@@ -140,7 +140,7 @@ export default {
         data: formData,
       }).then((response) => {
         this.qa.country_representation =
-          response.data["country_representation"].trim();
+          response.data["country_representation"];
       });
 
       this.axios({
