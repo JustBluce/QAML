@@ -19,7 +19,7 @@ Developers: Atith Gandhi and Jason Liu
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in importance" :key="user.id">
+                <tr v-for="user in importance" :key="user.sentence">
                     <td>{{user.sentence}}</td>
                     <td>{{user.importance}}</td>
                 </tr>
