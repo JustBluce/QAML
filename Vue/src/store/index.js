@@ -13,6 +13,7 @@ const store = new Vuex.Store({
 		workspaces: initial_workspaces,
 		workspace_stack: initial_workspaces.map((workspace) => workspace.id),
 		workspace_index: initial_workspaces.length,
+		recommended: ['Baltimore', 'Washington, D.C.', 'Cleveland'],
 		widget_types: [ 'Timer', 'Pronunciation', 'Representation' ]
 	},
 	modules: {
