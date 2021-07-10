@@ -18,7 +18,7 @@ from transformers import BertTokenizer, BertForSequenceClassification
 import torch
 import numpy as np
 from app import db, metadata
-
+from tabulate import tabulate
 from app.similarity import retrieve_similar_question
 from app.country_represent import country_represent
 sys.path.append("..")
@@ -39,9 +39,10 @@ def guess(question, max=12):
     indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
     for i in range(len(question)):
         answer.append([(ans[j], matrix[i, j]) for j in indices[i]])
-    return answer[0][0]
+    return answer[0][0:5]
 
 # Cai End -------------------
+
 
 @func.route("/act", methods=["POST"])
 def act():
@@ -62,6 +63,9 @@ def act():
     # #     db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
     # return jsonify({"guess": answer, "difficulty": difficulty, "ethnicity": ethnicity, "gender": gender, "similar_question": similar_question, "country_representation" : country_representation})
     answer = guess(question=[question])
+    # answer = tabulate(answer, tablefmt='html')
+    # answer = "\n".join(str(x[0])+ " " + str(x[1]) for x in answer)
+    answer = [{"guess": str(x[0]),"score":str(x[1])} for x in answer]
     end = time.time()
     # print(end - start)
     print("----TIME (s) : /func/act---", end - start)

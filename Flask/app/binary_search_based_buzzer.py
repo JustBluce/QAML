@@ -25,7 +25,7 @@ def buzz(question, min_index = 5):
     index_of_bin_search = len(temp_word_array)
     question_sentence = question
     temp_var = guess_top_n(question = [question_sentence], params = params, max = 3, n = 1)
-    if(temp_var[0][1]<threshold):
+    if(temp_var[0][1]<threshold_buzz):
         return "Buzzer never crosses the threshold", False
     store_index = index_of_bin_search
     max_index = index_of_bin_search -1
@@ -34,7 +34,7 @@ def buzz(question, min_index = 5):
         index_of_bin_search =(max_index+min_index)//2
         question_sentence = " ".join(temp_word_array[:index_of_bin_search])
         temp_var = guess_top_n(question = [question_sentence], params = params, max = 3, n = 1)
-        if (temp_var[0][1]>threshold):
+        if (temp_var[0][1]>threshold_buzz):
             max_index = index_of_bin_search-1
             store_index = index_of_bin_search
         else:
