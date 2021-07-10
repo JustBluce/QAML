@@ -31,6 +31,7 @@ export function widgetTemplate(id, type) {
 export function defaultWorkspace(id) {
 	return {
 		id: id,
+		title: 'Workspace',
 		qas: [
 			{
 				id: 0,
@@ -65,4 +66,4 @@ export function defaultQA(id) {
 	};
 }
 
-export const initial_workspaces = [ defaultWorkspace(0), defaultWorkspace(1), defaultWorkspace(2) ];
+export const initial_workspaces = [ defaultWorkspace(0) ];

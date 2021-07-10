@@ -99,7 +99,9 @@ export default {
       this.$store.commit("createQA", this.workspace_id);
     },
     minimize() {},
-    close() {},
+    close() {
+      this.$store.commit("deleteWorkspace", this.workspace_id);
+    },
   },
 };
 </script>
@@ -156,6 +158,7 @@ export default {
   padding-top: 2px;
   padding-bottom: 2px;
   transition: background-color 0.3s;
+  height: 20px;
 }
 
 .sub-menu-item:hover {
