@@ -49,7 +49,7 @@ def retrieve_similar_question():
     max_cosine = max(matrix[0])
     # print(matrix)
     top_5_idx = np.flipud(np.argsort(matrix[0])[-5:])
-    print([matrix[0][index] for index in top_5_idx])
+    # print([matrix[0][index] for index in top_5_idx])
     
     isSimilar = False
     if max_cosine > threshold_similar:

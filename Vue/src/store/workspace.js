@@ -22,7 +22,7 @@ export function defaultWorkspace(id) {
 				type: 'Timer',
 				container: 'left',
 				expanded: true,
-				maxHeight: '200px'
+				maxHeight: '100px'
 			},
 			{
 				id: 1,
@@ -30,7 +30,7 @@ export function defaultWorkspace(id) {
 				type: 'Pronunciation',
 				container: 'left',
 				expanded: true,
-				maxHeight: '250px',
+				maxHeight: '200px',
 			},
 			{
 				id: 3,
@@ -58,7 +58,7 @@ export function defaultWorkspace(id) {
 			}
 			
 		],
-		widget_index: 4
+		widget_index: 5
 	};
 }
 
@@ -85,15 +85,15 @@ export function widgetTemplate(workspace, type) {
 			type: 'Timer',
 			container: 'left',
 			expanded: true,
-			maxHeight: '200px',
+			maxHeight: '100px',
 		},
 		Pronunciation: {
 			id: workspace.widget_index,
 			title: 'Pronunciation difficulty',
 			type: 'Pronunciation',
-			container: 'right',
+			container: 'left',
 			expanded: true,
-			maxHeight: '250px',
+			maxHeight: '200px',
 		},
 		Representation: {
 			id: workspace.widget_index,
@@ -108,7 +108,7 @@ export function widgetTemplate(workspace, type) {
 			title: 'Top5 similar questions',
 			type: 'SimilarQuestions',
 			expanded: true,
-			maxHeight: '300px',
+			maxHeight: '400px',
 		},
 		Buzzer: {
 			id: workspace.widget_index,
@@ -116,7 +116,7 @@ export function widgetTemplate(workspace, type) {
 			type: 'Buzzer',
 			container: 'left',
 			expanded: true,
-			maxHeight: '400px',
+			maxHeight: '500px',
 		}
 	};
 	return widget_templates[type];
