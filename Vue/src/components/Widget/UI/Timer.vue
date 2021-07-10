@@ -7,7 +7,7 @@ Developers: Cai
 -->
 
 <template>
-  <div>
+  <div ref="timerContainer">
     <div class="timer">
       <div id="hours">{{ hours }}</div>
       :
@@ -22,14 +22,17 @@ Developers: Cai
 </template>
 
 <script>
+import Vue from "vue";
+import Modal from "@/components/Modal";
+
 export default {
   name: "Timer",
   data() {
     return {
-      hours: "1",
-      minutes: "00",
+      hours: "0",
+      minutes: "05",
       seconds: "00",
-      end: new Date(new Date().getTime() + 1 * 60 * 60 * 1000),
+      end: new Date(new Date().getTime() + 5 * 60 * 1000),
       timer: null,
       time: 20,
     };
@@ -71,24 +74,23 @@ export default {
     //   }
     // },
 
-    update() {
-      let diff = (this.end - Date.now()) / 1000;
-      this.hours = String(Math.floor(diff / 3600));
-      this.minutes = String(Math.floor(diff / 60 - 60 * this.hours)).padStart(
+    display(time) {
+      this.hours = String(Math.floor(time / 3600));
+      this.minutes = String(Math.floor(time / 60 - 60 * this.hours)).padStart(
         2,
         "0"
       );
       this.seconds = String(
-        Math.floor(diff - 3600 * this.hours - 60 * this.minutes)
+        Math.floor(time - 3600 * this.hours - 60 * this.minutes)
       ).padStart(2, "0");
+    },
+
+    update() {
+      let diff = (this.end - Date.now()) / 1000;
+      this.display(diff)
 
       if (diff <= 0) {
-        this.$store.state.modal.opened = true;
-        this.$store.commit("modalText", {
-          header: "Time's up !!!",
-          body: "Your question is being evaluated.",
-        });
-
+        this.addModal("Time's up !!!", "Your question is being evaluated.");
         this.axios({
           url: "http://127.0.0.1:5000/func/timeup",
           method: "GET",
@@ -97,7 +99,17 @@ export default {
         });
 
         clearInterval(this.timer);
+        this.display(0);
       }
+    },
+
+    addModal(header, body) {
+      let ModalClass = Vue.extend(Modal);
+      let modal = new ModalClass({
+        propsData: { header, body },
+      });
+      modal.$mount();
+      this.$refs.timerContainer.appendChild(modal.$el);
     },
   },
   // beforeDestroy() {

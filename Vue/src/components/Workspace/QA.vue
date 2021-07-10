@@ -10,35 +10,39 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
     </div>
     <textarea
       class="container"
-      rows="12"
+      rows="15"
       placeholder="Please enter your question"
       v-model="text"
+      @input="keep_looping"
     ></textarea>
-    <el-button type="primary" @click="searchData"> Answer </el-button>
+    <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
     <textarea
       class="container"
       rows="2"
       placeholder="Answer"
-      v-model="answer"
     ></textarea>
-    <textarea
-      class="container"
-      rows="5"
-      placeholder="Buzzer"
-      v-model="buzz"
-    ></textarea>
-    <textarea
-      class="container"
-      rows="5"
-      placeholder="Most important sentence"
-      v-model="importance"
-    ></textarea>
+    <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Machine Guess</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="user in answer" :key="user.id">
+                    <td>{{user.guess}}</td>
+                    <td>{{user.score}}</td>
+                </tr>
+            </tbody>
+        </table>
+    
+
   </div>
 </template>
 
 <script>
 import Vue from "vue";
-import Modal from "./Modal";
+import Modal from "@/components/Modal";
 
 export default {
   name: "QA",
@@ -52,13 +56,6 @@ export default {
   data() {
     return {
       answer: "",
-      people_ethnicity: "",
-      buzz: "",
-      importance:"",
-      gender: "",
-      country_representation: "",
-      difficulty: 'Easy'
-      
     };
   },
   computed: {
@@ -76,12 +73,12 @@ export default {
         this.$store.commit("updateQA", {
           workspace_id: this.workspace_id,
           payload: { id: this.qa_id, text: value },
-        });
+        });z
       },
     },
   },
   methods: {
-    searchData() {
+    keep_looping() {
       let formData = new FormData();
       formData.append("text", this.text);
 
@@ -93,6 +90,52 @@ export default {
         this.answer = response.data["guess"];
       });
 
+      this.axios({
+        url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.binary_search_based_buzzer = response.data["buzz"];
+        this.qa.importance = response.data["importance"];
+      });
+
+      this.axios({
+        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        if (response.data["similar_question"][0]) {
+          this.addModal(
+            "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+            response.data["similar_question"][1][0]['text']
+          );
+        }
+        this.qa.top5_similar_questions = response.data["similar_question"];
+      });
+
+      this.axios({
+        url: "http://127.0.0.1:5000/country_represent/country_present",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.country_representation =
+          response.data["country_representation"].trim();
+      });
+
+      this.axios({
+        url: "http://127.0.0.1:5000/people_info/getPeoplesInfo",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.people_ethnicity = response.data["people_ethnicity"];
+      });
+      
+
+    },
+
+    searchData() {
+      let formData = new FormData();
+      formData.append("text", this.text);
       this.axios({
         url: "http://127.0.0.1:5000/difficulty_classifier/classify",
         method: "POST",
@@ -129,8 +172,6 @@ export default {
       }).then((response) => {
         this.qa.country_representation =
           response.data["country_representation"].trim();
-        this.country_representation =
-          response.data["country_representation"].trim();
       });
 
       this.axios({
@@ -139,20 +180,6 @@ export default {
         data: formData,
       }).then((response) => {
         this.qa.people_ethnicity = response.data["people_ethnicity"];
-        this.people_ethnicity = response.data["people_ethnicity"];
-      });
-      this.axios({
-        url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
-        method: "POST",
-        data: formData,
-        // header:{
-        //   'Content-Type':'application/json'  //如果写成contentType会报错
-        // }
-      }).then((response) => {
-        // this.returndata = response.data;
-        this.buzz = response.data["buzz"];
-        this.importance = response.data["importance"];
-        console.log(response);
       });
       
     },
@@ -181,9 +208,10 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 500px;
   padding: 20px;
-  flex-grow: 100;
+  flex-grow: 1;
+  border-left: 2px solid steelblue;
+  border-right: 2px solid steelblue;
 }
 
 .header {

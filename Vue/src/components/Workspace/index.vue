@@ -10,8 +10,9 @@ Developers: Jason Liu
     <div class="drag-bar" @mousedown="startDrag" />
     <Header :workspace_id="id" />
     <div class="ui-container">
-      <WidgetContainer :workspace_id="id" />
+      <WidgetContainer :workspace_id="id" container="left"/>
       <QA :workspace_id="id" :qa_id="qa_selected" />
+      <WidgetContainer :workspace_id="id" container="right"/>
     </div>
   </div>
 </template>
@@ -19,7 +20,7 @@ Developers: Jason Liu
 <script>
 import Header from "./Header";
 import WidgetContainer from "./WidgetContainer";
-import QA from "./QA/";
+import QA from "./QA";
 
 export default {
   name: "Workspace",
@@ -79,24 +80,28 @@ export default {
   display: flex;
   flex-direction: column;
   position: absolute;
-  padding: 20px;
+  margin: 20px;
   outline: 4px solid steelblue;
-  outline-offset: -20px;
-  width: 1500px;
+  height: 750px;
+  min-height: 750px;
+  min-width: 1100px;
+  width: calc(100% - 40px);
+  overflow: auto;
+  overflow: overlay;
+  resize: both;
 }
 
 .drag-bar {
   cursor: move;
   height: 10px;
   background-color: steelblue;
+  flex-shrink: 0;
 }
 
 .ui-container {
   display: flex;
-  height: 500px;
-  max-height: 1000px;
-  resize: vertical;
-  overflow-y: scroll;
+  flex-grow: 1;
+  position: relative;
 }
 
 </style>
