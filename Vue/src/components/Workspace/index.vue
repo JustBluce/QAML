@@ -9,7 +9,7 @@ Developers: Jason Liu
       left: style.left + 'px',
       top: style.top + 'px',
       zIndex: zIndex,
-      filter: workspace_selected === id ? 'contrast(100%)' : 'contrast(90%)',
+      filter: workspace_selected === id ? 'contrast(100%)' : 'contrast(85%)',
     }"
     @mousedown="onSelect"
   >
@@ -104,9 +104,9 @@ export default {
   flex-direction: column;
   position: absolute;
   margin: 4px;
-  outline: 4px solid steelblue;
   background-color: white;
-  box-shadow: 0px 0px 8px black;
+  border: 4px solid steelblue;
+  box-shadow: 0px 0px 4px black;
   height: 750px;
   min-height: 750px;
   max-height: calc(100% - 8px);
@@ -116,7 +116,6 @@ export default {
   overflow: auto;
   overflow: overlay;
   resize: both;
-  transition: filter 0.3s;
 }
 
 .drag-bar {
