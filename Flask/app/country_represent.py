@@ -180,10 +180,8 @@ def country_present():
     if request.method == "POST":
         question = request.form.get("text")
     start = time.time()
-    message = ''        
-    
+    message = ''
     question_vector = vectorize_albert([question])
-    # print(question, question_vector)
     cosine_sim_ques_country = []
     for i in range(len(under_countries)):
         # b = " ".join(x for x in i)
@@ -192,7 +190,13 @@ def country_present():
     #     message = message + 'The country ' + ', '.join(under_countries) + ' in the question is/are from underrepresented group. The author will get 10 extra points. \n'
     # else:
     #      message = message + 'The country ' + ', '.join(over_countries) + ' in the question is/are from overrepresented group. The author can next time write question having underrepresented countries to earn extra points. \n'
-    message = Sort(cosine_sim_ques_country)
+    # message = Sort(cosine_sim_ques_country)
+    
+    
+    # print(Sort(cosine_scores))
+    if len(cosine_sim_ques_country) != 0: 
+        message = message + 'Please consider having the countries ' + ', '.join(cosine_sim_ques_country[:5]) + ' in the question, as they are from underrepresented group. The author will get 10 extra points. \n'
+    
     end = time.time()
     print("----TIME (s): /country_represent/country_present---",end - start)
     return jsonify({"country_representation" : message[0:10]})
