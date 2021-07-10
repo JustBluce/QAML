@@ -15,12 +15,13 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       v-model="text"
       @input="keep_looping"
     ></textarea>
-    <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
     <textarea
       class="container"
       rows="2"
       placeholder="Answer"
     ></textarea>
+    <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
+    
     <table class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -73,12 +74,13 @@ export default {
         this.$store.commit("updateQA", {
           workspace_id: this.workspace_id,
           payload: { id: this.qa_id, text: value },
-        });z
+        });
       },
     },
   },
   methods: {
-    keep_looping() {
+
+    keep_looping: _.debounce(function() {
       let formData = new FormData();
       formData.append("text", this.text);
 
@@ -131,7 +133,7 @@ export default {
       });
       
 
-    },
+    },2000),
 
     searchData() {
       let formData = new FormData();
@@ -199,7 +201,7 @@ export default {
         qa_id: this.qa_id,
       });
     },
-  },
+  }
 };
 </script>
 

@@ -91,7 +91,7 @@ export function widgetTemplate(workspace, type) {
 			id: workspace.widget_index,
 			title: 'Pronunciation difficulty',
 			type: 'Pronunciation',
-			container: 'left',
+			container: 'right',
 			expanded: true,
 			maxHeight: '250px',
 		},
@@ -114,7 +114,7 @@ export function widgetTemplate(workspace, type) {
 			id: workspace.widget_index,
 			title: 'Buzzer',
 			type: 'Buzzer',
-			container: 'right',
+			container: 'left',
 			expanded: true,
 			maxHeight: '400px',
 		}
