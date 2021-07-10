@@ -30,7 +30,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in answer" :key="user.id">
+                <tr v-for="user in answer" :key="user.guess">
                     <td>{{user.guess}}</td>
                     <td>{{user.score}}</td>
                 </tr>
@@ -121,7 +121,7 @@ export default {
         data: formData,
       }).then((response) => {
         this.qa.country_representation =
-          response.data["country_representation"].trim();
+          response.data["country_representation"];
       });
 
       this.axios({
