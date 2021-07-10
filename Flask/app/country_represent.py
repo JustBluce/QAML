@@ -29,8 +29,8 @@ import re
 
 
 from transformers import AutoTokenizer,AutoModelForSequenceClassification, AutoModelForPreTraining
-tokenizer = AutoTokenizer.from_pretrained('albert-base-v2', do_lower_case=True)
-model = AutoModelForPreTraining.from_pretrained("albert-base-v2", output_attentions=False, output_hidden_states=True)
+tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
+model = AutoModelForPreTraining.from_pretrained("bert-base-uncased", output_attentions=False, output_hidden_states=True)
 
 def break_into_words_with_capital(question):
     array_of_words =re.split('(?=[A-Z]| )', question)
@@ -111,25 +111,32 @@ def get_bert_embeddings(tokens_tensor, segments_tensors, model):
         # Removing the first hidden state
         # The first state is the input state
         hidden_states = outputs.hidden_states[1:]
+
 #         print(len(outputs))
     # Getting embeddings from the final BERT layer
-    token_embeddings = hidden_states[-1]
-    # Collapsing the tensor into 1-dimension
-    token_embeddings = torch.squeeze(token_embeddings, dim=0)
-    # Converting torchtensors to lists
-    list_token_embeddings = [token_embed.tolist() for token_embed in token_embeddings]
+    # token_embeddings = torch.stack(hidden_states, dim=0)
+    # token_embeddings = torch.squeeze(token_embeddings, dim=1)
+    # token_vecs_sum = []
 
-    return list_token_embeddings
 
-def vectorize_albert(text):
-  text = " ".join(break_into_words_with_capital(text))
-  
-  
-  tokenized_text, tokens_tensor, segments_tensors = bert_text_preparation(text, tokenizer)
-  list_token_embeddings = get_bert_embeddings(tokens_tensor, segments_tensors, model)
-  tweet_embedding = np.mean(np.array(list_token_embeddings), axis=0)
-  
-  return tweet_embedding
+    # for token in token_embeddings:
+    #     sum_vec = torch.sum(token[-4:], dim=0)
+    #     token_vecs_sum.append(sum_vec)
+    # # print ('Shape is: %d x %d' % (len(token_vecs_sum), len(token_vecs_sum[0])))
+    token_vecs = hidden_states[0]
+    sentence_embedding = torch.mean(token_vecs, dim=0)
+    print ('Shape is: %d x %d' % (len(sentence_embedding), len(sentence_embedding[0])))
+    return sentence_embedding
+
+def vectorize_albert(texts):
+  target_tweet_embeddings = []
+  for text in texts:
+    text = " ".join(break_into_words_with_capital(text))
+    tokenized_text, tokens_tensor, segments_tensors = bert_text_preparation(text, tokenizer)
+    list_token_embeddings = get_bert_embeddings(tokens_tensor, segments_tensors, model)
+    tweet_embedding = np.mean(np.array(list_token_embeddings), axis=0)
+    target_tweet_embeddings.append(tweet_embedding)
+  return target_tweet_embeddings
     
 
 questions = []
@@ -157,31 +164,30 @@ def Sort(sub_li):
     # sublist lambda has been used
     return(sorted(sub_li, key = lambda x: x[1], reverse = True))
 
-
+under_countries = []
+over_countries = []
+for country in map_instance.keys():
+# if country in question.lower():
+    if len(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))) !=0:
+        if map_instance[country.lower()]/total_instance < int(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))[0]['population'])/sum(population): 
+            under_countries.append(country)
+        else:
+            over_countries.append(country) 
+countries_vector = vectorize_albert(under_countries)
 
 @country_represent.route("/country_present", methods=["POST"])
 def country_present():
     if request.method == "POST":
         question = request.form.get("text")
     start = time.time()
-    message = ''    
-    # print(vectorizer("british"))
-    # print(total_instance)
-    under_countries = []
-    over_countries = []
-    for country in map_instance.keys():
-        # if country in question.lower():
-        if len(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))) !=0:
-            if map_instance[country.lower()]/total_instance < int(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))[0]['population'])/sum(population): 
-                under_countries.append(country)
-            else:
-                over_countries.append(country) 
-    # print(under_countries)
-    question_vector = vectorize_albert(question)
+    message = ''        
+    
+    question_vector = vectorize_albert([question])
+    # print(question, question_vector)
     cosine_sim_ques_country = []
-    for i in under_countries:
+    for i in range(len(under_countries)):
         # b = " ".join(x for x in i)
-        cosine_sim_ques_country.append([ i, 1 - cosine(question_vector, vectorize_albert(i)) ])
+        cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]) ])
     # if len(under_countries) != 0: 
     #     message = message + 'The country ' + ', '.join(under_countries) + ' in the question is/are from underrepresented group. The author will get 10 extra points. \n'
     # else:
@@ -189,4 +195,4 @@ def country_present():
     message = Sort(cosine_sim_ques_country)
     end = time.time()
     print("----TIME (s): /country_represent/country_present---",end - start)
-    return jsonify({"country_representation" : message})
+    return jsonify({"country_representation" : message[0:10]})
