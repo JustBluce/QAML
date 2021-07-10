@@ -9,6 +9,108 @@ import re
 from flask import Blueprint, render_template, redirect
 from flask import Flask, jsonify, request
 from nltk.stem.porter import PorterStemmer
+import en_core_web_sm
+import time
+import sys
+from gensim.models import Word2Vec
+from gensim.models import KeyedVectors
+import numpy as np
+from scipy.spatial.distance import cosine
+import gensim.downloader as api
+import re
+import pycountry
+
+sys.path.append("..")
+sys.path.insert(0, './app')
+
+nlp = en_core_web_sm.load()
+
+# from gensim.models.wrappers import FastText
+
+# pre_ft_vectors = FastText.load_fasttext_format('wiki.simple')
+stopWords = stopwords.words('english')
+pre_ft_vectors = api.load('fasttext-wiki-news-subwords-300')
+f = open('qanta.json')
+data = json.load(f)['questions']
+
+
+questions = []
+
+for i in range(0, len(data)):
+    questions.append(data[i]['text'])
+
+f_pop = open('query.json')
+wiki_population = json.load(f_pop)
+
+
+countries = list(map(lambda x: x['countryLabel'].lower() , wiki_population))
+population = list(map(lambda x: int(x['population']) , wiki_population))
+
+
+f_country = open('country.json')
+map_instance = json.load(f_country)
+total_instance = sum(map_instance.values())
+
+def break_into_words(question):
+    array_of_words = question.split(' ')
+    return array_of_words
+def vectorizer(string):
+  # string = " ".join( re.findall('[A-Z][^A-Z]*', string))
+  vectors = []
+  
+  string_vec = np.zeros(300)
+  array_of_words = break_into_words(string)
+  for i in range(len(array_of_words)):
+    if array_of_words[i] in pre_ft_vectors:
+      vec = pre_ft_vectors[array_of_words[i]]
+      string_vec = string_vec + vec
+    else:
+      vec = np.zeros(300)
+    vectors.append(vec)
+  string_vec = string_vec/len(array_of_words)
+  return string_vec
+
+def country_present():
+    question = 'Leopold was the king of belgium'
+    start = time.time()
+    message = ''    
+    # print(total_instance)
+    under_countries = []
+    over_countries = []
+    entities = ' '.join([X.text for X in nlp(question).ents])
+    print(entities)
+    for country in map_instance.keys():
+        if country not in question.lower():
+            c = vectorizer(entities)
+            b = vectorizer(entities)
+            print(entities)
+            print(country +  ' ' + str(1-cosine(c,b)))
+            if len(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))) !=0 and 1-cosine(c,b) > 0.5:
+                if map_instance[country.lower()]/total_instance < int(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))[0]['population'])/sum(population): 
+                    under_countries.append(country)
+                else:
+                    over_countries.append(country) 
+    if len(under_countries) != 0: 
+        message = message + 'The country ' + ', '.join(under_countries) + ' in the question is/are from underrepresented group. The author will get 10 extra points. \n'
+    elif len(over_countries) != 0:
+         message = message + 'The country ' + ', '.join(over_countries) + ' in the question is/are from overrepresented group. The author can next time write question having underrepresented countries to earn extra points. \n'
+    end = time.time()
+    print("----TIME (s): /country_represent/country_present---",end - start)
+    return message
+
+print(country_present)
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity 
+import nltk
+from nltk.corpus import stopwords
+import json
+import numpy as np
+from sklearn.feature_extraction.text import CountVectorizer
+import re
+from flask import Blueprint, render_template, redirect
+from flask import Flask, jsonify, request
+from nltk.stem.porter import PorterStemmer
 from scipy.spatial.distance import cosine
 import en_core_web_sm
 import time
@@ -29,8 +131,8 @@ import re
 
 
 from transformers import AutoTokenizer,AutoModelForSequenceClassification, AutoModelForPreTraining
-tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
-model = AutoModelForPreTraining.from_pretrained('bert-base-uncased', output_attentions=False, output_hidden_states=True)
+tokenizer = AutoTokenizer.from_pretrained('albert-base-v2', do_lower_case=True)
+model = AutoModelForPreTraining.from_pretrained("albert-base-v2", output_attentions=False, output_hidden_states=True)
 
 def break_into_words_with_capital(question):
     array_of_words =re.split('(?=[A-Z]| )', question)
@@ -179,14 +281,9 @@ def country_present():
     # print(under_countries)
     question_vector = vectorize_albert(question)
     cosine_sim_ques_country = []
-    cosine_scores = []
     for i in under_countries:
-        if 1 - cosine(question_vector, vectorize_albert(i)) >= 0.5:
-          cosine_sim_ques_country.append(i)
-        
-        cosine_scores.append([i, 1 - cosine(question_vector, vectorize_albert(i))])
-    
-    print(Sort(cosine_scores))
+        if 1 - cosine(question_vector, vectorize_albert(i)) > 0.5:
+          cosine_sim_ques_country.append([ i, 1 - cosine(question_vector, vectorize_albert(i)) ])
     if len(cosine_sim_ques_country) != 0: 
         message = message + 'Please consider having the countries ' + ', '.join(cosine_sim_ques_country) + ' in the question, as they are from underrepresented group. The author will get 10 extra points. \n'
     

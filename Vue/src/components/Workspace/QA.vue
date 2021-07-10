@@ -17,7 +17,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
     ></textarea>
     <textarea
       class="container"
-      rows="1"
+      rows="2"
       placeholder="Answer"
     ></textarea>
     <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
@@ -101,6 +101,38 @@ export default {
         this.qa.importance = response.data["importance"];
       });
 
+      this.axios({
+        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        if (response.data["similar_question"][0]) {
+          this.addModal(
+            "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+            response.data["similar_question"][1][0]['text']
+          );
+        }
+        this.qa.top5_similar_questions = response.data["similar_question"];
+      });
+
+      this.axios({
+        url: "http://127.0.0.1:5000/country_represent/country_present",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.country_representation =
+          response.data["country_representation"].trim();
+      });
+
+      this.axios({
+        url: "http://127.0.0.1:5000/people_info/getPeoplesInfo",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.people_ethnicity = response.data["people_ethnicity"];
+      });
+      
+
     },2000),
 
     searchData() {
@@ -129,9 +161,10 @@ export default {
         if (response.data["similar_question"][0]) {
           this.addModal(
             "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
-            response.data["similar_question"][1]
+            response.data["similar_question"][1][0]['text']
           );
         }
+        this.qa.top5_similar_questions = response.data["similar_question"];
       });
 
       this.axios({

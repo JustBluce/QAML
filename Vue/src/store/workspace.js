@@ -8,6 +8,7 @@ export function defaultWorkspace(id) {
 				text: '',
 				country_representation: '',
 				people_ethnicity: '',
+				top5_similar_questions: [],
 				binary_search_based_buzzer:'',
 				importance:'',
 			}
@@ -27,17 +28,9 @@ export function defaultWorkspace(id) {
 				id: 1,
 				title: 'Pronunciation difficulty',
 				type: 'Pronunciation',
-				container: 'right',
+				container: 'left',
 				expanded: true,
 				maxHeight: '250px',
-			},
-			{
-				id: 2,
-				title: 'Representation analysis',
-				type: 'Representation',
-				container: 'right',
-				expanded: true,
-				maxHeight: '300px',
 			},
 			{
 				id: 3,
@@ -46,6 +39,22 @@ export function defaultWorkspace(id) {
 				container: 'left',
 				expanded: true,
 				maxHeight: '500px',
+			},
+			{
+				id: 2,
+				title: 'Suggestions',
+				type: 'Representation',
+				container: 'right',
+				expanded: true,
+				maxHeight: '300px',
+			},
+			{
+				id: 4,
+				title: 'Top 5 Similar Questions',
+				type: 'SimilarQuestions',
+				container: 'right',
+				expanded: true,
+				maxHeight: '400px'
 			}
 			
 		],
@@ -60,6 +69,7 @@ export function defaultQA(id) {
 		text: '',
 		country_representation: '',
 		people_ethnicity: '',
+		top5_similar_questions: [],
 		binary_search_based_buzzer: '',
         importance:'',
 	}
@@ -87,9 +97,16 @@ export function widgetTemplate(workspace, type) {
 		},
 		Representation: {
 			id: workspace.widget_index,
-			title: 'Representation analysis',
+			title: 'Suggestions',
 			type: 'Representation',
 			container: 'right',
+			expanded: true,
+			maxHeight: '300px',
+		},
+		SimilarQuestions: {
+			id: workspace.widget_index,
+			title: 'Top5 similar questions',
+			type: 'SimilarQuestions',
 			expanded: true,
 			maxHeight: '300px',
 		},
