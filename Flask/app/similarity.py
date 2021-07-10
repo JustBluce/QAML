@@ -11,10 +11,12 @@ import nltk
 from nltk.corpus import stopwords
 import json
 import numpy as np
-import en_core_web_sm
+import spacy
+## import en_core_web_sm
 from flask import Blueprint, render_template, redirect
 from flask import Flask, jsonify, request
-nlp = en_core_web_sm.load()
+nlp = spacy.load("en_core_web_sm")
+##nlp = en_core_web_sm.load()
 
 stopWords = stopwords.words('english')
 
@@ -48,11 +50,11 @@ def retrieve_similar_question():
     # print(matrix)
     top_5_idx = np.flipud(np.argsort(matrix[0])[-5:])
     print([matrix[0][index] for index in top_5_idx])
-    # max_index = np.where(matrix == max_cosine)
-    # print([max_cosine, questions[max_index[0][0]]])
+    
     isSimilar = False
-    if max_cosine > 0.1:
+    if max_cosine > threshold_similar:
         isSimilar = True
+        # print([max_cosine, questions[max_index[0]]])
     end = time.time()
     print("----TIME (s) : /similar_question/retrieve_similar_question---",end - start)
     return jsonify({"similar_question": [isSimilar, [data[index] for index in top_5_idx]]})

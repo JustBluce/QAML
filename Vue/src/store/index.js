@@ -12,7 +12,7 @@ const store = new Vuex.Store({
 	state: {
 		workspaces: initial_workspaces,
 		workspace_index: initial_workspaces.length,
-		widget_types: [ 'Timer', 'Pronunciation', 'Representation', 'SimilarQuestions' ]
+		widget_types: [ 'Timer', 'Pronunciation', 'Representation', 'SimilarQuestions', 'Buzzer' ]
 	},
 	modules: {
 		app,

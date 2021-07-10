@@ -1,6 +1,7 @@
 from flask import Flask
 from app import app
-
+import nltk
+nltk.download('stopwords')
 
 @app.after_request
 def cors(environ):
