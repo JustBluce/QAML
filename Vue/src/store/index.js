@@ -12,6 +12,7 @@ const store = new Vuex.Store({
 	state: {
 		workspaces: initial_workspaces,
 		workspace_index: initial_workspaces.length,
+		workspace_stack: initial_workspaces.map((workspace) => workspace.id),
 		widget_types: [ 'Timer', 'Pronunciation', 'Representation' ]
 	},
 	modules: {
@@ -29,7 +30,7 @@ const store = new Vuex.Store({
 		},
 		addWidget(state, { workspace_id, type }) {
 			let workspace = getters.workspace(state)(workspace_id);
-			workspace.widgets.push(widgetTemplate(workspace, type));
+			workspace.widgets.push(widgetTemplate(workspace.widget_index, type));
 			workspace.widget_index++;
 		},
 		deleteWidget(state, { workspace_id, widget_id }) {
@@ -68,6 +69,10 @@ const store = new Vuex.Store({
 			if (workspace.qa_selected === qa_id) {
 				workspace.qa_selected = workspace.qas[0].id;
 			}
+		},
+		selectWorkspace(state, workspace_id) {
+			this.state.workspace_stack = this.state.workspace_stack.filter((id) => id !== workspace_id);
+			this.state.workspace_stack.push(workspace_id);
 		}
 	},
 	getters: {

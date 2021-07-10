@@ -14,12 +14,10 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       placeholder="Please enter your question"
       v-model="text"
     ></textarea>
-    <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
-    <textarea
-      class="container"
-      rows="1"
-      placeholder="Answer"
-    ></textarea>
+    <el-button type="primary" @click="searchData">
+      Submit <i class="fa fa-upload"
+    /></el-button>
+    <textarea class="container" rows="1" placeholder="Answer"></textarea>
     <textarea
       class="container"
       rows="5"
@@ -58,7 +56,7 @@ export default {
     return {
       answer: "",
       buzz: "",
-      importance:"",
+      importance: "",
     };
   },
   computed: {
@@ -76,7 +74,7 @@ export default {
         this.$store.commit("updateQA", {
           workspace_id: this.workspace_id,
           payload: { id: this.qa_id, text: value },
-        });z
+        });
       },
     },
   },
@@ -146,7 +144,6 @@ export default {
         this.buzz = response.data["buzz"];
         this.importance = response.data["importance"];
       });
-      
     },
 
     addModal(header, body) {
