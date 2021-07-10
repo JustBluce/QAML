@@ -29,8 +29,8 @@ import re
 
 
 from transformers import AutoTokenizer,AutoModelForSequenceClassification, AutoModelForPreTraining
-tokenizer = AutoTokenizer.from_pretrained('albert-base-v2', do_lower_case=True)
-model = AutoModelForPreTraining.from_pretrained("albert-base-v2", output_attentions=False, output_hidden_states=True)
+tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
+model = AutoModelForPreTraining.from_pretrained('bert-base-uncased', output_attentions=False, output_hidden_states=True)
 
 def break_into_words_with_capital(question):
     array_of_words =re.split('(?=[A-Z]| )', question)
@@ -179,10 +179,14 @@ def country_present():
     # print(under_countries)
     question_vector = vectorize_albert(question)
     cosine_sim_ques_country = []
+    cosine_scores = []
     for i in under_countries:
         if 1 - cosine(question_vector, vectorize_albert(i)) >= 0.5:
           cosine_sim_ques_country.append(i)
-          print([i, 1 - cosine(question_vector, vectorize_albert(i))])
+        
+        cosine_scores.append([i, 1 - cosine(question_vector, vectorize_albert(i))])
+    
+    print(Sort(cosine_scores))
     if len(cosine_sim_ques_country) != 0: 
         message = message + 'Please consider having the countries ' + ', '.join(cosine_sim_ques_country) + ' in the question, as they are from underrepresented group. The author will get 10 extra points. \n'
     
