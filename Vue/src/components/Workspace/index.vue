@@ -9,6 +9,7 @@ Developers: Jason Liu
       left: style.left + 'px',
       top: style.top + 'px',
       zIndex: zIndex,
+      filter: workspace_selected === id ? 'contrast(100%)' : 'contrast(90%)',
     }"
     @mousedown="onSelect"
   >
@@ -56,6 +57,9 @@ export default {
     qa_selected() {
       return this.workspace.qa_selected;
     },
+    workspace_selected() {
+      return this.$store.state.workspace_stack.slice(-1)[0];
+    },
     zIndex() {
       return this.$store.state.workspace_stack.indexOf(this.id);
     },
@@ -74,8 +78,14 @@ export default {
       let movementY = this.clientY - event.clientY;
       this.clientX = event.clientX;
       this.clientY = event.clientY;
-      this.style.left = Math.max(0, this.style.left - movementX);
-      this.style.top = Math.max(0, this.style.top - movementY);
+      this.style.left = Math.min(
+        window.innerWidth - 100,
+        Math.max(0, this.style.left - movementX)
+      );
+      this.style.top = Math.min(
+        window.innerHeight - 150,
+        Math.max(0, this.style.top - movementY)
+      );
     },
     stopDrag() {
       document.onmousemove = null;
@@ -93,16 +103,20 @@ export default {
   display: flex;
   flex-direction: column;
   position: absolute;
-  margin: 20px;
+  margin: 4px;
   outline: 4px solid steelblue;
   background-color: white;
+  box-shadow: 0px 0px 8px black;
   height: 750px;
   min-height: 750px;
+  max-height: calc(100% - 8px);
+  width: calc(100% - 8px);
   min-width: 1100px;
-  width: calc(100% - 40px);
+  max-width: calc(100% - 8px);
   overflow: auto;
   overflow: overlay;
   resize: both;
+  transition: filter 0.3s;
 }
 
 .drag-bar {
