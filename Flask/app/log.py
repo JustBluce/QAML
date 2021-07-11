@@ -34,12 +34,12 @@ user_inf.`User` = \''''+User+"'"
         print(User)
         print(Password)
         if result_sql == []:
-            return '用户名不存在'
+            return 'User does not exist'
         else:
             if result_sql[0][1] != Password:
-                return '密码错误'
+                return 'Incorrect password'
             else:
-                return '密码正确'
+                return 'Correct password'
 
 
 @log.route('/add', methods=['POST'])
@@ -61,9 +61,9 @@ def log_add():
             sql = 'INSERT INTO `user_inf` (`User`, `Password`) VALUES (\'' + \
                 User + '\',\'' + Password + '\')'
             db.session.execute(sql)
-            return '增加成功'
+            return 'Successfully add new user'
         else:
-            return '存在该用户，增加失败'
+            return 'The user already exists'
 
 
 @log.route('/change', methods=['POST'])
@@ -72,7 +72,7 @@ def log_change():
         User = request.form.get('User')
         Password_old = request.form.get('Password_old')
         Password_new = request.form.get('Password_new')
-        # 先要判断
+        # Judge
         sql = '''SELECT
         user_inf.`User`,
         user_inf.`Password`
@@ -83,13 +83,13 @@ def log_change():
         result_sql = db.session.execute(sql)
         result_sql = result_sql.fetchall()
         if result_sql == []:
-            return '用戶名不存在'
+            return 'User does not exist'
         else:
             if result_sql[0][1] != Password_old:
-                return '密码输入错误，修改失败'
+                return 'Password input error, change failed'
             else:
                 sql = "UPDATE `user_inf` SET `Password`=\'" + \
                     Password_new + '\' WHERE (`User`=\''+User+'\')'
                 db.session.execute(sql)
                 db.session.commit()
-                return '修改成功'
+                return 'Successfully changed'
