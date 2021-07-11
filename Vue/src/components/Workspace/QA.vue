@@ -24,29 +24,25 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       v-model="text"
       @input="keep_looping"
     ></textarea>
-    <textarea
-      class="container"
-      rows="2"
-      placeholder="Answer"
-    ></textarea>
-    <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
-    
-    <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Machine Guess</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in answer" :key="user.guess">
-                    <td>{{user.guess}}</td>
-                    <td>{{user.score}}</td>
-                </tr>
-            </tbody>
-        </table>
-    
+    <textarea class="container" rows="2" placeholder="Answer"></textarea>
+    <el-button type="primary" @click="searchData">
+      Submit <i class="fa fa-upload"
+    /></el-button>
 
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Machine Guess</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in answer" :key="user.guess">
+          <td>{{ user.guess }}</td>
+          <td>{{ user.score }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -74,7 +70,7 @@ export default {
         { text: "soup", style: "background-color:#bbe4cb" },
         { text: "so", style: "background-color:#fff05e" },
         // "whatever",
-        { text: "soupppppp", "style": "border: 2px solid #73AD21;"},
+        { text: "soupppppp", style: "border: 2px solid #73AD21;" },
       ],
       highlightEnabled: true,
     };
@@ -95,13 +91,11 @@ export default {
           workspace_id: this.workspace_id,
           payload: { id: this.qa_id, text: value },
         });
-        
       },
     },
   },
   methods: {
-
-    keep_looping: _.debounce(function() {
+    keep_looping: _.debounce(function () {
       let formData = new FormData();
       formData.append("text", this.text);
 
@@ -132,7 +126,7 @@ export default {
         if (response.data["similar_question"][0]) {
           this.addModal(
             "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
-            response.data["similar_question"][1][0]['text']
+            response.data["similar_question"][1][0]["text"]
           );
         }
         this.qa.top5_similar_questions = response.data["similar_question"];
@@ -153,7 +147,8 @@ export default {
         data: formData,
       }).then((response) => {
         console.log(response);
-        this.qa.country_representation = response.data["country_representation"];
+        this.qa.country_representation =
+          response.data["country_representation"];
         this.highlight = response.data["Highlight"];
       });
       this.axios({
@@ -161,13 +156,11 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
-        console.log(response.data["genre"] )
+        console.log(response.data["genre"]);
         this.qa.genre = response.data["genre"];
         this.qa.subgenre = response.data["subgenre"];
       });
-      
-
-    },2000),
+    }, 2000),
 
     searchData() {
       let formData = new FormData();
@@ -191,7 +184,7 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
-        console.log(response.data["genre"] )
+        console.log(response.data["genre"]);
       });
       this.axios({
         url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
@@ -201,7 +194,7 @@ export default {
         if (response.data["similar_question"][0]) {
           this.addModal(
             "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
-            response.data["similar_question"][1][0]['text']
+            response.data["similar_question"][1][0]["text"]
           );
         }
         this.qa.top5_similar_questions = response.data["similar_question"];
@@ -213,7 +206,8 @@ export default {
         data: formData,
       }).then((response) => {
         console.log(response);
-        this.qa.country_representation = response.data["country_representation"];
+        this.qa.country_representation =
+          response.data["country_representation"];
         this.highlight = response.data["Highlight"];
       });
     },
@@ -233,13 +227,13 @@ export default {
         qa_id: this.qa_id,
       });
     },
-  }
+  },
 };
 </script>
 
 <style scoped>
 .big-container {
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   height: 200px;
   padding: 20px;
   flex-grow: 50%;
@@ -278,6 +272,7 @@ export default {
   background: steelblue;
   width: 100px;
   margin-top: 10px;
+  margin-bottom: 20px;
   opacity: 1;
   transition: opacity 0.3s;
 }
