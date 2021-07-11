@@ -71,7 +71,7 @@ export default {
         { text: "soup", style: "background-color:#bbe4cb" },
         { text: "so", style: "background-color:#fff05e" },
         // "whatever",
-        // { start: 1, end: 5, style: "background-color:#f330ff" },
+        { text: "soupppppp", "style": "border: 2px solid #73AD21;"},
       ],
       highlightEnabled: true,
     };
@@ -141,23 +141,34 @@ export default {
       });
 
       this.axios({
-        url: "http://127.0.0.1:5000/country_represent/country_present",
+        url: "http://127.0.0.1:5000/func/country_people",
         method: "POST",
         data: formData,
       }).then((response) => {
         console.log(response);
         this.qa.country_representation = response.data["country_representation"].trim();
-        this.highlight = response.data["country"];
-      });
-
-      this.axios({
-        url: "http://127.0.0.1:5000/people_info/getPeoplesInfo",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        console.log(response);
+        this.highlight = response.data["Highlight"];
         this.qa.people_ethnicity = response.data["people_ethnicity"];
       });
+
+      // this.axios({
+      //   url: "http://127.0.0.1:5000/country_represent/country_present",
+      //   method: "POST",
+      //   data: formData,
+      // }).then((response) => {
+      //   console.log(response);
+      //   this.qa.country_representation = response.data["country_representation"].trim();
+      //   this.highlight = response.data["country"];
+      // });
+
+      // this.axios({
+      //   url: "http://127.0.0.1:5000/people_info/getPeoplesInfo",
+      //   method: "POST",
+      //   data: formData,
+      // }).then((response) => {
+      //   console.log(response);
+      //   this.qa.people_ethnicity = response.data["people_ethnicity"];
+      // });
 
       this.axios({
         url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
