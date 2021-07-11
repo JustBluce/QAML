@@ -10,7 +10,7 @@ from pydub.playback import play
 pronunciation = Blueprint('pronunciation', __name__)
 
 @pronunciation.route('/getpronunciation', methods=["POST"])
-def pronunciation():
+def getpronunciation():
     if request.method == "POST":
         question = request.form.get("text")
 
