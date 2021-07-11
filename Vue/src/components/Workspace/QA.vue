@@ -189,7 +189,6 @@ export default {
       }).then((response) => {
         this.qa.people_ethnicity = response.data["people_ethnicity"];
       });
-      
     },
 
     addModal(header, body) {

@@ -11,8 +11,11 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
 	state: {
 		workspaces: initial_workspaces,
+		workspace_stack: initial_workspaces.map((workspace) => workspace.id),
 		workspace_index: initial_workspaces.length,
-		widget_types: [ 'Timer', 'Pronunciation', 'Representation', 'SimilarQuestions', 'Buzzer' ]
+		widget_types: [ 'Timer', 'Pronunciation', 'Representation', 'SimilarQuestions', 'Buzzer' ],
+		recommended: ['Baltimore', 'Washington, D.C.', 'Cleveland']
+		
 	},
 	modules: {
 		app,
@@ -21,15 +24,21 @@ const store = new Vuex.Store({
 	},
 	mutations: {
 		addWorkspace(state) {
-			workspaces.push(defaultWorkspace(state.workspace_index));
-			workspace_index++;
+			state.workspaces.push(defaultWorkspace(state.workspace_index));
+			state.workspace_stack.push(state.workspace_index);
+			state.workspace_index++;
 		},
-		deleteWorkspace(state, id) {
-			state.workspaces = state.workspaces.filter((workspace) => workspace.id !== id);
+		deleteWorkspace(state, workspace_id) {
+			state.workspaces = state.workspaces.filter((workspace) => workspace.id !== workspace_id);
+			state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
+		},
+		selectWorkspace(state, workspace_id) {
+			state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
+			state.workspace_stack.push(workspace_id);
 		},
 		addWidget(state, { workspace_id, type }) {
 			let workspace = getters.workspace(state)(workspace_id);
-			workspace.widgets.push(widgetTemplate(workspace, type));
+			workspace.widgets.push(widgetTemplate(workspace.widget_index, type));
 			workspace.widget_index++;
 		},
 		deleteWidget(state, { workspace_id, widget_id }) {
@@ -48,10 +57,6 @@ const store = new Vuex.Store({
 				(widget) => (widget.id === payload.id ? Object.assign(widget, payload) : widget)
 			);
 		},
-		updateQA(state, { workspace_id, payload }) {
-			let workspace = getters.workspace(state)(workspace_id);
-			workspace.qas = workspace.qas.map((qa) => (qa.id === payload.id ? Object.assign(qa, payload) : qa));
-		},
 		createQA(state, workspace_id) {
 			let workspace = getters.workspace(state)(workspace_id);
 			let newQA = defaultQA(workspace.qa_index);
@@ -68,6 +73,10 @@ const store = new Vuex.Store({
 			if (workspace.qa_selected === qa_id) {
 				workspace.qa_selected = workspace.qas[0].id;
 			}
+		},
+		updateQA(state, { workspace_id, payload }) {
+			let workspace = getters.workspace(state)(workspace_id);
+			workspace.qas = workspace.qas.map((qa) => (qa.id === payload.id ? Object.assign(qa, payload) : qa));
 		}
 	},
 	getters: {

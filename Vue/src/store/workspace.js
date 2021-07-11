@@ -1,6 +1,52 @@
+export function widgetTemplate(id, type) {
+	let widget_templates = {
+		Timer: {
+			id: id,
+			title: 'Timer',
+			type: 'Timer',
+			container: 'left',
+			expanded: true,
+			maxHeight: '200px'
+		},
+		Pronunciation: {
+			id: id,
+			title: 'Pronunciation difficulty',
+			type: 'Pronunciation',
+			container: 'left',
+			expanded: true,
+			maxHeight: '250px'
+		},
+		Representation: {
+			id: id,
+			title: 'Representation analysis',
+			type: 'Representation',
+			container: 'right',
+			expanded: true,
+			maxHeight: '300px'
+		},
+		SimilarQuestions: {
+			id: workspace.widget_index,
+			title: 'Top5 similar questions',
+			type: 'SimilarQuestions',
+			expanded: true,
+			maxHeight: '400px',
+		},
+		Buzzer: {
+			id: workspace.widget_index,
+			title: 'Buzzer',
+			type: 'Buzzer',
+			container: 'left',
+			expanded: true,
+			maxHeight: '500px',
+		}
+	};
+	return widget_templates[type];
+}
+
 export function defaultWorkspace(id) {
 	return {
 		id: id,
+		title: 'Workspace',
 		qas: [
 			{
 				id: 0,
@@ -18,49 +64,18 @@ export function defaultWorkspace(id) {
 		qa_index: 1,
 		qa_selected: 0,
 		widgets: [
-			{
-				id: 0,
-				title: 'Timer',
-				type: 'Timer',
-				container: 'left',
-				expanded: true,
-				maxHeight: '100px'
-			},
-			{
-				id: 1,
-				title: 'Pronunciation difficulty',
-				type: 'Pronunciation',
-				container: 'left',
-				expanded: true,
-				maxHeight: '200px',
-			},
-			{
-				id: 3,
-				title: 'Buzzer',
-				type: 'Buzzer',
-				container: 'left',
-				expanded: true,
-				maxHeight: '500px',
-			},
-			{
-				id: 2,
-				title: 'Suggestions',
-				type: 'Representation',
-				container: 'right',
-				expanded: true,
-				maxHeight: '300px',
-			},
-			{
-				id: 4,
-				title: 'Top 5 Similar Questions',
-				type: 'SimilarQuestions',
-				container: 'right',
-				expanded: true,
-				maxHeight: '400px'
-			}
-			
+		
+			widgetTemplate(0, 'Timer'),
+			widgetTemplate(1, 'Pronunciation'),
+			widgetTemplate(2, 'Representation'),
+			widgetTemplate(3, 'SimilarQuestions'),
+			widgetTemplate(4, 'Buzzer')
 		],
-		widget_index: 5
+		widget_index: 5,
+		style: {
+			left: 0,
+			top: 0
+		}
 	};
 }
 
@@ -112,6 +127,7 @@ export function widgetTemplate(workspace, type) {
 			title: 'Top5 similar questions',
 			type: 'SimilarQuestions',
 			expanded: true,
+			container: 'right',
 			maxHeight: '400px',
 		},
 		Buzzer: {
@@ -125,3 +141,7 @@ export function widgetTemplate(workspace, type) {
 	};
 	return widget_templates[type];
 }
+	
+
+
+export const initial_workspaces = [ defaultWorkspace(0) ];

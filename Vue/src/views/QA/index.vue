@@ -4,18 +4,25 @@ Developers: Jason Liu and Cai Zefan
 
 <template>
   <div id="app">
-    <div v-for="workspace in workspaces" :key="workspace.id">
-      <Workspace :id="workspace.id" />
+    <Taskbar />
+    <div class="workspaces-container">
+      <transition-group type="transition" name="workspaces">
+        <div v-for="workspace in workspaces" :key="workspace.id">
+          <Workspace :id="workspace.id" />
+        </div>
+      </transition-group>
     </div>
   </div>
 </template>
 
 <script>
+import Taskbar from "@/components/Taskbar";
 import Workspace from "@/components/Workspace";
 import draggable from "vuedraggable";
 
 export default {
   components: {
+    Taskbar,
     Workspace,
     draggable,
   },
@@ -46,6 +53,27 @@ export default {
   overflow: auto;
   overflow: overlay;
   overflow-wrap: break-word;
+}
+
+.workspaces-container {
+  position: relative;
+  height: calc(100vh - 100px);
+  overflow: hidden;
+}
+
+.workspaces-enter-active,
+.workspaces-leave-active {
+  position: relative;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.workspaces-enter {
+  transform: translate(0, -500px);
+}
+
+.workspaces-leave-to {
+  transform: scaleY(0);
 }
 
 .btn {
@@ -80,6 +108,6 @@ export default {
 }
 
 .fa-upload {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 </style>
