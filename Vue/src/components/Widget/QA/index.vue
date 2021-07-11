@@ -115,7 +115,7 @@ export default {
       });
       //pronunciaiton 
       this.axios({
-        url: "http://127.0.0.1:5000/getpronunciation",
+        url: "http://127.0.0.1:5000/pronunciation/getpronunciation",
         method: "POST",
         data: formData,
         // header:{
