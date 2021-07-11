@@ -109,7 +109,7 @@ export default {
         propsData: { header, body },
       });
       modal.$mount();
-      this.$refs.timerContainer.appendChild(modal.$el);
+      this.$refs.timerContainer.appendChild(this.modal.$el);
     },
   },
   // beforeDestroy() {
