@@ -8,24 +8,22 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       <input class="title" v-model="qa.title" />
       <a v-show="qa_count > 1" class="fas fa-trash btn" @click="deleteQA" />
     </div>
-    <highlightable-input
+    <!-- <highlightable-input
       highlight-style="background-color:yellow"
       :highlight-enabled="highlightEnabled"
       :highlight="highlight"
       class="big-container"
-      @input="keep_looping"
       placeholder="Please enter your question"
       v-model="text"
-    />
-    <!-- <textarea
+      @input="keep_looping"
+    /> -->
+    <textarea
       class="container"
       rows="15"
       placeholder="Please enter your question"
       v-model="text"
       @input="keep_looping"
-    ></textarea> -->
-    <el-button type="primary" @click="searchData"> Submit </el-button>
-    <!-- <textarea class="container" rows="1" placeholder="Answer"></textarea> -->
+    ></textarea>
     <textarea
       class="container"
       rows="2"
@@ -70,8 +68,6 @@ export default {
   data() {
     return {
       answer: "",
-      buzz: "",
-      importance: "",
       highlight: [
         { text: "chicken", style: "background-color:#f37373" },
         { text: "noodle", style: "background-color:#fca88f" },
@@ -99,7 +95,7 @@ export default {
           workspace_id: this.workspace_id,
           payload: { id: this.qa_id, text: value },
         });
-        z;
+        
       },
     },
   },
@@ -152,14 +148,13 @@ export default {
       });
 
       this.axios({
-        url: "http://127.0.0.1:5000/people_info/getPeoplesInfo",
+        url: "http://127.0.0.1:5000/func/country_people",
         method: "POST",
         data: formData,
       }).then((response) => {
         console.log(response);
-        this.qa.country_representation = response.data["country_representation"].trim();
+        this.qa.country_representation = response.data["country_representation"];
         this.highlight = response.data["Highlight"];
-        this.qa.people_ethnicity = response.data["people_ethnicity"];
       });
       this.axios({
         url: "http://127.0.0.1:5000/genre_classifier/classify",
@@ -213,11 +208,13 @@ export default {
       });
 
       this.axios({
-        url: "http://127.0.0.1:5000/people_info/getPeoplesInfo",
+        url: "http://127.0.0.1:5000/func/country_people",
         method: "POST",
         data: formData,
       }).then((response) => {
-        this.qa.people_ethnicity = response.data["people_ethnicity"];
+        console.log(response);
+        this.qa.country_representation = response.data["country_representation"];
+        this.highlight = response.data["Highlight"];
       });
     },
 

@@ -1,8 +1,12 @@
 import warnings
+import sys
+sys.path.append("..")
+sys.path.insert(0, './app')
+from app import util
 from app.people import getPeoplesInfo1
 from app.country_represent import country_present1
 from app.util import highlight_json
-import nltk
+
 from util import *
 from app import util
 from app.country_represent import country_represent
@@ -31,8 +35,7 @@ def warn(*args, **kwargs):
 
 warnings.warn = warn
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
-sys.path.append("..")
-sys.path.insert(0, './app')
+
 
 
 # nltk.download('punkt') #Download once
@@ -91,7 +94,6 @@ def timeup():
 def country_people():
     if request.method == "POST":
         question = request.form.get("text")
-    people_ethnicity, people = getPeoplesInfo1(question)
     country_representation, countries = country_present1(question)
-    highlight=highlight_json(countries, people)
-    return jsonify({"country_representation": country_representation, "people_ethnicity": people_ethnicity, "Highlight": highlight})
+    highlight=highlight_json(countries)
+    return jsonify({"country_representation": country_representation, "Highlight": highlight})
