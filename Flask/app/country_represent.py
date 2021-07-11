@@ -17,9 +17,14 @@ import torch
 sys.path.append("..")
 sys.path.insert(0, './app')
 
+from app import util, importance
+from util import *
+
 nlp = en_core_web_sm.load()
 
 stopWords = stopwords.words('english')
+
+vectorizer, Matrix, ans = params[0], params[1], params[2]
 
 f = open('app/qanta.json')
 data = json.load(f)['questions']
@@ -29,8 +34,8 @@ import re
 
 
 from transformers import AutoTokenizer,AutoModelForSequenceClassification, AutoModelForPreTraining
-tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
-model = AutoModelForPreTraining.from_pretrained("bert-base-uncased", output_attentions=False, output_hidden_states=True)
+tokenizer = AutoTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad', do_lower_case=True)
+model = AutoModelForPreTraining.from_pretrained("bert-large-uncased-whole-word-masking-finetuned-squad", output_attentions=False, output_hidden_states=True)
 
 def break_into_words_with_capital(question):
     array_of_words =re.split('(?=[A-Z]| )', question)
@@ -125,12 +130,13 @@ def get_bert_embeddings(tokens_tensor, segments_tensors, model):
     # # print ('Shape is: %d x %d' % (len(token_vecs_sum), len(token_vecs_sum[0])))
     token_vecs = hidden_states[0]
     sentence_embedding = torch.mean(token_vecs, dim=0)
-    print ('Shape is: %d x %d' % (len(sentence_embedding), len(sentence_embedding[0])))
+    # print ('Shape is: %d x %d' % (len(sentence_embedding), len(sentence_embedding[0])))
     return sentence_embedding
 
 def vectorize_albert(texts):
   target_tweet_embeddings = []
   for text in texts:
+    # text = " ".join([word for word in break_into_words_with_capital(text) if word not in stopWords])
     text = " ".join(break_into_words_with_capital(text))
     tokenized_text, tokens_tensor, segments_tensors = bert_text_preparation(text, tokenizer)
     list_token_embeddings = get_bert_embeddings(tokens_tensor, segments_tensors, model)
@@ -192,13 +198,10 @@ def country_present():
     # else:
     #      message = message + 'The country ' + ', '.join(over_countries) + ' in the question is/are from overrepresented group. The author can next time write question having underrepresented countries to earn extra points. \n'
     message = Sort(cosine_sim_ques_country)
-    print(message[0:10])
-    
-    
-    # print(Sort(cosine_scores))
-    # if len(cosine_sim_ques_country) != 0: 
-    #     message = messa
-    
+    # print(message)  
+    answer = []
+    for i in message[:5]:
+        answer.append({"Country": i[0], "Score":i[1]})
     end = time.time()
     print("----TIME (s): /country_represent/country_present---",end - start)
-    return jsonify({"country_representation" : message[0:10]})
+    return jsonify({"country_representation" : answer})
