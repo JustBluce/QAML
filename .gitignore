@@ -19,3 +19,4 @@ selenium-debug.log
 .vscode/
 __pycache__/
 model/
+Flask/config.py
