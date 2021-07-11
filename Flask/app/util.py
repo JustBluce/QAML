@@ -71,7 +71,7 @@ def load_bert_model():
     return model, tokenizer
 
 
-def highlight_json(countries, people):
+def highlight_json(countries, people = None):
     '''
     Organize the json structure for text highlighting in frontend
     highlight: [
@@ -87,11 +87,11 @@ def highlight_json(countries, people):
         temp['text'] = country
         temp['style'] = "background-color:#f37373"
         highlight.append(temp)
-    for person in people:
-        temp = {}
-        temp['text'] = person
-        temp['style'] = "background-color:#fff05e"
-        highlight.append(temp)
+    # for person in people:
+    #     temp = {}
+    #     temp['text'] = person
+    #     temp['style'] = "background-color:#fff05e"
+    #     highlight.append(temp)
 
     return highlight
 
