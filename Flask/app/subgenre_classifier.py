@@ -30,7 +30,7 @@ def science_genre_classify(question):
     logits = outputs.logits.detach().cpu().numpy()
     genre_index = np.argmax(logits).flatten()
     end = time.time()
-    print("----TIME (s) : /genre_classifier/classify---",end - start)
+    print("----TIME (s) : /genre_classifier/classify [sub-genre]---",end - start)
     # if(difficulty == 0):
     #     return jsonify({"difficulty": "Easy"})
     # elif (difficulty == 1):

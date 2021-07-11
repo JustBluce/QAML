@@ -64,8 +64,7 @@ def buzz_full_question():
         importance_sentence = get_importance_of_each_sentence(buzzer_string)
         buzzer_string = buzzer_string + " ||BUZZ||"
     else:
-        print("question")
-        print(question)
+        
         importance_sentence = get_importance_of_each_sentence(question)
     end = time.time()
     # print(end - start)
