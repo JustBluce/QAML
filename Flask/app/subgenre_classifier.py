@@ -19,7 +19,7 @@ from app import util, importance
 from util import *
 from importance import *
 
-sci_genres = ['Chemistry', 'Math', 'Physics', 'Computer Science', 'Biology', 'Other']
+sci_genres = ['Biology', 'Chemistry', 'Physics', 'Math']
 
 def science_genre_classify(question):
     

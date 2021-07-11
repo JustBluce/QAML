@@ -131,6 +131,15 @@ export default {
       }).then((response) => {
         this.qa.people_ethnicity = response.data["people_ethnicity"];
       });
+      this.axios({
+        url: "http://127.0.0.1:5000/genre_classifier/classify",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        console.log(response.data["genre"] )
+        this.qa.genre = response.data["genre"];
+        this.qa.subgenre = response.data["subgenre"];
+      });
       
 
     },2000),

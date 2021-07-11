@@ -43,7 +43,8 @@ export default {
       people_ethnicity: "",
       gender: "",
       country_representation: "",
-      difficulty: 'Easy'
+      difficulty: 'Easy',
+      genre: ''
       
     };
   },
