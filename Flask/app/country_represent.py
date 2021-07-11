@@ -32,10 +32,11 @@ import re
 # import gensim.downloader as api
 # pre_ft_vectors = api.load('fasttext-wiki-news-subwords-300')
 
-
+# model_name = "bert-base-multilingual-uncased"
+model_name = "bert-large-uncased-whole-word-masking-finetuned-squad"
 from transformers import AutoTokenizer,AutoModelForSequenceClassification, AutoModelForPreTraining
-tokenizer = AutoTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad', do_lower_case=True)
-model = AutoModelForPreTraining.from_pretrained("bert-large-uncased-whole-word-masking-finetuned-squad", output_attentions=False, output_hidden_states=True)
+tokenizer = AutoTokenizer.from_pretrained(model_name, do_lower_case=True)
+model = AutoModelForPreTraining.from_pretrained(model_name, output_attentions=False, output_hidden_states=True)
 
 def break_into_words_with_capital(question):
     array_of_words =re.split('(?=[A-Z]| )', question)
@@ -136,8 +137,8 @@ def get_bert_embeddings(tokens_tensor, segments_tensors, model):
 def vectorize_albert(texts):
   target_tweet_embeddings = []
   for text in texts:
-    # text = " ".join([word for word in break_into_words_with_capital(text) if word not in stopWords])
-    text = " ".join(break_into_words_with_capital(text))
+    text = " ".join([word for word in break_into_words_with_capital(text) if word not in stopWords])
+    # text = " ".join(break_into_words_with_capital(text))
     tokenized_text, tokens_tensor, segments_tensors = bert_text_preparation(text, tokenizer)
     list_token_embeddings = get_bert_embeddings(tokens_tensor, segments_tensors, model)
     tweet_embedding = np.mean(np.array(list_token_embeddings), axis=0)
