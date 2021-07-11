@@ -43,47 +43,101 @@
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
 
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
+      <el-button style="width:100%;margin-bottom:30px;"  @click="dialogFormVisible1 = true">Register account</el-button>
+      <el-button style="width:100%;margin-bottom:30px;"  @click="dialogFormVisible2 = true">Change password</el-button>
+
+
+
+
+      <el-dialog title="Register  account" :visible.sync="dialogFormVisible1"  >
+<!--        rules是传入规则，验证，下方其实没有规则传入-->
+        <div>
+          <el-form :model="addForm" label-width="80px">
+            <el-form-item label="Username:">
+              <el-input v-model.trim="addForm.username" aria-placeholder="Please enter username" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="Password:">
+              <el-input v-model.trim="addForm.password" aria-placeholder="Please enter password" clearable></el-input>
+            </el-form-item>
+          </el-form>
+          <el-button @click="dialogFormVisible1 = false">Cancel</el-button>
+          <el-button type="primary" @click="From_confirm1">Confirm</el-button>
+        </div>
+      </el-dialog>
+      <el-dialog title="Change password" :visible.sync="dialogFormVisible2"  >
+        <!--        rules是传入规则，验证，下方其实没有规则传入-->
+        <div>
+          <el-form :model="changeForm" label-width="80px">
+            <el-form-item label="Username:">
+              <el-input v-model.trim="changeForm.username" aria-placeholder="Please enter username" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="Old password:">
+              <el-input v-model.trim="changeForm.password_old" aria-placeholder="Please enter old password" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="New password:">
+              <el-input v-model.trim="changeForm.password_new" aria-placeholder="Please enter new password" clearable></el-input>
+            </el-form-item>
+          </el-form>
+          <el-button @click="dialogFormVisible2 = false">Cancel</el-button>
+          <el-button type="primary" @click="From_confirm2">Confirm</el-button>
+        </div>
+      </el-dialog>
+      <!-- <div class="tips">
+        <span style="margin-right:20px;">Default Account Number： lds</span>
+        <span> Default Password： lds12321</span>
+      </div> -->
 
     </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+// import { validUsername } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+      if (!this.Username_False) {
+        callback(new Error('Username does not exist'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+      if (value.length < 0) {
+        callback(new Error('Password length should be greater than 0 digits'))
+      } else if (!this.Password_False) {
+        callback(new Error('Your password was entered incorrectly'))
       } else {
         callback()
       }
     }
     return {
-      loginForm: {
-        username: 'admin',
-        password: '111111'
+      addForm: {
+        username: '',
+        password: ''
       },
+      loginForm: {
+        username: 'lds',
+        password: 'lds12321'
+      },
+      changeForm: {
+        username: '',
+        password_old: '',
+        password_new: ''
+      },
+      Username_False:false,
+      Password_False:false,
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      dialogFormVisible1: false,
+      dialogFormVisible2: false
     }
   },
   watch: {
@@ -95,6 +149,49 @@ export default {
     }
   },
   methods: {
+    From_confirm1(){
+      let formData = new FormData();
+      formData.append("User", this.addForm.username);
+      formData.append("Password", this.addForm.password);
+
+      this.axios({
+        method: "POST",
+        url: "http://127.0.0.1:5000/log/add",
+        data:formData,
+      }).then((response) => {
+        console.log(response.data);
+        if (response.data=='Successfully add new user'){
+          this.$message.success('Successfully add new user')
+          this.dialogFormVisible1 = false;
+        }else {
+          this.$message.error('The user already exists')
+        }
+      });
+    },
+    From_confirm2(){
+      let formData = new FormData();
+      formData.append("User", this.changeForm.username);
+      formData.append("Password_old", this.changeForm.password_old);
+      formData.append("Password_new", this.changeForm.password_new);
+
+      this.axios({
+        method: "POST",
+        url: "http://127.0.0.1:5000/log/change",
+        data:formData,
+      }).then((response) => {
+        console.log(response.data);
+        if (response.data=='Successfully changed'){
+          this.$message.success(response.data)
+          this.dialogFormVisible2 = false;
+        }else if(response.data=='Password input error, change failed'){
+          this.$message.error(response.data)
+        }else if(response.data=='User does not exist'){
+          this.$message.error(response.data)
+        }else {
+          this.$message.error('Unknown error')
+        }
+      });
+    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -106,20 +203,57 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
+      let formData = new FormData();
+      formData.append("User", this.loginForm.username);
+      formData.append("Password", this.loginForm.password);
+
+      this.axios({
+        method: "POST",
+        url: "http://127.0.0.1:5000/log/in",
+        data: formData,
+      }).then((response) => {
+        console.log(response.data);
+        if (response.data=='User does not exist'){
+          this.Username_False=false
+          this.Username_False=true
         }
-      })
+        if (response.data=='Incorrect password'){
+          this.Username_False=true
+          this.Password_False=false
+        }
+        if (response.data=='Correct password'){
+          this.Username_False=true
+          this.Password_False=true
+          // this.$refs.loginForm.validate(valid => {
+          //   if (valid) {
+          //     this.loading = true
+          //     this.$store.dispatch('user/login', this.loginForm).then(() => {
+          //       this.$router.push({ path: this.redirect || '/' })
+          //       this.loading = false
+          //     }).catch(() => {
+          //       this.loading = false
+          //     })
+          //   } else {
+          //     console.log('error submit!!')
+          //     return false
+          //   }
+          // })
+          this.$refs.loginForm.validate(valid => {
+            if (valid) {
+              this.loading = true
+              this.$store.dispatch('user/login', this.loginForm).then(() => {
+                this.$router.push({ path: this.redirect || '/' })
+                this.loading = false
+              }).catch(() => {
+                this.loading = false
+              })
+            } else {
+              console.log('error submit!!')
+              return false
+            }
+          })
+        }
+      });
     }
   }
 }

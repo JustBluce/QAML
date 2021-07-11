@@ -6,7 +6,7 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: '',
+    avatar: ''
   }
 }
 
@@ -32,7 +32,10 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ username: 'lds', password: password }).then(response => {
+        //这一行对准账号（这里的password可以无视掉，没有相关判定）
+        console.log(username)
+        console.log(password)
         const { data } = response
         commit('SET_TOKEN', data.token)
         setToken(data.token)
