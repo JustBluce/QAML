@@ -14,5 +14,5 @@ app.register_blueprint(difficulty_classifier, url_prefix='/difficulty_classifier
 app.register_blueprint(country_represent, url_prefix='/country_represent')
 app.register_blueprint(people_info, url_prefix='/people_info')
 app.register_blueprint(similar_question, url_prefix='/similar_question')
-app.register_blueprint(pronunciation, url_prefix='/getpronunciation')
+app.register_blueprint(pronunciation, url_prefix='/pronunciation')
 # app.register_blueprint(importance, url_prefix='/importance')
