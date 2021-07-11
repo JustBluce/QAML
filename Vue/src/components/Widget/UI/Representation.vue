@@ -7,7 +7,7 @@ Developers: Atith Gandhi and Jason Liu
     <textarea
       readonly
       class="container"
-      rows="5"
+      rows="3"
       placeholder="People ethnicity"
       v-model="people_ethnicity"
     ></textarea>
@@ -18,8 +18,8 @@ Developers: Atith Gandhi and Jason Liu
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in country_representation" :key="user.id">
-                    <td>{{user.Country}}</td>
+                <tr v-for="(country, index) in country_representation" :key="country[0]">
+                    <td>{{index + 1}}. {{country}}</td>
                     
                 </tr>
             </tbody>
@@ -43,6 +43,7 @@ export default {
       return this.$store.getters.qa(this.workspace_id, qa_index);
     },
     country_representation() {
+      console.log(this.qa.country_representation)
       return this.qa.country_representation;
     },
     people_ethnicity() {

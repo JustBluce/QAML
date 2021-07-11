@@ -121,7 +121,7 @@ export default {
         data: formData,
       }).then((response) => {
         this.qa.country_representation =
-          response.data["country_representation"].trim();
+          response.data["country_representation"];
       });
 
       this.axios({
@@ -152,7 +152,13 @@ export default {
           );
         }
       });
-
+      this.axios({
+        url: "http://127.0.0.1:5000/genre_classifier/classify",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        console.log(response.data["genre"] )
+      });
       this.axios({
         url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
         method: "POST",
@@ -165,15 +171,6 @@ export default {
           );
         }
         this.qa.top5_similar_questions = response.data["similar_question"];
-      });
-
-      this.axios({
-        url: "http://127.0.0.1:5000/country_represent/country_present",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.qa.country_representation =
-          response.data["country_representation"];
       });
 
       this.axios({
