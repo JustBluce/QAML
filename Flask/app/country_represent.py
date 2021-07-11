@@ -34,8 +34,8 @@ import re
 
 
 from transformers import AutoTokenizer,AutoModelForSequenceClassification, AutoModelForPreTraining
-tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
-model = AutoModelForPreTraining.from_pretrained("bert-base-uncased", output_attentions=False, output_hidden_states=True)
+tokenizer = AutoTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad', do_lower_case=True)
+model = AutoModelForPreTraining.from_pretrained("bert-large-uncased-whole-word-masking-finetuned-squad", output_attentions=False, output_hidden_states=True)
 
 def break_into_words_with_capital(question):
     array_of_words =re.split('(?=[A-Z]| )', question)
@@ -197,7 +197,7 @@ def country_present():
     # else:
     #      message = message + 'The country ' + ', '.join(over_countries) + ' in the question is/are from overrepresented group. The author can next time write question having underrepresented countries to earn extra points. \n'
     message = Sort(cosine_sim_ques_country)
-    print(message)  
+    # print(message)  
     answer = []
     for i in message[:5]:
         answer.append({"Country": i[0], "Score":i[1]})
