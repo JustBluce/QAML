@@ -64,10 +64,10 @@ params = get_pretrained_tfidf_vectorizer()
 
 def load_genre_model():
     model = BertForSequenceClassification.from_pretrained('./model/genre_classifier_models/BERT_genre_classifier', num_labels = 11)
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') 
-    return model,tokenizer
+    # tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') 
+    return model
 
-genre_model, tokenizer = load_genre_model()
+genre_model = load_genre_model()
 
 def load_science_genre_model():
     model = BertForSequenceClassification.from_pretrained('./model/genre_classifier_models/Science_Genre_classifier', num_labels = 4)
