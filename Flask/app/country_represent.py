@@ -46,7 +46,6 @@ total_instance = sum(map_instance.values())
 def country_present():
     if request.method == "POST":
         question = request.form.get("text")
-    print("country")
     start = time.time()
     message = ''
     # print(total_instance)
@@ -71,3 +70,31 @@ def country_present():
     end = time.time()
     print("----TIME (s): /country_represent/country_present---", end - start)
     return jsonify({"country_representation": message, "country": countries})
+
+def country_present1(question):
+    start = time.time()
+    message = ''
+    # print(total_instance)
+    under_countries = []
+    over_countries = []
+    countries = []
+    for country in map_instance.keys():
+        if country in question.lower():
+            countries.append(country)
+            if len(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))) != 0:
+                if map_instance[country.lower()]/total_instance < int(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))[0]['population'])/sum(population):
+                    under_countries.append(country)
+                else:
+                    over_countries.append(country)
+    if len(under_countries) != 0:
+        message = message + 'The country ' + \
+            ', '.join(under_countries) + \
+            ' in the question is/are from underrepresented group. The author will get 10 extra points. \n'
+    else:
+        message = message + 'The country ' + \
+            ', '.join(over_countries) + ' in the question is/are from overrepresented group. The author can next time write question having underrepresented countries to earn extra points. \n'
+    end = time.time()
+    print("----TIME (s): /country_represent/country_present---", end - start)
+    country_representation=message
+    return country_representation, over_countries
+    # return jsonify({"country_representation": message, "country": countries})
