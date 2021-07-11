@@ -32,12 +32,14 @@ def getPeoplesInfo():
     start = time.time()
     doc = nlp(question)
     entities = [(X.text, X.label_) for X in doc.ents]
+    print(entities)
+    person=[]
     names = []
-    
     for i in range(0, len(entities)):
         if(entities[i][1] == 'PERSON'):
+            person.append(entities[i][0])
             names.append(entities[i][0] + '( ' + find_ethnicity(entities[i][0])+' )')
             print(entities[i][0] + '( ' + find_ethnicity(entities[i][0])+' )')
     end = time.time()
     print("----TIME (s) : /people_info/getPeoplesInfo---", end - start)
-    return jsonify({"people_ethnicity" : ' '.join(names)})
+    return jsonify({"people_ethnicity" : ' '.join(names), "person": person})

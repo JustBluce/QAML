@@ -8,18 +8,22 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       <input class="title" v-model="qa.title" />
       <a v-show="qa_count > 1" class="fas fa-trash btn" @click="deleteQA" />
     </div>
-    <textarea
+    <highlightable-input
+      highlight-style="background-color:yellow"
+      :highlight-enabled="highlightEnabled"
+      :highlight="highlight"
+      class="big-container"
+      placeholder="Please enter your question"
+      v-model="text"
+    />
+    <!-- <textarea
       class="container"
       rows="7"
       placeholder="Please enter your question"
       v-model="text"
-    ></textarea>
+    ></textarea> -->
     <el-button type="primary" @click="searchData"> Submit </el-button>
-    <textarea
-      class="container"
-      rows="1"
-      placeholder="Answer"
-    ></textarea>
+    <!-- <textarea class="container" rows="1" placeholder="Answer"></textarea> -->
     <textarea
       class="container"
       rows="5"
@@ -42,6 +46,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
 </template>
 
 <script>
+import HighlightableInput from "vue-highlightable-input";
 import Vue from "vue";
 import Modal from "./Modal";
 
@@ -53,12 +58,22 @@ export default {
   },
   components: {
     Modal,
+    HighlightableInput,
   },
   data() {
     return {
       answer: "",
       buzz: "",
-      importance:"",
+      importance: "",
+      highlight: [
+        { text: "chicken", style: "background-color:#f37373" },
+        { text: "noodle", style: "background-color:#fca88f" },
+        { text: "soup", style: "background-color:#bbe4cb" },
+        { text: "so", style: "background-color:#fff05e" },
+        // "whatever",
+        // { start: 1, end: 5, style: "background-color:#f330ff" },
+      ],
+      highlightEnabled: true,
     };
   },
   computed: {
@@ -76,7 +91,8 @@ export default {
         this.$store.commit("updateQA", {
           workspace_id: this.workspace_id,
           payload: { id: this.qa_id, text: value },
-        });z
+        });
+        z;
       },
     },
   },
@@ -90,6 +106,7 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
+        console.log(response);
         this.answer = response.data["guess"];
       });
 
@@ -98,6 +115,7 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
+        console.log(response);
         if (response.data["difficulty"] === "Hard") {
           this.addModal("Saved !!!", "Your question is submitted.");
         } else {
@@ -113,6 +131,7 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
+        console.log(response);
         if (response.data["similar_question"][0]) {
           this.addModal(
             "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
@@ -126,8 +145,9 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
-        this.qa.country_representation =
-          response.data["country_representation"].trim();
+        console.log(response);
+        this.qa.country_representation = response.data["country_representation"].trim();
+        this.highlight = response.data["country"];
       });
 
       this.axios({
@@ -135,6 +155,7 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
+        console.log(response);
         this.qa.people_ethnicity = response.data["people_ethnicity"];
       });
 
@@ -143,10 +164,10 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
+        console.log(response);
         this.buzz = response.data["buzz"];
         this.importance = response.data["importance"];
       });
-      
     },
 
     addModal(header, body) {
@@ -169,6 +190,13 @@ export default {
 </script>
 
 <style scoped>
+.big-container {
+  background-color: #F5F5F5;
+  height: 200px;
+  padding: 20px;
+  flex-grow: 50%;
+}
+
 .qa-container {
   position: relative;
   display: flex;
