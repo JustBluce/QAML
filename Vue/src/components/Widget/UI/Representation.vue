@@ -14,12 +14,13 @@ Developers: Atith Gandhi and Jason Liu
     <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Please consider adding the following under-represented countries for 10 extra points</th>
+                    <!-- <th>Please consider adding the following under-represented countries for 10 extra points</th> -->
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(country, index) in country_representation" :key="country[0]">
-                    <td>{{index + 1}}. {{country}}</td>
+                <tr v-for="user in country_representation" :key="user.Country">
+                    <td>{{index + 1}}. {{user.Country}}</td>
+                    <td>{{user.Score}}</td>
                     
                 </tr>
             </tbody>
