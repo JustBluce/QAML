@@ -5,6 +5,9 @@ const tokens = {
   },
   editor: {
     token: 'editor-token'
+  },
+  lds: {
+    token: 'editor-token'
   }
 }
 
