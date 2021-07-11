@@ -5,14 +5,20 @@ Developers: Jason Liu
 <template>
   <div
     class="workspace-container"
-    :style="{ left: positions.left + 'px', top: positions.top + 'px' }"
+    :style="{
+      left: style.left + 'px',
+      top: style.top + 'px',
+      zIndex: zIndex,
+      filter: workspace_selected === id ? 'contrast(100%)' : 'contrast(85%)',
+    }"
+    @mousedown="onSelect"
   >
     <div class="drag-bar" @mousedown="startDrag" />
     <Header :workspace_id="id" />
     <div class="ui-container">
-      <WidgetContainer :workspace_id="id" container="left"/>
+      <WidgetContainer :workspace_id="id" container="left" />
       <QA :workspace_id="id" :qa_id="qa_selected" />
-      <WidgetContainer :workspace_id="id" container="right"/>
+      <WidgetContainer :workspace_id="id" container="right" />
     </div>
   </div>
 </template>
@@ -34,42 +40,59 @@ export default {
   },
   data() {
     return {
-      positions: {
-        clientX: undefined,
-        clientY: undefined,
-        left: 0,
-        top: 0,
-      },
+      clientX: undefined,
+      clientY: undefined,
     };
   },
   computed: {
     widget_types() {
       return this.$store.state.widget_types;
     },
+    workspace() {
+      return this.$store.getters.workspace(this.id);
+    },
+    style() {
+      return this.workspace.style;
+    },
     qa_selected() {
-      return this.$store.getters.workspace(this.id).qa_selected;
+      return this.workspace.qa_selected;
+    },
+    workspace_selected() {
+      return this.$store.state.workspace_stack.slice(-1)[0];
+    },
+    zIndex() {
+      return this.$store.state.workspace_stack.indexOf(this.id);
     },
   },
   methods: {
     startDrag(event) {
       event.preventDefault();
-      this.positions.clientX = event.clientX;
-      this.positions.clientY = event.clientY;
+      this.clientX = event.clientX;
+      this.clientY = event.clientY;
       document.onmousemove = this.elementDrag;
       document.onmouseup = this.stopDrag;
     },
     elementDrag(event) {
       event.preventDefault();
-      let movementX = this.positions.clientX - event.clientX;
-      let movementY = this.positions.clientY - event.clientY;
-      this.positions.clientX = event.clientX;
-      this.positions.clientY = event.clientY;
-      this.positions.left = Math.max(0, this.positions.left - movementX);
-      this.positions.top = Math.max(0, this.positions.top - movementY);
+      let movementX = this.clientX - event.clientX;
+      let movementY = this.clientY - event.clientY;
+      this.clientX = event.clientX;
+      this.clientY = event.clientY;
+      this.style.left = Math.min(
+        window.innerWidth - 100,
+        Math.max(0, this.style.left - movementX)
+      );
+      this.style.top = Math.min(
+        window.innerHeight - 150,
+        Math.max(0, this.style.top - movementY)
+      );
     },
     stopDrag() {
       document.onmousemove = null;
       document.onmouseup = null;
+    },
+    onSelect() {
+      this.$store.commit("selectWorkspace", this.id);
     },
   },
 };
@@ -80,12 +103,16 @@ export default {
   display: flex;
   flex-direction: column;
   position: absolute;
-  margin: 20px;
-  outline: 4px solid steelblue;
+  margin: 4px;
+  background-color: white;
+  border: 4px solid steelblue;
+  box-shadow: 0px 0px 4px black;
   height: 750px;
   min-height: 750px;
+  max-height: calc(100% - 8px);
+  width: calc(100% - 8px);
   min-width: 1100px;
-  width: calc(100% - 40px);
+  max-width: calc(100% - 8px);
   overflow: auto;
   overflow: overlay;
   resize: both;
@@ -103,5 +130,4 @@ export default {
   flex-grow: 1;
   position: relative;
 }
-
 </style>
