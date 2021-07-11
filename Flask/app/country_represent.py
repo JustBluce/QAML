@@ -185,17 +185,19 @@ def country_present():
     cosine_sim_ques_country = []
     for i in range(len(under_countries)):
         # b = " ".join(x for x in i)
-        cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]) ])
+        if under_countries[i].lower() not in question.lower():
+          cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]) ])
     # if len(under_countries) != 0: 
     #     message = message + 'The country ' + ', '.join(under_countries) + ' in the question is/are from underrepresented group. The author will get 10 extra points. \n'
     # else:
     #      message = message + 'The country ' + ', '.join(over_countries) + ' in the question is/are from overrepresented group. The author can next time write question having underrepresented countries to earn extra points. \n'
-    # message = Sort(cosine_sim_ques_country)
+    message = Sort(cosine_sim_ques_country)
+    print(message[0:10])
     
     
     # print(Sort(cosine_scores))
-    if len(cosine_sim_ques_country) != 0: 
-        message = message + 'Please consider having the countries ' + ', '.join(cosine_sim_ques_country[:5]) + ' in the question, as they are from underrepresented group. The author will get 10 extra points. \n'
+    # if len(cosine_sim_ques_country) != 0: 
+    #     message = messa
     
     end = time.time()
     print("----TIME (s): /country_represent/country_present---",end - start)
