@@ -1,5 +1,6 @@
+import pycountry
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity 
+from sklearn.metrics.pairwise import cosine_similarity
 import nltk
 from nltk.corpus import stopwords
 import json
@@ -155,10 +156,9 @@ f_pop = open('app/query.json')
 wiki_population = json.load(f_pop)
 
 
-countries = list(map(lambda x: x['countryLabel'].lower() , wiki_population))
-population = list(map(lambda x: int(x['population']) , wiki_population))
+countries = list(map(lambda x: x['countryLabel'].lower(), wiki_population))
+population = list(map(lambda x: int(x['population']), wiki_population))
 
-import pycountry
 country_represent = Blueprint('country_represent', __name__)
 f_country = open('app/country.json')
 map_instance = json.load(f_country)
