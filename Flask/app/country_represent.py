@@ -191,7 +191,8 @@ def country_present():
     cosine_sim_ques_country = []
     for i in range(len(under_countries)):
         # b = " ".join(x for x in i)
-        cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]) ])
+        if under_countries[i].lower() not in question.lower():
+          cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]) ])
     # if len(under_countries) != 0: 
     #     message = message + 'The country ' + ', '.join(under_countries) + ' in the question is/are from underrepresented group. The author will get 10 extra points. \n'
     # else:

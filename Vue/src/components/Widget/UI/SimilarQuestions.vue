@@ -1,5 +1,5 @@
 <!--
-Developers: Atith Gandhi and Jason Liu
+Developers: Atith Gandhi, Raj Shah and Jason Liu
 -->
 
 <template>
@@ -15,7 +15,7 @@ Developers: Atith Gandhi and Jason Liu
               <span class="up-Arrow" v-show="active[index]">&#9650;</span>
           </a>
       </div>
-      <div class="tab__content p-2" v-show="active[index]">{{val['text']}}</div>            
+      <div class="tab__content p-2" v-show="active[index]"><br> {{val['text']}}</div>            
       
       </div>
     </div>
