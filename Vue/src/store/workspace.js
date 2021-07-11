@@ -11,6 +11,8 @@ export function defaultWorkspace(id) {
 				top5_similar_questions: [],
 				binary_search_based_buzzer:'',
 				importance:'',
+				genre: '',
+				subgenre: ''
 			}
 		],
 		qa_index: 1,
@@ -72,6 +74,8 @@ export function defaultQA(id) {
 		top5_similar_questions: [],
 		binary_search_based_buzzer: '',
         importance:'',
+		genre: '',
+		subgenre: ''
 	}
 }
 

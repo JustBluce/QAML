@@ -7,18 +7,25 @@ Developers: Atith Gandhi and Jason Liu
     <textarea
       readonly
       class="container"
-      rows="3"
-      placeholder="People ethnicity"
-      v-model="people_ethnicity"
+      rows="1"
+      placeholder="Genre"
+      v-model="genre"
+    ></textarea>
+    <textarea
+      readonly
+      class="container"
+      rows="1"
+      placeholder="SubGenre"
+      v-model="subgenre"
     ></textarea>
     <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <!-- <th>Please consider adding the following under-represented countries for 10 extra points</th> -->
+                    <th>Please consider adding the following under-represented countries for 10 extra points</th> 
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in country_representation" :key="user.Country">
+                <tr v-for="(user, index) in country_representation" :key="user.Country">
                     <td>{{index + 1}}. {{user.Country}}</td>
                     <td>{{user.Score}}</td>
                     
@@ -49,7 +56,13 @@ export default {
     },
     people_ethnicity() {
       return this.qa.people_ethnicity;
-    }
+    },
+    genre() {
+      return this.qa.genre
+    },
+    subgenre() {
+      return this.qa.subgenre
+    },
   },
 };
 </script>
