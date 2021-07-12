@@ -3,7 +3,9 @@ Developers: Cai Zefan and Jason Liu
 -->
 
 <template>
-  <div>
+
+
+<div>
     <textarea
       class="container"
       rows="5"
@@ -28,6 +30,21 @@ Developers: Cai Zefan and Jason Liu
       placeholder="Countries Represented in the question"
       v-model="country_representation"
     ></textarea>
+  
+    <!--New highlighting Idea -->    
+      <div>
+        <div class="container">
+      <div class="backdrop">
+        <div class="highlights">
+        </div>
+      </div>
+      <textarea placeholder="Enter text here">
+        
+        <!-- user input here -->
+      </textarea>
+    </div>
+  
+  
   </div>
 </template>
 
