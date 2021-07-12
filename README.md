@@ -20,7 +20,7 @@ Database: MySQL
 ## Preparations
 
 ### MySQL
-- Install mysql in your computer with the guide https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/
+- Install mysql in your computer with the [following guide](https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/)
   - pip uninstall mysql (or whatever other package you installed that way)
   - Visit https://dev.mysql.com/downloads/mysql/ and download proper mysql
   - Go through the setup process and REMEMBER your password(will be used later)
@@ -42,16 +42,17 @@ mysql+pymysql://root:YOURPASSWORD@localhost:3306/QA?charset=utf8
 ### Model Files
 - Run https://github.com/Pinafore/qanta-codalab locally and you will get `qanta-codalab/src/tfidf.pickle`
 - Remove and rename `qanta-codalab/src/tfidf.pickle` to `TRYOUT-PROJECT/Flask/model/model.pickle`
-- Download the following [BERT_genre_classifier](https://drive.google.com/drive/folders/1lqVosgCPhRVH4A2m3bIaPdo5Ghggl9pQ?usp=sharing) and place it in TryoutProject\Flask\model\genre_classifier_models\BERT_genre_classifier folder. 
-- Download the following [Science_Genre_Classifier](https://drive.google.com/drive/folders/15cGe--BEXq3wnhEfV1dQSaDJ4P5jocjw?usp=sharing) and place it in TryoutProject\Flask\model\genre_classifier_models\Science_Genre_Classifier
+- Download the following [BERT_genre_classifier](https://drive.google.com/drive/folders/1lqVosgCPhRVH4A2m3bIaPdo5Ghggl9pQ?usp=sharing) Unzip it and place it in TryoutProject\Flask\model\genre_classifier_models\BERT_genre_classifier folder. 
+- Download the following [Science_Genre_Classifier](https://drive.google.com/drive/folders/15cGe--BEXq3wnhEfV1dQSaDJ4P5jocjw?usp=sharing) Unzip it and place it in TryoutProject\Flask\model\genre_classifier_models\Science_Genre_Classifier
 
 ### Vue.js ( 2.6.14 )
 - Follow [this](https://vuejs.org/v2/guide/installation.html) link to install vue.js
 - We recommend using `npm install` as your instalation method
 
-### Python Packages
 
-We recomend that use a seperate Conda envorinment or pipenv environment for installing packages, however this is only a reconmendation. 
+### Python Packages 
+
+We recomend that use a seperate Conda envorinment or pipenv environment for installing packages, however this is only a recommendation. 
 
 - `cd Flask`
 - `pip3 install -r requirements.txt`
@@ -80,11 +81,7 @@ Run the below commands in the terminal for running the code:
 9. ``npm run dev``
 
 ## Examples
-
-https://user-images.githubusercontent.com/37555910/124949034-38e27b80-dfdf-11eb-9279-b9530c7bf893.mov
-
-
-
+(Coming soon)
 
 
 
