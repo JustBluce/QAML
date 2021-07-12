@@ -2,15 +2,24 @@
 Developers: Atith Gandhi and Jason Liu
 -->
 
+
+
 <template>
   <div class="Buzzer-container">
-    <textarea
+    <!-- <textarea
       readonly
       class="container"
       rows="5"
       placeholder="Buzzer"
       v-model="binary_search_based_buzzer"
-    ></textarea>
+    ></textarea> -->
+    <Highlighter
+      :style="{ color: 'black' }"
+      highlightClassName="highlight"
+      :searchWords="keywords"
+      :autoEscape="true"
+      :textToHighlight="binary_search_based_buzzer"
+    />
     <table class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -28,12 +37,23 @@ Developers: Atith Gandhi and Jason Liu
   </div>
 </template>
 
+
+
 <script>
+import Highlighter from "vue-highlight-words";
 export default {
   name: "Buzzer",
   props: {
     workspace_id: Number,
     widget_id: Number,
+  },
+  components: {
+    Highlighter,
+  },
+  data() {
+    return {
+      words: "🔔BUZZ",
+    };
   },
   computed: {
     qa() {
@@ -47,7 +67,10 @@ export default {
     },
     importance() {
       return this.qa.importance;
-    }
+    },
+    keywords() {
+      return this.words.split(" ");
+    },
   },
 };
 </script>
@@ -61,5 +84,27 @@ export default {
 
 .container {
   cursor: default;
+}
+select {
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+select:hover {
+  opacity: 0.7;
+}
+
+.output {
+  cursor: default;
+  height: 172px;
+}
+
+.placeholder {
+  color: #757575;
+}
+
+.highlight {
+  background-color: #fffab8;
 }
 </style>
