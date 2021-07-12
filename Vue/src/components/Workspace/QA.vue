@@ -30,8 +30,16 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       rows="2"
       placeholder="Answer"
     ></textarea>
+    <div> <h4> Genre </h4> </div>
+    <select v-model="qa.genre" @change="changeGenre">
+    <option disabled value="">Please select a genre for your question</option>
+      <option v-for="(item , index) in genres" v-bind:key="index"  >
+            {{item}}
+       </option>
+    </select>
     <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
     
+
     <table class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -78,6 +86,7 @@ export default {
         { text: "soupppppp", "style": "border: 2px solid #73AD21;"},
       ],
       highlightEnabled: true,
+      genres: ['Philosophy', 'History', 'Literature', 'Mythology', 'Current Events', 'Religion', 'Trash', 'Social Science', 'Science', 'Fine Arts', 'Geography']
     };
   },
   computed: {
@@ -113,7 +122,7 @@ export default {
     keep_looping: _.debounce(function() {
       let formData = new FormData();
       formData.append("text", this.text);
-
+      // this.qa.genre = this.selected_genre
       this.axios({
         url: "http://127.0.0.1:5000/func/act",
         method: "POST",
@@ -171,15 +180,15 @@ export default {
         this.qa.country_representation = response.data["country_representation"];
         this.highlight = response.data["Highlight"];
       });
-      this.axios({
-        url: "http://127.0.0.1:5000/genre_classifier/classify",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        console.log(response.data["genre"] )
-        this.qa.genre = response.data["genre"];
-        this.qa.subgenre = response.data["subgenre"];
-      });
+      // this.axios({
+      //   url: "http://127.0.0.1:5000/genre_classifier/classify",
+      //   method: "POST",
+      //   data: formData,
+      // }).then((response) => {
+      //   console.log(response.data["genre"] )
+      //   // this.qa.genre = response.data["genre"];
+      //   this.qa.subgenre = response.data["subgenre"];
+      // });
       
 
     },1000),
@@ -201,13 +210,7 @@ export default {
           );
         }
       });
-      this.axios({
-        url: "http://127.0.0.1:5000/genre_classifier/classify",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        console.log(response.data["genre"] )
-      });
+      
       this.axios({
         url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
         method: "POST",
@@ -248,6 +251,20 @@ export default {
         qa_id: this.qa_id,
       });
     },
+
+    changeGenre() {
+      let formData = new FormData();
+      formData.append("text", this.text);
+      this.axios({
+        url: "http://127.0.0.1:5000/genre_classifier/classify",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        console.log(response.data["subgenre"][this.qa.genre] )
+        this.qa.subgenre = response.data["subgenre"][this.qa.genre] 
+      });
+      
+    }
   }
 };
 </script>
