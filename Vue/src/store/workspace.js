@@ -18,8 +18,16 @@ export function widgetTemplate(id, type) {
 		},
 		Representation: {
 			id: id,
-			title: 'Representation analysis',
+			title: 'Genre Representation',
 			type: 'Representation',
+			container: 'right',
+			expanded: true,
+			maxHeight: '300px'
+		},
+		Country_Representation: {
+			id: id,
+			title: 'Country Representation',
+			type: 'Country_Representation',
 			container: 'right',
 			expanded: true,
 			maxHeight: '300px'
@@ -69,10 +77,11 @@ export function defaultWorkspace(id) {
 			widgetTemplate(0, 'Timer'),
 			widgetTemplate(1, 'Pronunciation'),
 			widgetTemplate(2, 'Representation'),
-			widgetTemplate(3, 'SimilarQuestions'),
-			widgetTemplate(4, 'Buzzer')
+			widgetTemplate(3, 'Country_Representation'),
+			widgetTemplate(4, 'SimilarQuestions'),
+			widgetTemplate(5, 'Buzzer')
 		],
-		widget_index: 5,
+		widget_index: 6,
 		style: {
 			left: 0,
 			top: 0
