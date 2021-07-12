@@ -111,4 +111,21 @@ def load_science_genre_model():
     return model
 
 science_genre_model = load_science_genre_model()
+sub_genres = {
+            'Philosophy': [['Norse', 354], ['Other', 345], ['Philosophy', 5], ['European', 3], ['American', 2], ['Religion/Mythology', 1]],
+            'History' : [['American', 3514], ['World', 3103], ['European', 3100], ['British', 685], ['Classical', 607], ['Ancient', 345], ['Other', 541], ['Classic', 105], ['Norse', 48], ['Geography', 2], ['Religion/Mythology', 1]],
+            'Literature': [[ 'American', 3463], ['European', 3194], ['British', 2052], ['World', 1934], ['Europe', 421],  ['Other', 629], ['Classical', 249], ['Classic', 58], ['Norse', 40], ['Language Arts', 19], ['Religion/Mythology', 1], ['Pop Culture', 1], ['Art', 1]],
+            'Mythology': [[ 'Norse', 365], ['Religion/Mythology', 15], ['American', 6], ['Greco-Roman', 2], ['Earth Science', 1], ['Japanese', 1], ['Music', 1]],
+            'Current Events' : [['None', 362]],
+            'Religion': [['Norse', 318], ['Religion/Mythology', 6], ['Other', 377], ['American', 3], ['East Asian', 2], ['Ancient', 1], ['World', 1]],
+            'Trash' : [['Pop Culture', 349], ['Norse', 313], ['Other', 545], ['American', 5], ['World', 1], ['Movies', 1], ['Classic', 1]],
+            'Social Science': [['Religion/Mythology', 1017], ['Philosophy', 540], ['Geography', 480], ['None', 322], ['Psychology', 203], ['Economics', 172], ['Anthropology', 154], ['Norse', 100],  ['Other', 77], ['World', 1], ['Language Arts', 1], ['American', 1], ['European', 1]],
+            'Science': [['Biology', 2727], ['Physics', 2413], ['Chemistry', 2281], ['Math', 1268], ['Other', 1523], ['Computer Science', 297], ['Astronomy', 204], ['Earth Science', 157], ['Norse', 71], ['Religion/Mythology', 1], ['Psychology', 1], ['Pop Culture', 1], ['World', 1]],
+            'Fine Arts': [['Visual', 1980], ['Auditory', 1233], ['Other', 1400], ['Music', 1039], ['Audiovisual', 769], ['Art', 587], ['Norse', 7], ['American', 2]],
+            'Geography': [['Norse', 238], ['Other', 287], ['Geography', 15], ['World', 3], ['American', 1]]
+
+        }
+genres = ['Philosophy', 'History', 'Literature', 'Mythology', 'Current Events', 'Religion', 'Trash', 'Social Science', 'Science', 'Fine Arts', 'Geography']
+
+
 
