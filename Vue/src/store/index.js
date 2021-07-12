@@ -5,7 +5,9 @@ import { defaultWorkspace, defaultQA, initial_workspaces, widgetTemplate } from 
 import app from './modules/app';
 import settings from './modules/settings';
 import user from './modules/user';
-
+import VueGoogleCharts from 'vue-google-charts'
+ 
+Vue.use(VueGoogleCharts)
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -13,7 +15,7 @@ const store = new Vuex.Store({
 		workspaces: initial_workspaces,
 		workspace_stack: initial_workspaces.map((workspace) => workspace.id),
 		workspace_index: initial_workspaces.length,
-		widget_types: [ 'Timer', 'Pronunciation', 'Representation', 'SimilarQuestions', 'Buzzer' ],
+		widget_types: [ 'Timer', 'Pronunciation', 'Representation', 'Country_Representation', 'SimilarQuestions', 'Buzzer' ],
 		recommended: ['Baltimore', 'Washington, D.C.', 'Cleveland']
 		
 	},
