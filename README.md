@@ -31,6 +31,7 @@ mysql -u root -p
 CREATE DATABASE questions;
 USE questions;
 create table QA (id int auto_increment primary key, Question varchar(255) null, Answer varchar(255) null);
+create table user_inf (User varchar(255) null, Password varchar(255) null);
 ```
 - Edit the following file: `Flask/config.py` to use your mysql settings, change 'YOURPASSWORD' to the password you set up earlier
 
@@ -41,12 +42,17 @@ mysql+pymysql://root:YOURPASSWORD@localhost:3306/QA?charset=utf8
 ### Model Files
 - Run https://github.com/Pinafore/qanta-codalab locally and you will get `qanta-codalab/src/tfidf.pickle`
 - Remove and rename `qanta-codalab/src/tfidf.pickle` to `TRYOUT-PROJECT/Flask/model/model.pickle`
+- Download the following [BERT_genre_classifier](https://drive.google.com/drive/folders/1lqVosgCPhRVH4A2m3bIaPdo5Ghggl9pQ?usp=sharing) and place it in TryoutProject\Flask\model\genre_classifier_models\BERT_genre_classifier folder. 
+- Download the following [Science_Genre_Classifier](https://drive.google.com/drive/folders/15cGe--BEXq3wnhEfV1dQSaDJ4P5jocjw?usp=sharing) and place it in TryoutProject\Flask\model\genre_classifier_models\Science_Genre_Classifier
 
 ### Vue.js ( 2.6.14 )
 - Follow [this](https://vuejs.org/v2/guide/installation.html) link to install vue.js
 - We recommend using `npm install` as your instalation method
 
 ### Python Packages
+
+We recomend that use a seperate Conda envorinment or pipenv environment for installing packages, however this is only a reconmendation. 
+
 - `cd Flask`
 - `pip3 install -r requirements.txt`
 - `python -m spacy download en_core_web_sm`
