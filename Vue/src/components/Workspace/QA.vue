@@ -152,6 +152,16 @@ export default {
         this.importance = response.data["importance"];
       });
       
+      this.axios({
+        url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.addModal(
+            "Pronunciaiton Checks Complete"
+          );
+      });
+
     },
 
     addModal(header, body) {
