@@ -23,6 +23,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       placeholder="Please enter your question"
       v-model="text"
       @input="keep_looping"
+      :formatter="formatter"
     ></textarea>
     <textarea
       class="container"
@@ -100,7 +101,15 @@ export default {
     },
   },
   methods: {
-
+    // mounted: function () {
+    //     this.$nextTick(function () {
+    //         this.interval = setInterval(
+    //             this.keep_looping(), 100000);
+    //     })
+    // },
+    formatter(value) {
+        return value.toLowerCase()
+      },
     keep_looping: _.debounce(function() {
       let formData = new FormData();
       formData.append("text", this.text);
@@ -120,7 +129,13 @@ export default {
         data: formData,
       }).then((response) => {
         this.qa.binary_search_based_buzzer = response.data["buzz"];
+        // this.text = response.data["buzz"];
         this.qa.importance = response.data["importance"];
+        if(response.data["flag"]== true)
+        {
+          var audio = new Audio('C:/Users/rajsa/Desktop/qanta-codalab-master/TryoutProject/Vue/src/components/file.mp3')
+          audio.play()
+        }
       });
 
       this.axios({
@@ -167,7 +182,7 @@ export default {
       });
       
 
-    },2000),
+    },1000),
 
     searchData() {
       let formData = new FormData();
@@ -289,4 +304,8 @@ export default {
 .el-button:active {
   transform: scale(0.98);
 }
+
+.highlightText {
+        background: yellow;
+    }
 </style>
