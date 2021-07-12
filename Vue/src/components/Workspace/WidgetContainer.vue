@@ -86,7 +86,7 @@ export default {
 .widget-item {
   margin: 0px;
   margin-top: 20px;
-  height: fit;
+  height: fit-content;
   width: 100%;
 }
 
