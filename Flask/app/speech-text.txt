@@ -1,0 +1,76 @@
+{
+  "result_index": 0,
+  "results": [
+    {
+      "final": true,
+      "alternatives": [
+        {
+          "transcript": "who is the inventor of the photoelectric effect ",
+          "confidence": 0.82
+        }
+      ],
+      "word_alternatives": [
+        {
+          "start_time": 0.0,
+          "end_time": 0.24,
+          "alternatives": [
+            {
+              "word": "who",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 0.24,
+          "end_time": 0.46,
+          "alternatives": [
+            {
+              "word": "is",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 0.46,
+          "end_time": 0.6,
+          "alternatives": [
+            {
+              "word": "the",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 0.6,
+          "end_time": 1.21,
+          "alternatives": [
+            {
+              "word": "inventor",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 1.21,
+          "end_time": 1.35,
+          "alternatives": [
+            {
+              "word": "of",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 1.35,
+          "end_time": 1.45,
+          "alternatives": [
+            {
+              "word": "the",
+              "confidence": 1.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
