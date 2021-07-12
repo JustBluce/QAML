@@ -15,10 +15,12 @@ Developers: Jason Liu
   >
     <div class="drag-bar" @mousedown="startDrag" />
     <Header :workspace_id="id" />
-    <div class="ui-container">
-      <WidgetContainer :workspace_id="id" container="left" />
-      <QA :workspace_id="id" :qa_id="qa_selected" />
-      <WidgetContainer :workspace_id="id" container="right" />
+    <div class="ui-wrapper">
+      <div class="ui-container">
+        <WidgetContainer :workspace_id="id" container="left" />
+        <QA :workspace_id="id" :qa_id="qa_selected" />
+        <WidgetContainer :workspace_id="id" container="right" />
+      </div>
     </div>
   </div>
 </template>
@@ -113,9 +115,7 @@ export default {
   width: calc(100% - 8px);
   min-width: 1100px;
   max-width: calc(100% - 8px);
-  overflow-x: hidden;
-  overflow-y: auto;
-  overflow-y: overlay;
+  overflow: hidden;
   resize: both;
 }
 
@@ -126,9 +126,17 @@ export default {
   flex-shrink: 0;
 }
 
+.ui-wrapper {
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overflow-y: overlay;
+}
+
 .ui-container {
   display: flex;
-  flex-grow: 1;
   position: relative;
+  min-height: 100%;
+  max-height: fit-content;
 }
 </style>
