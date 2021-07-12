@@ -38,6 +38,11 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       placeholder="Most Important sentence for the Machine to buzz"
       v-model="importance"
     ></textarea>
+    <textarea
+      class="container"
+      rows="3"
+      placeholder="Enter Text to Highlight"
+      v-model="importance"></textarea>
   </div>
 </template>
 
