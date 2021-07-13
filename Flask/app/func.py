@@ -74,8 +74,8 @@ def act():
     
     # return jsonify({"guess": answer, "difficulty": difficulty, "ethnicity": ethnicity, "gender": gender, "similar_question": similar_question, "country_representation" : country_representation})
     answer = guess(question=[question])
-    qa_table = metadata.tables["QA"]
-    db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
+    # qa_table = metadata.tables["QA"]
+    # db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
     # answer = tabulate(answer, tablefmt='html')
     # answer = "\n".join(str(x[0])+ " " + str(x[1]) for x in answer)
     answer = [{"guess": str(x[0]),"score":str(x[1])} for x in answer]

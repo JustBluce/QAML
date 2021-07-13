@@ -16,6 +16,8 @@ import en_core_web_sm
 import time
 import sys
 import torch
+import wikipedia
+from util import *
 sys.path.append("..")
 sys.path.insert(0, './app')
 
@@ -31,6 +33,15 @@ vectorizer, Matrix, ans = params[0], params[1], params[2]
 f = open('app/qanta.json')
 data = json.load(f)['questions']
 import re
+
+def guess(question, max=12):
+    answer = []
+    repre = vectorizer.transform(question)
+    matrix = Matrix.dot(repre.T).T
+    indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
+    for i in range(len(question)):
+        answer.append([(ans[j], matrix[i, j]) for j in indices[i]])
+    return answer[0][0]
 # import gensim.downloader as api
 # pre_ft_vectors = api.load('fasttext-wiki-news-subwords-300')
 
@@ -138,11 +149,12 @@ def country_present():
     message = ''
     question_vector = vectorize_albert([question])
     cosine_sim_ques_country = []
+    page = wikipedia.page(guess_top_1(question=[question], params = params)[0][0])
     for i in range(len(under_countries)):
         # b = " ".join(x for x in i)
-        if under_countries[i].lower() not in question.lower():
+        if under_countries[i].lower() not in question.lower() and under_countries[i].lower() in page.content.lower():
             cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]) ])
-    
+        
     message = Sort(cosine_sim_ques_country)
       
     answer = []
