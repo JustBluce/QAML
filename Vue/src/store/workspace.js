@@ -67,7 +67,8 @@ export function defaultWorkspace(id) {
 				binary_search_based_buzzer:'',
 				importance:'',
 				genre: '',
-				subgenre: ''
+				subgenre: '',
+				pronunication:''
 			}
 		],
 		qa_index: 1,
@@ -100,7 +101,8 @@ export function defaultQA(id) {
 		binary_search_based_buzzer: '',
         importance:'',
 		genre: '',
-		subgenre: ''
+		subgenre: '',
+		pronunciation:''
 	}
 }
 
