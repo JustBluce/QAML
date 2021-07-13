@@ -70,8 +70,9 @@ Run the below commands in the terminal for running the code:
 
 6. (In a seperate terminal) Navigate to the root directory
 7. ``cd Vue``
-8. ``npm install``
-9. ``npm run dev``
+8. ``npm install -g npm``
+9. ``npm install``
+10. ``npm run dev``
 
 ## Examples
 
