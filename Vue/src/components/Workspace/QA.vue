@@ -19,7 +19,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
     /> -->
     <textarea
       class="container"
-      rows="15"
+      rows="10"
       placeholder="Please enter your question"
       v-model="text"
       @input="keep_looping"
@@ -30,31 +30,30 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       rows="2"
       placeholder="Answer"
     ></textarea>
-    <div> <h4> Genre </h4> </div>
-    <select v-model="qa.genre" @change="changeGenre">
-    <option disabled value="">Please select a genre for your question</option>
-      <option v-for="(item , index) in genres" v-bind:key="index"  >
-            {{item}}
-       </option>
-    </select>
     <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
-    
+    <div class="two-col">
+    <div class="col1">
+        <div> <h4> Genre </h4> </div>
+        <select v-model="qa.genre" @change="changeGenre">
+        <option disabled value="">Please select a genre for your question</option>
+          <option v-for="(item , index) in genres" v-bind:key="index"  >
+                {{item}}
+          </option>
+        </select>
+    </div>
 
-    <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Machine Guess</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in answer" :key="user.guess">
-                    <td>{{user.guess}}</td>
-                    <td>{{user.score}}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="col2">
+        <GChart
+      type="PieChart"
+      :options="options"
+      :data="chartData"
+      />  
+    </div>
+    </div>
     
+    
+    
+       
 
   </div>
 </template>
@@ -63,6 +62,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
 import HighlightableInput from "vue-highlightable-input";
 import Vue from "vue";
 import Modal from "@/components/Modal";
+import { GChart } from "vue-google-charts";
 
 export default {
   name: "QA",
@@ -86,7 +86,12 @@ export default {
         { text: "soupppppp", "style": "border: 2px solid #73AD21;"},
       ],
       highlightEnabled: true,
-      genres: ['Philosophy', 'History', 'Literature', 'Mythology', 'Current Events', 'Religion', 'Trash', 'Social Science', 'Science', 'Fine Arts', 'Geography']
+      genres: ['Philosophy', 'History', 'Literature', 'Mythology', 'Current Events', 'Religion', 'Trash', 'Social Science', 'Science', 'Fine Arts', 'Geography'],
+      options: {
+        width: 400,
+        height: 400
+      },
+      chartData: [['Subgenre', 'Count'],['None', 1]]
     };
   },
   computed: {
@@ -130,7 +135,7 @@ export default {
         data: formData,
       }).then((response) => {
         console.log(response);
-        this.answer = response.data["guess"];
+        this.qa.answer = response.data["guess"];
       });
 
       this.axios({
@@ -154,12 +159,12 @@ export default {
         data: formData,
       }).then((response) => {
         console.log(response);
-        if (response.data["similar_question"][0]) {
-          this.addModal(
-            "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
-            response.data["similar_question"][1][0]['text']
-          );
-        }
+        // if (response.data["similar_question"][0]) {
+        //   this.addModal(
+        //     "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+        //     response.data["similar_question"][1][0]['text']
+        //   );
+        // }
         this.qa.top5_similar_questions = response.data["similar_question"];
       });
 
@@ -211,7 +216,29 @@ export default {
         data: formData,
       }).then((response) => {
         if (response.data["difficulty"] === "Hard") {
-          this.addModal("Saved !!!", "Your question is submitted.");
+          this.axios({
+            url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+            method: "POST",
+            data: formData,
+          }).then((response) => {
+            if (response.data["similar_question"][0]) {
+              this.addModal(
+                "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+                response.data["similar_question"][1][0]['text']
+              );
+            } else {
+              // this.axios({
+              //   url: "http://127.0.0.1:5000/func/act",
+              //   method: "POST",
+              //   data: formData,
+              // }).then((response) => {
+              //   console.log(response);
+              //   this.answer = response.data["guess"];
+              // });
+              this.addModal("Saved !!!", "Your question is submitted.");
+            }
+            // this.qa.top5_similar_questions = response.data["similar_question"];
+          });
         } else {
           this.addModal(
             "Not saved !!!",
@@ -220,21 +247,18 @@ export default {
         }
       });
       
-      this.axios({
-        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        if (response.data["similar_question"][0]) {
-          this.addModal(
-            "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
-            response.data["similar_question"][1][0]['text']
-          );
-        }
-        this.qa.top5_similar_questions = response.data["similar_question"];
-      });
+      
 
 
+      // this.axios({
+      //   url: "http://127.0.0.1:5000/func/country_people",
+      //   method: "POST",
+      //   data: formData,
+      // }).then((response) => {
+      //   console.log(response);
+      //   this.qa.country_representation = response.data["country_representation"];
+      //   this.highlight = response.data["Highlight"];
+      // });
     },
 
     addModal(header, body) {
@@ -263,9 +287,15 @@ export default {
       }).then((response) => {
         console.log(response.data["subgenre"][this.qa.genre] )
         this.qa.subgenre = response.data["subgenre"][this.qa.genre] 
+        if(this.qa.subgenre != ""){
+          let header = [['Subgenre', 'Count']]
+          console.log(header.concat(this.qa.subgenre))
+          this.chartData = header.concat(this.qa.subgenre)
+        }
       });
       
-    }
+    },
+
   }
 };
 </script>
@@ -326,4 +356,25 @@ export default {
 .highlightText {
         background: yellow;
     }
+
+.two-col {
+    overflow: hidden;/* Makes this div contain its floats */
+}
+
+.two-col .col1,
+.two-col .col2 {
+    width: 49%;
+}
+
+.two-col .col1 {
+    float: left;
+}
+
+.two-col .col2 {
+    float: right;
+}
+
+.two-col label {
+    display: block;
+}
 </style>

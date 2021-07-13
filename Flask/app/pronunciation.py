@@ -54,7 +54,7 @@ def Sort(sub_li):
     # reverse = None (Sorts in Ascending order)
     # key is set to sort using second element of 
     # sublist lambda has been used
-    return(sorted(sub_li, key = lambda x: x[1], reverse = False))   
+    return(sorted(sub_li, key = lambda x: x[2], reverse = False))   
 
 pronunciation = Blueprint('pronunciation', __name__)
 myRecognizeCallback = MyRecognizeCallback()
@@ -69,6 +69,9 @@ def getpronunciation():
         question = request.form.get("text")
 
     start = time.time()
+    if(not(question)):
+        jsonify({"pronunciation": [{"Word": "-", "Score":"-"}]})
+
     question = " " + question
     language = 'en'
     myobj = gTTS(text=question, lang=language, slow=False)
@@ -98,15 +101,19 @@ def getpronunciation():
     # print(repre)
     matrix = repre.dot(repre_transcribed.T).T
     cosine_similarity = matrix.toarray()[0][0]
-    most_difficult_to_pronounce_words = Sort(array_of_word_confidence)[0:3]
-    answer = []
     temp_word_array = break_into_words(question)
-    print(len(temp_word_array),len(most_difficult_to_pronounce_words))
+    print(temp_word_array)
+    print(array_of_word_confidence)
+    count = 0
+    array = []
+    while("" in temp_word_array) :
+        temp_word_array.remove("")
+    for i in range(len(array_of_word_confidence)):
+        array.append([temp_word_array[i], array_of_word_confidence[i][0], array_of_word_confidence[i][1]])
+    most_difficult_to_pronounce_words = Sort(array)[:3]
+    answer = []
     for i in range(len(most_difficult_to_pronounce_words)):
-        if(len(temp_word_array)==len(most_difficult_to_pronounce_words)):
-            answer.append({"Word": temp_word_array[i], "Score":most_difficult_to_pronounce_words[i][1]})
-        else:
-            answer.append({"Word":most_difficult_to_pronounce_words[i][0], "Score":most_difficult_to_pronounce_words[i][1]})
+        answer.append({"Original_Word": most_difficult_to_pronounce_words[i][0], "Transcribed_Word": most_difficult_to_pronounce_words[i][1], "Score":most_difficult_to_pronounce_words[i][2]})
     # file = open("app/speech-text.txt","w")
     # file.write(json.dumps(speech_recognition_results, indent=2))
     # file.close()
