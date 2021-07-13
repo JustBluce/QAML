@@ -1,3 +1,18 @@
+export function defaultQA(id) {
+	return {
+		id: id,
+		title: id === 0 ? 'QA' : `QA (${id})`,
+		text: '',
+		country_representation: '',
+		people_ethnicity: '',
+		top5_similar_questions: [],
+		binary_search_based_buzzer: '',
+		importance: '',
+		genre: '',
+		subgenre: ''
+	};
+}
+
 export function widgetTemplate(id, type) {
 	let widget_templates = {
 		Timer: {
@@ -47,21 +62,8 @@ export function widgetTemplate(id, type) {
 export function defaultWorkspace(id) {
 	return {
 		id: id,
-		title: 'Workspace',
-		qas: [
-			{
-				id: 0,
-				title: 'QA',
-				text: '',
-				country_representation: '',
-				people_ethnicity: '',
-				top5_similar_questions: [],
-				binary_search_based_buzzer: '',
-				importance: '',
-				genre: '',
-				subgenre: ''
-			}
-		],
+		title: id === 0 ? 'Workspace' : `Workspace (${id})`,
+		qas: [ defaultQA(0) ],
 		qa_index: 1,
 		qa_selected: 0,
 		widgets: [
@@ -76,21 +78,6 @@ export function defaultWorkspace(id) {
 			left: 0,
 			top: 0
 		}
-	};
-}
-
-export function defaultQA(id) {
-	return {
-		id: id,
-		title: `QA (${id})`,
-		text: '',
-		country_representation: '',
-		people_ethnicity: '',
-		top5_similar_questions: [],
-		binary_search_based_buzzer: '',
-		importance: '',
-		genre: '',
-		subgenre: ''
 	};
 }
 

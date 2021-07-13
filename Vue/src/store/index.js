@@ -14,8 +14,7 @@ const store = new Vuex.Store({
 		workspace_stack: initial_workspaces.map((workspace) => workspace.id),
 		workspace_index: initial_workspaces.length,
 		widget_types: [ 'Timer', 'Pronunciation', 'Representation', 'SimilarQuestions', 'Buzzer' ],
-		recommended: ['Baltimore', 'Washington, D.C.', 'Cleveland']
-		
+		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ]
 	},
 	modules: {
 		app,
@@ -23,8 +22,12 @@ const store = new Vuex.Store({
 		user
 	},
 	mutations: {
-		addWorkspace(state) {
-			state.workspaces.push(defaultWorkspace(state.workspace_index));
+		addWorkspace(state, title) {
+			let newWorkspace = defaultWorkspace(state.workspace_index);
+			if (title) {
+				newWorkspace.title = title;
+			}
+			state.workspaces.push(newWorkspace);
 			state.workspace_stack.push(state.workspace_index);
 			state.workspace_index++;
 		},

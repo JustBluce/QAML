@@ -15,9 +15,6 @@ Developers: Cai
       :
       <div id="seconds">{{ seconds }}</div>
     </div>
-    <!-- <div class="">
-      <h1>{{ time }}</h1>
-    </div> -->
   </div>
 </template>
 
@@ -109,7 +106,7 @@ export default {
         propsData: { header, body },
       });
       modal.$mount();
-      this.$refs.timerContainer.appendChild(this.modal.$el);
+      this.$refs.timerContainer.appendChild(modal.$el);
     },
   },
   // beforeDestroy() {
