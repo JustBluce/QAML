@@ -8,7 +8,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       <input class="title" v-model="qa.title" />
       <a v-show="qa_count > 1" class="fas fa-trash btn" @click="deleteQA" />
     </div>
-    <!-- <highlightable-input
+    <highlightable-input
       highlight-style="background-color:yellow"
       :highlight-enabled="highlightEnabled"
       :highlight="highlight"
@@ -16,14 +16,14 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       placeholder="Please enter your question"
       v-model="text"
       @input="keep_looping"
-    /> -->
-    <textarea
+    />
+    <!-- <textarea
       class="container"
       rows="15"
       placeholder="Please enter your question"
       v-model="text"
       @input="keep_looping"
-    ></textarea>
+    ></textarea> -->
     <textarea class="container" rows="2" placeholder="Answer"></textarea>
     <el-button type="primary" @click="searchData">
       Submit <i class="fa fa-upload"
@@ -65,10 +65,10 @@ export default {
     return {
       answer: "",
       highlight: [
-        { text: "chicken", style: "background-color:#f37373" },
-        { text: "noodle", style: "background-color:#fca88f" },
-        { text: "soup", style: "background-color:#bbe4cb" },
-        { text: "so", style: "background-color:#fff05e" },
+        // { text: "chicken", style: "background-color:#f37373" },
+        // { text: "noodle", style: "background-color:#fca88f" },
+        // { text: "soup", style: "background-color:#bbe4cb" },
+        // { text: "so", style: "background-color:#fff05e" },
         // "whatever",
         { text: "soupppppp", style: "border: 2px solid #73AD21;" },
       ],
@@ -114,7 +114,9 @@ export default {
         data: formData,
       }).then((response) => {
         this.qa.binary_search_based_buzzer = response.data["buzz"];
+        console.log(response)
         this.qa.importance = response.data["importance"];
+        this.highlight = response.data['buzz_word']
       });
 
       this.axios({
