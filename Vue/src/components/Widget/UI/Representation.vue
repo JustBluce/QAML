@@ -19,20 +19,21 @@ Developers: Atith Gandhi and Jason Liu
       v-model="subgenre"
     ></textarea>
     <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th colspan="2">Please consider adding the following under-represented countries for 10 extra points</th> 
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(user, index) in country_representation" :key="user.Country">
-                    <td>{{index + 1}}. {{user.Country}}</td>
-                    <td>{{user.Score}}</td>
-                    
-                </tr>
-            </tbody>
-        </table>
-    
+      <thead>
+        <tr>
+          <th colspan="2">
+            Please consider adding the following under-represented countries for
+            10 extra points
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(user, index) in country_representation" :key="user.Country">
+          <td>{{ index + 1 }}. {{ user.Country }}</td>
+          <td>{{ user.Score }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -51,17 +52,17 @@ export default {
       return this.$store.getters.qa(this.workspace_id, qa_index);
     },
     country_representation() {
-      console.log(this.qa.country_representation)
+      console.log(this.qa.country_representation);
       return this.qa.country_representation;
     },
     people_ethnicity() {
       return this.qa.people_ethnicity;
     },
     genre() {
-      return this.qa.genre
+      return this.qa.genre;
     },
     subgenre() {
-      return this.qa.subgenre
+      return this.qa.subgenre;
     },
   },
 };
