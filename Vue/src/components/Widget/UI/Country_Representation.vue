@@ -16,10 +16,9 @@ Developers: Atith Gandhi and Jason Liu
                 </tr> -->
             </thead>
             <tbody>
-                <tr v-for="(user, index) in country_representation" :key="user.Country">
-                    <td>{{index + 1}}. {{user.Country}}</td>
+                <tr v-for="user in country_representation" :key="user.Country">
+                    <td>{{user.Country}}</td>
                     <td>{{user.Score}}</td>
-                    
                 </tr>
             </tbody>
         </table>

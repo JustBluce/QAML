@@ -1,4 +1,7 @@
 # By Raj and Atith
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoModelForPreTraining, AutoConfig
+from util import *
+from app import util, importance
 import pycountry
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -21,8 +24,6 @@ from util import *
 sys.path.append("..")
 sys.path.insert(0, './app')
 
-from app import util, importance
-from util import *
 
 nlp = en_core_web_sm.load()
 
@@ -123,24 +124,29 @@ f_country = open('app/country.json')
 map_instance = json.load(f_country)
 total_instance = sum(map_instance.values())
 
+
 def Sort(sub_li):
-  
+
     # reverse = None (Sorts in Ascending order)
-    # key is set to sort using second element of 
+    # key is set to sort using second element of
     # sublist lambda has been used
-    return(sorted(sub_li, key = lambda x: x[1], reverse = True))
+    return(sorted(sub_li, key=lambda x: x[1], reverse=True))
+
 
 under_countries = []
 over_countries = []
 for country in map_instance.keys():
-# if country in question.lower():
-    if len(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))) !=0:
-        if map_instance[country.lower()]/total_instance < int(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))[0]['population'])/sum(population): 
+    # if country in question.lower():
+    if len(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))) != 0:
+        if map_instance[country.lower()]/total_instance < int(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))[0]['population'])/sum(population):
             under_countries.append(country)
         else:
-            over_countries.append(country) 
+            over_countries.append(country)
 countries_vector = vectorize_albert(under_countries)
 answer = []
+
+
+
 @country_represent.route("/country_present", methods=["POST"])
 def country_present():
     if request.method == "POST":
@@ -150,22 +156,46 @@ def country_present():
     message = ''
     question_vector = vectorize_albert([question])
     cosine_sim_ques_country = []
-    page = wikipedia.page(ans)
+    # print(ans)
+    page = wikipedia.page("\""+ans+"\"")
     for i in range(len(under_countries)):
         # b = " ".join(x for x in i)
         if under_countries[i].lower() not in question.lower() and under_countries[i].lower() in page.content.lower():
             cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]) ])
-        
+            
     message = Sort(cosine_sim_ques_country)
       
     answer = []
     for i in message[:5]:
         answer.append({"Country": i[0], "Score":i[1]})
     end = time.time()
-    print("----TIME (s): /country_represent/country_present---",end - start)
-    return jsonify({"country_representation" : answer})
+    print("----TIME (s): /country_represent/country_present---", end - start)
+    return jsonify({"country_representation": answer, "country": countries})
 
 def country_present1(question):
-     
-    return  answer, over_countries
+    start = time.time()
+    message = ''
+    # print(total_instance)
+    under_countries = []
+    over_countries = []
+    countries = []
+    for country in map_instance.keys():
+        if country in question.lower():
+            countries.append(country)
+            if len(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))) != 0:
+                if map_instance[country.lower()]/total_instance < int(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))[0]['population'])/sum(population):
+                    under_countries.append(country)
+                else:
+                    over_countries.append(country)
+    if len(under_countries) != 0:
+        message = message + 'The country ' + \
+            ', '.join(under_countries) + \
+            ' in the question is/are from underrepresented group. The author will get 10 extra points. \n'
+    else:
+        message = message + 'The country ' + \
+            ', '.join(over_countries) + ' in the question is/are from overrepresented group. The author can next time write question having underrepresented countries to earn extra points. \n'
+    end = time.time()
+    print("----TIME (s): /country_represent/country_present---", end - start)
+    country_representation=message
+    return country_representation, over_countries
     # return jsonify({"country_representation": message, "country": countries})

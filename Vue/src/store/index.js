@@ -15,7 +15,7 @@ const store = new Vuex.Store({
 		workspaces: initial_workspaces,
 		workspace_stack: initial_workspaces.map((workspace) => workspace.id),
 		workspace_index: initial_workspaces.length,
-		widget_types: [ 'Timer', 'Pronunciation', 'Representation', 'Country_Representation', 'SimilarQuestions', 'Buzzer', 'Machine_Guess' ],
+		widget_types: [ 'Timer', 'Pronunciation', 'Country_Representation', 'SimilarQuestions', 'Buzzer', 'Machine_Guess' ],
 		recommended: ['Baltimore', 'Washington, D.C.', 'Cleveland']
 		
 	},

@@ -26,11 +26,11 @@ export function widgetTemplate(id, type) {
 		},
 		SimilarQuestions: {
 			id: id,
-			title: 'Top5 similar questions',
+			title: 'Similar questions',
 			type: 'SimilarQuestions',
 			expanded: true,
 			container: 'right',
-			maxHeight: '400px',
+			maxHeight: '400px'
 		},
 		Buzzer: {
 			id: id,
@@ -64,8 +64,8 @@ export function defaultWorkspace(id) {
 				country_representation: '',
 				people_ethnicity: '',
 				top5_similar_questions: [],
-				binary_search_based_buzzer:'',
-				importance:'',
+				binary_search_based_buzzer: '',
+				importance: '',
 				genre: '',
 				subgenre: '',
 				pronunication:'',
@@ -75,7 +75,6 @@ export function defaultWorkspace(id) {
 		qa_index: 1,
 		qa_selected: 0,
 		widgets: [
-		
 			widgetTemplate(0, 'Timer'),
 			widgetTemplate(1, 'Pronunciation'),
 			widgetTemplate(2, 'Country_Representation'),
@@ -100,7 +99,7 @@ export function defaultQA(id) {
 		people_ethnicity: '',
 		top5_similar_questions: [],
 		binary_search_based_buzzer: '',
-        importance:'',
+		importance: '',
 		genre: '',
 		subgenre: '',
 		pronunciation:'',
@@ -109,4 +108,3 @@ export function defaultQA(id) {
 }
 
 export const initial_workspaces = [ defaultWorkspace(0) ];
-
