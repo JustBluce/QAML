@@ -12,10 +12,17 @@ Developers: Damien Rene and Jason Liu
       :autoEscape="true"
       :textToHighlight="text"
     /> -->
-    <div>
+    <!-- <div>
       <h4> Please add the pronunciation guide for the following words </h4>
-    </div>
-    <table class="table table-striped table-bordered">
+    </div> -->
+    <textarea
+      readonly
+      class="container"
+      rows="1"
+      placeholder="pronunciation"
+      v-model="pronunciation"
+    ></textarea>
+    <!-- <table class="table table-striped table-bordered">
             <thead>
                 <tr>
                     <th>Original_Word</th>
@@ -30,7 +37,7 @@ Developers: Damien Rene and Jason Liu
                     <td>{{user.Score}}</td>
                 </tr>
             </tbody>
-        </table>
+        </table> -->
   </div>
 </template>
 

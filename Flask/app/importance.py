@@ -1,7 +1,7 @@
 # Raj
 import sys
-
-from transformers.utils.dummy_pt_objects import BertLMHeadModel
+import re
+# from transformers.utils.dummy_pt_objects import BertLMHeadModel
 sys.path.append("..")
 sys.path.insert(0, './app')
 from flask import Blueprint, render_template, redirect

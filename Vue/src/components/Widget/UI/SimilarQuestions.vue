@@ -4,21 +4,35 @@ Developers: Atith Gandhi, Raj Shah and Jason Liu
 
 <template>
   <div class="similar-container">
-  
-                
-  
-    <div v-for="(val, index) in getTop5_similar_questions[1]">
+    <div v-for="(val, index) in getTop5_similar_questions[1]" :key="index">
       <div class="tab__header">
-          <a href="#" class="tab__link p-4 block bg-blue-dark hover:bg-blue-darker no-underline text-white border-b-2 border-white flex justify-between" @click="toggle(index)">
-              {{index + 1}}.{{val['answer']}} 
-              <span class="down-Arrow" v-show="!active[index]">&#9660;</span>
-              <span class="up-Arrow" v-show="active[index]">&#9650;</span>
-          </a>
+        <a
+          href="#"
+          class="
+            tab__link
+            p-4
+            block
+            bg-blue-dark
+            hover:bg-blue-darker
+            no-underline
+            text-white
+            border-b-2 border-white
+            flex
+            justify-between
+          "
+          @click="toggle(index)"
+        >
+          {{ index + 1 }}.{{ val["answer"] }}
+          <span class="down-Arrow" v-show="!active[index]">&#9660;</span>
+          <span class="up-Arrow" v-show="active[index]">&#9650;</span>
+        </a>
       </div>
-      <div class="tab__content p-2" v-show="active[index]"><br> {{val['text']}}</div>            
-      
+      <div class="tab__content p-2" v-show="active[index]">
+        <br />
+        {{ val["text"] }}
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -27,12 +41,11 @@ export default {
   props: {
     workspace_id: Number,
     widget_id: Number,
-
   },
   data() {
     return {
-      active: [false, false, false, false, false]
-    }
+      active: [false, false, false, false, false],
+    };
   },
   computed: {
     qa() {
@@ -49,14 +62,12 @@ export default {
     },
   },
   methods: {
-      toggle(index) {
-        this.active[index] = !this.active[index]
-        this.active = [...this.active]
-        console.log(index, this.active[index])
-      },
+    toggle(index) {
+      this.active[index] = !this.active[index];
+      this.active = [...this.active];
+      console.log(index, this.active[index]);
     },
-    
-
+  },
 };
 </script>
 

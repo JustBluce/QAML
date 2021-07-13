@@ -1,7 +1,6 @@
 <!--
 Developers: Jason Liu
   - Created the Timer
-
 Developers: Cai
   - Make the timer set with 1 hour when first accessed
 -->
@@ -15,16 +14,12 @@ Developers: Cai
       :
       <div id="seconds">{{ seconds }}</div>
     </div>
-    <!-- <div class="">
-      <h1>{{ time }}</h1>
-    </div> -->
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import Modal from "@/components/Modal";
-
 export default {
   name: "Timer",
   data() {
@@ -66,14 +61,12 @@ export default {
       this.minutes = String(minutes).padStart(2, "0");
       this.seconds = String(seconds).padStart(2, "0");
     },
-
     // countdown() {
     //   this.time--;
     //   if (this.time == 0) {
     //     clearInterval(this.timer);
     //   }
     // },
-
     display(time) {
       this.hours = String(Math.floor(time / 3600));
       this.minutes = String(Math.floor(time / 60 - 60 * this.hours)).padStart(
@@ -84,11 +77,9 @@ export default {
         Math.floor(time - 3600 * this.hours - 60 * this.minutes)
       ).padStart(2, "0");
     },
-
     update() {
       let diff = (this.end - Date.now()) / 1000;
       this.display(diff)
-
       if (diff <= 0) {
         this.addModal("Time's up !!!", "Your question is being evaluated.");
         this.axios({
@@ -97,19 +88,17 @@ export default {
         }).then((response) => {
           console.log(response);
         });
-
         clearInterval(this.timer);
         this.display(0);
       }
     },
-
     addModal(header, body) {
       let ModalClass = Vue.extend(Modal);
       let modal = new ModalClass({
         propsData: { header, body },
       });
       modal.$mount();
-      this.$refs.timerContainer.appendChild(this.modal.$el);
+      // this.$refs.timerContainer.appendChild(modal.$el);
     },
   },
   // beforeDestroy() {
@@ -125,7 +114,6 @@ export default {
   font-size: 64px;
   margin-top: 10px;
 }
-
 #hours,
 #minutes,
 #seconds {
