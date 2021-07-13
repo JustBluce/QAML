@@ -98,7 +98,9 @@ export default {
     createQA() {
       this.$store.commit("createQA", this.workspace_id);
     },
-    minimize() {},
+    minimize() {
+      this.$store.commit("minimizeWorkspace", this.workspace_id);
+    },
     close() {
       this.$store.commit("deleteWorkspace", this.workspace_id);
     },
