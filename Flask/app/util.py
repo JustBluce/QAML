@@ -63,6 +63,19 @@ def guess_top_n(question, params, max=12, n=3):
     # print(answer)
     return answer[0][0:n]
 
+def guess_top_1(question, params, max=12, n=3):
+    vectorizer, Matrix, ans = params[0], params[1], params[2]
+    answer = []
+    repre = vectorizer.transform(question)
+    # print(repre.shape)
+
+    matrix = Matrix.dot(repre.T).T
+    indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
+    for i in range(len(question)):
+        answer.append([[ans[j], matrix[i, j]] for j in indices[i]])
+    # print(answer)
+    return answer[0][0:n]
+
 
 def load_bert_model():
     model = BertForSequenceClassification.from_pretrained(
