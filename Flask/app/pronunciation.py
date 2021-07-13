@@ -69,8 +69,8 @@ def getpronunciation():
         question = request.form.get("text")
 
     start = time.time()
-    if(not(question)):
-        jsonify({"pronunciation": [{"Word": "-", "Score":"-"}]})
+    if not question:
+        return jsonify({"pronunciation": [{"Word": "-", "Score":"-"}], message:""})
 
     question = " " + question
     language = 'en'
@@ -120,11 +120,11 @@ def getpronunciation():
     end = time.time()
     print("----TIME (s) : /pronunciation/get_pronunciation---", end - start)
     if(cosine_similarity < threshold_pronunciation):
-        return jsonify({"pronunciation": answer})
+        return jsonify({"pronunciation": answer,"message": "This question needs a pronunciation guide"})
     
 
     
-    return jsonify({"pronunciation": [{"Word": "-", "Score":"-"}]})
+    return jsonify({"pronunciation": [{"Word": "-", "Score":"-"}],"message": ""})
 
    
 

@@ -113,8 +113,9 @@ export default {
   width: calc(100% - 8px);
   min-width: 1100px;
   max-width: calc(100% - 8px);
-  overflow: auto;
-  overflow: overlay;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overflow-y: overlay;
   resize: both;
 }
 

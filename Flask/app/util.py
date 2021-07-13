@@ -17,7 +17,7 @@ import os
 
 def warn(*args, **kwargs):
     pass
-threshold_buzz = 0.4
+threshold_buzz = 0.2
 threshold_similar = 0.3
 threshold_pronunciation = 0.6
 import os
