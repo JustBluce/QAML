@@ -29,6 +29,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       class="container"
       rows="2"
       placeholder="Answer"
+      v-model="answer_text"
     ></textarea>
     <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
     <div class="two-col">
@@ -113,6 +114,18 @@ export default {
         
       },
     },
+    answer_text: {
+      get() {
+        return this.qa.answer_text;
+      },
+      set(value) {
+        this.$store.commit("updateQA", {
+          workspace_id: this.workspace_id,
+          payload: { id: this.qa_id, answer_text: value },
+        });
+        
+      },
+    },
   },
   methods: {
     // mounted: function () {
@@ -127,6 +140,7 @@ export default {
     keep_looping: _.debounce(function() {
       let formData = new FormData();
       formData.append("text", this.text);
+      formData.append("answer_text", this.answer_text);
       // this.qa.genre = this.selected_genre
       
       this.axios({
@@ -186,14 +200,14 @@ export default {
       //   this.qa.country_representation = response.data["country_representation"];
       //   this.highlight = response.data["Highlight"];
       // });
-      this.axios({
-        url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        console.log(response);
-        this.qa.pronunciation = response.data["pronunciation"];
-      });
+      // this.axios({
+      //   url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
+      //   method: "POST",
+      //   data: formData,
+      // }).then((response) => {
+      //   console.log(response);
+      //   this.qa.pronunciation = response.data["pronunciation"];
+      // });
       // this.axios({
       //   url: "http://127.0.0.1:5000/genre_classifier/classify",
       //   method: "POST",
@@ -210,6 +224,7 @@ export default {
     searchData() {
       let formData = new FormData();
       formData.append("text", this.text);
+      formData.append("answer_text", this.answer_text);
       this.axios({
         url: "http://127.0.0.1:5000/difficulty_classifier/classify",
         method: "POST",
@@ -227,15 +242,24 @@ export default {
                 response.data["similar_question"][1][0]['text']
               );
             } else {
-              this.axios({
-                url: "http://127.0.0.1:5000/func/act",
-                method: "POST",
-                data: formData,
-              }).then((response) => {
-                console.log(response);
-                this.answer = response.data["guess"];
-              });
+              if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
+              {
+                this.addModal(
+                "Warning !!! Please some fields are empty","Please make sure the QA box and the Answer box are filled and the Genre is selected"
+                
+              );
+
+              }
+              else {
+                  this.axios({
+                    url: "http://127.0.0.1:5000/func/insert",
+                    method: "POST",
+                    data: formData,
+                  }).then((response) => {
+                    console.log(response);
+                  });
               this.addModal("Saved !!!", "Your question is submitted.");
+              }
             }
             // this.qa.top5_similar_questions = response.data["similar_question"];
           });
