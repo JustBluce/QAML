@@ -66,6 +66,8 @@ def check_drop_in_confidence(question, actual_confidence, max=50, ind = -1):
     repre = vectorizer.transform(question)
     matrix = Matrix.dot(repre.T).T
     indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
+    if (not(question[0].strip())):
+        return 0.0
     for i in range(len(question)):
         idx = indices[i]
         answer.append([(ans[j], matrix[i, j]) for j in idx])
@@ -79,7 +81,7 @@ def make_colored(score, text , max, min):
 
 def get_importance_of_each_word(question):
     actual_answer, index_of_answer = get_actual_guess_with_index(question = [question])
-    print(actual_answer)
+    # print(actual_answer)
     actual_confidence = actual_answer[1]
     temp_sentence_array = break_into_words(question)
     highest_confidence = -10
@@ -118,7 +120,7 @@ def get_importance_of_each_sentence(question):
         temp_sentence_string = ' '.join(temp_sentence)
         drop_in_confidence = check_drop_in_confidence(question = [temp_sentence_string], ind = index_of_answer,actual_confidence=actual_confidence)
         score = float(actual_confidence-drop_in_confidence)
-        print(actual_confidence, drop_in_confidence, score)
+        # print(actual_confidence, drop_in_confidence, score)
         array_of_importances.append(score)
         if(least_confidence > (score)):
             least_confidence = (score)

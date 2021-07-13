@@ -60,8 +60,9 @@ def guess(question, max=12):
 def act():
     if request.method == "POST":
         question = request.form.get("text")
+        ans = request.form.get("answer_text")
     start = time.time()
-    # answer = guess(question=[question])
+    answer = guess(question=[question])
     # # Uncomment the below line to get the buzzer funtionality.
     # # get_importance_of_each_sentence(question)
     # # answer_sentence = guess_by_sentences(question)
@@ -73,9 +74,7 @@ def act():
     # # if(difficulty == "Hard"):
     
     # return jsonify({"guess": answer, "difficulty": difficulty, "ethnicity": ethnicity, "gender": gender, "similar_question": similar_question, "country_representation" : country_representation})
-    answer = guess(question=[question])
-    # qa_table = metadata.tables["QA"]
-    # db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
+    
     # answer = tabulate(answer, tablefmt='html')
     # answer = "\n".join(str(x[0])+ " " + str(x[1]) for x in answer)
     answer = [{"guess": str(x[0]),"score":str(x[1])} for x in answer]
@@ -98,3 +97,15 @@ def country_people():
     country_representation, countries = country_present1(question)
     highlight=highlight_json(countries)
     return jsonify({"country_representation": country_representation, "Highlight": highlight})
+
+@func.route("/insert", methods=["POST"])
+def insert():
+    if request.method == "POST":
+        question = request.form.get("text")
+        ans = request.form.get("answer_text")
+    print(question, ans)
+    answer = guess(question=[question])
+    qa_table = metadata.tables["qa"]
+    db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
+    return "submitted"
+{"mode":"full","isActive":False}
