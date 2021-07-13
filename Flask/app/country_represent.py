@@ -38,7 +38,7 @@ import re
 model_name = "bert-large-uncased-whole-word-masking-finetuned-squad"
 from transformers import AutoTokenizer,AutoModelForSequenceClassification, AutoModelForPreTraining
 tokenizer = AutoTokenizer.from_pretrained(model_name, do_lower_case=True)
-model = AutoModelForPreTraining.from_pretrained(model_name, output_attentions=False, output_hidden_states=True)
+model_country = AutoModelForPreTraining.from_pretrained(model_name, output_attentions=False, output_hidden_states=True)
 
 def break_into_words_with_capital(question):
     array_of_words =re.split('(?=[A-Z]| )', question)
@@ -89,7 +89,7 @@ def vectorize_albert(texts):
     # text = " ".join(break_into_words_with_capital(text))
     # print(text)
     tokenized_text, tokens_tensor, segments_tensors = bert_text_preparation(text, tokenizer)
-    list_token_embeddings = get_bert_embeddings(tokens_tensor, segments_tensors, model)
+    list_token_embeddings = get_bert_embeddings(tokens_tensor, segments_tensors, model_country)
     tweet_embedding = np.mean(np.array(list_token_embeddings), axis=0)
     target_tweet_embeddings.append(tweet_embedding)
   return target_tweet_embeddings
