@@ -35,7 +35,7 @@ import re
 # pre_ft_vectors = api.load('fasttext-wiki-news-subwords-300')
 
 # model_name = "bert-base-multilingual-uncased"
-model_name = "bert-base-uncased"
+model_name = "bert-large-uncased-whole-word-masking-finetuned-squad"
 from transformers import AutoTokenizer,AutoModelForSequenceClassification, AutoModelForPreTraining
 tokenizer = AutoTokenizer.from_pretrained(model_name, do_lower_case=True)
 model = AutoModelForPreTraining.from_pretrained(model_name, output_attentions=False, output_hidden_states=True)
