@@ -14,7 +14,8 @@ from ibm_watson.websocket import RecognizeCallback, AudioSource
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 sys.path.append("..")
 sys.path.insert(0, './app')
-
+from app import util, importance
+from util import *
 
 authenticator = IAMAuthenticator('Xqq84EWoiOAtKLuKcsA9OUtsekbXDBCgS7FLi2EnNV7i')
 speech_to_text = SpeechToTextV1(
@@ -48,13 +49,19 @@ def checktexts():
     print("RATIO OF DIFFERENCE: %s" % as_string)
     return percentage
 
-    
+def Sort(sub_li):
+  
+    # reverse = None (Sorts in Ascending order)
+    # key is set to sort using second element of 
+    # sublist lambda has been used
+    return(sorted(sub_li, key = lambda x: x[1], reverse = True))  
 
 pronunciation = Blueprint('pronunciation', __name__)
 myRecognizeCallback = MyRecognizeCallback()
 
 r = sr.Recognizer()
 #question = request.form.get("text")
+vectorizer, Matrix, ans = params[0], params[1], params[2]
 
 @pronunciation.route('/get_pronunciation', methods=["POST"])
 def getpronunciation():
@@ -81,16 +88,35 @@ def getpronunciation():
             audio=audio_file,
             content_type='audio/mp3',
             word_alternatives_threshold=0.9,
+            word_confidence = True
         ).get_result()
     
+    transcribed_text = speech_recognition_results["results"][0]["alternatives"][0]["transcript"]
+    confidence = speech_recognition_results["results"][0]["alternatives"][0]["confidence"]
+    array_of_word_confidence = []
+    for i in speech_recognition_results["results"][0]["alternatives"][0]["word_confidence"]:
+        array_of_word_confidence.append([i[0],i[1]])
+
+    repre = vectorizer.transform([question])
+    repre_transcribed = vectorizer.transform([transcribed_text])
+    print(repre)
+    matrix = repre.dot(repre_transcribed.T).T
+    cosine_similarity = matrix.toarray()[0][0]
+    most_difficult_to_pronounce_words = Sort(array_of_word_confidence)[0:3]
+    answer = []
+    for i in most_difficult_to_pronounce_words:
+        answer.append({"Word": i[0], "Score":i[1]})
+
+    # file = open("app/speech-text.txt","w")
+    # file.write(json.dumps(speech_recognition_results, indent=2))
+    # file.close()
+
+    if(cosine_similarity < threshold):
+        return answer
+
+
     
-    print(json.dumps(speech_recognition_results, indent=2))
-
-    file = open("app/speech-text.txt","w")
-    file.write(json.dumps(speech_recognition_results, indent=2))
-    file.close()
-
-    return(json.dumps(speech_recognition_results, indent=2))
+    return None
 
    
 
