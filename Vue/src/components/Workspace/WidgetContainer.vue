@@ -9,8 +9,6 @@ Developers: Jason Liu
     ghost-class="ghost"
     handle=".handle"
     group="widgets"
-    :force-fallback="true"
-    :scroll-sensitivity="200"
     :emptyInsertThreshold="500"
     @start="drag = true"
     @end="(drag = false), (displayUI = 'block')"
