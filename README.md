@@ -23,7 +23,7 @@ Database: MySQL
 - Install mysql in your computer with the [following guide](https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/)
   - pip uninstall mysql (or whatever other package you installed that way)
   - Visit https://dev.mysql.com/downloads/mysql/ and download proper mysql
-  - Go through the setup process and REMEMBER your password(will be used later)
+  - Go through the setup process below and REMEMBER your password(will be used later)
 - Set up your database
   - open terminal
 ```
