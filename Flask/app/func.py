@@ -62,7 +62,7 @@ def act():
         question = request.form.get("text")
         ans = request.form.get("answer_text")
     start = time.time()
-    # answer = guess(question=[question])
+    answer = guess(question=[question])
     # # Uncomment the below line to get the buzzer funtionality.
     # # get_importance_of_each_sentence(question)
     # # answer_sentence = guess_by_sentences(question)
