@@ -123,6 +123,7 @@ export default {
       let formData = new FormData();
       formData.append("text", this.text);
       // this.qa.genre = this.selected_genre
+      
       this.axios({
         url: "http://127.0.0.1:5000/func/act",
         method: "POST",
@@ -140,11 +141,11 @@ export default {
         this.qa.binary_search_based_buzzer = response.data["buzz"];
         // this.text = response.data["buzz"];
         this.qa.importance = response.data["importance"];
-        if(response.data["flag"]== true)
-        {
-          var audio = new Audio('C:/Users/rajsa/Desktop/qanta-codalab-master/TryoutProject/Vue/src/components/file.mp3')
-          audio.play()
-        }
+        // if(response.data["flag"]== true)
+        // {
+        //   var audio = new Audio('C:/Users/rajsa/Desktop/qanta-codalab-master/TryoutProject/Vue/src/components/file.mp3')
+        //   audio.play()
+        // }
       });
 
       this.axios({
@@ -171,14 +172,22 @@ export default {
           response.data["country_representation"];
       });
 
+      // this.axios({
+      //   url: "http://127.0.0.1:5000/func/country_people",
+      //   method: "POST",
+      //   data: formData,
+      // }).then((response) => {
+      //   console.log(response);
+      //   this.qa.country_representation = response.data["country_representation"];
+      //   this.highlight = response.data["Highlight"];
+      // });
       this.axios({
-        url: "http://127.0.0.1:5000/func/country_people",
+        url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
         method: "POST",
         data: formData,
       }).then((response) => {
         console.log(response);
-        this.qa.country_representation = response.data["country_representation"];
-        this.highlight = response.data["Highlight"];
+        this.qa.pronunciation = response.data["pronunciation"];
       });
       // this.axios({
       //   url: "http://127.0.0.1:5000/genre_classifier/classify",
@@ -225,15 +234,7 @@ export default {
         this.qa.top5_similar_questions = response.data["similar_question"];
       });
 
-      this.axios({
-        url: "http://127.0.0.1:5000/func/country_people",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        console.log(response);
-        this.qa.country_representation = response.data["country_representation"];
-        this.highlight = response.data["Highlight"];
-      });
+
     },
 
     addModal(header, body) {
