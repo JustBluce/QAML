@@ -18,13 +18,15 @@ Developers: Damien Rene and Jason Liu
     <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Word</th>
+                    <th>Original_Word</th>
+                    <th>Transcribed_Word</th>
                     <th>Score</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in pronunciation" :key="user.Word">
-                    <td>{{user.Word }}</td>
+                <tr v-for="user in pronunciation" :key="user.Original_Word">
+                    <td>{{user.Original_Word }}</td>
+                    <td>{{user.Transcribed_Word }}</td>
                     <td>{{user.Score}}</td>
                 </tr>
             </tbody>
