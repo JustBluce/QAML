@@ -116,7 +116,7 @@ def get_importance_of_each_sentence(question):
     for i in range(len(temp_sentence_array)):
         temp_sentence = temp_sentence_array[:i] + temp_sentence_array[i+1:]
         temp_sentence_string = ' '.join(temp_sentence)
-        drop_in_confidence = check_drop_in_confidence(question = [temp_sentence_string], ind = index_of_answer)
+        drop_in_confidence = check_drop_in_confidence(question = [temp_sentence_string], ind = index_of_answer,actual_confidence=actual_confidence)
         score = float(actual_confidence-drop_in_confidence)
         print(actual_confidence, drop_in_confidence, score)
         array_of_importances.append(score)
