@@ -38,6 +38,9 @@ const store = new Vuex.Store({
 			state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
 			state.workspace_stack.push(workspace_id);
 		},
+		minimizeWorkspace(state, workspace_id) {
+			state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
+		},
 		addWidget(state, { workspace_id, type }) {
 			let workspace = getters.workspace(state)(workspace_id);
 			workspace.widgets.push(widgetTemplate(workspace.widget_index, type));
