@@ -41,7 +41,7 @@ Developers: Jason Liu
         <a id="create-qa" class="menu-item" @click="createQA">Create QA</a>
       </div>
     </div>
-    <input value="Workspace Demo" />
+    <input v-model="workspace.title" />
     <a class="fas fa-minus btn" @click="minimize" />
     <a class="fas fa-times btn" @click="close" />
   </div>
