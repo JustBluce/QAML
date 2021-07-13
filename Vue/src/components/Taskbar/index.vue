@@ -2,15 +2,24 @@
   <div class="taskbar-container">
     <div class="taskbar">
       <a class="fas fa-plus btn" @click="addWorkspace" />
-      <div class="recommended recommended-title">Recommended topics:</div>
-      <div class="recommended" v-show="recommended.length === 0">None</div>
-      <div
-        class="recommended btn"
-        v-for="rec in recommended"
-        :key="rec"
-        @click="addRecommendedWorkspace(rec)"
-      >
-        {{ rec }}
+      <div class="item-wrapper tabs">
+        <div class="item" v-for="workspace in workspaces" :key="workspace.id">
+          <a
+            :class="[
+              'btn',
+              workspace_selected === workspace.id ? 'selected' : '',
+            ]"
+            @click="selectWorkspace(workspace.id)"
+            >{{ workspace.title }}</a
+          >
+        </div>
+      </div>
+      <div class="item recommended-title">Recommended topics:</div>
+      <div class="item-wrapper recommended">
+        <div class="item" v-for="rec in recommended" :key="rec">
+          <a class="btn" @click="addRecommendedWorkspace(rec)">{{ rec }}</a>
+        </div>
+        <div class="item" v-show="recommended.length === 0">None</div>
       </div>
     </div>
   </div>
@@ -20,6 +29,12 @@
 export default {
   name: "Taskbar",
   computed: {
+    workspaces() {
+      return this.$store.state.workspaces;
+    },
+    workspace_selected() {
+      return this.$store.state.workspace_stack.slice(-1)[0];
+    },
     recommended: {
       get() {
         return this.$store.state.recommended;
@@ -32,6 +47,9 @@ export default {
   methods: {
     addWorkspace() {
       this.$store.commit("addWorkspace");
+    },
+    selectWorkspace(id) {
+      this.$store.commit("selectWorkspace", id);
     },
     addRecommendedWorkspace(title) {
       this.recommended = this.recommended.filter((rec) => rec !== title);
@@ -59,29 +77,63 @@ export default {
   padding-left: 20px;
   padding-right: 20px;
   height: 100%;
+  min-width: 1184px;
 }
 
-.recommended {
-  border-right: 2px solid black;
+.fa-plus {
+  margin-right: 10px;
+}
+
+.item {
   font-size: 18px;
-  float: right;
-  padding-left: 4px;
-  padding-right: 4px;
+  height: 20px;
+  padding-left: 6px;
+  padding-right: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-wrapper {
+  display: flex;
+}
+
+.item-wrapper .item {
+  border-left: 2px solid black;
+}
+
+.item-wrapper .item:first-child {
+  border-left: 0;
+}
+
+.item-wrapper .btn {
   color: black;
 }
 
-.recommended:hover {
-  color: black;
+.item-wrapper .btn:hover {
+  opacity: 1;
+}
+
+.item-wrapper .btn:active {
+  opacity: 0.5;
+}
+
+.tabs {
+  max-width: 70%
+}
+
+.selected {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 .recommended-title {
   font-weight: bold;
-  border-right: 0;
-  flex-grow: 1;
   text-align: right;
+  flex-grow: 1;
 }
 
-.recommended:last-of-type {
-  border-right: 0;
+.recommended {
+  max-width: 20%;
 }
 </style>

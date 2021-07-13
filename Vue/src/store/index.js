@@ -28,7 +28,6 @@ const store = new Vuex.Store({
 				newWorkspace.title = title;
 			}
 			state.workspaces.push(newWorkspace);
-			state.workspace_stack.push(state.workspace_index);
 			state.workspace_index++;
 		},
 		deleteWorkspace(state, workspace_id) {
