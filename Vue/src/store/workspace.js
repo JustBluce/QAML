@@ -12,7 +12,7 @@ export function widgetTemplate(id, type) {
 			id: id,
 			title: 'Pronunciation difficulty',
 			type: 'Pronunciation',
-			container: 'left',
+			container: 'right',
 			expanded: true,
 			maxHeight: '250px'
 		},
@@ -39,7 +39,15 @@ export function widgetTemplate(id, type) {
 			container: 'left',
 			expanded: true,
 			maxHeight: '500px',
-		}
+		},
+		Machine_Guess: {
+			id: id,
+			title: 'Machine Guess',
+			type: 'Machine_Guess',
+			container: 'left',
+			expanded: true,
+			maxHeight: '500px'
+		},
 	};
 	return widget_templates[type];
 }
@@ -59,7 +67,9 @@ export function defaultWorkspace(id) {
 				binary_search_based_buzzer:'',
 				importance:'',
 				genre: '',
-				subgenre: ''
+				subgenre: '',
+				pronunication:'',
+				answer:''
 			}
 		],
 		qa_index: 1,
@@ -70,9 +80,10 @@ export function defaultWorkspace(id) {
 			widgetTemplate(1, 'Pronunciation'),
 			widgetTemplate(2, 'Country_Representation'),
 			widgetTemplate(3, 'SimilarQuestions'),
-			widgetTemplate(4, 'Buzzer')
+			widgetTemplate(4, 'Buzzer'),
+			widgetTemplate(5, 'Machine_Guess')
 		],
-		widget_index: 6,
+		widget_index: 7,
 		style: {
 			left: 0,
 			top: 0
@@ -91,7 +102,9 @@ export function defaultQA(id) {
 		binary_search_based_buzzer: '',
         importance:'',
 		genre: '',
-		subgenre: ''
+		subgenre: '',
+		pronunciation:'',
+		answer:''
 	}
 }
 

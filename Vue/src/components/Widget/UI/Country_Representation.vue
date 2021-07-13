@@ -4,12 +4,16 @@ Developers: Atith Gandhi and Jason Liu
 
 
 <template>
+
   <div class="country_representation-container">
+    <div>
+    <h4>Please consider adding the following under-represented countries for 10 extra points</h4>
+    </div>
     <table class="table table-striped table-bordered">
             <thead>
-                <tr>
+                <!-- <tr>
                     <th>Please consider adding the following under-represented countries for 10 extra points</th> 
-                </tr>
+                </tr> -->
             </thead>
             <tbody>
                 <tr v-for="(user, index) in country_representation" :key="user.Country">
