@@ -19,7 +19,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
     /> -->
     <textarea
       class="container"
-      rows="15"
+      rows="10"
       placeholder="Please enter your question"
       v-model="text"
       @input="keep_looping"
@@ -29,37 +29,32 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       class="container"
       rows="2"
       placeholder="Answer"
+      v-model="answer_text"
     ></textarea>
-    <div> <h4> Genre </h4> </div>
-    <select v-model="qa.genre" @change="changeGenre">
-    <option disabled value="">Please select a genre for your question</option>
-      <option v-for="(item , index) in genres" v-bind:key="index"  >
-            {{item}}
-       </option>
-    </select>
-    <GChart
+    <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
+    <div class="two-col">
+    <div class="col1">
+        <div> <h4> Genre </h4> </div>
+        <select v-model="qa.genre" @change="changeGenre">
+        <option disabled value="">Please select a genre for your question</option>
+          <option v-for="(item , index) in genres" v-bind:key="index"  >
+                {{item}}
+          </option>
+        </select>
+    </div>
+
+    <div class="col2">
+        <GChart
       type="PieChart"
       :options="options"
       :data="chartData"
-    />  
-    <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
+      />  
+    </div>
+    </div>
     
-
-    <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Machine Guess</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in answer" :key="user.guess">
-                    <td>{{user.guess}}</td>
-                    <td>{{user.score}}</td>
-                </tr>
-            </tbody>
-        </table>
     
+    
+       
 
   </div>
 </template>
@@ -94,8 +89,8 @@ export default {
       highlightEnabled: true,
       genres: ['Philosophy', 'History', 'Literature', 'Mythology', 'Current Events', 'Religion', 'Trash', 'Social Science', 'Science', 'Fine Arts', 'Geography'],
       options: {
-        width: 600,
-        height: 600
+        width: 400,
+        height: 400
       },
       chartData: [['Subgenre', 'Count'],['None', 1]]
     };
@@ -119,6 +114,18 @@ export default {
         
       },
     },
+    answer_text: {
+      get() {
+        return this.qa.answer_text;
+      },
+      set(value) {
+        this.$store.commit("updateQA", {
+          workspace_id: this.workspace_id,
+          payload: { id: this.qa_id, answer_text: value },
+        });
+        
+      },
+    },
   },
   methods: {
     // mounted: function () {
@@ -133,8 +140,17 @@ export default {
     keep_looping: _.debounce(function() {
       let formData = new FormData();
       formData.append("text", this.text);
+      formData.append("answer_text", this.answer_text);
       // this.qa.genre = this.selected_genre
       
+      this.axios({
+        url: "http://127.0.0.1:5000/func/act",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        console.log(response);
+        this.qa.answer = response.data["guess"];
+      });
 
       this.axios({
         url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
@@ -144,11 +160,11 @@ export default {
         this.qa.binary_search_based_buzzer = response.data["buzz"];
         // this.text = response.data["buzz"];
         this.qa.importance = response.data["importance"];
-        if(response.data["flag"]== true)
-        {
-          var audio = new Audio('C:/Users/rajsa/Desktop/qanta-codalab-master/TryoutProject/Vue/src/components/file.mp3')
-          audio.play()
-        }
+        // if(response.data["flag"]== true)
+        // {
+        //   var audio = new Audio('C:/Users/rajsa/Desktop/qanta-codalab-master/TryoutProject/Vue/src/components/file.mp3')
+        //   audio.play()
+        // }
       });
 
       this.axios({
@@ -175,15 +191,23 @@ export default {
           response.data["country_representation"];
       });
 
-      this.axios({
-        url: "http://127.0.0.1:5000/func/country_people",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        console.log(response);
-        this.qa.country_representation = response.data["country_representation"];
-        this.highlight = response.data["Highlight"];
-      });
+      // this.axios({
+      //   url: "http://127.0.0.1:5000/func/country_people",
+      //   method: "POST",
+      //   data: formData,
+      // }).then((response) => {
+      //   console.log(response);
+      //   this.qa.country_representation = response.data["country_representation"];
+      //   this.highlight = response.data["Highlight"];
+      // });
+      // this.axios({
+      //   url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
+      //   method: "POST",
+      //   data: formData,
+      // }).then((response) => {
+      //   console.log(response);
+      //   this.qa.pronunciation = response.data["pronunciation"];
+      // });
       // this.axios({
       //   url: "http://127.0.0.1:5000/genre_classifier/classify",
       //   method: "POST",
@@ -200,6 +224,7 @@ export default {
     searchData() {
       let formData = new FormData();
       formData.append("text", this.text);
+      formData.append("answer_text", this.answer_text);
       this.axios({
         url: "http://127.0.0.1:5000/difficulty_classifier/classify",
         method: "POST",
@@ -217,15 +242,24 @@ export default {
                 response.data["similar_question"][1][0]['text']
               );
             } else {
-              this.axios({
-                url: "http://127.0.0.1:5000/func/act",
-                method: "POST",
-                data: formData,
-              }).then((response) => {
-                console.log(response);
-                this.answer = response.data["guess"];
-              });
+              if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
+              {
+                this.addModal(
+                "Warning !!! Please some fields are empty","Please make sure the QA box and the Answer box are filled and the Genre is selected"
+                
+              );
+
+              }
+              else {
+                  this.axios({
+                    url: "http://127.0.0.1:5000/func/insert",
+                    method: "POST",
+                    data: formData,
+                  }).then((response) => {
+                    console.log(response);
+                  });
               this.addModal("Saved !!!", "Your question is submitted.");
+              }
             }
             // this.qa.top5_similar_questions = response.data["similar_question"];
           });
@@ -238,6 +272,7 @@ export default {
       });
       
       
+
 
       // this.axios({
       //   url: "http://127.0.0.1:5000/func/country_people",
@@ -345,4 +380,25 @@ export default {
 .highlightText {
         background: yellow;
     }
+
+.two-col {
+    overflow: hidden;/* Makes this div contain its floats */
+}
+
+.two-col .col1,
+.two-col .col2 {
+    width: 49%;
+}
+
+.two-col .col1 {
+    float: left;
+}
+
+.two-col .col2 {
+    float: right;
+}
+
+.two-col label {
+    display: block;
+}
 </style>
