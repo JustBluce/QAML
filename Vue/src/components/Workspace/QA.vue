@@ -227,14 +227,14 @@ export default {
                 response.data["similar_question"][1][0]['text']
               );
             } else {
-              // this.axios({
-              //   url: "http://127.0.0.1:5000/func/act",
-              //   method: "POST",
-              //   data: formData,
-              // }).then((response) => {
-              //   console.log(response);
-              //   this.answer = response.data["guess"];
-              // });
+              this.axios({
+                url: "http://127.0.0.1:5000/func/act",
+                method: "POST",
+                data: formData,
+              }).then((response) => {
+                console.log(response);
+                this.answer = response.data["guess"];
+              });
               this.addModal("Saved !!!", "Your question is submitted.");
             }
             // this.qa.top5_similar_questions = response.data["similar_question"];
