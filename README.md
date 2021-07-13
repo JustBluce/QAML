@@ -44,7 +44,7 @@ mysql+pymysql://root:YOURPASSWORD@localhost:3306/QA?charset=utf8
 - Run https://github.com/Pinafore/qanta-codalab locally and you will get `qanta-codalab/src/tfidf.pickle`
 - Remove and rename `qanta-codalab/src/tfidf.pickle` to `TRYOUT-PROJECT/Flask/model/model.pickle`
 - Download the following [BERT_genre_classifier](https://drive.google.com/drive/folders/1lqVosgCPhRVH4A2m3bIaPdo5Ghggl9pQ?usp=sharing) Unzip it and place it in TryoutProject\Flask\model\genre_classifier_models\BERT_genre_classifier folder. 
-- Download the following [Science_Genre_Classifier](https://drive.google.com/drive/folders/15cGe--BEXq3wnhEfV1dQSaDJ4P5jocjw?usp=sharing) Unzip it and place it in TryoutProject\Flask\model\genre_classifier_models\Science_Genre_Classifier
+- Download the following [Science_Genre_classifier](https://drive.google.com/drive/folders/15cGe--BEXq3wnhEfV1dQSaDJ4P5jocjw?usp=sharing) Unzip it and place it in TryoutProject\Flask\model\genre_classifier_models\Science_Genre_classifier
 
 ### Vue.js ( 2.6.14 )
 - Follow [this](https://vuejs.org/v2/guide/installation.html) link to install vue.js
