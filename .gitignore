@@ -20,3 +20,4 @@ selenium-debug.log
 __pycache__/
 model/
 Flask/config.py
+Flask/config.py
