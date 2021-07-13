@@ -37,6 +37,11 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
             {{item}}
        </option>
     </select>
+    <GChart
+      type="PieChart"
+      :options="options"
+      :data="chartData"
+    />  
     <el-button type="primary" @click="searchData"> Submit <i class="fa fa-upload" /></el-button>
     
 
@@ -63,6 +68,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
 import HighlightableInput from "vue-highlightable-input";
 import Vue from "vue";
 import Modal from "@/components/Modal";
+import { GChart } from "vue-google-charts";
 
 export default {
   name: "QA",
@@ -86,7 +92,12 @@ export default {
         { text: "soupppppp", "style": "border: 2px solid #73AD21;"},
       ],
       highlightEnabled: true,
-      genres: ['Philosophy', 'History', 'Literature', 'Mythology', 'Current Events', 'Religion', 'Trash', 'Social Science', 'Science', 'Fine Arts', 'Geography']
+      genres: ['Philosophy', 'History', 'Literature', 'Mythology', 'Current Events', 'Religion', 'Trash', 'Social Science', 'Science', 'Fine Arts', 'Geography'],
+      options: {
+        width: 600,
+        height: 600
+      },
+      chartData: [['Subgenre', 'Count'],['None', 1]]
     };
   },
   computed: {
@@ -123,14 +134,7 @@ export default {
       let formData = new FormData();
       formData.append("text", this.text);
       // this.qa.genre = this.selected_genre
-      this.axios({
-        url: "http://127.0.0.1:5000/func/act",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        console.log(response);
-        this.answer = response.data["guess"];
-      });
+      
 
       this.axios({
         url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
@@ -153,12 +157,12 @@ export default {
         data: formData,
       }).then((response) => {
         console.log(response);
-        if (response.data["similar_question"][0]) {
-          this.addModal(
-            "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
-            response.data["similar_question"][1][0]['text']
-          );
-        }
+        // if (response.data["similar_question"][0]) {
+        //   this.addModal(
+        //     "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+        //     response.data["similar_question"][1][0]['text']
+        //   );
+        // }
         this.qa.top5_similar_questions = response.data["similar_question"];
       });
 
@@ -202,7 +206,29 @@ export default {
         data: formData,
       }).then((response) => {
         if (response.data["difficulty"] === "Hard") {
-          this.addModal("Saved !!!", "Your question is submitted.");
+          this.axios({
+            url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+            method: "POST",
+            data: formData,
+          }).then((response) => {
+            if (response.data["similar_question"][0]) {
+              this.addModal(
+                "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+                response.data["similar_question"][1][0]['text']
+              );
+            } else {
+              // this.axios({
+              //   url: "http://127.0.0.1:5000/func/act",
+              //   method: "POST",
+              //   data: formData,
+              // }).then((response) => {
+              //   console.log(response);
+              //   this.answer = response.data["guess"];
+              // });
+              this.addModal("Saved !!!", "Your question is submitted.");
+            }
+            // this.qa.top5_similar_questions = response.data["similar_question"];
+          });
         } else {
           this.addModal(
             "Not saved !!!",
@@ -211,29 +237,17 @@ export default {
         }
       });
       
-      this.axios({
-        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        if (response.data["similar_question"][0]) {
-          this.addModal(
-            "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
-            response.data["similar_question"][1][0]['text']
-          );
-        }
-        this.qa.top5_similar_questions = response.data["similar_question"];
-      });
+      
 
-      this.axios({
-        url: "http://127.0.0.1:5000/func/country_people",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        console.log(response);
-        this.qa.country_representation = response.data["country_representation"];
-        this.highlight = response.data["Highlight"];
-      });
+      // this.axios({
+      //   url: "http://127.0.0.1:5000/func/country_people",
+      //   method: "POST",
+      //   data: formData,
+      // }).then((response) => {
+      //   console.log(response);
+      //   this.qa.country_representation = response.data["country_representation"];
+      //   this.highlight = response.data["Highlight"];
+      // });
     },
 
     addModal(header, body) {
@@ -262,9 +276,15 @@ export default {
       }).then((response) => {
         console.log(response.data["subgenre"][this.qa.genre] )
         this.qa.subgenre = response.data["subgenre"][this.qa.genre] 
+        if(this.qa.subgenre != ""){
+          let header = [['Subgenre', 'Count']]
+          console.log(header.concat(this.qa.subgenre))
+          this.chartData = header.concat(this.qa.subgenre)
+        }
       });
       
-    }
+    },
+
   }
 };
 </script>
