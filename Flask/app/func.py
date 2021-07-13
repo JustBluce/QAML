@@ -108,3 +108,4 @@ def insert():
     qa_table = metadata.tables["qa"]
     db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
     return "submitted"
+{"mode":"full","isActive":False}
