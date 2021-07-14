@@ -21,7 +21,7 @@ Database: MySQL
 ### MySQL
 
 - Make sure that there is a mysql database installed in your computer.
-  - cureently used version is 8.0.21
+  - currently used version is 8.0.21
 - If mysql hasn't been installed in your devoce, please install mysql in your computer with the [following guide](https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/) choose the one for your operating system.
 
   - Or visit https://dev.mysql.com/downloads/mysql/ and download proper mysql
@@ -34,7 +34,7 @@ Database: MySQL
 mysql -u root -p
 CREATE DATABASE questions;
 USE questions;
-create table QA (id int auto_increment primary key, Question varchar(255) null, Answer varchar(255) null);
+create table QA (id int auto_increment primary key, Question varchar(10000) null, Answer varchar(255) null);
 create table user_inf (User varchar(255) null, Password varchar(255) null);
 ```
 
