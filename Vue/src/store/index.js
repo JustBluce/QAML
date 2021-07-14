@@ -18,10 +18,10 @@ const store = new Vuex.Store({
 		widget_types: [
 			'Timer',
 			'Pronunciation',
-			'Country_Representation',
+			'CountryRepresentation',
 			'SimilarQuestions',
 			'Buzzer',
-			'Machine_Guess'
+			'MachineGuesses'
 		],
 		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ]
 	},
