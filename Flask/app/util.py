@@ -118,13 +118,13 @@ def load_genre_model():
     # tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') 
     return model
 
-genre_model = load_genre_model()
+# genre_model = load_genre_model()
 
 def load_science_genre_model():
     model = BertForSequenceClassification.from_pretrained('./model/genre_classifier_models/Science_Genre_classifier', num_labels = 4)
     return model
 
-science_genre_model = load_science_genre_model()
+# science_genre_model = load_science_genre_model()
 sub_genres = {
             'Philosophy': [['Norse', 354], ['Other', 345], ['Philosophy', 5], ['European', 3], ['American', 2], ['Religion/Mythology', 1]],
             'History' : [['American', 3514], ['World', 3103], ['European', 3100], ['British', 685], ['Classical', 607], ['Ancient', 345], ['Other', 541], ['Classic', 105], ['Norse', 48], ['Geography', 2], ['Religion/Mythology', 1]],

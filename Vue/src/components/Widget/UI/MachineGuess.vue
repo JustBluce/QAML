@@ -7,6 +7,7 @@ Developers: Atith Gandhi and Jason Liu
 <template>
   <div class="Machine-Guess-container">
     <table class="table table-striped table-bordered">
+            
             <thead>
                 <tr>
                     <th>Machine Guess</th>
@@ -15,8 +16,8 @@ Developers: Atith Gandhi and Jason Liu
             </thead>
             <tbody>
                 <tr v-for="user in answer" :key="user.guess">
-                    <td width="100">{{user.guess}}</td>
-                    <td>{{user.score}}</td>
+                    <td width="150" style="text-overflow:ellipsis; overflow: hidden; max-width:20px;">{{user.guess}}</td>
+                    <td width="150" style="text-overflow:ellipsis; overflow: hidden; max-width:20px;">{{user.score}}</td>
                 </tr>
             </tbody>
         </table>
