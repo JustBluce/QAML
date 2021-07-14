@@ -202,6 +202,8 @@ export default {
       //   this.qa.pronunciation = response.data["message"];
       //   console.log(response);
       // });
+
+      
     }, 1000),
     
     update_representation: _.debounce(function () {
@@ -245,7 +247,7 @@ export default {
                 this.qa.genre === ""
               ) {
                 this.addModal(
-                  "Warning !!! Please some fields are empty",
+                  "Warning !!! Some fields are empty",
                   "Please make sure the QA box and the Answer box are filled and the Genre is selected"
                 );
               } else {

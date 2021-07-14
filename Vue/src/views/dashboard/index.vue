@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <div class="dashboard-text">
       TryoutProject<br />
-      Author: Zefan
+      Developers: Zefan Cai, Atith Gandhi, Jason Liu, Damian Rene, Raj Shah
       </div>
   </div>
 </template>

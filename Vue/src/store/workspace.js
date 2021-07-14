@@ -54,7 +54,7 @@ export function widgetTemplate(id, type) {
 			type: 'Buzzer',
 			container: 'left',
 			expanded: true,
-			maxHeight: '500px',
+			maxHeight: '1000px',
 		},
 		Machine_Guess: {
 			id: id,

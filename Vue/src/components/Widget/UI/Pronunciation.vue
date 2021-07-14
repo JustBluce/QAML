@@ -18,8 +18,8 @@ Developers: Damien Rene and Jason Liu
     <textarea
       readonly
       class="container"
-      rows="1"
-      placeholder="Pronunciation highlighting"
+      rows="2"
+      placeholder="This Question does not need a pronunciation guide!"
       v-model="pronunciation"
     ></textarea>
     <!-- <table class="table table-striped table-bordered">
