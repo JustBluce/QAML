@@ -78,7 +78,8 @@ export default {
   background-color: #f1f1f1;
   padding: 10px;
   padding-top: 0px;
-  width: 400px;
+  width: 350px;
+  min-width: 350px;
 }
 
 .widget-item {
