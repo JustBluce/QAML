@@ -63,7 +63,7 @@ npm install -g vue@2.6.14
 
 If this does not work check out the guide below to try and install another way.
 
-- Follow [this](https://vuejs.org/v2/guide/installation.html) link to install vue.js we recoomend the produciton version as it has proper warnings for development.
+- Follow [this](https://vuejs.org/v2/guide/installation.html) link to install vue.js we recommend the production version as it has proper warnings for development.
 
 ### Python Packages
 
