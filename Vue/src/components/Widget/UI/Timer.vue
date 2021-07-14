@@ -79,7 +79,7 @@ export default {
     },
     update() {
       let diff = (this.end - Date.now()) / 1000;
-      this.display(diff)
+      this.display(diff);
       if (diff <= 0) {
         this.addModal("Time's up !!!", "Your question is being evaluated.");
         this.axios({
@@ -98,7 +98,7 @@ export default {
         propsData: { header, body },
       });
       modal.$mount();
-      // this.$refs.timerContainer.appendChild(modal.$el);
+      this.$refs.timerContainer.appendChild(modal.$el);
     },
   },
   // beforeDestroy() {
@@ -114,6 +114,7 @@ export default {
   font-size: 64px;
   margin-top: 10px;
 }
+
 #hours,
 #minutes,
 #seconds {

@@ -54,11 +54,13 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 10px;
 }
 
 .container {
   cursor: default;
 }
+
 select {
   cursor: pointer;
   opacity: 1;
