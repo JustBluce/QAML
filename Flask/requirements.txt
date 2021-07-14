@@ -19,3 +19,4 @@ gensim
 SpeechRecognition
 wikipedia
 ibm-watson>=5.2.0
+wikipedia
