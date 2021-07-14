@@ -63,7 +63,8 @@ export default {
 .workspaces-enter-active,
 .workspaces-leave-active {
   position: relative;
-  transition: all 0.3s ease;
+  transition: all 0.3s linear;
+  height: 900px;
   z-index: 1000;
 }
 

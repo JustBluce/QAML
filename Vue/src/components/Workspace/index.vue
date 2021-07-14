@@ -110,7 +110,7 @@ export default {
   border: 4px solid steelblue;
   box-shadow: 0px 0px 4px black;
   height: 900px;
-  min-height: 750px;
+  min-height: 450px;
   max-height: calc(100% - 8px);
   width: calc(100% - 8px);
   min-width: 1100px;
