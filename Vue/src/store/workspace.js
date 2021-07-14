@@ -33,8 +33,8 @@ export function widgetTemplate(id, type) {
 		},
 		Country_Representation: {
 			id: id,
-			title: 'Country Representation',
-			type: 'Country_Representation',
+			title: 'Country representation',
+			type: 'CountryRepresentation',
 			container: 'right',
 			expanded: true,
 			maxHeight: '300px'
@@ -57,8 +57,8 @@ export function widgetTemplate(id, type) {
 		},
 		Machine_Guess: {
 			id: id,
-			title: 'Machine Guess',
-			type: 'Machine_Guess',
+			title: 'Machine guesses',
+			type: 'MachineGuesses',
 			container: 'left',
 			expanded: true,
 			maxHeight: '500px'
