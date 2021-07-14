@@ -20,6 +20,7 @@ Developers: Atith Gandhi and Jason Liu
                     <td width="150" style="text-overflow:ellipsis; overflow: hidden; max-width:20px;">{{user.score}}</td>
                 </tr>
             </tbody>
+
         </table>
   </div>
 </template>

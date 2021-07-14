@@ -71,7 +71,7 @@ export default {
   },
   data() {
     return {
-      answer: "",
+      
       highlight: [
         // { text: "chicken", style: "background-color:#f37373" },
         // { text: "noodle", style: "background-color:#fca88f" },
@@ -95,7 +95,7 @@ export default {
         "Geography",
       ],
       options: {
-        width: 850,
+        width: 650,
         height: 400,
       },
       chartData: [
@@ -154,8 +154,8 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
-        console.log(response);
         this.qa.answer = response.data["guess"];
+        console.log(response);
       });
 
       this.axios({
@@ -164,9 +164,9 @@ export default {
         data: formData,
       }).then((response) => {
         this.qa.binary_search_based_buzzer = response.data["buzz"];
-        console.log(response);
         this.qa.importance = response.data["importance"];
         this.highlight = response.data["buzz_word"];
+        console.log(response);
       });
 
       this.axios({
@@ -174,7 +174,7 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
-        console.log(response);
+        
         // if (response.data["similar_question"][0]) {
         //   this.addModal(
         //     "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
@@ -182,6 +182,7 @@ export default {
         //   );
         // }
         this.qa.top5_similar_questions = response.data["similar_question"];
+        console.log(response);
       });
 
       this.axios({
@@ -202,6 +203,7 @@ export default {
       //   console.log(response);
       // });
     }, 1000),
+    
     update_representation: _.debounce(function () {
       let formData = new FormData();
       formData.append("text", this.text);

@@ -3,6 +3,7 @@ export function defaultQA(id) {
 		id: id,
 		title: id === 0 ? 'QA' : `QA (${id})`,
 		text: '',
+		answer:'',
 		country_representation: '',
 		people_ethnicity: '',
 		top5_similar_questions: [],
