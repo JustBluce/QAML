@@ -27,9 +27,8 @@ Developers: Atith Gandhi and Jason Liu
 </template>
 
 <script >
-
 export default {
-  name: "Country_Representation",
+  name: "CountryRepresentation",
   props: {
     workspace_id: Number,
     widget_id: Number,
