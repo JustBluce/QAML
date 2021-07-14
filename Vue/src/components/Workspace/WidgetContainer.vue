@@ -9,8 +9,6 @@ Developers: Jason Liu
     ghost-class="ghost"
     handle=".handle"
     group="widgets"
-    :force-fallback="true"
-    :scroll-sensitivity="200"
     :emptyInsertThreshold="500"
     @start="drag = true"
     @end="(drag = false), (displayUI = 'block')"
@@ -86,7 +84,7 @@ export default {
 .widget-item {
   margin: 0px;
   margin-top: 20px;
-  height: fit;
+  height: fit-content;
   width: 100%;
 }
 

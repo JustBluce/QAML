@@ -21,23 +21,21 @@ Developers: Atith Gandhi and Jason Liu
       :textToHighlight="binary_search_based_buzzer"
     />
     <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Sentence</th>
-                    <th>Importance</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in importance" :key="user.sentence">
-                    <td>{{user.sentence}}</td>
-                    <td>{{user.importance}}</td>
-                </tr>
-            </tbody>
-        </table>
+      <thead>
+        <tr>
+          <th>Sentence</th>
+          <th>Importance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in importance" :key="user.sentence">
+          <td>{{ user.sentence }}</td>
+          <td>{{ user.importance }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
-
-
 
 <script>
 import Highlighter from "vue-highlight-words";
@@ -76,10 +74,11 @@ export default {
 </script>
 
 <style scoped>
-.Buzzer-container{
+.Buzzer-container {
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 10px;
 }
 
 .container {
