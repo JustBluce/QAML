@@ -29,7 +29,7 @@ nlp = en_core_web_sm.load()
 
 stopWords = stopwords.words('english')
 
-vectorizer, Matrix, ans = params[0], params[1], params[2]
+# vectorizer, Matrix, ans = params[0], params[1], params[2]
 
 f = open('app/qanta.json')
 data = json.load(f)['questions']

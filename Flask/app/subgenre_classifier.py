@@ -25,10 +25,10 @@ def science_genre_classify(question):
     
     start = time.time()
 
-    inputs = tokenizer(question, return_tensors="pt")
-    outputs = science_genre_model(**inputs)
-    logits = outputs.logits.detach().cpu().numpy()
-    genre_index = np.argmax(logits).flatten()
+    # inputs = tokenizer(question, return_tensors="pt")
+    # outputs = science_genre_model(**inputs)
+    # logits = outputs.logits.detach().cpu().numpy()
+    # genre_index = np.argmax(logits).flatten()
     end = time.time()
     print("----TIME (s) : /genre_classifier/classify [sub-genre]---",end - start)
     # if(difficulty == 0):
