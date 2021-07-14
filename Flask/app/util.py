@@ -18,7 +18,7 @@ import os
 def warn(*args, **kwargs):
     pass
 threshold_buzz = 0.2
-threshold_similar = 0.3
+threshold_similar = 0.5
 threshold_pronunciation = 0.6
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
