@@ -70,8 +70,9 @@ If this does not work check out the guide below to try and install another way.
 We recomend that use a seperate Conda envorinment or pipenv environment for installing packages, however this is only a recommendation.
 
 - `cd Flask`
-- `pip3 install -r requirements.txt`
 - `python -m spacy download en_core_web_sm`
+- `pip3 install -r requirements.txt`
+
 
 ## Running the Code
 
