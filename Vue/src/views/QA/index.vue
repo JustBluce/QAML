@@ -7,8 +7,8 @@ Developers: Jason Liu and Cai Zefan
     <Taskbar />
     <div class="workspaces-container">
       <transition-group type="transition" name="workspaces">
-        <div v-for="workspace in workspaces" :key="workspace.id">
-          <Workspace :id="workspace.id" />
+        <div v-for="workspace_id in workspace_stack" :key="workspace_id">
+          <Workspace :id="workspace_id" />
         </div>
       </transition-group>
     </div>
@@ -29,12 +29,11 @@ export default {
   data() {
     return {
       drag: false,
-      displayUI: "block",
     };
   },
   computed: {
-    workspaces() {
-      return this.$store.state.workspaces;
+    workspace_stack() {
+      return this.$store.state.workspace_stack;
     },
   },
 };
@@ -73,7 +72,8 @@ export default {
 }
 
 .workspaces-leave-to {
-  transform: scaleY(0);
+  opacity: 0;
+  filter: contrast(0);
 }
 
 .btn {

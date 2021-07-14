@@ -5,9 +5,9 @@ import { defaultWorkspace, defaultQA, initial_workspaces, widgetTemplate } from 
 import app from './modules/app';
 import settings from './modules/settings';
 import user from './modules/user';
-import VueGoogleCharts from 'vue-google-charts'
- 
-Vue.use(VueGoogleCharts)
+import VueGoogleCharts from 'vue-google-charts';
+
+Vue.use(VueGoogleCharts);
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -15,9 +15,15 @@ const store = new Vuex.Store({
 		workspaces: initial_workspaces,
 		workspace_stack: initial_workspaces.map((workspace) => workspace.id),
 		workspace_index: initial_workspaces.length,
-		widget_types: [ 'Timer', 'Pronunciation', 'Country_Representation', 'SimilarQuestions', 'Buzzer', 'Machine_Guess' ],
-		recommended: ['Baltimore', 'Washington, D.C.', 'Cleveland']
-		
+		widget_types: [
+			'Timer',
+			'Pronunciation',
+			'Country_Representation',
+			'SimilarQuestions',
+			'Buzzer',
+			'Machine_Guess'
+		],
+		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ]
 	},
 	modules: {
 		app,
@@ -25,9 +31,12 @@ const store = new Vuex.Store({
 		user
 	},
 	mutations: {
-		addWorkspace(state) {
-			state.workspaces.push(defaultWorkspace(state.workspace_index));
-			state.workspace_stack.push(state.workspace_index);
+		addWorkspace(state, title) {
+			let newWorkspace = defaultWorkspace(state.workspace_index);
+			if (title) {
+				newWorkspace.title = title;
+			}
+			state.workspaces.push(newWorkspace);
 			state.workspace_index++;
 		},
 		deleteWorkspace(state, workspace_id) {
@@ -37,6 +46,9 @@ const store = new Vuex.Store({
 		selectWorkspace(state, workspace_id) {
 			state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
 			state.workspace_stack.push(workspace_id);
+		},
+		minimizeWorkspace(state, workspace_id) {
+			state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
 		},
 		addWidget(state, { workspace_id, type }) {
 			let workspace = getters.workspace(state)(workspace_id);
