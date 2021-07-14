@@ -95,7 +95,7 @@ export default {
         "Geography",
       ],
       options: {
-        width: 400,
+        width: 850,
         height: 400,
       },
       chartData: [
@@ -193,14 +193,14 @@ export default {
           response.data["country_representation"];
         console.log(response);
       });
-      this.axios({
-        url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.qa.pronunciation = response.data["message"];
-        console.log(response);
-      });
+      // this.axios({
+      //   url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
+      //   method: "POST",
+      //   data: formData,
+      // }).then((response) => {
+      //   this.qa.pronunciation = response.data["message"];
+      //   console.log(response);
+      // });
     }, 1000),
     update_representation: _.debounce(function () {
       let formData = new FormData();
@@ -382,8 +382,13 @@ export default {
   min-width: 0;
 }
 
+.two-col .col1,
+.two-col .col2 {
+    width: 30%;
+}
+
 .two-col .col1 {
-  max-width: 200px;
+  max-width: 400px;
 }
 
 .two-col .col2 {
