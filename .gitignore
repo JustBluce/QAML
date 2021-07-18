@@ -19,8 +19,3 @@ selenium-debug.log
 .vscode/
 __pycache__/
 model/
-Flask/app/__pycache__/__init__.cpython-38.pyc
-Flask/app/__pycache__/func.cpython-38.pyc
-Flask/app/__pycache__/views.cpython-38.pyc
-Flask/config.py
-Flask/config.py

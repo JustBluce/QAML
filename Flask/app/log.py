@@ -30,9 +30,9 @@ WHERE
 user_inf.`User` = \''''+User+"'"
         result_sql = db.session.execute(sql)
         result_sql = result_sql.fetchall()
-        # print(result_sql)
-        # print(User)
-        # print(Password)
+        print(result_sql)
+        print(User)
+        print(Password)
         if result_sql == []:
             return 'User does not exist'
         else:

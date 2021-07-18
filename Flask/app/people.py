@@ -26,8 +26,8 @@ def find_ethnicity(name):
 
 
 people_info = Blueprint('people_info', __name__)
-person = []
-names = []
+
+
 @people_info.route("/getPeoplesInfo", methods=["POST"])
 def getPeoplesInfo():
 
@@ -36,7 +36,7 @@ def getPeoplesInfo():
     start = time.time()
     doc = nlp(question)
     entities = [(X.text, X.label_) for X in doc.ents]
-    # print(entities)
+    print(entities)
     person = []
     names = []
     for i in range(0, len(entities)):
@@ -44,12 +44,28 @@ def getPeoplesInfo():
             person.append(entities[i][0])
             names.append(entities[i][0] +
                          '( ' + find_ethnicity(entities[i][0])+' )')
-            # print(entities[i][0] + '( ' + find_ethnicity(entities[i][0])+' )')
+            print(entities[i][0] + '( ' + find_ethnicity(entities[i][0])+' )')
     end = time.time()
     print("----TIME (s) : /people_info/getPeoplesInfo---", end - start)
     return jsonify({"people_ethnicity": ' '.join(names), "person": person})
 
 
-def getPeoplesInfo1(question):    
-    return ' '.join(names), person
+def getPeoplesInfo1(question):
+    start = time.time()
+    doc = nlp(question)
+    entities = [(X.text, X.label_) for X in doc.ents]
+    print(entities)
+    person = []
+    names = []
+    for i in range(0, len(entities)):
+        if(entities[i][1] == 'PERSON'):
+            person.append(entities[i][0])
+            names.append(entities[i][0] +
+                         '( ' + find_ethnicity(entities[i][0])+' )')
+            print(entities[i][0] + '( ' + find_ethnicity(entities[i][0])+' )')
+    end = time.time()
+    print("----TIME (s) : /people_info/getPeoplesInfo---", end - start)
+    people_ethnicity=' '.join(names)
+    person=person
+    return people_ethnicity, person
     # return jsonify({"people_ethnicity": ' '.join(names), "person": person})
