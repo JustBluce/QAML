@@ -53,7 +53,7 @@ export function widgetTemplate(id, type) {
 			type: 'Buzzer',
 			container: 'left',
 			expanded: true,
-			maxHeight: '500px',
+			maxHeight: '500px'
 		},
 		Machine_Guess: {
 			id: id,
@@ -62,7 +62,7 @@ export function widgetTemplate(id, type) {
 			container: 'left',
 			expanded: true,
 			maxHeight: '500px'
-		},
+		}
 	};
 	return widget_templates[type];
 }
@@ -85,7 +85,9 @@ export function defaultWorkspace(id) {
 		widget_index: 7,
 		style: {
 			left: 0,
-			top: 0
+			top: 0,
+			width: 0,
+			height: 0
 		}
 	};
 }

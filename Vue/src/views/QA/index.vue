@@ -5,7 +5,7 @@ Developers: Jason Liu and Cai Zefan
 <template>
   <div id="app">
     <Taskbar />
-    <div class="workspaces-container">
+    <div ref="workspacesContainer" class="workspaces-container">
       <transition-group type="transition" name="workspaces">
         <div v-for="workspace_id in workspace_stack" :key="workspace_id">
           <Workspace :id="workspace_id" />
@@ -63,8 +63,8 @@ export default {
 .workspaces-enter-active,
 .workspaces-leave-active {
   position: relative;
-  transition: all 0.3s linear;
-  height: 900px;
+  transition: all 0.3s ease;
+  height: 100%;
   z-index: 1000;
 }
 

@@ -37,6 +37,7 @@ const store = new Vuex.Store({
 				newWorkspace.title = title;
 			}
 			state.workspaces.push(newWorkspace);
+			state.workspace_stack.push(state.workspace_index);
 			state.workspace_index++;
 		},
 		deleteWorkspace(state, workspace_id) {
@@ -44,8 +45,10 @@ const store = new Vuex.Store({
 			state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
 		},
 		selectWorkspace(state, workspace_id) {
-			state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
-			state.workspace_stack.push(workspace_id);
+			if (getters.workspace(state)(workspace_id)) {
+				state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
+				state.workspace_stack.push(workspace_id);
+			}
 		},
 		minimizeWorkspace(state, workspace_id) {
 			state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);

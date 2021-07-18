@@ -4,14 +4,18 @@ Developers: Jason Liu
 
 <template>
   <div
+    ref="workspaceContainer"
     class="workspace-container"
     :style="{
       left: style.left + 'px',
       top: style.top + 'px',
+      width: style.width + 'px',
+      height: style.height + 'px',
       zIndex: zIndex,
       filter: workspace_selected === id ? 'contrast(100%)' : 'contrast(85%)',
     }"
     @mousedown="onSelect"
+    @mouseup="onRelease"
   >
     <div class="drag-bar" @mousedown="startDrag" />
     <Header :workspace_id="id" />
@@ -96,6 +100,19 @@ export default {
     onSelect() {
       this.$store.commit("selectWorkspace", this.id);
     },
+    onRelease() {
+      this.style.width = this.$refs.workspaceContainer.offsetWidth;
+      this.style.height = this.$refs.workspaceContainer.offsetHeight;
+    },
+  },
+  mounted() {
+    let parentContainer = this.$parent.$parent.$refs.workspacesContainer;
+    if (this.style.width === 0) {
+      this.style.width = parentContainer.offsetWidth - 8;
+    }
+    if (this.style.height === 0) {
+      this.style.height = parentContainer.offsetHeight - 8;
+    }
   },
 };
 </script>
@@ -108,11 +125,11 @@ export default {
   margin: 4px;
   background-color: white;
   border: 4px solid steelblue;
+  border-top: 8px solid steelblue;
+  border-radius: 8px;
   box-shadow: 0px 0px 4px black;
-  height: 900px;
   min-height: 450px;
   max-height: calc(100% - 8px);
-  width: calc(100% - 8px);
   min-width: 1100px;
   max-width: calc(100% - 8px);
   overflow: hidden;
@@ -121,7 +138,7 @@ export default {
 
 .drag-bar {
   cursor: move;
-  height: 10px;
+  height: 12px;
   background-color: steelblue;
   flex-shrink: 0;
 }
