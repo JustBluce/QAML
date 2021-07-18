@@ -25,10 +25,9 @@ data = json.load(f)['questions']
 
 
 questions = []
-answers = []
+
 for i in range(0, len(data)):
     questions.append(data[i]['text'])
-
 tfidf_vectorizer = TfidfVectorizer(stop_words = stopWords)
 tfidf_matrix = tfidf_vectorizer.fit_transform(questions)
 
@@ -47,14 +46,14 @@ def retrieve_similar_question():
     matrix = matrix.toarray()
     # cosine = cosine_similarity(tfidf_matrix[len(questions)-1], tfidf_matrix)[0]
     max_cosine = max(matrix[0])
-    # print(matrix)
-    top_5_idx = np.flipud(np.argsort(matrix[0])[-5:])
-    # print([matrix[0][index] for index in top_5_idx])
     
+
+    max_index = np.where(matrix[0] == max_cosine)
+    print(max_index[0][0])
     isSimilar = False
-    if max_cosine > threshold_similar:
+    if max_cosine > threshold:
         isSimilar = True
         # print([max_cosine, questions[max_index[0]]])
     end = time.time()
     print("----TIME (s) : /similar_question/retrieve_similar_question---",end - start)
-    return jsonify({"similar_question": [isSimilar, [data[index] for index in top_5_idx]]})
+    return jsonify({"similar_question": [isSimilar, questions[max_index[0][0]]]})

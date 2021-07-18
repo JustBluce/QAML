@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import debounce from 'lodash/debounce'
+
 //引入echarts
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
@@ -20,8 +20,6 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-window._ = require('lodash');
-
 
 /**
  * If you don't want to use mock-server

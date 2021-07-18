@@ -8,7 +8,7 @@ from pydub import AudioSegment
 from pydub.playback import play
 
 # The text that you want to convert to audio
-mytext = ''
+mytext = 'This is a hard to pronounce sentence.'
 
 # Language in which you want to convert
 language = 'en'

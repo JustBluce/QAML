@@ -1,7 +1,5 @@
 # Raj
 import sys
-import re
-# from transformers.utils.dummy_pt_objects import BertLMHeadModel
 sys.path.append("..")
 sys.path.insert(0, './app')
 from flask import Blueprint, render_template, redirect
@@ -21,7 +19,7 @@ def guess_by_sentences(question):
         question_sentence = question_sentence + " " +temp_sentence_array[i] 
         temp_var = guess_top_5(question = [question_sentence])
         # print(temp_var)
-        if (temp_var[0][1]>threshold_buzz):
+        if (temp_var[0][1]>threshold):
             print("Ring buzzer on sentence number " + str(i+1))
             break_index = i+1
             question_sentence = question_sentence + "||[[BUZZER]]||"
@@ -41,7 +39,7 @@ def guess_by_words(question):
         if(((i+1)%8 == 0) or (i+1) == len(temp_word_array)):
             temp_var = guess_top_5(question = [question_sentence])
             # print(temp_var)
-            if (temp_var[0][1]>threshold_buzz):
+            if (temp_var[0][1]>threshold):
                 print("Ring buzzer on word number " + str(i+1))
                 break_index = i+1
                 question_sentence = question_sentence + "||[[BUZZER]]||"
@@ -61,19 +59,17 @@ def get_actual_guess_with_index(question, max=12):
         answer.append([(ans[j], matrix[i, j]) for j in idx])
     return answer[0][0][0:], indices[0][0]
 
-def check_drop_in_confidence(question, actual_confidence, max=50, ind = -1):
+def check_drop_in_confidence(question, max=12, ind = -1):
     answer = []
     repre = vectorizer.transform(question)
     matrix = Matrix.dot(repre.T).T
     indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
-    if (not(question[0].strip())):
-        return 0.0
     for i in range(len(question)):
         idx = indices[i]
         answer.append([(ans[j], matrix[i, j]) for j in idx])
         if(ind == idx[0]):
             return answer[0][i][1]
-    return actual_confidence
+    return 0
 
 def make_colored(score, text , max, min):
     colored_text = colored(int(255 * (1 - (score -min)/(max-min))) , 255, int(255 * (1 - (score -min)/(max-min))), text)
@@ -81,7 +77,7 @@ def make_colored(score, text , max, min):
 
 def get_importance_of_each_word(question):
     actual_answer, index_of_answer = get_actual_guess_with_index(question = [question])
-    # print(actual_answer)
+    print(actual_answer)
     actual_confidence = actual_answer[1]
     temp_sentence_array = break_into_words(question)
     highest_confidence = -10
@@ -91,7 +87,7 @@ def get_importance_of_each_word(question):
     for i in range(len(temp_sentence_array)):
         temp_sentence = temp_sentence_array[:i] + temp_sentence_array[i+1:]
         temp_sentence_string = ' '.join(temp_sentence)
-        drop_in_confidence = check_drop_in_confidence(question = [temp_sentence_string], ind = index_of_answer, actual_confidence = actual_confidence)
+        drop_in_confidence = check_drop_in_confidence(question = [temp_sentence_string], ind = index_of_answer)
         print("Importance of word "+ temp_sentence_array[i] + "= ", actual_confidence-drop_in_confidence)
         array_of_importances.append(actual_confidence-drop_in_confidence)
         if(least_confidence > (actual_confidence-drop_in_confidence)):
@@ -118,24 +114,17 @@ def get_importance_of_each_sentence(question):
     for i in range(len(temp_sentence_array)):
         temp_sentence = temp_sentence_array[:i] + temp_sentence_array[i+1:]
         temp_sentence_string = ' '.join(temp_sentence)
-        drop_in_confidence = check_drop_in_confidence(question = [temp_sentence_string], ind = index_of_answer,actual_confidence=actual_confidence)
-        score = float(actual_confidence-drop_in_confidence)
-        # print(actual_confidence, drop_in_confidence, score)
-        array_of_importances.append(score)
-        if(least_confidence > (score)):
-            least_confidence = (score)
-        if(highest_confidence< (score)):
+        drop_in_confidence = check_drop_in_confidence(question = [temp_sentence_string], ind = index_of_answer)
+        array_of_importances.append(actual_confidence-drop_in_confidence)
+        if(least_confidence > (actual_confidence-drop_in_confidence)):
+            least_confidence = (actual_confidence-drop_in_confidence)
+        if(highest_confidence< (actual_confidence-drop_in_confidence)):
             highest_confidence_sentence = i
-            highest_confidence = (score)
+            highest_confidence = (actual_confidence-drop_in_confidence)
     # colored_string = ""
     # for i in range(len(temp_sentence_array)):
     #     colored_string = colored_string + " " + make_colored(array_of_importances[i],temp_sentence_array[i], highest_confidence, least_confidence)
-    most_important = []
-    for i in range(len(array_of_importances)):
-        a = break_into_words(temp_sentence_array[i])
-        most_important.append({"sentence":a[0] + " ... " + a[-1], "importance":array_of_importances[i]})
-    return most_important
-    # return temp_sentence_array[highest_confidence_sentence]
+    return temp_sentence_array[highest_confidence_sentence]
 
 
 

@@ -2,7 +2,7 @@ create table QA
 (
     id       int auto_increment
         primary key,
-    Question varchar(65535) null,
+    Question varchar(255) null,
     Answer   varchar(255) null
 );
 
