@@ -53,7 +53,7 @@ def getpronunciation():
     start = time.time()
     question = " " + question
     language = 'en'
-    myobj = gTTS(text=question, lang=language, slow=True)
+    myobj = gTTS(text=question, lang=language, slow=False)
     myobj.save("app/pronunciation.mp3")
     
     question_file = open("app/question.txt","w")
@@ -80,9 +80,7 @@ def getpronunciation():
     final_time = end - start
     print("----TIME (%.2f) : /pronunciation/get_pronunciation---" % (final_time))
 
-    print(transcribed_text)
-    return jsonify({"message": [transcribed_text]})
-       # return jsonify({"similar_question": [isSimilar, [data[index] for index in top_5_idx]]})
+    return (transcribed_text)
     #return jsonify({"pronunciation": [{"Word": "-", "Score":"-"}],"message": ""})
 
    

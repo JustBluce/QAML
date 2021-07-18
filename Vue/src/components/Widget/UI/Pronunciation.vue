@@ -12,9 +12,9 @@ Developers: Damien Rene and Jason Liu
       :autoEscape="true"
       :textToHighlight="text"
     /> -->
-    <!-- <div>
+    <div>
       <h4> Please add the pronunciation guide for the following words </h4>
-    </div> -->
+    </div> 
     <textarea
       readonly
       class="container"
@@ -85,6 +85,13 @@ export default {
 .Pronunciation-container{
   display: flex;
   flex-direction: column;
+  height: 300px;
+  width: 100%;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+ height: 300px;
   width: 100%;
 }
 select {
