@@ -4,30 +4,36 @@ Developers: Jason Liu and Cai Zefan
 
 <template>
   <div id="app">
-    <div v-for="workspace in workspaces" :key="workspace.id">
-      <Workspace :id="workspace.id" />
+    <Taskbar />
+    <div class="workspaces-container">
+      <transition-group type="transition" name="workspaces">
+        <div v-for="workspace_id in workspace_stack" :key="workspace_id">
+          <Workspace :id="workspace_id" />
+        </div>
+      </transition-group>
     </div>
   </div>
 </template>
 
 <script>
+import Taskbar from "@/components/Taskbar";
 import Workspace from "@/components/Workspace";
 import draggable from "vuedraggable";
 
 export default {
   components: {
+    Taskbar,
     Workspace,
     draggable,
   },
   data() {
     return {
       drag: false,
-      displayUI: "block",
     };
   },
   computed: {
-    workspaces() {
-      return this.$store.state.workspaces;
+    workspace_stack() {
+      return this.$store.state.workspace_stack;
     },
   },
 };
@@ -46,6 +52,29 @@ export default {
   overflow: auto;
   overflow: overlay;
   overflow-wrap: break-word;
+}
+
+.workspaces-container {
+  position: relative;
+  height: calc(100vh - 100px);
+  overflow: hidden;
+}
+
+.workspaces-enter-active,
+.workspaces-leave-active {
+  position: relative;
+  transition: all 0.3s linear;
+  height: 900px;
+  z-index: 1000;
+}
+
+.workspaces-enter {
+  transform: translate(0, -500px);
+}
+
+.workspaces-leave-to {
+  opacity: 0;
+  filter: contrast(0);
 }
 
 .btn {
@@ -77,5 +106,9 @@ export default {
 .fa-trash,
 .fa-trash:hover {
   color: #888888;
+}
+
+.fa-upload {
+  color: #ffffff;
 }
 </style>
