@@ -30,9 +30,6 @@ def classify():
     outputs = model(**inputs)
     logits = outputs.logits.detach().cpu().numpy()
     difficulty = np.argmax(logits).flatten()
-    # if difficulty == 1 :
-    #     qa_table = metadata.tables["QA"]
-    #     db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
     end = time.time()
     print("----TIME (s) : /difficulty_classifier/classify---",end - start)
     if(difficulty == 0):

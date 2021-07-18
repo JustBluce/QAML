@@ -41,7 +41,7 @@ Developers: Jason Liu
         <a id="create-qa" class="menu-item" @click="createQA">Create QA</a>
       </div>
     </div>
-    <input v-model="workspace.title" />
+    <input value="Workspace Demo" />
     <a class="fas fa-minus btn" @click="minimize" />
     <a class="fas fa-times btn" @click="close" />
   </div>
@@ -98,12 +98,8 @@ export default {
     createQA() {
       this.$store.commit("createQA", this.workspace_id);
     },
-    minimize() {
-      this.$store.commit("minimizeWorkspace", this.workspace_id);
-    },
-    close() {
-      this.$store.commit("deleteWorkspace", this.workspace_id);
-    },
+    minimize() {},
+    close() {},
   },
 };
 </script>
@@ -160,7 +156,6 @@ export default {
   padding-top: 2px;
   padding-bottom: 2px;
   transition: background-color 0.3s;
-  height: 20px;
 }
 
 .sub-menu-item:hover {
