@@ -87,8 +87,8 @@ export default {
 .widget-container {
   background: white;
   border: 2px solid steelblue;
-  border-radius: 5px;
-  padding: 20px;
+  border-radius: 8px;
+  padding: 12px;
   margin: 0px;
   width: 100%;
 }

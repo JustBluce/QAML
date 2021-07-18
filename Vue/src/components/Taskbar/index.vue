@@ -1,7 +1,6 @@
 <template>
   <div class="taskbar-container">
     <div class="taskbar">
-      <a class="fas fa-plus btn" @click="addWorkspace" />
       <div class="item-wrapper tabs">
         <div class="item" v-for="workspace in workspaces" :key="workspace.id">
           <a
@@ -9,15 +8,19 @@
               'btn',
               workspace_selected === workspace.id ? 'selected' : '',
             ]"
+            :title="workspace.title"
             @click="selectWorkspace(workspace.id)"
             >{{ workspace.title }}</a
           >
         </div>
       </div>
+      <a class="fas fa-plus btn" @click="addWorkspace" />
       <div class="item recommended-title">Recommended topics:</div>
       <div class="item-wrapper recommended">
         <div class="item" v-for="rec in recommended" :key="rec">
-          <a class="btn" @click="addRecommendedWorkspace(rec)">{{ rec }}</a>
+          <a class="btn" :title="rec" @click="addRecommendedWorkspace(rec)">{{
+            rec
+          }}</a>
         </div>
         <div class="item" v-show="recommended.length === 0">None</div>
       </div>
@@ -119,7 +122,8 @@ export default {
 }
 
 .tabs {
-  max-width: 70%
+  max-width: 70%;
+  margin-right: 4px;
 }
 
 .selected {
@@ -134,6 +138,6 @@ export default {
 }
 
 .recommended {
-  max-width: 20%;
+  max-width: 25%;
 }
 </style>
