@@ -32,4 +32,4 @@ for i in range(0, 100):
             resp = requests.get('https://gender-api.com/get?name='+ entities[i][0] +'&key=8ntwZAbqzWJEsldFDVfk8jxLlZCgU9WYEK4Y')
             names.append([resp.json()['name'], resp.json()['gender']])
             
-print(names)
+# print(names)

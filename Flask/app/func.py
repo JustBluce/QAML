@@ -1,8 +1,12 @@
 import warnings
+import sys
+sys.path.append("..")
+sys.path.insert(0, './app')
+from app import util
 from app.people import getPeoplesInfo1
 from app.country_represent import country_present1
 from app.util import highlight_json
-import nltk
+
 from util import *
 from app import util
 from app.country_represent import country_represent
@@ -31,8 +35,7 @@ def warn(*args, **kwargs):
 
 warnings.warn = warn
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
-sys.path.append("..")
-sys.path.insert(0, './app')
+
 
 
 # nltk.download('punkt') #Download once
@@ -57,8 +60,9 @@ def guess(question, max=12):
 def act():
     if request.method == "POST":
         question = request.form.get("text")
+        ans = request.form.get("answer_text")
     start = time.time()
-    # answer = guess(question=[question])
+    answer = guess(question=[question])
     # # Uncomment the below line to get the buzzer funtionality.
     # # get_importance_of_each_sentence(question)
     # # answer_sentence = guess_by_sentences(question)
@@ -68,12 +72,12 @@ def act():
     # similar_question = retrieve_similar_question(question)
     # country_representation = country_present(question)
     # # if(difficulty == "Hard"):
-    # #     qa_table = metadata.tables["QA"]
-    # #     db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
+    
     # return jsonify({"guess": answer, "difficulty": difficulty, "ethnicity": ethnicity, "gender": gender, "similar_question": similar_question, "country_representation" : country_representation})
-    answer = guess(question=[question])
+    
     # answer = tabulate(answer, tablefmt='html')
-    answer = "\n".join(str(x[0]) + " " + str(x[1]) for x in answer)
+    # answer = "\n".join(str(x[0])+ " " + str(x[1]) for x in answer)
+    answer = [{"guess": str(x[0]),"score":str(x[1])} for x in answer]
     end = time.time()
     # print(end - start)
     print("----TIME (s) : /func/act---", end - start)
@@ -90,7 +94,18 @@ def timeup():
 def country_people():
     if request.method == "POST":
         question = request.form.get("text")
-    people_ethnicity, people = getPeoplesInfo1(question)
     country_representation, countries = country_present1(question)
-    highlight=highlight_json(countries, people)
-    return jsonify({"country_representation": country_representation, "people_ethnicity": people_ethnicity, "Highlight": highlight})
+    highlight=highlight_json(countries)
+    return jsonify({"country_representation": country_representation, "Highlight": highlight})
+
+@func.route("/insert", methods=["POST"])
+def insert():
+    if request.method == "POST":
+        question = request.form.get("text")
+        ans = request.form.get("answer_text")
+    print(question, ans)
+    answer = guess(question=[question])
+    qa_table = metadata.tables["qa"]
+    db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
+    return "submitted"
+{"mode":"full","isActive":False}
