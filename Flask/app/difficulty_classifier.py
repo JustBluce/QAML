@@ -1,38 +1,37 @@
 # Atith
-def warn(*args, **kwargs):
-    pass
-import warnings
-warnings.warn = warn
-from flask import Blueprint, render_template, redirect
-from flask import Flask, jsonify, request
-from app import db, metadata
-import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
-from flask import Flask, jsonify, request
-import sys
-import torch
+# Description of this file: 
+# 1. Finding the difficulty of each question based on education levels
+
 import sys
 sys.path.append("..")
 sys.path.insert(0, './app')
-
-from app import util, importance
+from app import import_libraries, util
 from util import *
-from importance import *
+from import_libraries import *
 
 difficulty_classifier = Blueprint('difficulty_classifier', __name__)
 @difficulty_classifier.route("/classify", methods=["POST"])
 def classify():
+    """
+    Parameters
+    ----------
+    None
+
+    Returns
+    --------
+    returns a json of the following format:
+    {
+        "difficulty": "Hard/Easy/Error"
+    }
+    
+    """
     if request.method == "POST":
         question = request.form.get("text")
     start = time.time()
-
-    inputs = tokenizer(question, return_tensors="pt")
-    outputs = model(**inputs)
+    inputs = tokenizer_difficulty(question, return_tensors="pt")
+    outputs = model_difficulty(**inputs)
     logits = outputs.logits.detach().cpu().numpy()
     difficulty = np.argmax(logits).flatten()
-    # if difficulty == 1 :
-    #     qa_table = metadata.tables["QA"]
-    #     db.session.execute(qa_table.insert().values(Question=question, Answer=answer))
     end = time.time()
     print("----TIME (s) : /difficulty_classifier/classify---",end - start)
     if(difficulty == 0):
