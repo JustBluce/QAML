@@ -19,7 +19,7 @@ Developers: Damien Rene and Jason Liu
       readonly
       class="container"
       rows="1"
-      placeholder="Pronunciation highlighting"
+      placeholder="Pronunciation "
       v-model="pronunciation"
     ></textarea>
     <!-- <table class="table table-striped table-bordered">

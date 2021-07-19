@@ -26,7 +26,7 @@ export function widgetTemplate(id, type) {
 		},
 		Pronunciation: {
 			id: id,
-			title: 'Pronunciation difficulty',
+			title: 'TTS -> TSS Results',
 			type: 'Pronunciation',
 			container: 'right',
 			expanded: true,
