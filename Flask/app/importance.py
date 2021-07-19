@@ -1,11 +1,11 @@
 # Raj
+# <<<-------DEPRECIATED FILE-------->>>
+# Description of this file: 
+# 1. Contains functions for calculating the importance of words and sentences
+
 import sys
-import re
-# from transformers.utils.dummy_pt_objects import BertLMHeadModel
 sys.path.append("..")
 sys.path.insert(0, './app')
-from flask import Blueprint, render_template, redirect
-from flask import Flask, jsonify, request   
 from app import util
 from util import *
 
@@ -139,6 +139,20 @@ def get_importance_of_each_sentence(question):
 
 
 
-
+# def vectorizer(string):
+#   vectors = []
+#   string_vec = np.zeros(300)
+#   array_of_words = break_into_words_with_capital(string)
+#   # print(array_of_words)
+#   for i in range(len(array_of_words)):
+#     if array_of_words[i] in pre_ft_vectors:
+      
+#       vec = pre_ft_vectors[array_of_words[i]]
+#       string_vec = string_vec + vec
+#     else:
+#       vec = np.zeros(300)
+#     vectors.append(vec)
+#   string_vec = string_vec/len(array_of_words)
+#   return string_vec
 
 # Raj End -------------------

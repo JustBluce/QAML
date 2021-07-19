@@ -1,30 +1,12 @@
-from transformers import BertTokenizer, BertForSequenceClassification
-import time
 import sys
-from flask import Flask, jsonify, request
-from sklearn.feature_extraction.text import TfidfVectorizer
-import click
-from os import path
-import json
-import pickle
-from collections import defaultdict
-from typing import List, Optional, TYPE_CHECKING, Tuple
-from flask import Blueprint, render_template, redirect
-import nltk
-import warnings
-import os
-
-
-def warn(*args, **kwargs):
-    pass
+sys.path.append("..")
+sys.path.insert(0, './app')
+from app import import_libraries
+from import_libraries import *
 threshold_buzz = 0.2
 threshold_similar = 0.5
 threshold_pronunciation = 0.6
-import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
-import warnings
-import nltk
-warnings.filterwarnings('ignore')
+
 
 
 def colored(r, g, b, text):
@@ -55,34 +37,28 @@ def guess_top_n(question, params, max=12, n=3):
     vectorizer, Matrix, ans = params[0], params[1], params[2]
     answer = []
     repre = vectorizer.transform(question)
-    # print(repre.shape)
-
     matrix = Matrix.dot(repre.T).T
     indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
     for i in range(len(question)):
         answer.append([(ans[j], matrix[i, j]) for j in indices[i]])
-    # print(answer)
     return answer[0][0:n]
 
 def guess_top_1(question, params, max=12, n=3):
     vectorizer, Matrix, ans = params[0], params[1], params[2]
     answer = []
     repre = vectorizer.transform(question)
-    # print(repre.shape)
-
     matrix = Matrix.dot(repre.T).T
     indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
     for i in range(len(question)):
         answer.append([[ans[j], matrix[i, j]] for j in indices[i]])
-    # print(answer)
     return answer[0][0:n]
 
 
-def load_bert_model():
-    model = BertForSequenceClassification.from_pretrained(
+def load_bert_model_difficulty():
+    model_difficulty = BertForSequenceClassification.from_pretrained(
         './model/difficulty_models/BERT_full_question')
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    return model, tokenizer
+    tokenizer_difficulty = BertTokenizer.from_pretrained('bert-base-uncased')
+    return tokenizer_difficulty, model_difficulty
 
 
 def highlight_json(countries, people = None):
@@ -101,30 +77,29 @@ def highlight_json(countries, people = None):
         temp['text'] = country
         temp['style'] = "background-color:#f37373"
         highlight.append(temp)
-    # for person in people:
-    #     temp = {}
-    #     temp['text'] = person
-    #     temp['style'] = "background-color:#fff05e"
-    #     highlight.append(temp)
-
     return highlight
 
-
-model, tokenizer = load_bert_model()
-params = get_pretrained_tfidf_vectorizer()
+def load_bert_country_model():
+    # model_name = "bert-base-multilingual-uncased"
+    model_name = "bert-large-uncased-whole-word-masking-finetuned-squad"
+    from transformers import AutoTokenizer,AutoModelForSequenceClassification, AutoModelForPreTraining
+    tokenizer_country = AutoTokenizer.from_pretrained(model_name, do_lower_case=True)
+    model_country = AutoModelForPreTraining.from_pretrained(model_name, output_attentions=False, output_hidden_states=True)
+    return tokenizer_country, model_country
 
 def load_genre_model():
     model = BertForSequenceClassification.from_pretrained('./model/genre_classifier_models/BERT_genre_classifier', num_labels = 11)
-    # tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') 
     return model
-
-# genre_model = load_genre_model()
 
 def load_science_genre_model():
     model = BertForSequenceClassification.from_pretrained('./model/genre_classifier_models/Science_Genre_classifier', num_labels = 4)
     return model
 
-# science_genre_model = load_science_genre_model()
+
+tokenizer_difficulty, model_difficulty = load_bert_model_difficulty()
+params = get_pretrained_tfidf_vectorizer()
+tokenizer_country, model_country = load_bert_country_model()
+
 sub_genres = {
             'Philosophy': [['Norse', 354], ['Other', 345], ['Philosophy', 5], ['European', 3], ['American', 2], ['Religion/Mythology', 1]],
             'History' : [['American', 3514], ['World', 3103], ['European', 3100], ['British', 685], ['Classical', 607], ['Ancient', 345], ['Other', 541], ['Classic', 105], ['Norse', 48], ['Geography', 2], ['Religion/Mythology', 1]],
