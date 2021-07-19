@@ -2,21 +2,10 @@ import sys
 sys.path.append("..")
 sys.path.insert(0, './app')
 
-from app import util, importance
+from app import util, import_libraries
+from import_libraries import *
 from util import *
-from importance import *
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity 
-import nltk
-from nltk.corpus import stopwords
-import json
-import numpy as np
-import spacy
-## import en_core_web_sm
-from flask import Blueprint, render_template, redirect
-from flask import Flask, jsonify, request
-nlp = spacy.load("en_core_web_sm")
-##nlp = en_core_web_sm.load()
+
 
 stopWords = stopwords.words('english')
 

@@ -1,20 +1,12 @@
 import sys
-from ethnicolr import census_ln, pred_census_ln, pred_wiki_ln
-import pandas as pd
-from flask import Flask, jsonify, request
-from flask import Blueprint, render_template, redirect
-import json
-import requests
-import spacy
-from spacy import displacy
-from collections import Counter
-import en_core_web_sm
-import time
-nlp = en_core_web_sm.load()
-spacy.load('en_core_web_sm')
-
 sys.path.append("..")
 sys.path.insert(0, './app')
+from app import import_libraries, util
+from import_libraries import *
+
+
+nlp = en_core_web_sm.load()
+spacy.load('en_core_web_sm')
 
 
 def find_ethnicity(name):
