@@ -17,6 +17,8 @@ sys.path.insert(0, './app')
 from app import util, importance
 from util import *
 import subprocess
+import nltk
+nltk.data.load('tokenizers/punkt/PY3/english.pickle')
 import os 
 
 authenticator = IAMAuthenticator('Xqq84EWoiOAtKLuKcsA9OUtsekbXDBCgS7FLi2EnNV7i')
@@ -49,31 +51,71 @@ r = sr.Recognizer()
 
 #for bigger questions only
 def shrink_and_split():
-    command = "ffmpeg -i /audio_files/pronunciation.mp3 -f segment -segment_time 360 -c copy %03d.mp3"
-    subprocess.call(command, shell=True)
+    if request.method == "POST":
+        question = request.form.get("text")
 
-    files = []
+    start = time.time()
+
     path = os.getcwd()
-    path = path + "audio_files"
+    path = path + "/app/audio_files"
+    
 
+    question = " " + question
+    language = 'en'
+    myobj = gTTS(text=question, lang=language, slow=True)
+    myobj.save("app/audio_files/pronunciation.mp3")
+    
+    #split number of sentences
+    question_tokenized_by_sentence = nltk.tokenize.sent_tokenize(str(question))
+    number_of_sentences = len(question_tokenized_by_sentence)
+
+    files = []      
+
+    i =0
+    for x in range(number_of_sentences + 1):
+        for sentence in question_tokenized_by_sentence: 
+            myobj = gTTS(text=sentence, lang=language, slow=True)
+            myobj.save("app/audio_files/%i.mp3" % x) 
+            ##files.append(sentence)
+
+   
     for filename in os.listdir(path):
         if filename.endswith(".mp3") and filename != 'pronunciation.mp3':
             files.append(filename)
     files.sort()
-
-    ##transcription
+    print(files)
     results = []
+
     for filename in files: 
-        with open(filename, 'rb') as f:
+        with open(path + "/" + filename, 'rb') as f:
             # en-US_BroadbandModel
             # en-US_Multimedia  - Next Generation Model (supposed to be faster and more accurate)
             #
-            res = speech_to_text.recognize(audio=f, content_type='audio/mp3', model='en-US_Multimedia', continuous=True).get_result()
+            res = speech_to_text.recognize(audio=f, content_type='audio/mp3', model='en-US_BroadbandModel', continuous=True,smart_formatting=True).get_result()
             results.append(res)
+
     text = []
+
     for file in results: 
         for result in file['results']:
             text.append(result['alternatives'][0]['transcript'].rstrip() + '.\n')
+
+
+    question_file = open("app/question.txt","w")
+    question_file.write(str(question))
+    question_file.close()
+    
+    speech_file = open("app/audio_files/speech-text.txt","w")
+    speech_file.write(str(text))
+    speech_file.close()
+
+    end = time.time()
+    final_time = end - start
+    print("----TIME (%.2f) : /pronunciation/get_pronunciation---" % (final_time))
+
+    print(text)
+    return jsonify({"message": [text]})
+   
 
     
    
@@ -86,11 +128,22 @@ def getpronunciation():
         question = request.form.get("text")
 
     start = time.time()
+
+    path = os.getcwd()
+    path = path + "/app/audio_files"
+    
+
     question = " " + question
     language = 'en'
     myobj = gTTS(text=question, lang=language, slow=True)
     myobj.save("app/audio_files/pronunciation.mp3")
     
+    #split number of sentences
+    question_tokenized_by_sentence = nltk.tokenize.sent_tokenize(str(question))
+    number_of_sentences = len(question_tokenized_by_sentence)
+
+
+
     question_file = open("app/question.txt","w")
     question_file.write(str(question))
     question_file.close()
@@ -108,18 +161,27 @@ def getpronunciation():
             smart_formatting=True
         ).get_result()
     
-    transcribed_text = speech_recognition_results["results"][0]["alternatives"][0]["transcript"]
-    
+    transcribed_text = speech_recognition_results["results"][0]["alternatives"][0]["transcript"].rstrip() + '.\n'
+
+    list = []
+
+    for results in speech_recognition_results["results"]:
+        for alternatives in results["alternatives"]:
+                list.append(alternatives["transcript"])
+              
     speech_file = open("app/audio_files/speech-text.txt","w")
-    speech_file.write(transcribed_text)
+    speech_file.write(str(transcribed_text))
     speech_file.close()
    
     end = time.time()
     final_time = end - start
-    print("----TIME (%.2f) : /pronunciation/get_pronunciation---" % (final_time))
+    final_output = print(*list, sep = " ")
 
-    print(transcribed_text)
-    return jsonify({"message": [transcribed_text]})
+    
+    print("----TIME (%.3f) : /pronunciation/get_pronunciation---" % (final_time))
+
+    print(speech_recognition_results)
+    return jsonify({"message": str(list)})
        
 
    
