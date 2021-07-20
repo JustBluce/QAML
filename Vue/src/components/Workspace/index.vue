@@ -3,7 +3,7 @@ Developers: Jason Liu
 -->
 
 <template>
-  <div
+  <v-card
     ref="workspaceContainer"
     class="workspace-container"
     :style="{
@@ -12,25 +12,76 @@ Developers: Jason Liu
       width: style.width + 'px',
       height: style.height + 'px',
       zIndex: zIndex,
-      filter: workspace_selected === id ? 'contrast(100%)' : 'contrast(85%)',
+      filter: workspace_selected === id ? 'contrast(100%)' : 'contrast(50%)',
+      border:
+        workspace_selected === id
+          ? `2px solid ${$vuetify.theme.currentTheme.primary}`
+          : '',
     }"
     @mousedown="onSelect"
     @mouseup="onRelease"
+    @mouseleave="onRelease"
   >
-    <div class="drag-bar" @mousedown="startDrag" />
-    <Header :workspace_id="id" />
+    <v-toolbar style="flex-grow: 0">
+      <v-btn icon style="cursor: grab" @mousedown="startDrag">
+        <v-icon>mdi-drag</v-icon>
+      </v-btn>
+
+      <v-text-field
+        placeholder="Title"
+        hide-details="auto"
+        style="font-size: 28px"
+        :rules="rules"
+        :value="workspace.title"
+        @input="checkTitle"
+      ></v-text-field>
+
+      <v-spacer></v-spacer>
+
+      <v-menu :close-on-content-click="false" v-model="menu" offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on" icon>
+            <v-icon>mdi-hammer-wrench</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="widget_type in widget_types"
+            :key="widget_type"
+            link
+          >
+            <v-list-item-title @click="addWidget(widget_type)">
+              {{ widget_type }}
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item v-show="widget_types.length == 0">
+            <v-list-item-title @click="menu = false"
+              >No widgets to add</v-list-item-title
+            >
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
+      <v-btn icon @click="minimize">
+        <v-icon>mdi-window-minimize</v-icon>
+      </v-btn>
+
+      <v-btn icon @click="maximize">
+        <v-icon>mdi-window-maximize</v-icon>
+      </v-btn>
+    </v-toolbar>
+
     <div class="ui-wrapper">
       <div class="ui-container">
         <WidgetContainer :workspace_id="id" container="left" />
-        <QA :workspace_id="id" :qa_id="qa_selected" />
+        <QA :workspace_id="id" />
         <WidgetContainer :workspace_id="id" container="right" />
       </div>
     </div>
-  </div>
+  </v-card>
 </template>
 
 <script>
-import Header from "./Header";
 import WidgetContainer from "./WidgetContainer";
 import QA from "./QA";
 
@@ -40,7 +91,6 @@ export default {
     id: Number,
   },
   components: {
-    Header,
     WidgetContainer,
     QA,
   },
@@ -48,26 +98,28 @@ export default {
     return {
       clientX: undefined,
       clientY: undefined,
+      rules: [(value) => !!value || "Required."],
+      menu: false,
     };
   },
   computed: {
-    widget_types() {
-      return this.$store.state.widget_types;
-    },
     workspace() {
       return this.$store.getters.workspace(this.id);
-    },
-    style() {
-      return this.workspace.style;
-    },
-    qa_selected() {
-      return this.workspace.qa_selected;
     },
     workspace_selected() {
       return this.$store.state.workspace_stack.slice(-1)[0];
     },
+    style() {
+      return this.workspace.style;
+    },
     zIndex() {
       return this.$store.state.workspace_stack.indexOf(this.id);
+    },
+    widget_types() {
+      let added_types = this.workspace.widgets.map((widget) => widget.type);
+      return this.$store.state.widget_types.filter(
+        (type) => !added_types.includes(type)
+      );
     },
   },
   methods: {
@@ -101,17 +153,35 @@ export default {
       this.$store.commit("selectWorkspace", this.id);
     },
     onRelease() {
-      this.style.width = this.$refs.workspaceContainer.offsetWidth;
-      this.style.height = this.$refs.workspaceContainer.offsetHeight;
+      let workspace = this.$refs.workspaceContainer.$el;
+      this.style.width = workspace.offsetWidth;
+      this.style.height = workspace.offsetHeight;
+    },
+    checkTitle(title) {
+      if (title) {
+        this.workspace.title = title;
+      }
+    },
+    addWidget(type) {
+      this.$store.commit("addWidget", {
+        workspace_id: this.id,
+        type: type,
+      });
+    },
+    minimize() {
+      this.$store.commit("minimizeWorkspace", this.id);
+    },
+    maximize() {
+      let app = this.$parent.$parent.$el;
+      this.style.width = app.offsetWidth;
+      this.style.height = app.offsetHeight;
+      this.style.top = 0;
+      this.style.left = 0;
     },
   },
   mounted() {
-    let parentContainer = this.$parent.$parent.$refs.workspacesContainer;
-    if (this.style.width === 0) {
-      this.style.width = parentContainer.offsetWidth - 8;
-    }
-    if (this.style.height === 0) {
-      this.style.height = parentContainer.offsetHeight - 8;
+    if (this.style.width === 0 || this.style.height === 0) {
+      this.maximize();
     }
   },
 };
@@ -122,32 +192,19 @@ export default {
   display: flex;
   flex-direction: column;
   position: absolute;
-  margin: 4px;
-  background-color: white;
-  border: 4px solid steelblue;
-  border-top: 8px solid steelblue;
-  border-radius: 8px;
-  box-shadow: 0px 0px 4px black;
   min-height: 450px;
-  max-height: calc(100% - 8px);
-  min-width: 1100px;
-  max-width: calc(100% - 8px);
+  max-height: 100%;
+  min-width: 1150px;
+  max-width: 100%;
+  padding: 0;
   overflow: hidden;
   resize: both;
-}
-
-.drag-bar {
-  cursor: move;
-  height: 12px;
-  background-color: steelblue;
-  flex-shrink: 0;
 }
 
 .ui-wrapper {
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: auto;
-  overflow-y: overlay;
 }
 
 .ui-container {

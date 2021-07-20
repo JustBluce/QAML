@@ -1,27 +1,28 @@
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import debounce from 'lodash/debounce'
+import Vue from 'vue';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+import debounce from 'lodash/debounce';
 //引入echarts
-import echarts from 'echarts'
-Vue.prototype.$echarts = echarts
+import echarts from 'echarts';
+Vue.prototype.$echarts = echarts;
 
-import 'normalize.css/normalize.css' // A modern alternative to CSS resets
+import 'normalize.css/normalize.css'; // A modern alternative to CSS resets
 
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/en' // lang i18n
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import locale from 'element-ui/lib/locale/lang/en'; // lang i18n
 
-import '@/styles/index.scss' // global css
+import vuetify from './plugins/vuetify.js';
 
-import App from './App'
-import store from './store'
-import router from './router'
+import '@/styles/index.scss'; // global css
 
-import '@/icons' // icon
-import '@/permission' // permission control
+import App from './App';
+import store from './store';
+import router from './router';
+
+import '@/icons'; // icon
+import '@/permission'; // permission control
 window._ = require('lodash');
-
 
 /**
  * If you don't want to use mock-server
@@ -32,21 +33,19 @@ window._ = require('lodash');
  * please remove it before going online ! ! !
  */
 if (process.env.NODE_ENV === 'production') {
-  const { mockXHR } = require('../mock')
-  mockXHR()
+	const { mockXHR } = require('../mock');
+	mockXHR();
 }
 
-// set ElementUI lang to EN
-Vue.use(ElementUI, { locale })
-Vue.use(VueAxios, axios)
-// 如果想要中文版 element-ui，按如下方式声明
-// Vue.use(ElementUI)
+Vue.use(ElementUI, { locale });
+Vue.use(VueAxios, axios);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App)
-})
+	el: '#app',
+	vuetify,
+	router,
+	store,
+	render: (h) => h(App)
+});
