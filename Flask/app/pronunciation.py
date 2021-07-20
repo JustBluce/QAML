@@ -65,16 +65,17 @@ def shrink_and_split():
     results = []
     for filename in files: 
         with open(filename, 'rb') as f:
-            res = speech_to_text.recognize(audio=f, content_type='audio/mp3', model='en-US_NarrowbandModel', continuous=True, inactivity_timeout=360).get_result()
+            # en-US_BroadbandModel
+            # en-US_Multimedia  - Next Generation Model (supposed to be faster and more accurate)
+            #
+            res = speech_to_text.recognize(audio=f, content_type='audio/mp3', model='en-US_Multimedia', continuous=True).get_result()
             results.append(res)
     text = []
     for file in results: 
         for result in file['results']:
             text.append(result['alternatives'][0]['transcript'].rstrip() + '.\n')
 
-    speech_file = open(path + "speech-text.txt","w")
-    speech_file.write(text)
-    speech_file.close()
+    
    
 
 
@@ -94,14 +95,17 @@ def getpronunciation():
     question_file.write(str(question))
     question_file.close()
     
+            # en-US_BroadbandModel - MORE accurate 
+            # en-US_Multimedia  - Next Generation Model (supposed to be faster and more accurate)
 
     with open(join(dirname(__file__), './audio_files/', "pronunciation.mp3"),'rb') as audio_file:
         speech_recognition_results = speech_to_text.recognize(
             audio=audio_file,
             content_type='audio/mp3',
-            model='en-US_NarrowbandModel',
+            model='en-US_BroadbandModel',
             continuous=True,
-            word_confidence = False
+            word_confidence = False,
+            smart_formatting=True
         ).get_result()
     
     transcribed_text = speech_recognition_results["results"][0]["alternatives"][0]["transcript"]
