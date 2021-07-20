@@ -2,7 +2,6 @@
 Developers: Atith Gandhi and Jason Liu
 -->
 
-
 <template>
 
   <div class="country_representation-container">

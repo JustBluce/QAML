@@ -5,17 +5,27 @@ Developers: Jason Liu
 <template>
   <draggable
     v-model="widgets"
+    ref="widgets"
     ghost-class="ghost"
     handle=".widget-title"
     group="widgets"
     tag="v-container"
-    class="ma-0 widget-container background"
+    fluid
+    class="background"
+    :style="{
+      maxWidth: maxWidth + 'px',
+      transition: 'max-width 0.3s',
+    }"
     :emptyInsertThreshold="500"
     @add="(event) => (event.item.style.display = 'none')"
   >
     <transition-group type="transition" name="widgets">
       <template v-for="widget in widgets">
-        <Widget :workspace_id="workspace_id" :widget="widget" :key="widget.id" />
+        <Widget
+          :workspace_id="workspace_id"
+          :widget="widget"
+          :key="widget.id"
+        />
       </template>
     </transition-group>
   </draggable>
@@ -56,14 +66,10 @@ export default {
         );
       },
     },
+
+    maxWidth() {
+      return this.widgets.length > 0 ? 375 : 50;
+    },
   },
 };
 </script>
-
-<style scoped>
-.widget-container {
-  min-height: 100%;
-  width: 375px;
-  min-width: 375px;
-}
-</style>

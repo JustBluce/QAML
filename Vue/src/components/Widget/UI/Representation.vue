@@ -2,7 +2,6 @@
 Developers: Atith Gandhi and Jason Liu
 -->
 
-
 <template>
   <div class="representation-container">
     <textarea
