@@ -1,7 +1,7 @@
-export function defaultQA(id) {
+export function defaultQA(id, title = 'QA') {
 	return {
 		id: id,
-		title: id === 0 ? 'QA' : `QA (${id})`,
+		title: title,
 		text: '',
 		country_representation: '',
 		people_ethnicity: '',
@@ -19,49 +19,37 @@ export function widgetTemplate(id, type) {
 			id: id,
 			title: 'Timer',
 			type: 'Timer',
-			container: 'left',
-			expanded: true,
-			maxHeight: '200px'
+			container: 'left'
 		},
 		Pronunciation: {
 			id: id,
 			title: 'Pronunciation difficulty',
 			type: 'Pronunciation',
-			container: 'right',
-			expanded: true,
-			maxHeight: '250px'
+			container: 'right'
 		},
-		Country_Representation: {
+		CountryRepresentation: {
 			id: id,
 			title: 'Country representation',
 			type: 'CountryRepresentation',
-			container: 'right',
-			expanded: true,
-			maxHeight: '300px'
+			container: 'right'
 		},
 		SimilarQuestions: {
 			id: id,
 			title: 'Similar questions',
 			type: 'SimilarQuestions',
-			expanded: true,
-			container: 'right',
-			maxHeight: '400px'
+			container: 'right'
 		},
 		Buzzer: {
 			id: id,
 			title: 'Buzzer',
 			type: 'Buzzer',
-			container: 'left',
-			expanded: true,
-			maxHeight: '500px'
+			container: 'left'
 		},
-		Machine_Guess: {
+		MachineGuesses: {
 			id: id,
 			title: 'Machine guesses',
 			type: 'MachineGuesses',
-			container: 'left',
-			expanded: true,
-			maxHeight: '500px'
+			container: 'left'
 		}
 	};
 	return widget_templates[type];
@@ -77,10 +65,10 @@ export function defaultWorkspace(id) {
 		widgets: [
 			widgetTemplate(0, 'Timer'),
 			widgetTemplate(1, 'Pronunciation'),
-			widgetTemplate(2, 'Country_Representation'),
+			widgetTemplate(2, 'CountryRepresentation'),
 			widgetTemplate(3, 'SimilarQuestions'),
 			widgetTemplate(4, 'Buzzer'),
-			widgetTemplate(5, 'Machine_Guess')
+			widgetTemplate(5, 'MachineGuesses')
 		],
 		widget_index: 7,
 		style: {

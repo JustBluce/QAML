@@ -54,3 +54,9 @@ export default {
   }
 }
 </script>
+
+<style lang="postcss" scoped>
+.v-application ol, .v-application ul {
+    padding-left: 0 !important;
+}
+</style>
