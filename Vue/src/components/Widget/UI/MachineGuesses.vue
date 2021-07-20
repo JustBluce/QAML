@@ -2,8 +2,6 @@
 Developers: Atith Gandhi and Jason Liu
 -->
 
-
-
 <template>
   <div class="Machine-Guess-container">
     <table class="table table-striped table-bordered">
@@ -22,8 +20,6 @@ Developers: Atith Gandhi and Jason Liu
         </table>
   </div>
 </template>
-
-
 
 <script>
 import Highlighter from "vue-highlight-words";

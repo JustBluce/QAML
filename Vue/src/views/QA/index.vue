@@ -3,16 +3,18 @@ Developers: Jason Liu and Cai Zefan
 -->
 
 <template>
-  <div id="app">
-    <Taskbar />
-    <div class="workspaces-container background">
+  <v-main id="app">
+    <Taskbar/>
+    <v-sheet class="workspaces-container background">
       <transition-group type="transition" name="workspaces">
-        <div v-for="workspace_id in workspace_stack" :key="workspace_id">
-          <Workspace :id="workspace_id" />
-        </div>
+        <Workspace
+          v-for="workspace_id in workspace_stack"
+          :key="workspace_id"
+          :id="workspace_id"
+        />
       </transition-group>
-    </div>
-  </div>
+    </v-sheet>
+  </v-main>
 </template>
 
 <script>
@@ -40,6 +42,10 @@ export default {
 </script>
 
 <style>
+html {
+  overflow-y: hidden;
+}
+
 .workspaces-container {
   position: relative;
   height: calc(100vh - 64px);

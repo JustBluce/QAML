@@ -1,3 +1,7 @@
+/**
+ * Developers: Jason Liu
+ */
+
 export function defaultQA(id, title = 'QA') {
 	return {
 		id: id,

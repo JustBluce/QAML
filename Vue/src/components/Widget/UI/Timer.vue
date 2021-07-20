@@ -22,7 +22,7 @@ Cai Zefan
           Time's Up
           <v-spacer></v-spacer>
           <v-btn icon @click="dialog = false">
-            <v-icon color="close">mdi-close-circle</v-icon>
+            <v-icon color="close">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-divider></v-divider>

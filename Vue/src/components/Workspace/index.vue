@@ -22,7 +22,7 @@ Developers: Jason Liu
     @mouseup="onRelease"
     @mouseleave="onRelease"
   >
-    <v-toolbar style="flex-grow: 0">
+    <v-toolbar style="flex-grow: 0; z-index: 1">
       <v-btn icon style="cursor: grab" @mousedown="startDrag">
         <v-icon>mdi-drag</v-icon>
       </v-btn>
@@ -49,15 +49,12 @@ Developers: Jason Liu
             v-for="widget_type in widget_types"
             :key="widget_type"
             link
+            @click="addWidget(widget_type)"
           >
-            <v-list-item-title @click="addWidget(widget_type)">
-              {{ widget_type }}
-            </v-list-item-title>
+            <v-list-item-title>{{ widget_type }}</v-list-item-title>
           </v-list-item>
-          <v-list-item v-show="widget_types.length == 0">
-            <v-list-item-title @click="menu = false"
-              >No widgets to add</v-list-item-title
-            >
+          <v-list-item v-show="widget_types.length == 0" @click="menu = false">
+            <v-list-item-title>No widgets to add</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -71,13 +68,13 @@ Developers: Jason Liu
       </v-btn>
     </v-toolbar>
 
-    <div class="ui-wrapper">
-      <div class="ui-container">
+    <v-sheet class="ui-wrapper">
+      <v-sheet class="ui-container">
         <WidgetContainer :workspace_id="id" container="left" />
         <QA :workspace_id="id" />
         <WidgetContainer :workspace_id="id" container="right" />
-      </div>
-    </div>
+      </v-sheet>
+    </v-sheet>
   </v-card>
 </template>
 
@@ -194,7 +191,7 @@ export default {
   position: absolute;
   min-height: 450px;
   max-height: 100%;
-  min-width: 1150px;
+  min-width: 1200px;
   max-width: 100%;
   padding: 0;
   overflow: hidden;
