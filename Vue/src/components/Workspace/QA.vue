@@ -3,7 +3,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
 -->
 
 <template>
-  <v-container class="qa-container background">
+  <v-container fluid class="background">
     <v-card class="mb-3">
       <v-tabs v-model="qa_selected" ref="tabs" show-arrows>
         <draggable
@@ -41,13 +41,13 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
                 elevation="4"
                 icon
                 :disabled="qas.length === 1"
-                @click="deleteQA"
+                @click="clickDelete"
               >
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </v-card-title>
 
-            <v-container>
+            <v-container fluid>
               <v-textarea
                 background-color="background"
                 rows="10"
@@ -94,22 +94,34 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
           Results
           <v-spacer></v-spacer>
           <v-btn icon @click="closeDialog">
-            <v-icon color="close">mdi-close-circle</v-icon>
+            <v-icon color="close">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-divider></v-divider>
         <v-expansion-panels accordion>
           <v-expansion-panel v-for="(result, index) in results" :key="index">
-            <v-expansion-panel-header>{{
-              result.title
-            }}</v-expansion-panel-header>
-            <v-expansion-panel-content class="ps-5">{{
-              result.body
-            }}</v-expansion-panel-content>
+            <v-expansion-panel-header>
+              {{ result.title }}
+            </v-expansion-panel-header>
+            <v-expansion-panel-content class="ps-5">
+              {{ result.body }}
+            </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-card>
     </v-dialog>
+
+    <v-bottom-sheet v-model="sheet" persistent>
+      <v-sheet class="text-center" height="100">
+        <div class="py-3">
+          Are you sure you want to delete
+          <span class="font-weight-bold">{{ qa.title }}</span>
+          ?
+        </div>
+        <v-btn text color="open" @click="deleteQA"> Yes </v-btn>
+        <v-btn text color="close" @click="sheet = false"> No </v-btn>
+      </v-sheet>
+    </v-bottom-sheet>
   </v-container>
 
   <!-- <highlightable-input
@@ -176,6 +188,7 @@ export default {
       rules: [(value) => !!value || "Required."],
       dialog: false,
       results: [],
+      sheet: false,
     };
   },
   computed: {
@@ -382,11 +395,20 @@ export default {
       this.$store.commit("createQA", this.workspace_id);
     },
 
+    clickDelete() {
+      if (this.text || this.answer_text) {
+        this.sheet = true;
+      } else {
+        this.deleteQA();
+      }
+    },
+
     deleteQA() {
       this.$store.commit("deleteQA", {
         workspace_id: this.workspace_id,
         qa_id: this.qa_selected,
       });
+      this.sheet = false;
     },
 
     changeGenre() {
@@ -419,13 +441,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.qa-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  min-width: 0;
-}
-</style>

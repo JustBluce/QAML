@@ -2,8 +2,6 @@
 Developers: Atith Gandhi and Jason Liu
 -->
 
-
-
 <template>
   <div class="Buzzer-container">
     <!-- <textarea
