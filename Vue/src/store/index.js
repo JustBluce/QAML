@@ -62,12 +62,6 @@ const store = new Vuex.Store({
 			let workspace = getters.workspace(state)(workspace_id);
 			workspace.widgets = workspace.widgets.filter((widget) => widget.id !== widget_id);
 		},
-		toggleWidget(state, { workspace_id, widget_id }) {
-			let workspace = getters.workspace(state)(workspace_id);
-			workspace.widgets = workspace.widgets.map(
-				(widget) => (widget.id === widget_id ? { ...widget, expanded: !widget.expanded } : widget)
-			);
-		},
 		updateWidget(state, { workspace_id, payload }) {
 			let workspace = getters.workspace(state)(workspace_id);
 			workspace.widgets = workspace.widgets.map(
@@ -76,20 +70,15 @@ const store = new Vuex.Store({
 		},
 		createQA(state, workspace_id) {
 			let workspace = getters.workspace(state)(workspace_id);
-			let newQA = defaultQA(workspace.qa_index);
-			workspace.qas.push(newQA);
+			workspace.qa_selected = workspace.qas.length;
+			workspace.qas.push(defaultQA(workspace.qas.length, `QA (${workspace.qa_index})`));
 			workspace.qa_index++;
-			workspace.qa_selected = newQA.id;
 		},
 		deleteQA(state, { workspace_id, qa_id }) {
 			let workspace = getters.workspace(state)(workspace_id);
-			if (workspace.qas.length === 1) {
-				return;
-			}
 			workspace.qas = workspace.qas.filter((qa) => qa.id !== qa_id);
-			if (workspace.qa_selected === qa_id) {
-				workspace.qa_selected = workspace.qas[0].id;
-			}
+			workspace.qas = workspace.qas.map((qa) => (qa.id > qa_id ? Object.assign(qa, { id: qa.id - 1 }) : qa));
+			workspace.qa_selected = Math.min(workspace.qa_selected, workspace.qas.length - 1);
 		},
 		updateQA(state, { workspace_id, payload }) {
 			let workspace = getters.workspace(state)(workspace_id);

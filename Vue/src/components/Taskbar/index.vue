@@ -1,4 +1,13 @@
 <template>
+  <v-toolbar>
+    <v-switch
+      v-model="$vuetify.theme.dark"
+      label="Theme"
+      inset
+      persistent-hint
+    ></v-switch>
+  </v-toolbar>
+  <!--
   <div class="taskbar-container">
     <div class="taskbar">
       <div class="item-wrapper tabs">
@@ -15,6 +24,11 @@
         </div>
       </div>
       <a class="fas fa-plus btn" @click="addWorkspace" />
+        <v-switch
+        v-model="$vuetify.theme.dark"
+        inset
+        persistent-hint
+      ></v-switch>
       <div class="item recommended-title">Recommended topics:</div>
       <div class="item-wrapper recommended">
         <div class="item" v-for="rec in recommended" :key="rec">
@@ -25,7 +39,7 @@
         <div class="item" v-show="recommended.length === 0">None</div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>

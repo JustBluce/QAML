@@ -5,32 +5,25 @@ Developers: Jason Liu
 <template>
   <draggable
     v-model="widgets"
-    class="widgets-container"
     ghost-class="ghost"
-    handle=".handle"
+    handle=".widget-title"
     group="widgets"
+    tag="v-container"
+    class="ma-0 widget-container background"
     :emptyInsertThreshold="500"
-    @start="drag = true"
-    @end="(drag = false), (displayUI = 'block')"
     @add="(event) => (event.item.style.display = 'none')"
   >
     <transition-group type="transition" name="widgets">
-      <div class="widget-item" v-for="widget in widgets" :key="widget.id">
-        <Widget
-          :workspace_id="workspace_id"
-          :widget="widget"
-          :displayUI="displayUI"
-          @mousedown.native="displayUI = 'none'"
-          @mouseup.native="displayUI = 'block'"
-        />
-      </div>
+      <template v-for="widget in widgets">
+        <Widget :workspace_id="workspace_id" :widget="widget" :key="widget.id" />
+      </template>
     </transition-group>
   </draggable>
 </template>
 
 <script>
-import Widget from "@/components/Widget";
 import draggable from "vuedraggable";
+import Widget from "@/components/Widget";
 
 export default {
   name: "WidgetContainer",
@@ -39,14 +32,8 @@ export default {
     container: String,
   },
   components: {
-    Widget,
     draggable,
-  },
-  data() {
-    return {
-      drag: false,
-      displayUI: "block",
-    };
+    Widget,
   },
   computed: {
     workspace() {
@@ -74,33 +61,9 @@ export default {
 </script>
 
 <style scoped>
-.widgets-container {
-  background-color: #f1f1f1;
-  padding: 10px;
-  padding-top: 0px;
-  width: 350px;
-  min-width: 350px;
-}
-
-.widget-item {
-  margin: 0px;
-  margin-top: 20px;
-  height: fit-content;
-  width: 100%;
-}
-
-.widgets-move,
-.widgets-enter-active,
-.widgets-leave-active {
-  transition: all 0.3s ease;
-}
-
-.widgets-enter,
-.widgets-leave-to {
-  opacity: 0;
-}
-
-.ghost {
-  opacity: 0.3;
+.widget-container {
+  min-height: 100%;
+  width: 375px;
+  min-width: 375px;
 }
 </style>
