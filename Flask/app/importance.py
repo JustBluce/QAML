@@ -6,9 +6,9 @@
 import sys
 sys.path.append("..")
 sys.path.insert(0, './app')
-from app import util
+from app import util, import_libraries
 from util import *
-
+from import_libraries import *
 vectorizer, Matrix, ans = params[0], params[1], params[2]
 
 importance = Blueprint('importance', __name__)

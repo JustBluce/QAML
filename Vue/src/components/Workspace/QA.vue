@@ -194,14 +194,14 @@ export default {
           response.data["country_representation"];
         console.log(response);
       });
-      // this.axios({
-      //   url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
-      //   method: "POST",
-      //   data: formData,
-      // }).then((response) => {
-      //   this.qa.pronunciation = response.data["message"];
-      //   console.log(response);
-      // });
+      this.axios({
+        url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.pronunciation = response.data["message"];
+        console.log(response);
+      });
 
       
     }, 1000),
