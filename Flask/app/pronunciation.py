@@ -151,7 +151,7 @@ def getpronunciation():
     most_difficult_to_pronounce_words = Sort(array)[:3]
     answer = []
     for i in range(len(most_difficult_to_pronounce_words)):
-        answer.append({"Transcribed_Word": most_difficult_to_pronounce_words[i][1], "Score":most_difficult_to_pronounce_words[i][2]})
+        answer.append({"Transcribed_Word": most_difficult_to_pronounce_words[i][0], "Score":most_difficult_to_pronounce_words[i][1]})
     end = time.time()
     print("----TIME (s) : /pronunciation/get_pronunciation---", end - start)
     if(cosine_similarity < threshold_pronunciation):
