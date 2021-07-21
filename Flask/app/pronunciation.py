@@ -145,7 +145,7 @@ def getpronunciation():
     print(array_of_word_confidence)
     count = 0
     array = []
-    
+    print("similarity =", cosine_similarity)
     for i in range(len(array_of_word_confidence)):
         array.append([ array_of_word_confidence[i][0], array_of_word_confidence[i][1]])
     most_difficult_to_pronounce_words = Sort(array)[:3]
@@ -156,7 +156,8 @@ def getpronunciation():
     print("----TIME (s) : /pronunciation/get_pronunciation---", end - start)
     if(cosine_similarity < threshold_pronunciation):
         return jsonify({"pronunciation": answer,"message": "This question needs a pronunciation guide"})
-    
+    else:
+        return jsonify({"pronunciation": answer,"message": "No pronunciation guide needed"})
 
     
     return jsonify({"pronunciation": [{"Word": "-", "Score":"-"}],"message": ""})
