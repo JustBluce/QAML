@@ -77,6 +77,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       <v-col>
         <v-select
           v-model="qa.genre"
+          @change = "changeGenre"
           :items="genres"
           label="Question genre"
           solo
