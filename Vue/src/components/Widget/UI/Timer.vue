@@ -19,7 +19,7 @@ Cai Zefan
     <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title>
-          Time's Up
+          Time's up
           <v-spacer></v-spacer>
           <v-btn icon @click="dialog = false">
             <v-icon color="close">mdi-close</v-icon>
