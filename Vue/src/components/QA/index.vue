@@ -9,7 +9,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
         <draggable
           class="ma-0 row"
           v-model="qas"
-          @update="$refs.tabs.onResize()"
+          @update="$store.commit('updateQAs', workspace_id)"
         >
           <v-tab v-for="qa in qas" :key="qa.id" :ripple="false">{{
             qa.title
@@ -53,7 +53,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
                 rows="10"
                 label="Question"
                 solo
-                v-model="text"
+                v-model="qa.text"
                 @input="keep_looping"
               ></v-textarea>
               <v-textarea
@@ -61,7 +61,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
                 rows="1"
                 label="Answer"
                 solo
-                v-model="answer_text"
+                v-model="qa.answer_text"
                 @input="update_representation"
               ></v-textarea>
               <v-btn color="primary" @click="searchData">
@@ -87,29 +87,6 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
         <GChart type="PieChart" :options="options" :data="chartData" />
       </v-col>
     </v-row>
-
-    <v-dialog v-model="dialog" width="500">
-      <v-card>
-        <v-card-title>
-          Results
-          <v-spacer></v-spacer>
-          <v-btn icon @click="closeDialog">
-            <v-icon color="close">mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-expansion-panels accordion>
-          <v-expansion-panel v-for="(result, index) in results" :key="index">
-            <v-expansion-panel-header>
-              {{ result.title }}
-            </v-expansion-panel-header>
-            <v-expansion-panel-content class="ps-5">
-              {{ result.body }}
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-card>
-    </v-dialog>
 
     <v-bottom-sheet v-model="sheet" persistent>
       <v-sheet class="text-center" height="100">
@@ -186,8 +163,6 @@ export default {
         ["None", 1],
       ],
       rules: [(value) => !!value || "Required."],
-      dialog: false,
-      results: [],
       sheet: false,
     };
   },
@@ -214,34 +189,12 @@ export default {
     qa() {
       return this.$store.getters.qa(this.workspace_id, this.qa_selected);
     },
-    text: {
-      get() {
-        return this.qa.text;
-      },
-      set(value) {
-        this.$store.commit("updateQA", {
-          workspace_id: this.workspace_id,
-          payload: { id: this.qa_selected, text: value },
-        });
-      },
-    },
-    answer_text: {
-      get() {
-        return this.qa.answer_text;
-      },
-      set(value) {
-        this.$store.commit("updateQA", {
-          workspace_id: this.workspace_id,
-          payload: { id: this.qa_selected, answer_text: value },
-        });
-      },
-    },
   },
   methods: {
     keep_looping: _.debounce(function () {
       let formData = new FormData();
-      formData.append("text", this.text);
-      formData.append("answer_text", this.answer_text);
+      formData.append("text", this.qa.text);
+      formData.append("answer_text", this.qa.answer_text);
       // this.qa.genre = this.selected_genre
       // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
       //         {
@@ -307,8 +260,8 @@ export default {
     }, 1000),
     update_representation: _.debounce(function () {
       let formData = new FormData();
-      formData.append("text", this.text);
-      formData.append("answer_text", this.answer_text);
+      formData.append("text", this.qa.text);
+      formData.append("answer_text", this.qa.answer_text);
       this.axios({
         url: "http://127.0.0.1:5000/country_represent/country_present",
         method: "POST",
@@ -321,8 +274,8 @@ export default {
 
     searchData() {
       let formData = new FormData();
-      formData.append("text", this.text);
-      formData.append("answer_text", this.answer_text);
+      formData.append("text", this.qa.text);
+      formData.append("answer_text", this.qa.answer_text);
       this.axios({
         url: "http://127.0.0.1:5000/difficulty_classifier/classify",
         method: "POST",
@@ -335,17 +288,17 @@ export default {
             data: formData,
           }).then((response) => {
             if (response.data["similar_question"][0]) {
-              this.addDialog({
+              this.addResult({
                 title: "Similar question detected",
                 body: response.data["similar_question"][1][0]["text"],
               });
             } else {
               if (
-                this.answer_text === "" ||
-                this.text === "" ||
+                this.qa.answer_text === "" ||
+                this.qa.text === "" ||
                 this.qa.genre === ""
               ) {
-                this.addDialog({
+                this.addResult({
                   title: "Empty fields",
                   body: "Please make sure Question and Answer boxes are filled and Question Genre is selected.",
                 });
@@ -357,7 +310,7 @@ export default {
                 }).then((response) => {
                   console.log(response);
                 });
-                this.addDialog({
+                this.addResult({
                   title: "Saved",
                   body: "Your question is now added to the database.",
                 });
@@ -366,7 +319,7 @@ export default {
             // this.qa.top5_similar_questions = response.data["similar_question"];
           });
         } else {
-          this.addDialog({
+          this.addResult({
             title: "Not saved",
             body: "Your question was not difficult enough for the computer. Please try again.",
           });
@@ -396,7 +349,7 @@ export default {
     },
 
     clickDelete() {
-      if (this.text || this.answer_text) {
+      if (this.qa.text || this.qa.answer_text) {
         this.sheet = true;
       } else {
         this.deleteQA();
@@ -413,7 +366,7 @@ export default {
 
     changeGenre() {
       let formData = new FormData();
-      formData.append("text", this.text);
+      formData.append("text", this.qa.text);
       this.axios({
         url: "http://127.0.0.1:5000/genre_classifier/classify",
         method: "POST",
@@ -429,14 +382,8 @@ export default {
       });
     },
 
-    addDialog(result) {
-      this.dialog = true;
-      this.results.push(result);
-    },
-
-    closeDialog() {
-      this.dialog = false;
-      this.results = [];
+    addResult(result) {
+      this.$store.commit("addResult", result);
     },
   },
 };
