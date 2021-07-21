@@ -3,32 +3,43 @@ Developers: Jason Liu
 -->
 
 <template>
-  <div
+  <v-card
+    ref="workspaceContainer"
     class="workspace-container"
     :style="{
       left: style.left + 'px',
       top: style.top + 'px',
+      width: style.width + 'px',
+      height: style.height + 'px',
       zIndex: zIndex,
-      filter: workspace_selected === id ? 'contrast(100%)' : 'contrast(85%)',
+      filter: workspace_selected === id ? 'contrast(100%)' : 'contrast(50%)',
+      border:
+        workspace_selected === id
+          ? `2px solid ${$vuetify.theme.currentTheme.primary}`
+          : '',
     }"
     @mousedown="onSelect"
+    @mouseup="onRelease"
+    @mouseleave="onRelease"
   >
-    <div class="drag-bar" @mousedown="startDrag" />
-    <Header :workspace_id="id" />
-    <div class="ui-wrapper">
-      <div class="ui-container">
+    <Titlebar :workspace_id="id" />
+    <v-sheet class="ui-wrapper">
+      <v-sheet class="ui-container">
         <WidgetContainer :workspace_id="id" container="left" />
-        <QA :workspace_id="id" :qa_id="qa_selected" />
+        <QA :workspace_id="id" />
         <WidgetContainer :workspace_id="id" container="right" />
-      </div>
-    </div>
-  </div>
+      </v-sheet>
+    </v-sheet>
+
+    <Results />
+  </v-card>
 </template>
 
 <script>
-import Header from "./Header";
-import WidgetContainer from "./WidgetContainer";
-import QA from "./QA";
+import Titlebar from "./Titlebar";
+import WidgetContainer from "@/components/Widget/WidgetContainer";
+import QA from "@/components/QA";
+import Results from "@/components/Results";
 
 export default {
   name: "Workspace",
@@ -36,28 +47,14 @@ export default {
     id: Number,
   },
   components: {
-    Header,
+    Titlebar,
     WidgetContainer,
     QA,
-  },
-  data() {
-    return {
-      clientX: undefined,
-      clientY: undefined,
-    };
+    Results,
   },
   computed: {
-    widget_types() {
-      return this.$store.state.widget_types;
-    },
-    workspace() {
-      return this.$store.getters.workspace(this.id);
-    },
     style() {
-      return this.workspace.style;
-    },
-    qa_selected() {
-      return this.workspace.qa_selected;
+      return this.$store.getters.workspace(this.id).style;
     },
     workspace_selected() {
       return this.$store.state.workspace_stack.slice(-1)[0];
@@ -67,34 +64,13 @@ export default {
     },
   },
   methods: {
-    startDrag(event) {
-      event.preventDefault();
-      this.clientX = event.clientX;
-      this.clientY = event.clientY;
-      document.onmousemove = this.elementDrag;
-      document.onmouseup = this.stopDrag;
-    },
-    elementDrag(event) {
-      event.preventDefault();
-      let movementX = this.clientX - event.clientX;
-      let movementY = this.clientY - event.clientY;
-      this.clientX = event.clientX;
-      this.clientY = event.clientY;
-      this.style.left = Math.min(
-        window.innerWidth - 100,
-        Math.max(0, this.style.left - movementX)
-      );
-      this.style.top = Math.min(
-        window.innerHeight - 150,
-        Math.max(0, this.style.top - movementY)
-      );
-    },
-    stopDrag() {
-      document.onmousemove = null;
-      document.onmouseup = null;
-    },
     onSelect() {
       this.$store.commit("selectWorkspace", this.id);
+    },
+    onRelease() {
+      let workspace = this.$refs.workspaceContainer.$el;
+      this.style.width = workspace.offsetWidth;
+      this.style.height = workspace.offsetHeight;
     },
   },
 };
@@ -105,32 +81,19 @@ export default {
   display: flex;
   flex-direction: column;
   position: absolute;
-  margin: 4px;
-  background-color: white;
-  border: 4px solid steelblue;
-  box-shadow: 0px 0px 4px black;
-  height: 900px;
   min-height: 450px;
-  max-height: calc(100% - 8px);
-  width: calc(100% - 8px);
-  min-width: 1100px;
-  max-width: calc(100% - 8px);
+  max-height: 100%;
+  min-width: 1200px;
+  max-width: 100%;
+  padding: 0;
   overflow: hidden;
   resize: both;
-}
-
-.drag-bar {
-  cursor: move;
-  height: 10px;
-  background-color: steelblue;
-  flex-shrink: 0;
 }
 
 .ui-wrapper {
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: auto;
-  overflow-y: overlay;
 }
 
 .ui-container {
