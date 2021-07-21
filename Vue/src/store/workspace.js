@@ -14,7 +14,8 @@ export function defaultQA(id) {
 		binary_search_based_buzzer: '',
 		importance: '',
 		genre: '',
-		subgenre: ''
+		subgenre: '',
+		pronunciation:''
 	};
 }
 

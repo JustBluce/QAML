@@ -16,8 +16,7 @@ Developers: Damien Rene and Jason Liu
       <h4> Please add the pronunciation guide for the following words </h4>
     </div> -->
     <v-textarea
-      readonly
-      
+      readonly    
       color="background"
       rows="1"
       placeholder="Pronunciation highlighting"
