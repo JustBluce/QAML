@@ -1,3 +1,4 @@
+#Cai and Raj
 # Description of this file: 
 # 1. Finding the top 5 guesses of the tf-idf vectorizer
 
@@ -5,15 +6,12 @@ import sys
 sys.path.append("..")
 sys.path.insert(0, './app')
 from app import util, import_libraries
+from import_libraries import *
 from util import *
 # from app.people import getPeoplesInfo1
 # from app.country_represent import country_present1
-from app import util
-from app.country_represent import country_represent
-from app.similarity import retrieve_similar_question
-from import_libraries import *
-func = Blueprint('func', __name__)
 
+func = Blueprint('func', __name__)
 def guess(question, max=12):
     """
     Parameters
@@ -90,26 +88,26 @@ def timeup():
     return "OK"
 
 
-@func.route("country_people", methods=["POST"])
-def country_people():
-    """
-    Parameters
-    ----------
-    None
+# @func.route("country_people", methods=["POST"])
+# def country_people():
+#     """
+#     Parameters
+#     ----------
+#     None
 
-    Returns
-    --------
-    {
-        "country_representation": country_representation, 
-        "Highlight": highlight
-    }
+#     Returns
+#     --------
+#     {
+#         "country_representation": country_representation, 
+#         "Highlight": highlight
+#     }
 
-    """
-    if request.method == "POST":
-        question = request.form.get("text")
-    country_representation, countries = country_present1(question)
-    highlight=highlight_json(countries)
-    return jsonify({"country_representation": country_representation, "Highlight": highlight})
+#     """
+#     if request.method == "POST":
+#         question = request.form.get("text")
+#     country_representation, countries = country_present1(question)
+#     highlight=highlight_json(countries)
+#     return jsonify({"country_representation": country_representation, "Highlight": highlight})
 
 @func.route("/insert", methods=["POST"])
 def insert():

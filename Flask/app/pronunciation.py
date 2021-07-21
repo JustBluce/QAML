@@ -1,21 +1,14 @@
-from flask import Flask
-from flask import Blueprint, render_template, redirect
-from flask import Flask, jsonify, request
-from gtts import gTTS
-from pydub import AudioSegment
-from pydub.playback import play
+#Damian and Raj
 import sys
-import speech_recognition as sr
-from difflib import SequenceMatcher
-import json
-from os.path import join, dirname
-from ibm_watson import SpeechToTextV1
-from ibm_watson.websocket import RecognizeCallback, AudioSource
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 sys.path.append("..")
 sys.path.insert(0, './app')
-from app import util, importance
+from app import util, import_libraries
 from util import *
+from import_libraries import *
+
+from os.path import join, dirname
+
+
 
 authenticator = IAMAuthenticator('Xqq84EWoiOAtKLuKcsA9OUtsekbXDBCgS7FLi2EnNV7i')
 speech_to_text = SpeechToTextV1(
@@ -38,8 +31,20 @@ class MyRecognizeCallback(RecognizeCallback):
         print('Inactivity timeout: {}'.format(error))
     
 
-##compare new and old and return score
+
 def checktexts():
+    """
+    
+    Parameters
+    ----------
+    None
+
+
+    Returns
+    --------
+    Compare new and old txt files and return score
+
+    """
     question_text = open("question.txt").read()
     speech_text = open("speech-text.txt").read()
     m = SequenceMatcher(None, question_text, speech_text)
@@ -50,10 +55,21 @@ def checktexts():
     return percentage
 
 def Sort(sub_li):
-  
-    # reverse = None (Sorts in Ascending order)
-    # key is set to sort using second element of 
-    # sublist lambda has been used
+    """
+    
+    Parameters
+    ----------
+    sub_li: A list of lists of the following format
+    [
+        [
+            country_name, score
+        ]
+    ]
+
+    Returns
+    --------
+    Sorted list of lists in the ascending order on the basis of score
+    """
     return(sorted(sub_li, key = lambda x: x[2], reverse = False))   
 
 pronunciation = Blueprint('pronunciation', __name__)
@@ -65,6 +81,27 @@ vectorizer, Matrix, ans = params[0], params[1], params[2]
 
 @pronunciation.route('/get_pronunciation', methods=["POST"])
 def getpronunciation():
+    """
+    
+    Parameters
+    ----------
+    None
+
+    Returns
+    --------
+    {
+        "pronunciation":
+        [
+            {
+            "Original Word",
+            "Transcribed Word",
+            "Score of Transcribed Word"
+            },
+            ...
+        ]
+        "message": "This question needs a pronunciation guide"
+    }
+    """
     if request.method == "POST":
         question = request.form.get("text")
 
@@ -114,9 +151,6 @@ def getpronunciation():
     answer = []
     for i in range(len(most_difficult_to_pronounce_words)):
         answer.append({"Original_Word": most_difficult_to_pronounce_words[i][0], "Transcribed_Word": most_difficult_to_pronounce_words[i][1], "Score":most_difficult_to_pronounce_words[i][2]})
-    # file = open("app/speech-text.txt","w")
-    # file.write(json.dumps(speech_recognition_results, indent=2))
-    # file.close()
     end = time.time()
     print("----TIME (s) : /pronunciation/get_pronunciation---", end - start)
     if(cosine_similarity < threshold_pronunciation):
@@ -125,24 +159,3 @@ def getpronunciation():
 
     
     return jsonify({"pronunciation": [{"Word": "-", "Score":"-"}],"message": ""})
-
-   
-
-
-
-
-# with open(join(dirname(__file__), './.', audio_file),'rb') as audio_file:
-#    audio_source = AudioSource(audio_file)
- #   speech_to_text.recognize_using_websocket(
-  #      audio=audio_source,
-   #     content_type='audio/mp3',
-    #    recognize_callback=myRecognizeCallback,
-     #   model='en-US_BroadbandModel',)
-
-
-
-    ##return("hello world")
-
-
-
-
