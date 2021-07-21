@@ -2,10 +2,10 @@
  * Developers: Jason Liu
  */
 
-export function defaultQA(id, title = 'QA') {
+export function defaultQA(id) {
 	return {
 		id: id,
-		title: title,
+		title: id === 0 ? 'QA' : `QA (${id})`,
 		text: '',
 		country_representation: '',
 		people_ethnicity: '',

@@ -23,7 +23,11 @@ const store = new Vuex.Store({
 			'Buzzer',
 			'MachineGuesses'
 		],
-		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ]
+		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ],
+		results: {
+			dialog: false,
+			content: []
+		}
 	},
 	modules: {
 		app,
@@ -62,27 +66,31 @@ const store = new Vuex.Store({
 			let workspace = getters.workspace(state)(workspace_id);
 			workspace.widgets = workspace.widgets.filter((widget) => widget.id !== widget_id);
 		},
-		updateWidget(state, { workspace_id, payload }) {
-			let workspace = getters.workspace(state)(workspace_id);
-			workspace.widgets = workspace.widgets.map(
-				(widget) => (widget.id === payload.id ? Object.assign(widget, payload) : widget)
-			);
-		},
 		createQA(state, workspace_id) {
 			let workspace = getters.workspace(state)(workspace_id);
-			workspace.qa_selected = workspace.qas.length;
-			workspace.qas.push(defaultQA(workspace.qas.length, `QA (${workspace.qa_index})`));
+			workspace.qas.push(defaultQA(workspace.qa_index));
+			workspace.qa_selected = workspace.qa_index;
 			workspace.qa_index++;
+			this.commit('updateQAs', workspace_id);
 		},
 		deleteQA(state, { workspace_id, qa_id }) {
 			let workspace = getters.workspace(state)(workspace_id);
 			workspace.qas = workspace.qas.filter((qa) => qa.id !== qa_id);
-			workspace.qas = workspace.qas.map((qa) => (qa.id > qa_id ? Object.assign(qa, { id: qa.id - 1 }) : qa));
-			workspace.qa_selected = Math.min(workspace.qa_selected, workspace.qas.length - 1);
+			workspace.qa_selected = workspace.qas[Math.min(workspace.qa_selected, workspace.qas.length - 1)].id;
+			this.commit('updateQAs', workspace_id);
 		},
-		updateQA(state, { workspace_id, payload }) {
+		updateQAs(state, workspace_id) {
 			let workspace = getters.workspace(state)(workspace_id);
-			workspace.qas = workspace.qas.map((qa) => (qa.id === payload.id ? Object.assign(qa, payload) : qa));
+			workspace.qa_selected = workspace.qas.findIndex((qa) => qa.id === workspace.qa_selected);
+			workspace.qas = workspace.qas.map((qa, i) => Object.assign(qa, { id: i }));
+		},
+		addResult(state, result) {
+			state.results.dialog = true;
+			state.results.content.push(result);
+		},
+		closeResults(state) {
+			state.results.dialog = false;
+			state.results.content = [];
 		}
 	},
 	getters: {
