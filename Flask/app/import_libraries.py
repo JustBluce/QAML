@@ -43,4 +43,12 @@ import requests
 from spacy import displacy
 from collections import Counter
 import pickle
+from gtts import gTTS
+from pydub import AudioSegment
+from pydub.playback import play
+import speech_recognition as sr
+from difflib import SequenceMatcher
+from ibm_watson import SpeechToTextV1
+from ibm_watson.websocket import RecognizeCallback, AudioSource
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 # nltk.download('punkt') #Download once

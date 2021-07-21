@@ -1,3 +1,4 @@
+#Atith and Cai
 import sys
 sys.path.append("..")
 sys.path.insert(0, './app')
@@ -10,6 +11,15 @@ spacy.load('en_core_web_sm')
 
 
 def find_ethnicity(name):
+    """
+    Parameters
+    ----------
+    name: string containing the name of a person from NER output
+
+    Returns
+    --------
+    The a string with the race of a person
+    """
     names = [{'name': name}]
     df = pd.DataFrame(names)
 
@@ -22,7 +32,19 @@ person = []
 names = []
 @people_info.route("/getPeoplesInfo", methods=["POST"])
 def getPeoplesInfo():
+    """
+    Parameters
+    ----------
+    None
 
+    Returns
+    --------
+    Ethnicities of names identified from NER:
+    {
+        "people_ethnicity": [name_1(ethnicity),...],
+        "person": [name_1,...]
+    }
+    """
     if request.method == "POST":
         question = request.form.get("text")
     start = time.time()
@@ -43,5 +65,16 @@ def getPeoplesInfo():
 
 
 def getPeoplesInfo1(question):    
+    """
+    Parameters
+    ----------
+    question: The quiz bowl question
+
+    Returns
+    --------
+    
+    List of names and ethnicities present in the data: [name_1(ethnicity),...],
+    List of names present in the data: [name_1,...]
+    """
     return ' '.join(names), person
     # return jsonify({"people_ethnicity": ' '.join(names), "person": person})

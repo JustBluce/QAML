@@ -26,7 +26,32 @@ tfidf_matrix = tfidf_vectorizer.fit_transform(questions)
 similar_question = Blueprint('similar_question', __name__)
 @similar_question.route("/retrieve_similar_question", methods=["POST"])
 def retrieve_similar_question():
+    """
     
+    Parameters
+    ----------
+    None
+
+    Returns
+    --------
+    Json object of the following format is returned:
+    {
+        "similar_questions": 
+        [
+            Flag (True or False, True if there is any question whose similarity is above a threshold in the dataset)
+            [   Top five similar questions and answers
+                (Question, Answer),
+                ...
+
+            ]
+        ]
+    }
+
+    Prints
+    --------
+    The time taken of the two sub-modules in the terminal:
+    1. Similarity of the question
+    """
     if request.method == "POST":
         question = request.form.get("text")
     start =time.time()
