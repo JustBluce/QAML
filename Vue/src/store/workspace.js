@@ -1,3 +1,7 @@
+/**
+ * Developers: Jason Liu
+ */
+
 export function defaultQA(id) {
 	return {
 		id: id,
@@ -20,50 +24,38 @@ export function widgetTemplate(id, type) {
 			id: id,
 			title: 'Timer',
 			type: 'Timer',
-			container: 'left',
-			expanded: true,
-			maxHeight: '200px'
+			container: 'left'
 		},
 		Pronunciation: {
 			id: id,
 			title: 'Pronunciation difficulty',
 			type: 'Pronunciation',
-			container: 'right',
-			expanded: true,
-			maxHeight: '250px'
+			container: 'right'
 		},
-		Country_Representation: {
+		CountryRepresentation: {
 			id: id,
-			title: 'Country Representation',
-			type: 'Country_Representation',
-			container: 'right',
-			expanded: true,
-			maxHeight: '300px'
+			title: 'Country representation',
+			type: 'CountryRepresentation',
+			container: 'right'
 		},
 		SimilarQuestions: {
 			id: id,
 			title: 'Similar questions',
 			type: 'SimilarQuestions',
-			expanded: true,
-			container: 'right',
-			maxHeight: '400px'
+			container: 'right'
 		},
 		Buzzer: {
 			id: id,
 			title: 'Buzzer',
 			type: 'Buzzer',
-			container: 'left',
-			expanded: true,
-			maxHeight: '1000px',
+			container: 'left'
 		},
-		Machine_Guess: {
+		MachineGuesses: {
 			id: id,
-			title: 'Machine Guess',
-			type: 'Machine_Guess',
-			container: 'left',
-			expanded: true,
-			maxHeight: '500px'
-		},
+			title: 'Machine guesses',
+			type: 'MachineGuesses',
+			container: 'left'
+		}
 	};
 	return widget_templates[type];
 }
@@ -78,15 +70,17 @@ export function defaultWorkspace(id) {
 		widgets: [
 			widgetTemplate(0, 'Timer'),
 			widgetTemplate(1, 'Pronunciation'),
-			widgetTemplate(2, 'Country_Representation'),
+			widgetTemplate(2, 'CountryRepresentation'),
 			widgetTemplate(3, 'SimilarQuestions'),
 			widgetTemplate(4, 'Buzzer'),
-			widgetTemplate(5, 'Machine_Guess')
+			widgetTemplate(5, 'MachineGuesses')
 		],
 		widget_index: 7,
 		style: {
 			left: 0,
-			top: 0
+			top: 0,
+			width: 0,
+			height: 0
 		}
 	};
 }

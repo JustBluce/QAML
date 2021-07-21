@@ -70,7 +70,7 @@ def Sort(sub_li):
     --------
     Sorted list of lists in the ascending order on the basis of score
     """
-    return(sorted(sub_li, key = lambda x: x[2], reverse = False))   
+    return(sorted(sub_li, key = lambda x: x[1], reverse = False))   
 
 pronunciation = Blueprint('pronunciation', __name__)
 myRecognizeCallback = MyRecognizeCallback()
@@ -139,18 +139,19 @@ def getpronunciation():
     matrix = repre.dot(repre_transcribed.T).T
     cosine_similarity = matrix.toarray()[0][0]
     temp_word_array = break_into_words(question)
+    while("" in temp_word_array) :
+        temp_word_array.remove("")
     print(temp_word_array)
     print(array_of_word_confidence)
     count = 0
     array = []
-    while("" in temp_word_array) :
-        temp_word_array.remove("")
+    
     for i in range(len(array_of_word_confidence)):
-        array.append([temp_word_array[i], array_of_word_confidence[i][0], array_of_word_confidence[i][1]])
+        array.append([ array_of_word_confidence[i][0], array_of_word_confidence[i][1]])
     most_difficult_to_pronounce_words = Sort(array)[:3]
     answer = []
     for i in range(len(most_difficult_to_pronounce_words)):
-        answer.append({"Original_Word": most_difficult_to_pronounce_words[i][0], "Transcribed_Word": most_difficult_to_pronounce_words[i][1], "Score":most_difficult_to_pronounce_words[i][2]})
+        answer.append({"Transcribed_Word": most_difficult_to_pronounce_words[i][1], "Score":most_difficult_to_pronounce_words[i][2]})
     end = time.time()
     print("----TIME (s) : /pronunciation/get_pronunciation---", end - start)
     if(cosine_similarity < threshold_pronunciation):

@@ -52,3 +52,6 @@ from ibm_watson import SpeechToTextV1
 from ibm_watson.websocket import RecognizeCallback, AudioSource
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 # nltk.download('punkt') #Download once
+from transformers import logging
+
+logging.set_verbosity_critical()
