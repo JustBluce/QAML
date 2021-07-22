@@ -11,11 +11,7 @@ Developers: Atith Gandhi and Jason Liu
       placeholder="Genre"
       v-model="qa.genre"
     ></textarea>
-    <GChart
-      type="PieChart"
-      :options="options"
-      :data="subgenre"
-    />  
+    <GChart type="PieChart" :options="options" :data="subgenre" />
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
@@ -44,30 +40,27 @@ export default {
     widget_id: Number,
   },
   components: {
-    GChart
+    GChart,
   },
-   data() {
+  data() {
     return {
       data: [
-          ['Daily Routine', 'Hours per Day'],
-          ['Work',     14],
-          ['Eat',      1],
-          ['Reading',  2],
-          ['Exercise', 2],
-          ['Sleep',    5]
+        ["Daily Routine", "Hours per Day"],
+        ["Work", 14],
+        ["Eat", 1],
+        ["Reading", 2],
+        ["Exercise", 2],
+        ["Sleep", 5],
       ],
       options: {
         width: 300,
-        height: 300
-      }
+        height: 300,
+      },
     };
   },
   computed: {
     qa() {
-      let qa_index = this.$store.getters.workspace(
-        this.workspace_id
-      ).qa_selected;
-      return this.$store.getters.qa(this.workspace_id, qa_index);
+      return this.$store.getters.workspace(this.workspace_id).qa;
     },
     country_representation() {
       console.log(this.qa.country_representation);
@@ -80,12 +73,15 @@ export default {
       return this.qa.genre;
     },
     subgenre() {
-      if(this.qa.subgenre === ''){
-        return [['Subgenre', 'Count'],['None', 1]]
-      }else{
-        let header = [['Subgenre', 'Count']]
-        console.log(header.concat(this.qa.subgenre))
-        return header.concat(this.qa.subgenre)
+      if (this.qa.subgenre === "") {
+        return [
+          ["Subgenre", "Count"],
+          ["None", 1],
+        ];
+      } else {
+        let header = [["Subgenre", "Count"]];
+        console.log(header.concat(this.qa.subgenre));
+        return header.concat(this.qa.subgenre);
       }
     },
   },

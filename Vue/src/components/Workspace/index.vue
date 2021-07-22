@@ -12,22 +12,42 @@ Developers: Jason Liu
       width: style.width + 'px',
       height: style.height + 'px',
       zIndex: zIndex,
-      filter: workspace_selected === id ? 'contrast(100%)' : 'contrast(50%)',
       border:
         workspace_selected === id
           ? `2px solid ${$vuetify.theme.currentTheme.primary}`
           : '',
+      cursor: 'default',
     }"
-    @mousedown="onSelect"
+    @click="$store.commit('selectWorkspace', id)"
+    :ripple="false"
+    elevation="16"
   >
-    <Titlebar :workspace_id="id" />
+    <Titlebar
+      :id="id"
+      @startDrag="startDrag($event, elementMove)"
+      @maximize="maximize"
+    />
+
     <v-sheet class="ui-wrapper">
       <v-sheet class="ui-container">
-        <WidgetContainer :workspace_id="id" container="left" />
-        <QA :workspace_id="id" />
-        <WidgetContainer :workspace_id="id" container="right" />
+        <WidgetContainer :id="id" container="left" />
+        <QA :id="id" />
+        <WidgetContainer :id="id" container="right" />
       </v-sheet>
     </v-sheet>
+
+    <v-btn
+      class="mb-8"
+      color="primary"
+      absolute
+      small
+      bottom
+      right
+      fab
+      @mousedown="startDrag($event, elementResize)"
+    >
+      <v-icon>mdi-arrow-top-left-bottom-right</v-icon>
+    </v-btn>
 
     <Results />
   </v-card>
@@ -50,6 +70,12 @@ export default {
     QA,
     Results,
   },
+  data() {
+    return {
+      clientX: undefined,
+      clientY: undefined,
+    };
+  },
   computed: {
     style() {
       return this.$store.getters.workspace(this.id).style;
@@ -62,17 +88,64 @@ export default {
     },
   },
   methods: {
-    onSelect() {
-      this.$store.commit("selectWorkspace", this.id);
+    app() {
+      return this.$parent.$parent.$parent.$el;
+    },
+    startDrag(event, func) {
+      event.preventDefault();
+      this.clientX = event.clientX;
+      this.clientY = event.clientY;
+      document.onmousemove = func;
+      document.onmouseup = this.stopDrag;
+      document.onmouseleave = this.stopDrag;
+    },
+    elementDrag(event) {
+      let movementX = this.clientX - event.clientX;
+      let movementY = this.clientY - event.clientY;
+      this.clientX = event.clientX;
+      this.clientY = event.clientY;
+      return { movementX, movementY };
+    },
+    elementMove(event) {
+      event.preventDefault();
+      let { movementX, movementY } = this.elementDrag(event);
+      this.style.left = Math.min(
+        this.app().offsetWidth - 100,
+        Math.max(0, this.style.left - movementX)
+      );
+      this.style.top = Math.min(
+        this.app().offsetHeight - 200,
+        Math.max(0, this.style.top - movementY)
+      );
+    },
+    elementResize(event) {
+      event.preventDefault();
+      let { movementX, movementY } = this.elementDrag(event);
+      this.style.width = Math.min(
+        this.app().offsetWidth,
+        Math.max(1024, this.style.width - movementX)
+      );
+      this.style.height = Math.min(
+        this.app().offsetHeight,
+        Math.max(64, this.style.height - movementY)
+      );
+    },
+    stopDrag() {
+      document.onmousemove = null;
+      document.onmouseup = null;
+      document.onmouseleave = null;
+    },
+    maximize() {
+      this.style.top = 0;
+      this.style.left = 0;
+      this.style.width = this.app().offsetWidth;
+      this.style.height = this.app().offsetHeight;
     },
   },
   mounted() {
-    let self = this;
-    setInterval(function () {
-      let workspace = self.$refs.workspaceContainer.$el;
-      self.style.width = workspace.offsetWidth;
-      self.style.height = workspace.offsetHeight;
-    }, 100);
+    if (this.style.width === 0 || this.style.height === 0) {
+      this.maximize();
+    }
   },
 };
 </script>
@@ -82,13 +155,9 @@ export default {
   display: flex;
   flex-direction: column;
   position: absolute;
-  min-height: 64px;
   max-height: 100%;
-  min-width: 1024px;
-  max-width: 100%;
   padding: 0;
   overflow: hidden;
-  resize: both;
 }
 
 .ui-wrapper {

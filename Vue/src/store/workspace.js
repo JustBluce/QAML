@@ -2,12 +2,10 @@
  * Developers: Jason Liu
  */
 
-export function defaultQA(id) {
+export function defaultQA() {
 	return {
-		id: id,
-		title: id === 0 ? 'QA' : `QA (${id})`,
 		text: '',
-		answer:'',
+		answer_text:'',
 		country_representation: '',
 		people_ethnicity: '',
 		top5_similar_questions: [],
@@ -63,10 +61,9 @@ export function widgetTemplate(id, type) {
 export function defaultWorkspace(id) {
 	return {
 		id: id,
+		tab_id: id+1,
 		title: id === 0 ? 'Workspace' : `Workspace (${id})`,
-		qas: [ defaultQA(0) ],
-		qa_index: 1,
-		qa_selected: 0,
+		qa: defaultQA(),
 		widgets: [
 			widgetTemplate(0, 'Timer'),
 			widgetTemplate(1, 'Pronunciation'),
