@@ -30,9 +30,13 @@ Developers: Jason Liu
 
     <v-spacer></v-spacer>
 
-    <v-menu :close-on-content-click="false" v-model="menu" offset-y>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" icon>
+    <v-menu
+      offset-y
+      :close-on-content-click="false"
+      :disabled="widget_types.length == 0"
+    >
+      <template v-slot:activator="{ on }">
+        <v-btn v-on="on" icon :disabled="widget_types.length == 0">
           <v-icon>mdi-hammer-wrench</v-icon>
         </v-btn>
       </template>
@@ -50,17 +54,14 @@ Developers: Jason Liu
         >
           <v-list-item-title>{{ widget_type }}</v-list-item-title>
         </v-list-item>
-        <v-list-item v-show="widget_types.length == 0" @click="menu = false">
-          <v-list-item-title>No widgets to add</v-list-item-title>
-        </v-list-item>
       </v-list>
     </v-menu>
 
-    <v-btn icon @click="$store.commit('minimizeWorkspace', id)">
+    <v-btn icon @mouseup="$store.commit('minimizeWorkspace', id)">
       <v-icon>mdi-window-minimize</v-icon>
     </v-btn>
 
-    <v-btn icon @click="$emit('maximize')">
+    <v-btn icon @mouseup="$emit('maximize')">
       <v-icon>mdi-window-maximize</v-icon>
     </v-btn>
   </v-toolbar>
@@ -78,7 +79,6 @@ export default {
         (v) => !!v || "Required.",
         (v) => v.length <= 32 || "Title must be less than 32 characters",
       ],
-      menu: false,
     };
   },
   computed: {
