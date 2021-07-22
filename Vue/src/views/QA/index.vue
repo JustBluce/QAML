@@ -55,18 +55,24 @@ html {
 .workspaces-enter-active,
 .workspaces-leave-active {
   position: relative;
-  transition: all 0.3s ease;
   height: 100%;
   z-index: 1000;
 }
 
 .workspaces-enter {
-  transform: translate(0, -500px);
+  transform: translate(0, -100vh);
+}
+
+.workspaces-enter-active {
+  transition: all 0.3s ease;
 }
 
 .workspaces-leave-to {
-  opacity: 0;
-  filter: contrast(0);
+  transform: translate(0, -200vh);
+}
+
+.workspaces-leave-active {
+  transition: all 0.5s ease;
 }
 
 .ghost {
