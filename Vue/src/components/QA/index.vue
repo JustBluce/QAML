@@ -123,7 +123,7 @@ export default {
     },
     options() {
       return {
-        width: this.workspace.style.width / 3 - 50,
+        width: Math.max(1024, this.workspace.style.width) / 3 - 50,
         backgroundColor: "none",
       };
     },
