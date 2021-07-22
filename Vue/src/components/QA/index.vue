@@ -7,6 +7,7 @@
             <v-select
               v-model="qa.genre"
               :items="genres"
+              @change="changeGenre"
               label="Question genre"
               hide-details="auto"
               dense
