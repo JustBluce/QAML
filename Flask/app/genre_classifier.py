@@ -1,4 +1,7 @@
 # Atith
+# <<<-------DEPRECIATED FILE-------->>>
+# Description of this file: 
+# 1. Contains code for the genre classifier: Pie chart on the front end
 def warn(*args, **kwargs):
     pass
 import warnings
@@ -18,7 +21,6 @@ sys.path.insert(0, './app')
 
 from app import util, importance
 from util import *
-from importance import *
 
 
 genre_classifier = Blueprint('genre_classifier', __name__)
