@@ -8,23 +8,23 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
       <input class="title" v-model="qa.title" />
       <a v-show="qa_count > 1" class="fas fa-trash btn" @click="deleteQA" />
     </div>
-    <!-- <highlightable-input
+    <highlightable-input
       highlight-style="background-color:yellow"
       :highlight-enabled="highlightEnabled"
       :highlight="highlight"
       class="big-container"
+      :caseSensitive=true
       placeholder="Please enter your question"
       v-model="text"
-      @input="keep_looping"
-    /> -->
+    />
 
-    <textarea
+    <!-- <textarea
       class="container"
       rows="10"
       placeholder="Please enter your question"
       v-model="text"
       @input="keep_looping"
-    ></textarea>
+    ></textarea> -->
     <textarea
       class="container"
       rows="2"
@@ -71,14 +71,17 @@ export default {
   },
   data() {
     return {
-      
       highlight: [
         // { text: "chicken", style: "background-color:#f37373" },
         // { text: "noodle", style: "background-color:#fca88f" },
         // { text: "soup", style: "background-color:#bbe4cb" },
         // { text: "so", style: "background-color:#fff05e" },
+        // #e91640
+        // #ee4466
+        // #f48aa0
         // "whatever",
-        { text: "soupppppp", style: "border: 2px solid #73AD21;" },
+        { text: "soupppppp", style: "background-color:#fff05e" },
+        { text: "so", style: "border: 2px solid #73AD21;" },
       ],
       highlightEnabled: true,
       genres: [
@@ -135,27 +138,116 @@ export default {
     },
   },
   methods: {
-    keep_looping: _.debounce(function () {
+    // keep_looping: _.debounce(function () {
+    //   let formData = new FormData();
+    //   formData.append("text", this.text);
+    //   formData.append("answer_text", this.answer_text);
+    //   // this.qa.genre = this.selected_genre
+    //   // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
+    //   //         {
+    //   //           this.addModal(
+    //   //           "Warning !!! Please some fields are empty","Please make sure the QA box and the Answer box are filled and the Genre is selected"
+
+    //   //         );
+
+    //   //         }
+    //   // else{
+    //   this.axios({
+    //     url: "http://127.0.0.1:5000/func/act",
+    //     method: "POST",
+    //     data: formData,
+    //   }).then((response) => {
+    //     this.qa.answer = response.data["guess"];
+    //     console.log(response);
+    //   });
+
+    //   this.axios({
+    //     url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
+    //     method: "POST",
+    //     data: formData,
+    //   }).then((response) => {
+    //     this.qa.binary_search_based_buzzer = response.data["buzz"];
+    //     this.qa.importance = response.data["importance"];
+    //     this.highlight = response.data["buzz_word"];
+    //     console.log(response);
+    //   });
+
+    //   this.axios({
+    //     url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+    //     method: "POST",
+    //     data: formData,
+    //   }).then((response) => {
+
+        // if (response.data["similar_question"][0]) {
+        //   this.addModal(
+        //     "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+        //     response.data["similar_question"][1][0]['text']
+        //   );
+        // }
+    //     this.qa.top5_similar_questions = response.data["similar_question"];
+    //     console.log(response);
+    //   });
+
+    //   this.axios({
+    //     url: "http://127.0.0.1:5000/country_represent/country_present",
+    //     method: "POST",
+    //     data: formData,
+    //   }).then((response) => {
+    //     this.qa.country_representation =
+    //       response.data["country_representation"];
+    //     console.log(response);
+    //   });
+    //   // this.axios({
+    //   //   url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
+    //   //   method: "POST",
+    //   //   data: formData,
+    //   // }).then((response) => {
+    //   //   this.qa.pronunciation = response.data["message"];
+    //   //   console.log(response);
+    //   // });
+
+    // }, 1000),
+
+    // update_representation: _.debounce(function () {
+    //   let formData = new FormData();
+    //   formData.append("text", this.text);
+    //   formData.append("answer_text", this.answer_text);
+    //   this.axios({
+    //     url: "http://127.0.0.1:5000/country_represent/country_present",
+    //     method: "POST",
+    //     data: formData,
+    //   }).then((response) => {
+    //     this.qa.country_representation =
+    //       response.data["country_representation"];
+    //   });
+    // }, 1000),
+
+    searchData() {
       let formData = new FormData();
       formData.append("text", this.text);
       formData.append("answer_text", this.answer_text);
-      // this.qa.genre = this.selected_genre
-      // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
-      //         {
-      //           this.addModal(
-      //           "Warning !!! Please some fields are empty","Please make sure the QA box and the Answer box are filled and the Genre is selected"
 
-      //         );
-
-      //         }
-      // else{
       this.axios({
-        url: "http://127.0.0.1:5000/func/act",
+        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
         method: "POST",
         data: formData,
       }).then((response) => {
-        this.qa.answer = response.data["guess"];
+        if (response.data["similar_question"][0]) {
+          this.addModal(
+            "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+            response.data["similar_question"][1][0]['text']
+          );
+        }
+      });
+
+      this.axios({
+        url: "http://127.0.0.1:5000/over_present/highlight",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.highlight = response.data["highlight"];
         console.log(response);
+        console.log(this.highlight);
       });
 
       this.axios({
@@ -165,65 +257,9 @@ export default {
       }).then((response) => {
         this.qa.binary_search_based_buzzer = response.data["buzz"];
         this.qa.importance = response.data["importance"];
-        this.highlight = response.data["buzz_word"];
         console.log(response);
       });
 
-      this.axios({
-        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        
-        // if (response.data["similar_question"][0]) {
-        //   this.addModal(
-        //     "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
-        //     response.data["similar_question"][1][0]['text']
-        //   );
-        // }
-        this.qa.top5_similar_questions = response.data["similar_question"];
-        console.log(response);
-      });
-
-      this.axios({
-        url: "http://127.0.0.1:5000/country_represent/country_present",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.qa.country_representation =
-          response.data["country_representation"];
-        console.log(response);
-      });
-      // this.axios({
-      //   url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
-      //   method: "POST",
-      //   data: formData,
-      // }).then((response) => {
-      //   this.qa.pronunciation = response.data["message"];
-      //   console.log(response);
-      // });
-
-      
-    }, 1000),
-    
-    update_representation: _.debounce(function () {
-      let formData = new FormData();
-      formData.append("text", this.text);
-      formData.append("answer_text", this.answer_text);
-      this.axios({
-        url: "http://127.0.0.1:5000/country_represent/country_present",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.qa.country_representation =
-          response.data["country_representation"];
-      });
-    }, 1000),
-
-    searchData() {
-      let formData = new FormData();
-      formData.append("text", this.text);
-      formData.append("answer_text", this.answer_text);
       this.axios({
         url: "http://127.0.0.1:5000/difficulty_classifier/classify",
         method: "POST",
@@ -388,7 +424,7 @@ export default {
 
 .two-col .col1,
 .two-col .col2 {
-    width: 30%;
+  width: 30%;
 }
 
 .two-col .col1 {

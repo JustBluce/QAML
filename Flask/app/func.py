@@ -4,12 +4,12 @@ sys.path.append("..")
 sys.path.insert(0, './app')
 from app import util
 from app.people import getPeoplesInfo1
-from app.country_represent import country_present1
+# from app.country_represent import country_present1
 from app.util import highlight_json
 
 from util import *
 from app import util
-from app.country_represent import country_represent
+# from app.country_represent import country_represent
 from app.similarity import retrieve_similar_question
 from tabulate import tabulate
 from app import db, metadata
@@ -90,13 +90,13 @@ def timeup():
     return "OK"
 
 
-@func.route("country_people", methods=["POST"])
-def country_people():
-    if request.method == "POST":
-        question = request.form.get("text")
-    country_representation, countries = country_present1(question)
-    highlight=highlight_json(countries)
-    return jsonify({"country_representation": country_representation, "Highlight": highlight})
+# @func.route("country_people", methods=["POST"])
+# def country_people():
+#     if request.method == "POST":
+#         question = request.form.get("text")
+#     country_representation, countries = country_present1(question)
+#     highlight=highlight_json(countries)
+#     return jsonify({"country_representation": country_representation, "Highlight": highlight})
 
 @func.route("/insert", methods=["POST"])
 def insert():
