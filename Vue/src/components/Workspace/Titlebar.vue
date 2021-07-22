@@ -4,18 +4,29 @@ Developers: Jason Liu
 
 <template>
   <v-toolbar style="flex-grow: 0; z-index: 1">
-    <v-btn icon style="cursor: grab" @mousedown="startDrag">
+    <v-btn
+      icon
+      x-large
+      style="cursor: grab"
+      @mousedown="$emit('startDrag', $event)"
+    >
       <v-icon>mdi-drag</v-icon>
     </v-btn>
 
-    <v-text-field
-      placeholder="Title"
-      hide-details="auto"
-      style="font-size: 28px"
-      :rules="rules"
-      :value="workspace.title"
-      @input="checkTitle"
-    ></v-text-field>
+    <v-form ref="form">
+      <v-text-field
+        placeholder="Title"
+        hide-details="auto"
+        style="font-size: 24px"
+        :rules="rules"
+        :value="workspace.title"
+        @input="
+          (title) => {
+            if ($refs.form.validate()) workspace.title = title;
+          }
+        "
+      ></v-text-field>
+    </v-form>
 
     <v-spacer></v-spacer>
 
@@ -30,7 +41,12 @@ Developers: Jason Liu
           v-for="widget_type in widget_types"
           :key="widget_type"
           link
-          @click="addWidget(widget_type)"
+          @click="
+            $store.commit('addWidget', {
+              workspace_id: id,
+              type: widget_type,
+            })
+          "
         >
           <v-list-item-title>{{ widget_type }}</v-list-item-title>
         </v-list-item>
@@ -40,11 +56,11 @@ Developers: Jason Liu
       </v-list>
     </v-menu>
 
-    <v-btn icon @click="minimize">
+    <v-btn icon @click="$store.commit('minimizeWorkspace', id)">
       <v-icon>mdi-window-minimize</v-icon>
     </v-btn>
 
-    <v-btn icon @click="maximize">
+    <v-btn icon @click="$emit('maximize')">
       <v-icon>mdi-window-maximize</v-icon>
     </v-btn>
   </v-toolbar>
@@ -54,19 +70,20 @@ Developers: Jason Liu
 export default {
   name: "Titlebar",
   props: {
-    workspace_id: Number,
+    id: Number,
   },
   data() {
     return {
-      clientX: undefined,
-      clientY: undefined,
-      rules: [(value) => !!value || "Required."],
+      rules: [
+        (v) => !!v || "Required.",
+        (v) => v.length <= 32 || "Title must be less than 32 characters",
+      ],
       menu: false,
     };
   },
   computed: {
     workspace() {
-      return this.$store.getters.workspace(this.workspace_id);
+      return this.$store.getters.workspace(this.id);
     },
     style() {
       return this.workspace.style;
@@ -77,60 +94,6 @@ export default {
         (type) => !added_types.includes(type)
       );
     },
-  },
-  methods: {
-    startDrag(event) {
-      event.preventDefault();
-      this.clientX = event.clientX;
-      this.clientY = event.clientY;
-      document.onmousemove = this.elementDrag;
-      document.onmouseup = this.stopDrag;
-    },
-    elementDrag(event) {
-      event.preventDefault();
-      let movementX = this.clientX - event.clientX;
-      let movementY = this.clientY - event.clientY;
-      this.clientX = event.clientX;
-      this.clientY = event.clientY;
-      this.style.left = Math.min(
-        window.innerWidth - 100,
-        Math.max(0, this.style.left - movementX)
-      );
-      this.style.top = Math.min(
-        window.innerHeight - 150,
-        Math.max(0, this.style.top - movementY)
-      );
-    },
-    stopDrag() {
-      document.onmousemove = null;
-      document.onmouseup = null;
-    },
-    checkTitle(title) {
-      if (title) {
-        this.workspace.title = title;
-      }
-    },
-    addWidget(type) {
-      this.$store.commit("addWidget", {
-        workspace_id: this.workspace_id,
-        type: type,
-      });
-    },
-    minimize() {
-      this.$store.commit("minimizeWorkspace", this.workspace_id);
-    },
-    maximize() {
-      let app = this.$parent.$parent.$parent.$parent.$el;
-      this.style.width = app.offsetWidth;
-      this.style.height = app.offsetHeight;
-      this.style.top = 0;
-      this.style.left = 0;
-    },
-  },
-  mounted() {
-    if (this.style.width === 0 || this.style.height === 0) {
-      this.maximize();
-    }
   },
 };
 </script>

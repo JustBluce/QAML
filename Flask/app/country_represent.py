@@ -160,6 +160,9 @@ for i in range(0, len(data)):
     questions.append(data[i]['text'])
 
 
+f_pop = open('app/query.json')
+wiki_population = json.load(f_pop)
+
 countries = list(map(lambda x: x['countryLabel'].lower(), wiki_population))
 population = list(map(lambda x: int(x['population']), wiki_population))
 
@@ -167,7 +170,6 @@ country_represent = Blueprint('country_represent', __name__)
 f_country = open('app/country.json')
 map_instance = json.load(f_country)
 total_instance = sum(map_instance.values())
-
 
 under_countries = []
 over_countries = []
