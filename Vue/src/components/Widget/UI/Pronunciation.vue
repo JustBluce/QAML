@@ -4,13 +4,13 @@ Developers: Damien Rene and Jason Liu
 
 <template>
   <div class="Pronunciation-container">
-    <!-- <div class="placeholder" v-show="!text">Please enter your question</div>
+    <!-- <div class="placeholder" v-show="!qa.text">Please enter your question</div>
     <Highlighter
       :style="{ color: 'black' }"
       highlightClassName="highlight"
       :searchWords="keywords"
       :autoEscape="true"
-      :textToHighlight="text"
+      :textToHighlight="qa.text"
     /> -->
     <!-- <div>
       <h4> Please add the pronunciation guide for the following words </h4>
@@ -60,16 +60,7 @@ export default {
   },
   computed: {
     qa() {
-      let qa_index = this.$store.getters.workspace(
-        this.workspace_id
-      ).qa_selected;
-      return this.$store.getters.qa(this.workspace_id, qa_index);
-    },
-    text() {
-      let qa_index = this.$store.getters.workspace(
-        this.workspace_id
-      ).qa_selected;
-      return this.$store.getters.qa(this.workspace_id, qa_index).text;
+     return this.$store.getters.workspace(this.workspace_id).qa;
     },
     pronunciation() {
       return this.qa.pronunciation;

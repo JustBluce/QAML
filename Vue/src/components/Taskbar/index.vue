@@ -1,56 +1,79 @@
 <template>
-  <v-toolbar>
-    <v-switch
-      v-model="$vuetify.theme.dark"
-      label="Theme"
-      inset
-      persistent-hint
-    ></v-switch>
-  </v-toolbar>
-  <!--
-  <div class="taskbar-container">
-    <div class="taskbar">
-      <div class="item-wrapper tabs">
-        <div class="item" v-for="workspace in workspaces" :key="workspace.id">
-          <a
-            :class="[
-              'btn',
-              workspace_selected === workspace.id ? 'selected' : '',
-            ]"
-            :title="workspace.title"
-            @click="selectWorkspace(workspace.id)"
-            >{{ workspace.title }}</a
-          >
-        </div>
-      </div>
-      <a class="fas fa-plus btn" @click="addWorkspace" />
-        <v-switch
-        v-model="$vuetify.theme.dark"
-        inset
-        persistent-hint
-      ></v-switch>
-      <div class="item recommended-title">Recommended topics:</div>
-      <div class="item-wrapper recommended">
-        <div class="item" v-for="rec in recommended" :key="rec">
-          <a class="btn" :title="rec" @click="addRecommendedWorkspace(rec)">{{
-            rec
-          }}</a>
-        </div>
-        <div class="item" v-show="recommended.length === 0">None</div>
-      </div>
-    </div>
-  </div> -->
+  <div>
+    <v-toolbar>
+      <v-toolbar-title>QA Interface</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        color="green"
+        class="mx-2"
+        text
+        outlined
+        @click="$store.commit('createWorkspace')"
+      >
+        Create workspace
+      </v-btn>
+
+      <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
+        <v-icon>mdi-brightness-6</v-icon>
+      </v-btn>
+
+      <template v-slot:extension>
+        <v-tabs v-model="workspace_selected" ref="tabs" background-color="background" show-arrows>
+          <v-tab v-show="false"></v-tab>
+          <draggable class="ma-0 row" v-model="workspaces">
+            <v-tab
+              v-for="workspace in workspaces"
+              :key="workspace.tab_id"
+              :ripple="false"
+            >
+              {{ workspace.title }}
+              <v-icon
+                class="ml-2"
+                color="red"
+                small
+                @click="$store.commit('removeWorkspace', workspace.id)"
+                >mdi-close</v-icon
+              >
+            </v-tab>
+          </draggable>
+        </v-tabs>
+      </template>
+    </v-toolbar>
+  </div>
 </template>
 
 <script>
+import draggable from "vuedraggable";
+
 export default {
   name: "Taskbar",
+  components: {
+    draggable,
+  },
   computed: {
-    workspaces() {
-      return this.$store.state.workspaces;
+    workspaces: {
+      get() {
+        return this.$store.state.workspaces;
+      },
+      set(value) {
+        this.$store.state.workspaces = value;
+        this.$store.commit("updateTabs");
+      },
     },
-    workspace_selected() {
-      return this.$store.state.workspace_stack.slice(-1)[0];
+    workspace_selected: {
+      get() {
+        return this.$store.state.workspace_selected;
+      },
+      set(value) {
+        this.$store.commit(
+          "selectWorkspace",
+          this.$store.state.workspaces.find(
+            (workspace) => workspace.tab_id === value
+          ).id
+        );
+      },
     },
     recommended: {
       get() {
@@ -61,97 +84,14 @@ export default {
       },
     },
   },
-  methods: {
-    addWorkspace() {
-      this.$store.commit("addWorkspace");
-    },
-    selectWorkspace(id) {
-      this.$store.commit("selectWorkspace", id);
-    },
-    addRecommendedWorkspace(title) {
-      this.recommended = this.recommended.filter((rec) => rec !== title);
-      this.$store.commit("addWorkspace", title);
-    },
+  mounted() {
+    let self = this;
+    this.interval = setInterval(function () {
+      self.$refs.tabs.onResize();
+    }, 100);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
 };
 </script>
-
-<style scoped>
-.taskbar-container {
-  height: 50px;
-  padding: 8px;
-  padding-bottom: 4px;
-}
-
-.taskbar {
-  display: flex;
-  align-items: center;
-  background-color: white;
-  border: 4px solid steelblue;
-  border-radius: 24px;
-  box-shadow: 0px 0px 2px black;
-  font-size: 24px;
-  padding-left: 20px;
-  padding-right: 20px;
-  height: 100%;
-  min-width: 1184px;
-}
-
-.fa-plus {
-  margin-right: 10px;
-}
-
-.item {
-  font-size: 18px;
-  height: 20px;
-  padding-left: 6px;
-  padding-right: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.item-wrapper {
-  display: flex;
-}
-
-.item-wrapper .item {
-  border-left: 2px solid black;
-}
-
-.item-wrapper .item:first-child {
-  border-left: 0;
-}
-
-.item-wrapper .btn {
-  color: black;
-}
-
-.item-wrapper .btn:hover {
-  opacity: 1;
-}
-
-.item-wrapper .btn:active {
-  opacity: 0.5;
-}
-
-.tabs {
-  max-width: 70%;
-  margin-right: 4px;
-}
-
-.selected {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-}
-
-.recommended-title {
-  font-weight: bold;
-  text-align: right;
-  flex-grow: 1;
-}
-
-.recommended {
-  max-width: 25%;
-}
-</style>

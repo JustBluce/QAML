@@ -5,21 +5,29 @@ Developers: Atith Gandhi and Jason Liu
 <template>
   <div class="Machine-Guess-container">
     <table class="table table-striped table-bordered">
-            
-            <thead>
-                <tr>
-                    <th>Machine Guess</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in answer" :key="user.guess">
-                    <td width="150" style="text-overflow:ellipsis; overflow: hidden; max-width:20px;">{{user.guess}}</td>
-                    <td width="150" style="text-overflow:ellipsis; overflow: hidden; max-width:20px;">{{user.score}}</td>
-                </tr>
-            </tbody>
-
-        </table>
+      <thead>
+        <tr>
+          <th>Machine Guess</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in answer" :key="user.guess">
+          <td
+            width="150"
+            style="text-overflow: ellipsis; overflow: hidden; max-width: 20px"
+          >
+            {{ user.guess }}
+          </td>
+          <td
+            width="150"
+            style="text-overflow: ellipsis; overflow: hidden; max-width: 20px"
+          >
+            {{ user.score }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -32,15 +40,12 @@ export default {
     workspace_id: Number,
     widget_id: Number,
   },
-  
+
   computed: {
     qa() {
-      let qa_index = this.$store.getters.workspace(
-        this.workspace_id
-      ).qa_selected;
-      return this.$store.getters.qa(this.workspace_id, qa_index);
+      return this.$store.getters.workspace(this.workspace_id).qa;
     },
-    
+
     answer() {
       return this.qa.answer;
     },
@@ -49,7 +54,7 @@ export default {
 </script>
 
 <style scoped>
-.Machine-Guess-container{
+.Machine-Guess-container {
   display: flex;
   flex-direction: column;
   width: 100%;

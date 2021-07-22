@@ -3,9 +3,9 @@ Developers: Jason Liu and Cai Zefan
 -->
 
 <template>
-  <v-main id="app">
-    <Taskbar/>
-    <v-sheet class="workspaces-container background">
+  <v-main>
+    <Taskbar />
+    <v-sheet class="workspaces-container">
       <transition-group type="transition" name="workspaces">
         <Workspace
           v-for="workspace_id in workspace_stack"
@@ -43,13 +43,13 @@ export default {
 
 <style>
 html {
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 .workspaces-container {
   position: relative;
-  height: calc(100vh - 64px);
   overflow: hidden;
+  height: calc(100vh - 112px);
 }
 
 .workspaces-enter-active,
