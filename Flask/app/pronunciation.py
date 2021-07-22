@@ -114,18 +114,18 @@ def getpronunciation():
     myobj = gTTS(text=question, lang=language, slow=False)
     myobj.save("app/pronunciation.mp3")
     
-    # question_file = open("app/question.txt","w")
-    # question_file.write(str(question))
-    # question_file.close()
+#     # question_file = open("app/question.txt","w")
+#     # question_file.write(str(question))
+#     # question_file.close()
     
 
-    with open(join(dirname(__file__), './.', "pronunciation.mp3"),'rb') as audio_file:
-        speech_recognition_results = speech_to_text.recognize(
-            audio=audio_file,
-            content_type='audio/mp3',
-            word_alternatives_threshold=0.9,
-            word_confidence = True
-        ).get_result()
+#     with open(join(dirname(__file__), './.', "pronunciation.mp3"),'rb') as audio_file:
+#         speech_recognition_results = speech_to_text.recognize(
+#             audio=audio_file,
+#             content_type='audio/mp3',
+#             word_alternatives_threshold=0.9,
+#             word_confidence = True
+#         ).get_result()
     
     transcribed_text = speech_recognition_results["results"][0]["alternatives"][0]["transcript"]
     confidence = speech_recognition_results["results"][0]["alternatives"][0]["confidence"]

@@ -159,8 +159,6 @@ questions = []
 for i in range(0, len(data)):
     questions.append(data[i]['text'])
 
-f_pop = open('app/query.json')
-wiki_population = json.load(f_pop)
 
 countries = list(map(lambda x: x['countryLabel'].lower(), wiki_population))
 population = list(map(lambda x: int(x['population']), wiki_population))
@@ -222,7 +220,7 @@ def country_present():
         if under_countries[i].lower() not in question.lower() and under_countries[i].lower() in page.content.lower():
             cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]) ])
             
-    message = Sort(cosine_sim_ques_country)
+#     message = Sort(cosine_sim_ques_country)
       
     answer = []
     for i in message[:5]:

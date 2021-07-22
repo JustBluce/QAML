@@ -3,6 +3,14 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
 -->
 
 <template>
+<<<<<<< HEAD:Vue/src/components/Workspace/QA.vue
+  <div ref="qaContainer" class="qa-container">
+    <div class="header">
+      <input class="title" v-model="qa.title" />
+      <a v-show="qa_count > 1" class="fas fa-trash btn" @click="deleteQA" />
+    </div>
+    <highlightable-input
+=======
   <v-container fluid class="background">
     <v-card class="mb-3">
       <v-tabs v-model="qa_selected" ref="tabs" show-arrows>
@@ -103,14 +111,54 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
   </v-container>
 
   <!-- <highlightable-input
+>>>>>>> 3234f94b2b0d2be7374d8a7f5e4ba85149e7f878:Vue/src/components/QA/index.vue
       highlight-style="background-color:yellow"
       :highlight-enabled="highlightEnabled"
       :highlight="highlight"
       class="big-container"
+      :caseSensitive=true
       placeholder="Please enter your question"
       v-model="text"
+<<<<<<< HEAD:Vue/src/components/Workspace/QA.vue
+    />
+
+    <!-- <textarea
+      class="container"
+      rows="10"
+      placeholder="Please enter your question"
+      v-model="text"
+      @input="keep_looping"
+    ></textarea> -->
+    <textarea
+      class="container"
+      rows="2"
+      placeholder="Answer"
+      v-model="answer_text"
+      @input="update_representation"
+    ></textarea>
+    <el-button type="primary" @click="searchData">
+      Submit <i class="fa fa-upload"
+    /></el-button>
+    <div class="two-col">
+      <div class="col1">
+        <div><h4>Genre</h4></div>
+        <select v-model="qa.genre" @change="changeGenre">
+          <option disabled value="">Select a question genre</option>
+          <option v-for="(item, index) in genres" v-bind:key="index">
+            {{ item }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col2">
+        <GChart type="PieChart" :options="options" :data="chartData" />
+      </div>
+    </div>
+  </div>
+=======
       @input="keep_looping"`
     /> -->
+>>>>>>> 3234f94b2b0d2be7374d8a7f5e4ba85149e7f878:Vue/src/components/QA/index.vue
 </template>
 
 <script>
@@ -131,14 +179,17 @@ export default {
   },
   data() {
     return {
-      
       highlight: [
         // { text: "chicken", style: "background-color:#f37373" },
         // { text: "noodle", style: "background-color:#fca88f" },
         // { text: "soup", style: "background-color:#bbe4cb" },
         // { text: "so", style: "background-color:#fff05e" },
+        // #e91640
+        // #ee4466
+        // #f48aa0
         // "whatever",
-        { text: "soupppppp", style: "border: 2px solid #73AD21;" },
+        { text: "soupppppp", style: "background-color:#fff05e" },
+        { text: "so", style: "border: 2px solid #73AD21;" },
       ],
       highlightEnabled: true,
       genres: [
@@ -192,6 +243,17 @@ export default {
     },
   },
   methods: {
+<<<<<<< HEAD:Vue/src/components/Workspace/QA.vue
+    // keep_looping: _.debounce(function () {
+    //   let formData = new FormData();
+    //   formData.append("text", this.text);
+    //   formData.append("answer_text", this.answer_text);
+    //   // this.qa.genre = this.selected_genre
+    //   // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
+    //   //         {
+    //   //           this.addModal(
+    //   //           "Warning !!! Please some fields are empty","Please make sure the QA box and the Answer box are filled and the Genre is selected"
+=======
     keep_looping: _.debounce(function () {
       let formData = new FormData();
       formData.append("text", this.qa.text);
@@ -201,56 +263,112 @@ export default {
       //         {
       //           this.addModal(
       //           "Warning !!! Please some fields are empty","Please make sure the QA box and the Answer box are filled and the Genre is selected"
+>>>>>>> 3234f94b2b0d2be7374d8a7f5e4ba85149e7f878:Vue/src/components/QA/index.vue
 
-      //         );
+    //   //         );
 
-      //         }
-      // else{
-      this.axios({
-        url: "http://127.0.0.1:5000/func/act",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.qa.answer = response.data["guess"];
-        console.log(response);
-      });
+    //   //         }
+    //   // else{
+    //   this.axios({
+    //     url: "http://127.0.0.1:5000/func/act",
+    //     method: "POST",
+    //     data: formData,
+    //   }).then((response) => {
+    //     this.qa.answer = response.data["guess"];
+    //     console.log(response);
+    //   });
 
-      this.axios({
-        url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.qa.binary_search_based_buzzer = response.data["buzz"];
-        this.qa.importance = response.data["importance"];
-        this.highlight = response.data["buzz_word"];
-        console.log(response);
-      });
+    //   this.axios({
+    //     url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
+    //     method: "POST",
+    //     data: formData,
+    //   }).then((response) => {
+    //     this.qa.binary_search_based_buzzer = response.data["buzz"];
+    //     this.qa.importance = response.data["importance"];
+    //     this.highlight = response.data["buzz_word"];
+    //     console.log(response);
+    //   });
 
-      this.axios({
-        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        
+    //   this.axios({
+    //     url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+    //     method: "POST",
+    //     data: formData,
+    //   }).then((response) => {
+
         // if (response.data["similar_question"][0]) {
         //   this.addModal(
         //     "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
         //     response.data["similar_question"][1][0]['text']
         //   );
         // }
-        this.qa.top5_similar_questions = response.data["similar_question"];
-        console.log(response);
-      });
+    //     this.qa.top5_similar_questions = response.data["similar_question"];
+    //     console.log(response);
+    //   });
+
+    //   this.axios({
+    //     url: "http://127.0.0.1:5000/country_represent/country_present",
+    //     method: "POST",
+    //     data: formData,
+    //   }).then((response) => {
+    //     this.qa.country_representation =
+    //       response.data["country_representation"];
+    //     console.log(response);
+    //   });
+    //   // this.axios({
+    //   //   url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
+    //   //   method: "POST",
+    //   //   data: formData,
+    //   // }).then((response) => {
+    //   //   this.qa.pronunciation = response.data["message"];
+    //   //   console.log(response);
+    //   // });
+
+    // }, 1000),
+
+    // update_representation: _.debounce(function () {
+    //   let formData = new FormData();
+    //   formData.append("text", this.text);
+    //   formData.append("answer_text", this.answer_text);
+    //   this.axios({
+    //     url: "http://127.0.0.1:5000/country_represent/country_present",
+    //     method: "POST",
+    //     data: formData,
+    //   }).then((response) => {
+    //     this.qa.country_representation =
+    //       response.data["country_representation"];
+    //   });
+    // }, 1000),
+
+    searchData() {
+      let formData = new FormData();
+      formData.append("text", this.text);
+      formData.append("answer_text", this.answer_text);
 
       this.axios({
-        url: "http://127.0.0.1:5000/country_represent/country_present",
+        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
         method: "POST",
         data: formData,
       }).then((response) => {
-        this.qa.country_representation =
-          response.data["country_representation"];
-        console.log(response);
+        if (response.data["similar_question"][0]) {
+          this.addModal(
+            "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+            response.data["similar_question"][1][0]['text']
+          );
+        }
       });
+
+      this.axios({
+        url: "http://127.0.0.1:5000/over_present/highlight",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.highlight = response.data["highlight"];
+        console.log(response);
+        console.log(this.highlight);
+      });
+<<<<<<< HEAD:Vue/src/components/Workspace/QA.vue
+
+=======
       this.axios({
         url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
         method: "POST",
@@ -267,20 +385,24 @@ export default {
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
+>>>>>>> 3234f94b2b0d2be7374d8a7f5e4ba85149e7f878:Vue/src/components/QA/index.vue
       this.axios({
-        url: "http://127.0.0.1:5000/country_represent/country_present",
+        url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
         method: "POST",
         data: formData,
       }).then((response) => {
-        this.qa.country_representation =
-          response.data["country_representation"];
+        this.qa.binary_search_based_buzzer = response.data["buzz"];
+        this.qa.importance = response.data["importance"];
+        console.log(response);
       });
-    }, 1000),
 
+<<<<<<< HEAD:Vue/src/components/Workspace/QA.vue
+=======
     searchData() {
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
+>>>>>>> 3234f94b2b0d2be7374d8a7f5e4ba85149e7f878:Vue/src/components/QA/index.vue
       this.axios({
         url: "http://127.0.0.1:5000/difficulty_classifier/classify",
         method: "POST",
@@ -393,3 +515,91 @@ export default {
   },
 };
 </script>
+<<<<<<< HEAD:Vue/src/components/Workspace/QA.vue
+
+<style scoped>
+.qa-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  flex-grow: 1;
+  min-width: 0;
+  border-left: 2px solid steelblue;
+  border-right: 2px solid steelblue;
+}
+
+.header {
+  display: flex;
+  font-size: 24px;
+}
+
+.title {
+  border: 0;
+  font-weight: bold;
+  outline: none;
+  text-overflow: ellipsis;
+  padding: 0;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.fas {
+  width: 30px;
+  text-align: right;
+}
+
+.big-container {
+  background-color: #f5f5f5;
+  height: 200px;
+  padding: 20px;
+  flex-grow: 50%;
+}
+
+.el-button {
+  background: steelblue;
+  width: 100px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.el-button:hover {
+  opacity: 0.8;
+}
+
+.el-button:active {
+  transform: scale(0.98);
+}
+
+.highlightText {
+  background: yellow;
+}
+
+.two-col {
+  display: flex;
+  overflow: hidden;
+  overflow-x: auto;
+  min-width: 0;
+}
+
+.two-col .col1,
+.two-col .col2 {
+  width: 30%;
+}
+
+.two-col .col1 {
+  max-width: 400px;
+}
+
+.two-col .col2 {
+  flex-grow: 1;
+}
+
+.two-col label {
+  display: block;
+}
+</style>
+=======
+>>>>>>> 3234f94b2b0d2be7374d8a7f5e4ba85149e7f878:Vue/src/components/QA/index.vue
