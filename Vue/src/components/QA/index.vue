@@ -3,7 +3,7 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
 -->
 
 <template>
-  <v-container fluid class="background">
+  <v-container class="background" style="flex-shrink: 1">
     <v-card class="mb-3">
       <v-tabs v-model="qa_selected" ref="tabs" show-arrows>
         <draggable
@@ -48,22 +48,55 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
             </v-card-title>
 
             <v-container fluid>
+              <v-card class="mb-4" color="background">
+                <v-card-actions>
+                  <v-select
+                    v-model="qa.genre"
+                    :items="genres"
+                    label="Question genre"
+                    hide-details="auto"
+                    dense
+                  ></v-select>
+                  <v-spacer></v-spacer>
+                  <v-btn icon color="primary" @click="showChart = !showChart">
+                    <v-icon>
+                      {{ showChart ? "mdi-chevron-up" : "mdi-chart-pie" }}
+                    </v-icon>
+                  </v-btn>
+                </v-card-actions>
+                <v-expand-transition>
+                  <div v-show="showChart">
+                    <v-divider></v-divider>
+                    <GChart
+                      type="PieChart"
+                      :options="options"
+                      :data="chartData"
+                    />
+                  </div>
+                </v-expand-transition>
+              </v-card>
+
               <v-textarea
                 background-color="background"
+                class="my-4"
                 rows="10"
                 label="Question"
                 solo
                 v-model="qa.text"
+                hide-details="auto"
                 @input="keep_looping"
               ></v-textarea>
               <v-textarea
                 background-color="background"
+                class="my-4"
                 rows="1"
                 label="Answer"
                 solo
                 v-model="qa.answer_text"
+                hide-details="auto"
                 @input="update_representation"
               ></v-textarea>
+
               <v-btn color="primary" @click="searchData">
                 Submit <v-icon>mdi-cloud-upload</v-icon>
               </v-btn>
@@ -72,21 +105,6 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
         </v-tab-item>
       </v-tabs-items>
     </v-card>
-
-    <v-row no-gutters>
-      <v-col>
-        <v-select
-          v-model="qa.genre"
-          :items="genres"
-          label="Question genre"
-          solo
-        ></v-select>
-      </v-col>
-
-      <v-col>
-        <GChart type="PieChart" :options="options" :data="chartData" />
-      </v-col>
-    </v-row>
 
     <v-bottom-sheet v-model="sheet" persistent>
       <v-sheet class="text-center" height="100">
@@ -130,7 +148,6 @@ export default {
   },
   data() {
     return {
-      
       highlight: [
         // { text: "chicken", style: "background-color:#f37373" },
         // { text: "noodle", style: "background-color:#fca88f" },
@@ -153,17 +170,13 @@ export default {
         "Fine Arts",
         "Geography",
       ],
-      options: {
-        width: 650,
-        height: 400,
-        backgroundColor: "none",
-      },
       chartData: [
         ["Subgenre", "Count"],
         ["None", 1],
       ],
       rules: [(value) => !!value || "Required."],
       sheet: false,
+      showChart: false,
     };
   },
   computed: {
@@ -188,6 +201,12 @@ export default {
     },
     qa() {
       return this.$store.getters.qa(this.workspace_id, this.qa_selected);
+    },
+    options() {
+      return {
+        width: this.workspace.style.width / 3 - 50,
+        backgroundColor: "none",
+      };
     },
   },
   methods: {
@@ -230,7 +249,6 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
-        
         // if (response.data["similar_question"][0]) {
         //   this.addModal(
         //     "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
@@ -258,10 +276,8 @@ export default {
         this.qa.pronunciation = response.data["message"];
         console.log(response);
       });
-
-      
     }, 1000),
-    
+
     update_representation: _.debounce(function () {
       let formData = new FormData();
       formData.append("text", this.qa.text);

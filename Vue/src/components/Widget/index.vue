@@ -3,7 +3,7 @@ Developers: Jason Liu
 -->
 
 <template>
-  <v-card class="mb-3" min-width="350">
+  <v-card class="mb-3">
     <v-card-title class="widget-title">
       {{ widget.title }}
       <v-spacer></v-spacer>
