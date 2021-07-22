@@ -3,16 +3,18 @@ Developers: Jason Liu and Cai Zefan
 -->
 
 <template>
-  <div id="app">
-    <Taskbar />
-    <div class="workspaces-container">
+  <v-main id="app">
+    <Taskbar/>
+    <v-sheet class="workspaces-container background">
       <transition-group type="transition" name="workspaces">
-        <div v-for="workspace_id in workspace_stack" :key="workspace_id">
-          <Workspace :id="workspace_id" />
-        </div>
+        <Workspace
+          v-for="workspace_id in workspace_stack"
+          :key="workspace_id"
+          :id="workspace_id"
+        />
       </transition-group>
-    </div>
-  </div>
+    </v-sheet>
+  </v-main>
 </template>
 
 <script>
@@ -40,31 +42,21 @@ export default {
 </script>
 
 <style>
-.container {
-  border: 0px;
-  border-radius: 5px;
-  box-sizing: border-box;
-  background-color: rgba(241, 241, 241, 0.98);
-  padding: 10px;
-  margin-top: 10px;
-  resize: none;
-  outline: none;
-  overflow: auto;
-  overflow: overlay;
-  overflow-wrap: break-word;
+html {
+  overflow-y: hidden;
 }
 
 .workspaces-container {
   position: relative;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 64px);
   overflow: hidden;
 }
 
 .workspaces-enter-active,
 .workspaces-leave-active {
   position: relative;
-  transition: all 0.3s linear;
-  height: 900px;
+  transition: all 0.3s ease;
+  height: 100%;
   z-index: 1000;
 }
 
@@ -77,38 +69,7 @@ export default {
   filter: contrast(0);
 }
 
-.btn {
-  color: steelblue;
-  cursor: pointer;
-  opacity: 1;
-  transition: opacity 0.3s;
-}
-
-.btn:hover {
-  color: steelblue;
-  opacity: 0.7;
-}
-
-.btn:active {
-  transform: scale(0.9);
-}
-
-.fa-minus,
-.fa-minus:hover {
-  color: #a62c2b;
-}
-
-.fa-plus,
-.fa-plus:hover {
-  color: #296e01;
-}
-
-.fa-trash,
-.fa-trash:hover {
-  color: #888888;
-}
-
-.fa-upload {
-  color: #ffffff;
+.ghost {
+  opacity: 0.3;
 }
 </style>
