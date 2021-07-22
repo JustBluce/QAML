@@ -144,8 +144,7 @@ def load_bert_model_difficulty():
     return tokenizer_difficulty, model_difficulty
 
 
-def highlight_json(countries, people = None):
-    
+def highlight_json(items = None, color = None):
     '''
     Organize the json structure for text highlighting in frontend
     highlight: [
@@ -156,10 +155,10 @@ def highlight_json(countries, people = None):
       ],
     '''
     highlight = []
-    for country in countries:
+    for item in items:
         temp = {}
-        temp['text'] = country
-        temp['style'] = "background-color:#f37373"
+        temp['text'] = item
+        temp['style'] = "background-color:"+color
         highlight.append(temp)
     return highlight
 
