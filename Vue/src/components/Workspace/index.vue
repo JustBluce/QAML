@@ -19,8 +19,6 @@ Developers: Jason Liu
           : '',
     }"
     @mousedown="onSelect"
-    @mouseup="onRelease"
-    @mouseleave="onRelease"
   >
     <Titlebar :workspace_id="id" />
     <v-sheet class="ui-wrapper">
@@ -67,11 +65,14 @@ export default {
     onSelect() {
       this.$store.commit("selectWorkspace", this.id);
     },
-    onRelease() {
-      let workspace = this.$refs.workspaceContainer.$el;
-      this.style.width = workspace.offsetWidth;
-      this.style.height = workspace.offsetHeight;
-    },
+  },
+  mounted() {
+    let self = this;
+    setInterval(function () {
+      let workspace = self.$refs.workspaceContainer.$el;
+      self.style.width = workspace.offsetWidth;
+      self.style.height = workspace.offsetHeight;
+    }, 100);
   },
 };
 </script>
@@ -81,9 +82,9 @@ export default {
   display: flex;
   flex-direction: column;
   position: absolute;
-  min-height: 450px;
+  min-height: 64px;
   max-height: 100%;
-  min-width: 1200px;
+  min-width: 1024px;
   max-width: 100%;
   padding: 0;
   overflow: hidden;
