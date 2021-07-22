@@ -3,120 +3,59 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
 -->
 
 <template>
-  <v-container class="background" style="flex-shrink: 1">
+  <v-container fluid class="background" style="flex-shrink: 1">
     <v-card class="mb-3">
-      <v-tabs v-model="qa_selected" ref="tabs" show-arrows>
-        <draggable
-          class="ma-0 row"
-          v-model="qas"
-          @update="$store.commit('updateQAs', workspace_id)"
-        >
-          <v-tab v-for="qa in qas" :key="qa.id" :ripple="false">{{
-            qa.title
-          }}</v-tab>
-        </draggable>
-      </v-tabs>
+      <v-container fluid>
+        <v-card class="mb-4" color="background">
+          <v-card-actions>
+            <v-select
+              v-model="qa.genre"
+              :items="genres"
+              label="Question genre"
+              hide-details="auto"
+              dense
+            ></v-select>
+            <v-spacer></v-spacer>
+            <v-btn icon color="primary" @click="showChart = !showChart">
+              <v-icon>
+                {{ showChart ? "mdi-chevron-up" : "mdi-chart-pie" }}
+              </v-icon>
+            </v-btn>
+          </v-card-actions>
+          <v-expand-transition>
+            <div v-show="showChart">
+              <v-divider></v-divider>
+              <GChart type="PieChart" :options="options" :data="chartData" />
+            </div>
+          </v-expand-transition>
+        </v-card>
 
-      <v-tabs-items v-model="qa_selected">
-        <v-tab-item
-          v-for="qa in qas"
-          :key="qa.id"
-          v-show="qa.id === qa_selected"
-        >
-          <v-card flat>
-            <v-card-title>
-              <v-text-field
-                placeholder="Title"
-                hide-details="auto"
-                :rules="rules"
-                :value="qa.title"
-                @input="checkTitle"
-              ></v-text-field>
-              <v-spacer></v-spacer>
-              <v-btn class="ml-2" elevation="4" icon @click="createQA">
-                <v-icon color="open">mdi-plus</v-icon>
-              </v-btn>
-              <v-btn
-                class="ml-2"
-                elevation="4"
-                icon
-                :disabled="qas.length === 1"
-                @click="clickDelete"
-              >
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </v-card-title>
+        <v-textarea
+          background-color="background"
+          class="my-4"
+          rows="10"
+          label="Question"
+          solo
+          v-model="qa.text"
+          hide-details="auto"
+          @input="keep_looping"
+        ></v-textarea>
+        <v-textarea
+          background-color="background"
+          class="my-4"
+          rows="1"
+          label="Answer"
+          solo
+          v-model="qa.answer_text"
+          hide-details="auto"
+          @input="update_representation"
+        ></v-textarea>
 
-            <v-container fluid>
-              <v-card class="mb-4" color="background">
-                <v-card-actions>
-                  <v-select
-                    v-model="qa.genre"
-                    :items="genres"
-                    label="Question genre"
-                    hide-details="auto"
-                    dense
-                  ></v-select>
-                  <v-spacer></v-spacer>
-                  <v-btn icon color="primary" @click="showChart = !showChart">
-                    <v-icon>
-                      {{ showChart ? "mdi-chevron-up" : "mdi-chart-pie" }}
-                    </v-icon>
-                  </v-btn>
-                </v-card-actions>
-                <v-expand-transition>
-                  <div v-show="showChart">
-                    <v-divider></v-divider>
-                    <GChart
-                      type="PieChart"
-                      :options="options"
-                      :data="chartData"
-                    />
-                  </div>
-                </v-expand-transition>
-              </v-card>
-
-              <v-textarea
-                background-color="background"
-                class="my-4"
-                rows="10"
-                label="Question"
-                solo
-                v-model="qa.text"
-                hide-details="auto"
-                @input="keep_looping"
-              ></v-textarea>
-              <v-textarea
-                background-color="background"
-                class="my-4"
-                rows="1"
-                label="Answer"
-                solo
-                v-model="qa.answer_text"
-                hide-details="auto"
-                @input="update_representation"
-              ></v-textarea>
-
-              <v-btn color="primary" @click="searchData">
-                Submit <v-icon>mdi-cloud-upload</v-icon>
-              </v-btn>
-            </v-container>
-          </v-card>
-        </v-tab-item>
-      </v-tabs-items>
+        <v-btn color="primary" @click="searchData">
+          Submit <v-icon>mdi-cloud-upload</v-icon>
+        </v-btn>
+      </v-container>
     </v-card>
-
-    <v-bottom-sheet v-model="sheet" persistent>
-      <v-sheet class="text-center" height="100">
-        <div class="py-3">
-          Are you sure you want to delete
-          <span class="font-weight-bold">{{ qa.title }}</span>
-          ?
-        </div>
-        <v-btn text color="open" @click="deleteQA"> Yes </v-btn>
-        <v-btn text color="close" @click="sheet = false"> No </v-btn>
-      </v-sheet>
-    </v-bottom-sheet>
   </v-container>
 
   <!-- <highlightable-input
@@ -131,18 +70,15 @@ Developers: Cai Zefan, Atith Gandhi, and Jason Liu
 </template>
 
 <script>
-import draggable from "vuedraggable";
 import HighlightableInput from "vue-highlightable-input";
 import { GChart } from "vue-google-charts";
 
 export default {
   name: "QA",
   props: {
-    workspace_id: Number,
-    qa_id: Number,
+    id: Number,
   },
   components: {
-    draggable,
     HighlightableInput,
     GChart,
   },
@@ -175,32 +111,15 @@ export default {
         ["None", 1],
       ],
       rules: [(value) => !!value || "Required."],
-      sheet: false,
       showChart: false,
     };
   },
   computed: {
     workspace() {
-      return this.$store.getters.workspace(this.workspace_id);
-    },
-    qas: {
-      get() {
-        return this.workspace.qas;
-      },
-      set(value) {
-        this.workspace.qas = value;
-      },
-    },
-    qa_selected: {
-      get() {
-        return this.workspace.qa_selected;
-      },
-      set(value) {
-        this.workspace.qa_selected = value;
-      },
+      return this.$store.getters.workspace(this.id);
     },
     qa() {
-      return this.$store.getters.qa(this.workspace_id, this.qa_selected);
+      return this.workspace.qa;
     },
     options() {
       return {
@@ -355,33 +274,6 @@ export default {
       //   this.qa.country_representation = response.data["country_representation"];
       //   this.highlight = response.data["Highlight"];
       // });
-    },
-
-    checkTitle(title) {
-      if (title) {
-        this.qa.title = title;
-        this.$refs.tabs.onResize();
-      }
-    },
-
-    createQA() {
-      this.$store.commit("createQA", this.workspace_id);
-    },
-
-    clickDelete() {
-      if (this.qa.text || this.qa.answer_text) {
-        this.sheet = true;
-      } else {
-        this.deleteQA();
-      }
-    },
-
-    deleteQA() {
-      this.$store.commit("deleteQA", {
-        workspace_id: this.workspace_id,
-        qa_id: this.qa_selected,
-      });
-      this.sheet = false;
     },
 
     changeGenre() {
