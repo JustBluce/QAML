@@ -21,11 +21,7 @@ Developers: Jason Liu
   >
     <transition-group type="transition" name="widgets">
       <template v-for="widget in widgets">
-        <Widget
-          :workspace_id="workspace_id"
-          :widget="widget"
-          :key="widget.id"
-        />
+        <Widget :workspace_id="id" :widget="widget" :key="widget.id" />
       </template>
     </transition-group>
   </draggable>
@@ -38,7 +34,7 @@ import Widget from "@/components/Widget";
 export default {
   name: "WidgetContainer",
   props: {
-    workspace_id: Number,
+    id: Number,
     container: String,
   },
   components: {
@@ -47,16 +43,14 @@ export default {
   },
   computed: {
     workspace() {
-      return this.$store.getters.workspace(this.workspace_id);
+      return this.$store.getters.workspace(this.id);
     },
-
     widgets: {
       get() {
         return this.workspace.widgets.filter(
           (widgets) => widgets.container === this.container
         );
       },
-
       set(widgets) {
         this.workspace.widgets = this.workspace.widgets.filter((widget) =>
           widgets.every((container_widget) => container_widget.id !== widget.id)
@@ -66,9 +60,8 @@ export default {
         );
       },
     },
-
     maxWidth() {
-      return this.widgets.length > 0 ? 375 : 50;
+      return this.widgets.length > 0 ? 350 : 50;
     },
   },
 };

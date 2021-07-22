@@ -34,10 +34,7 @@ export default {
   },
   computed: {
     qa() {
-      let qa_index = this.$store.getters.workspace(
-        this.workspace_id
-      ).qa_selected;
-      return this.$store.getters.qa(this.workspace_id, qa_index);
+      return this.$store.getters.workspace(this.workspace_id).qa;
     },
     country_representation() {
       console.log(this.qa.country_representation)

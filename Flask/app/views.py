@@ -8,7 +8,7 @@ from .country_represent import country_represent
 from .people import people_info
 from .similarity import similar_question
 from .genre_classifier import genre_classifier
-# from .pronunciation import pronunciation
+from .pronunciation import pronunciation
 # from .binary_search_based_buzzer import importance
 
 app.register_blueprint(log, url_prefix='/log')
@@ -21,5 +21,5 @@ app.register_blueprint(country_represent, url_prefix='/country_represent')
 app.register_blueprint(people_info, url_prefix='/people_info')
 app.register_blueprint(similar_question, url_prefix='/similar_question')
 app.register_blueprint(genre_classifier, url_prefix='/genre_classifier')
-# app.register_blueprint(pronunciation, url_prefix='/pronunciation')
+app.register_blueprint(pronunciation, url_prefix='/pronunciation')
 app.register_blueprint(over_present, url_prefix='/over_present')

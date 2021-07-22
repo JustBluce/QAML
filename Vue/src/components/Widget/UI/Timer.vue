@@ -19,10 +19,10 @@ Cai Zefan
     <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title>
-          Time's up
+          {{ workspace.title }}: Time's up
           <v-spacer></v-spacer>
           <v-btn icon @click="dialog = false">
-            <v-icon color="close">mdi-close</v-icon>
+            <v-icon color="red">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-divider></v-divider>
@@ -35,6 +35,10 @@ Cai Zefan
 <script>
 export default {
   name: "Timer",
+  props: {
+    workspace_id: Number,
+    widget_id: Number,
+  },
   data() {
     return {
       hours: "0",
@@ -46,8 +50,10 @@ export default {
       dialog: false,
     };
   },
-  mounted() {
-    this.timer = setInterval(this.update, 1000);
+  computed: {
+    workspace() {
+      return this.$store.getters.workspace(this.workspace_id);
+    },
   },
   methods: {
     validate() {
@@ -106,6 +112,9 @@ export default {
         this.display(0);
       }
     },
+  },
+  mounted() {
+    this.timer = setInterval(this.update, 1000);
   },
   // beforeDestroy() {
   //   clearInterval(this.timer);

@@ -3,12 +3,12 @@ Developers: Jason Liu
 -->
 
 <template>
-  <v-card class="mb-3" min-width="350">
+  <v-card class="mb-3">
     <v-card-title class="widget-title">
       {{ widget.title }}
       <v-spacer></v-spacer>
       <v-btn icon @click="deleteWidget">
-        <v-icon color="close">mdi-close</v-icon>
+        <v-icon color="red">mdi-close</v-icon>
       </v-btn>
     </v-card-title>
     <v-divider></v-divider>
