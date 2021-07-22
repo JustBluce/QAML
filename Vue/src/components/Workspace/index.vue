@@ -121,11 +121,11 @@ export default {
       event.preventDefault();
       let { movementX, movementY } = this.elementDrag(event);
       this.style.width = Math.min(
-        this.app().offsetWidth,
+        this.app().offsetWidth - 16,
         this.style.width - movementX
       );
       this.style.height = Math.min(
-        this.app().offsetHeight,
+        this.app().offsetHeight - 16,
         this.style.height - movementY
       );
     },
@@ -139,8 +139,8 @@ export default {
     maximize() {
       this.style.top = 0;
       this.style.left = 0;
-      this.style.width = this.app().offsetWidth;
-      this.style.height = this.app().offsetHeight;
+      this.style.width = this.app().offsetWidth - 16;
+      this.style.height = this.app().offsetHeight - 16;
     },
   },
   mounted() {
@@ -157,9 +157,10 @@ export default {
   flex-direction: column;
   position: absolute;
   min-width: 1024px;
-  max-width: 100%;
+  max-width: calc(100% - 16px);
   min-height: 64px;
-  max-height: 100%;
+  max-height: calc(100% - 16px);
+  margin: 8px;
   padding: 0;
   overflow: hidden;
 }

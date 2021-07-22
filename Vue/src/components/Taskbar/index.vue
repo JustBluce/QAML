@@ -4,7 +4,7 @@ Developers: Jason Liu
 
 <template>
   <div>
-    <v-toolbar>
+    <v-toolbar flat>
       <v-toolbar-title>QA Interface</v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -24,13 +24,23 @@ Developers: Jason Liu
       </v-btn>
 
       <template v-slot:extension>
-        <v-tabs v-model="workspace_selected" ref="tabs" background-color="background" show-arrows>
-          <v-tab v-show="false"></v-tab>
+        <v-tabs
+          v-model="workspace_selected"
+          ref="tabs"
+          background-color="background"
+          show-arrows
+        >
           <draggable class="ma-0 row" v-model="workspaces">
             <v-tab
+              v-show="workspace.tab"
               v-for="workspace in workspaces"
               :key="workspace.tab_id"
+              :ref="`tab-${workspace.id}`"
               :ripple="false"
+              @click="
+                if (workspace.tab)
+                  $store.commit('selectWorkspace', workspace.id);
+              "
             >
               {{ workspace.title }}
               <v-icon
@@ -71,12 +81,10 @@ export default {
         return this.$store.state.workspace_selected;
       },
       set(value) {
-        this.$store.commit(
-          "selectWorkspace",
-          this.$store.state.workspaces.find(
-            (workspace) => workspace.tab_id === value
-          ).id
-        );
+        let stack = this.$store.state.workspace_stack;
+        if (stack.length > 0) {
+          this.$refs[`tab-${stack.slice(-1)[0]}`][0].$el.click();
+        }
       },
     },
     recommended: {
