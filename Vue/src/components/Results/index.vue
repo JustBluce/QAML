@@ -9,7 +9,7 @@ Developers: Jason Liu
         Results
         <v-spacer></v-spacer>
         <v-btn icon @click="closeResults">
-          <v-icon color="close">mdi-close</v-icon>
+          <v-icon color="red">mdi-close</v-icon>
         </v-btn>
       </v-card-title>
       <v-divider></v-divider>
