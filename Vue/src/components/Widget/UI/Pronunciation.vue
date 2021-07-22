@@ -15,13 +15,13 @@ Developers: Damien Rene and Jason Liu
     <!-- <div>
       <h4> Please add the pronunciation guide for the following words </h4>
     </div> -->
-    <textarea
-      readonly
-      class="container"
-      rows="2"
-      placeholder="This Question does not need a pronunciation guide!"
+    <v-textarea
+      readonly    
+      color="background"
+      rows="1"
+      placeholder="Pronunciation highlighting"
       v-model="pronunciation"
-    ></textarea>
+    ></v-textarea>
     <!-- <table class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -65,7 +65,9 @@ export default {
       return this.$store.getters.qa(this.workspace_id, qa_index);
     },
     text() {
-      let qa_index = this.$store.getters.workspace(this.workspace_id).qa_selected;
+      let qa_index = this.$store.getters.workspace(
+        this.workspace_id
+      ).qa_selected;
       return this.$store.getters.qa(this.workspace_id, qa_index).text;
     },
     pronunciation() {
@@ -75,14 +77,12 @@ export default {
       return this.words.split(" ");
     },
   },
-  methods: {
-    
-  },
+  methods: {},
 };
 </script>
 
 <style scoped>
-.Pronunciation-container{
+.Pronunciation-container {
   display: flex;
   flex-direction: column;
   width: 100%;

@@ -18,12 +18,16 @@ const store = new Vuex.Store({
 		widget_types: [
 			'Timer',
 			'Pronunciation',
-			'Country_Representation',
+			'CountryRepresentation',
 			'SimilarQuestions',
 			'Buzzer',
-			'Machine_Guess'
+			'MachineGuesses'
 		],
-		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ]
+		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ],
+		results: {
+			dialog: false,
+			content: []
+		}
 	},
 	modules: {
 		app,
@@ -37,6 +41,7 @@ const store = new Vuex.Store({
 				newWorkspace.title = title;
 			}
 			state.workspaces.push(newWorkspace);
+			state.workspace_stack.push(state.workspace_index);
 			state.workspace_index++;
 		},
 		deleteWorkspace(state, workspace_id) {
@@ -44,8 +49,10 @@ const store = new Vuex.Store({
 			state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
 		},
 		selectWorkspace(state, workspace_id) {
-			state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
-			state.workspace_stack.push(workspace_id);
+			if (getters.workspace(state)(workspace_id)) {
+				state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
+				state.workspace_stack.push(workspace_id);
+			}
 		},
 		minimizeWorkspace(state, workspace_id) {
 			state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
@@ -59,38 +66,31 @@ const store = new Vuex.Store({
 			let workspace = getters.workspace(state)(workspace_id);
 			workspace.widgets = workspace.widgets.filter((widget) => widget.id !== widget_id);
 		},
-		toggleWidget(state, { workspace_id, widget_id }) {
-			let workspace = getters.workspace(state)(workspace_id);
-			workspace.widgets = workspace.widgets.map(
-				(widget) => (widget.id === widget_id ? { ...widget, expanded: !widget.expanded } : widget)
-			);
-		},
-		updateWidget(state, { workspace_id, payload }) {
-			let workspace = getters.workspace(state)(workspace_id);
-			workspace.widgets = workspace.widgets.map(
-				(widget) => (widget.id === payload.id ? Object.assign(widget, payload) : widget)
-			);
-		},
 		createQA(state, workspace_id) {
 			let workspace = getters.workspace(state)(workspace_id);
-			let newQA = defaultQA(workspace.qa_index);
-			workspace.qas.push(newQA);
+			workspace.qas.push(defaultQA(workspace.qa_index));
+			workspace.qa_selected = workspace.qa_index;
 			workspace.qa_index++;
-			workspace.qa_selected = newQA.id;
+			this.commit('updateQAs', workspace_id);
 		},
 		deleteQA(state, { workspace_id, qa_id }) {
 			let workspace = getters.workspace(state)(workspace_id);
-			if (workspace.qas.length === 1) {
-				return;
-			}
 			workspace.qas = workspace.qas.filter((qa) => qa.id !== qa_id);
-			if (workspace.qa_selected === qa_id) {
-				workspace.qa_selected = workspace.qas[0].id;
-			}
+			workspace.qa_selected = workspace.qas[Math.min(workspace.qa_selected, workspace.qas.length - 1)].id;
+			this.commit('updateQAs', workspace_id);
 		},
-		updateQA(state, { workspace_id, payload }) {
+		updateQAs(state, workspace_id) {
 			let workspace = getters.workspace(state)(workspace_id);
-			workspace.qas = workspace.qas.map((qa) => (qa.id === payload.id ? Object.assign(qa, payload) : qa));
+			workspace.qa_selected = workspace.qas.findIndex((qa) => qa.id === workspace.qa_selected);
+			workspace.qas = workspace.qas.map((qa, i) => Object.assign(qa, { id: i }));
+		},
+		addResult(state, result) {
+			state.results.dialog = true;
+			state.results.content.push(result);
+		},
+		closeResults(state) {
+			state.results.dialog = false;
+			state.results.content = [];
 		}
 	},
 	getters: {

@@ -1,23 +1,25 @@
+#Atith and Cai
 import sys
-from ethnicolr import census_ln, pred_census_ln, pred_wiki_ln
-import pandas as pd
-from flask import Flask, jsonify, request
-from flask import Blueprint, render_template, redirect
-import json
-import requests
-import spacy
-from spacy import displacy
-from collections import Counter
-import en_core_web_sm
-import time
+sys.path.append("..")
+sys.path.insert(0, './app')
+from app import import_libraries, util
+from import_libraries import *
+
+
 nlp = en_core_web_sm.load()
 spacy.load('en_core_web_sm')
 
-sys.path.append("..")
-sys.path.insert(0, './app')
-
 
 def find_ethnicity(name):
+    """
+    Parameters
+    ----------
+    name: string containing the name of a person from NER output
+
+    Returns
+    --------
+    The a string with the race of a person
+    """
     names = [{'name': name}]
     df = pd.DataFrame(names)
 
@@ -30,7 +32,19 @@ person = []
 names = []
 @people_info.route("/getPeoplesInfo", methods=["POST"])
 def getPeoplesInfo():
+    """
+    Parameters
+    ----------
+    None
 
+    Returns
+    --------
+    Ethnicities of names identified from NER:
+    {
+        "people_ethnicity": [name_1(ethnicity),...],
+        "person": [name_1,...]
+    }
+    """
     if request.method == "POST":
         question = request.form.get("text")
     start = time.time()
@@ -51,5 +65,16 @@ def getPeoplesInfo():
 
 
 def getPeoplesInfo1(question):    
+    """
+    Parameters
+    ----------
+    question: The quiz bowl question
+
+    Returns
+    --------
+    
+    List of names and ethnicities present in the data: [name_1(ethnicity),...],
+    List of names present in the data: [name_1,...]
+    """
     return ' '.join(names), person
     # return jsonify({"people_ethnicity": ' '.join(names), "person": person})

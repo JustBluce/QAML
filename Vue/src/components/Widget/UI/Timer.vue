@@ -1,12 +1,13 @@
 <!--
-Developers: Jason Liu
+Developers:
+Jason Liu
   - Created the Timer
-Developers: Cai
+Cai Zefan
   - Make the timer set with 1 hour when first accessed
 -->
 
 <template>
-  <div ref="timerContainer">
+  <div>
     <div class="timer">
       <div id="hours">{{ hours }}</div>
       :
@@ -14,22 +15,35 @@ Developers: Cai
       :
       <div id="seconds">{{ seconds }}</div>
     </div>
+
+    <v-dialog v-model="dialog" width="500">
+      <v-card>
+        <v-card-title>
+          Time's up
+          <v-spacer></v-spacer>
+          <v-btn icon @click="dialog = false">
+            <v-icon color="close">mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pt-2">Your question is being evaluated</v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import Modal from "@/components/Modal";
 export default {
   name: "Timer",
   data() {
     return {
       hours: "0",
-      minutes: "05",
+      minutes: "01",
       seconds: "00",
-      end: new Date(new Date().getTime() + 5 * 60 * 1000),
+      end: new Date(new Date().getTime() + 1 * 60 * 1000),
       timer: null,
       time: 20,
+      dialog: false,
     };
   },
   mounted() {
@@ -81,7 +95,7 @@ export default {
       let diff = (this.end - Date.now()) / 1000;
       this.display(diff);
       if (diff <= 0) {
-        this.addModal("Time's up !!!", "Your question is being evaluated.");
+        this.dialog = true;
         this.axios({
           url: "http://127.0.0.1:5000/func/timeup",
           method: "GET",
@@ -91,14 +105,6 @@ export default {
         clearInterval(this.timer);
         this.display(0);
       }
-    },
-    addModal(header, body) {
-      let ModalClass = Vue.extend(Modal);
-      let modal = new ModalClass({
-        propsData: { header, body },
-      });
-      modal.$mount();
-      this.$refs.timerContainer.appendChild(modal.$el);
     },
   },
   // beforeDestroy() {
@@ -112,13 +118,12 @@ export default {
   display: flex;
   flex-direction: row;
   font-size: 64px;
-  margin-top: 10px;
+  line-height: 64px;
 }
 
 #hours,
 #minutes,
 #seconds {
-  background-color: rgba(241, 241, 241, 0.98);
   border: none;
   border-radius: 8px;
   width: 85px;
