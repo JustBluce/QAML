@@ -68,7 +68,7 @@ export default {
     },
 
     maxWidth() {
-      return this.widgets.length > 0 ? 375 : 50;
+      return this.widgets.length > 0 ? 350 : 5;
     },
   },
 };
