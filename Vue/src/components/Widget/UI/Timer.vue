@@ -7,8 +7,8 @@ Cai Zefan
 -->
 
 <template>
-  <div class= "timer">
-    <div class="timer"  >
+  <div class="timer">
+    <div class="timer">
       <div id="hours">{{ hours }}</div>
       :
       <div id="minutes">{{ minutes }}</div>
@@ -33,7 +33,6 @@ Cai Zefan
 </template>
 
 <script>
-
 export default {
   name: "Timer",
   props: {
@@ -53,7 +52,6 @@ export default {
   },
   computed: {
     workspace() {
-      
       return this.$store.getters.workspace(this.workspace_id);
     },
   },
@@ -82,7 +80,6 @@ export default {
       this.hours = String(hours);
       this.minutes = String(minutes).padStart(2, "0");
       this.seconds = String(seconds).padStart(2, "0");
-      
     },
     // countdown() {
     //   this.time--;
@@ -127,12 +124,10 @@ export default {
 
 <style scoped>
 .timer {
-  
   display: flex;
   flex-direction: row;
   font-size: 64px;
   line-height: 64px;
-  
 }
 
 #hours,

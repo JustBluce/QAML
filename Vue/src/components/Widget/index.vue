@@ -3,9 +3,7 @@ Developers: Jason Liu
 -->
 
 <template>
-<v-card class="mb-3">
-<div class="md-elevation-5" >
-  
+  <v-card class="widget mb-3" elevation="4">
     <v-card-title class="widget-title">
       {{ widget.title }}
       <v-spacer></v-spacer>
@@ -21,9 +19,7 @@ Developers: Jason Liu
         :widget_id="widget.id"
       />
     </v-card-text>
-  
-</div>
-</v-card>
+  </v-card>
 </template>
 
 <script>
@@ -52,10 +48,11 @@ export default {
 </script>
 
 <style scoped>
+.widget {
+  border-radius: 15px;
+}
+
 .widget-title {
   cursor: grab;
-}
-.mb-3{
-  border-radius: 15px;
 }
 </style>

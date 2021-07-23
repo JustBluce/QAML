@@ -3,7 +3,7 @@ Developers: Jason Liu
 -->
 
 <template>
-  <draggable 
+  <draggable
     v-model="widgets"
     ref="widgets"
     ghost-class="ghost"
@@ -11,7 +11,6 @@ Developers: Jason Liu
     group="widgets"
     tag="v-container"
     fluid
-    
     class="background"
     :style="{
       maxWidth: maxWidth + 'px',
