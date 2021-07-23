@@ -107,7 +107,7 @@ def getpronunciation():
 
     start = time.time()
     if not question:
-        return jsonify({"pronunciation": [{"Word": "-", "Score":"-"}], message:""})
+        return jsonify({"pronunciation": [{"Word": "-", "Score":"-"}], "message":""})
 
     question = " " + question
     language = 'en'
