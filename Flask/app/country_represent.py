@@ -222,7 +222,7 @@ def country_present():
         if under_countries[i].lower() not in question.lower() and under_countries[i].lower() in page.content.lower():
             cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]) ])
             
-#     message = Sort(cosine_sim_ques_country)
+    message = Sort(cosine_sim_ques_country)
       
     answer = []
     for i in message[:5]:
