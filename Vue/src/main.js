@@ -20,6 +20,11 @@ import App from './App';
 import store from './store';
 import router from './router';
 
+
+import VueMaterial from 'vue-material';
+import 'vue-material/dist/vue-material.min.css';
+import 'vue-material/dist/theme/default.css';
+
 import '@/icons'; // icon
 import '@/permission'; // permission control
 window._ = require('lodash');
@@ -38,7 +43,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 Vue.use(ElementUI, { locale });
-Vue.use(VueAxios, axios);
+Vue.use(VueAxios, axios, VueMaterial);
 
 Vue.config.productionTip = false;
 
