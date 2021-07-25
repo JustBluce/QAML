@@ -51,19 +51,11 @@
         <v-btn color="primary" @click="searchData">
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
+
+        <div v-html="highlight_text"></div>
       </v-container>
     </v-card>
   </v-container>
-
-  <!-- <highlightable-input
-      highlight-style="background-color:yellow"
-      :highlight-enabled="highlightEnabled"
-      :highlight="highlight"
-      class="big-container"
-      placeholder="Please enter your question"
-      v-model="text"
-      @input="keep_looping"`
-    /> -->
 </template>
 
 <script>
@@ -80,15 +72,6 @@ export default {
   },
   data() {
     return {
-      highlight: [
-        // { text: "chicken", style: "background-color:#f37373" },
-        // { text: "noodle", style: "background-color:#fca88f" },
-        // { text: "soup", style: "background-color:#bbe4cb" },
-        // { text: "so", style: "background-color:#fff05e" },
-        // "whatever",
-        { text: "soupppppp", style: "border: 2px solid #73AD21;" },
-      ],
-      highlightEnabled: true,
       genres: [
         "Philosophy",
         "History",
@@ -106,6 +89,7 @@ export default {
         ["Subgenre", "Count"],
         ["None", 1],
       ],
+      highlight_text:"",
       rules: [(value) => !!value || "Required."],
       showChart: false,
     };
@@ -119,7 +103,7 @@ export default {
     },
     options() {
       return {
-        width: this.workspace.style.width / 3 - 50,
+        width: Math.max(1024, this.workspace.style.width) / 3 - 50,
         backgroundColor: "none",
       };
     },
@@ -151,8 +135,8 @@ export default {
         data: formData,
       }).then((response) => {
         this.qa.binary_search_based_buzzer = response.data["buzz"];
-        this.qa.importance = response.data["importance"];
-        this.highlight = response.data["buzz_word"];
+        // this.qa.importance = response.data["importance"];
+        // this.highlight = response.data["buzz_word"];
         console.log(response);
       });
       this.axios({
@@ -191,6 +175,16 @@ export default {
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
+      this.axios({
+        url: "http://127.0.0.1:5000/over_present/highlight",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.highlight_text = response.data["highlight_text"];
+        // this.qa.importance = response.data["importance"];
+        // this.highlight = response.data["buzz_word"];
+        console.log(response);
+      });
       this.axios({
         url: "http://127.0.0.1:5000/country_represent/country_present",
         method: "POST",
