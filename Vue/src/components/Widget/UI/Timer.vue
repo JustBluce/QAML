@@ -7,7 +7,7 @@ Cai Zefan
 -->
 
 <template>
-  <div>
+  <div class="timer">
     <div class="timer">
       <div id="hours">{{ hours }}</div>
       :
