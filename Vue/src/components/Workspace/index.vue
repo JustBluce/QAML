@@ -18,9 +18,8 @@ Developers: Jason Liu
           : '',
       cursor: 'default',
     }"
-    @click="$store.commit('selectWorkspace', id)"
-    :ripple="false"
     elevation="16"
+    @mousedown="$store.commit('selectWorkspace', id)"
   >
     <Titlebar
       :id="id"
@@ -97,7 +96,6 @@ export default {
       this.clientY = event.clientY;
       document.onmousemove = func;
       document.onmouseup = this.stopDrag;
-      document.onmouseleave = this.stopDrag;
     },
     elementDrag(event) {
       let movementX = this.clientX - event.clientX;
@@ -117,29 +115,32 @@ export default {
         this.app().offsetHeight - 200,
         Math.max(0, this.style.top - movementY)
       );
+      document.onmouseleave = this.stopDrag;
     },
     elementResize(event) {
       event.preventDefault();
       let { movementX, movementY } = this.elementDrag(event);
       this.style.width = Math.min(
-        this.app().offsetWidth,
-        Math.max(1024, this.style.width - movementX)
+        this.app().offsetWidth - 16,
+        this.style.width - movementX
       );
       this.style.height = Math.min(
-        this.app().offsetHeight,
-        Math.max(64, this.style.height - movementY)
+        this.app().offsetHeight - 16,
+        this.style.height - movementY
       );
     },
     stopDrag() {
       document.onmousemove = null;
       document.onmouseup = null;
       document.onmouseleave = null;
+      this.style.width = Math.max(1024, this.style.width);
+      this.style.height = Math.max(64, this.style.height);
     },
     maximize() {
       this.style.top = 0;
       this.style.left = 0;
-      this.style.width = this.app().offsetWidth;
-      this.style.height = this.app().offsetHeight;
+      this.style.width = this.app().offsetWidth - 16;
+      this.style.height = this.app().offsetHeight - 16;
     },
   },
   mounted() {
@@ -155,7 +156,11 @@ export default {
   display: flex;
   flex-direction: column;
   position: absolute;
-  max-height: 100%;
+  min-width: 1024px;
+  max-width: calc(100% - 16px);
+  min-height: 64px;
+  max-height: calc(100% - 16px);
+  margin: 8px;
   padding: 0;
   overflow: hidden;
 }
