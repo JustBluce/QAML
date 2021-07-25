@@ -3,7 +3,7 @@ Developers: Jason Liu
 -->
 
 <template>
-  <v-card class="mb-3">
+  <v-card class="widget mb-3" elevation="4">
     <v-card-title class="widget-title">
       {{ widget.title }}
       <v-spacer></v-spacer>
@@ -48,6 +48,10 @@ export default {
 </script>
 
 <style scoped>
+.widget {
+  border-radius: 15px;
+}
+
 .widget-title {
   cursor: grab;
 }
