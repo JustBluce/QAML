@@ -21,13 +21,11 @@ def high_light():
     if answer != temp_var:
         return []
 
-    highlight = []
+    text=question
     array_of_important_word_to_delay_buzzer, array_of_important_word_to_right_answer = get_important_word_to_delay_the_buzzer(question, answer)
     array_of_important_sentence_to_right_answer = get_important_sentence_to_get_right_answer(question, answer)
 
-
-    highlight.extend(highlight_json(items=array_of_important_word_to_right_answer, color="#e91640"))
-    highlight.extend(highlight_json(items=array_of_important_sentence_to_right_answer, color="#e91640"))
-    highlight.extend(highlight_json(items=array_of_important_word_to_delay_buzzer, color="#fff05e"))
-
-    return jsonify({"highlight": highlight})
+    highligh=Highlight()
+    highlight_text=highligh.highlight_text(text=text, keywords=array_of_important_word_to_delay_buzzer, color='red')
+    highlight_text=highligh.highlight_text(text=highlight_text, keywords=array_of_important_sentence_to_right_answer, color='yellow')
+    return jsonify({"highlight_text": highlight_text})
