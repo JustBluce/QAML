@@ -163,7 +163,9 @@ def load_bert_model_difficulty():
     tokenizer_difficulty = BertTokenizer.from_pretrained('bert-base-uncased')
     return tokenizer_difficulty, model_difficulty
 
-'''
+
+class Highlight(object):
+    '''
     Name:                   highlight
     Author:                 CaiZefan
     Required parameters:    text, keywords
@@ -176,9 +178,7 @@ def load_bert_model_difficulty():
                             highlight=Highlight()
                             highlight_text=highlight.highlight_text(text=text, keywords=keywords, color="yellow", count=1)
                             highlight_text='<font color="#333333"><strong style="background:yellow"><em></em></strong></font>I have an apple. I have 3 apples.'
-'''
-class Highlight(object):
-
+    '''
     def __init__(self, **kw):
         self.iText=''
         self.iKeywords=[]
@@ -234,7 +234,7 @@ def load_bert_country_model():
     """
     # model_name = "bert-base-multilingual-uncased"
     # model_name = "bert-large-uncased-whole-word-masking-finetuned-squad"
-    model_name = "bert-base-uncased"
+    model_name = "distilbert-base-cased-distilled-squad"
     tokenizer_country = AutoTokenizer.from_pretrained(model_name, do_lower_case=True)
     model_country = AutoModelForPreTraining.from_pretrained(model_name, output_attentions=False, output_hidden_states=True)
     return tokenizer_country, model_country

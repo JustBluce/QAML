@@ -13,27 +13,8 @@ from app.people import getPeoplesInfo1
 from app import util, import_libraries
 from import_libraries import *
 from util import *
-
-from util import *
-from app import util
 # from app.country_represent import country_represent
 from app.similarity import retrieve_similar_question
-from tabulate import tabulate
-from app import db, metadata
-import numpy as np
-import torch
-from transformers import BertTokenizer, BertForSequenceClassification
-import sys
-from flask import Flask, jsonify, request
-from sklearn.feature_extraction.text import TfidfVectorizer
-import click
-from os import path
-import json
-import pickle
-from collections import defaultdict
-from typing import List, Optional, TYPE_CHECKING, Tuple
-from flask import Blueprint, render_template, redirect
-import tensorflow as tf
 
 
 def warn(*args, **kwargs):
