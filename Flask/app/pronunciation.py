@@ -54,6 +54,29 @@ def checktexts():
     print("RATIO OF DIFFERENCE: %s" % as_string)
     return percentage
 
+
+
+def break_into_character_n_grams(word, n = 4):
+    """
+    
+    Parameters
+    ----------
+    None
+
+
+    Returns
+    --------
+    String made of joined N grams:
+    Example
+    for 3- grams
+
+    Modernity -> "mod ode der ern nit ity"
+
+    """
+    if(len(word)<n):
+        return word
+    return " ".join([word[i:i+n] for i in range(len(word)-n+1)])
+
 def Sort(sub_li):
     """
     
@@ -72,6 +95,52 @@ def Sort(sub_li):
     """
     return(sorted(sub_li, key = lambda x: x[1], reverse = False))   
 
+def classify(list_of_words):
+    """
+    
+    Parameters
+    ----------
+    list of words
+
+    Returns
+    --------
+    list of hard to pronounce words
+    """
+    ans = []
+    ## ---------------------
+    
+    ## ---------------------
+    new_list_of_words = []
+    indices_of_new_list_of_words = []
+    for i in range(len(list_of_words)):
+        if re.sub(r'[^\w\s]', '', list_of_words[i].lower()) not in pron_word_freq:
+            new_list_of_words.append(re.sub(r'[^\w\s]', '', list_of_words[i].lower()))
+            indices_of_new_list_of_words.append(i)
+            continue
+        elif pron_word_freq[re.sub(r'[^\w\s]', '', list_of_words[i].lower())]<10:
+            new_list_of_words.append(re.sub(r'[^\w\s]', '', list_of_words[i].lower()))
+            indices_of_new_list_of_words.append(i)
+            continue
+    # arr = [break_into_character_n_grams(i,4) for i in new_list_of_words]
+    # for i in range(len(arr)):
+    #     inputs = tokenizer_pronunciation(arr[i], return_tensors="pt")
+    #     outputs = model_pronunciation(**inputs)
+    #     logits = outputs.logits.detach().cpu().numpy()
+    #     pronunciation_output = np.argmax(logits).flatten()
+    #     if(pronunciation_output == 1):
+    #         ans.append({"Word":list_of_words[indices_of_new_list_of_words[i]]})
+    
+    print(new_list_of_words)
+    if len(new_list_of_words)>0:
+        predictions = pron_regression.predict(pron_vectorizer.transform([break_into_character_n_grams(i,4) for i in new_list_of_words]))
+    else:
+        return ans
+    print(predictions)
+    for i in range(len(predictions)):
+        if predictions[i] == 1:
+            ans.append({"Word":list_of_words[indices_of_new_list_of_words[i]]})
+    return ans
+    
 pronunciation = Blueprint('pronunciation', __name__)
 myRecognizeCallback = MyRecognizeCallback()
 
@@ -80,8 +149,9 @@ r = sr.Recognizer()
 vectorizer, Matrix, ans = params[0], params[1], params[2]
 
 @pronunciation.route('/get_pronunciation', methods=["POST"])
-def getpronunciation():
+def getpronuncation():
     """
+    Depreciated
     
     Parameters
     ----------
@@ -89,75 +159,102 @@ def getpronunciation():
 
     Returns
     --------
-    {
-        "pronunciation":
-        [
-            {
-            "Original Word",
-            "Transcribed Word",
-            "Score of Transcribed Word"
-            },
-            ...
-        ]
-        "message": "This question needs a pronunciation guide"
-    }
+    List of words 
     """
     if request.method == "POST":
         question = request.form.get("text")
 
     start = time.time()
-    if not question:
-        return jsonify({"pronunciation": [{"Word": "-", "Score":"-"}], "message":""})
-
-    question = " " + question
-    language = 'en'
-    myobj = gTTS(text=question, lang=language, slow=False)
-    myobj.save("app/pronunciation.mp3")
+    question = question.replace("-"," ")
+    array_of_words = break_into_words(question)
     
-#     # question_file = open("app/question.txt","w")
-#     # question_file.write(str(question))
-#     # question_file.close()
     
-
-    with open(join(dirname(__file__), './.', "pronunciation.mp3"),'rb') as audio_file:
-        speech_recognition_results = speech_to_text.recognize(
-            audio=audio_file,
-            content_type='audio/mp3',
-            word_alternatives_threshold=0.9,
-            word_confidence = True
-        ).get_result()
-    
-    transcribed_text = speech_recognition_results["results"][0]["alternatives"][0]["transcript"]
-    confidence = speech_recognition_results["results"][0]["alternatives"][0]["confidence"]
-    array_of_word_confidence = []
-    for i in speech_recognition_results["results"][0]["alternatives"][0]["word_confidence"]:
-        array_of_word_confidence.append([i[0],i[1]])
-
-    repre = vectorizer.transform([question])
-    repre_transcribed = vectorizer.transform([transcribed_text])
-    # print(repre)
-    matrix = repre.dot(repre_transcribed.T).T
-    cosine_similarity = matrix.toarray()[0][0]
-    temp_word_array = break_into_words(question)
-    while("" in temp_word_array) :
-        temp_word_array.remove("")
-    print(temp_word_array)
-    print(array_of_word_confidence)
-    count = 0
-    array = []
-    print("similarity =", cosine_similarity)
-    for i in range(len(array_of_word_confidence)):
-        array.append([ array_of_word_confidence[i][0], array_of_word_confidence[i][1]])
-    most_difficult_to_pronounce_words = Sort(array)[:3]
-    answer = []
-    for i in range(len(most_difficult_to_pronounce_words)):
-        answer.append({"Transcribed_Word": most_difficult_to_pronounce_words[i][0], "Score":most_difficult_to_pronounce_words[i][1]})
+    ret_value = classify(array_of_words)
+    print(ret_value)
     end = time.time()
     print("----TIME (s) : /pronunciation/get_pronunciation---", end - start)
-    if(cosine_similarity < threshold_pronunciation):
-        return jsonify({"pronunciation": answer,"message": "This question needs a pronunciation guide"})
-    else:
-        return jsonify({"pronunciation": answer,"message": "No pronunciation guide needed"})
+    return jsonify({"message": ret_value})
+
+
+# def getpronunciation():
+#     """
+#     Depreciated
+    
+#     Parameters
+#     ----------
+#     None
+
+#     Returns
+#     --------
+#     {
+#         "pronunciation":
+#         [
+#             {
+#             "Original Word",
+#             "Transcribed Word",
+#             "Score of Transcribed Word"
+#             },
+#             ...
+#         ]
+#         "message": "This question needs a pronunciation guide"
+#     }
+#     """
+#     if request.method == "POST":
+#         question = request.form.get("text")
+
+#     start = time.time()
+#     if not question:
+#         return jsonify({"pronunciation": [{"Word": "-", "Score":"-"}], "message":""})
+
+#     # question = " " + question
+#     language = 'en'
+#     myobj = gTTS(text=question, lang=language, slow=False)
+#     myobj.save("app/pronunciation.mp3")
+    
+# #     # question_file = open("app/question.txt","w")
+# #     # question_file.write(str(question))
+# #     # question_file.close()
+    
+
+#     with open(join(dirname(__file__), './.', "pronunciation.mp3"),'rb') as audio_file:
+#         speech_recognition_results = speech_to_text.recognize(
+#             audio=audio_file,
+#             content_type='audio/mp3',
+#             word_alternatives_threshold=0.9,
+#             word_confidence = True
+#         ).get_result()
+    
+#     transcribed_text = speech_recognition_results["results"][0]["alternatives"][0]["transcript"]
+#     confidence = speech_recognition_results["results"][0]["alternatives"][0]["confidence"]
+#     array_of_word_confidence = []
+#     for i in speech_recognition_results["results"][0]["alternatives"][0]["word_confidence"]:
+#         array_of_word_confidence.append([i[0],i[1]])
+
+#     repre = vectorizer.transform([question])
+#     repre_transcribed = vectorizer.transform([transcribed_text])
+#     # print(repre)
+#     matrix = repre.dot(repre_transcribed.T).T
+#     cosine_similarity = matrix.toarray()[0][0]
+#     temp_word_array = break_into_words(question)
+#     while("" in temp_word_array) :
+#         temp_word_array.remove("")
+#     print(temp_word_array)
+#     print(array_of_word_confidence)
+#     count = 0
+#     array = []
+#     print("similarity =", cosine_similarity)
+#     for i in range(len(array_of_word_confidence)):
+#         array.append([ array_of_word_confidence[i][0], array_of_word_confidence[i][1]])
+#     most_difficult_to_pronounce_words = Sort(array)[:3]
+#     answer = []
+#     for i in range(len(most_difficult_to_pronounce_words)):
+#         answer.append({"Transcribed_Word": most_difficult_to_pronounce_words[i][0], "Score":most_difficult_to_pronounce_words[i][1]})
+#     end = time.time()
+#     print("----TIME (s) : /pronunciation/get_pronunciation---", end - start)
+#     if(cosine_similarity < threshold_pronunciation):
+#         return jsonify({"pronunciation": answer,"message": "This question needs a pronunciation guide"})
+#     else:
+#         return jsonify({"pronunciation": answer,"message": "No pronunciation guide needed"})
 
     
-    return jsonify({"pronunciation": [{"Word": "-", "Score":"-"}],"message": ""})
+#     return jsonify({"pronunciation": [{"Word": "-", "Score":"-"}],"message": ""})

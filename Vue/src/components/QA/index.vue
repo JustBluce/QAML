@@ -35,8 +35,20 @@
           solo
           v-model="qa.text"
           hide-details="auto"
-          @input="keep_looping"
+          @keyup="keep_looping"
         ></v-textarea>
+          <!-- <highlightable-input
+      highlight-style="background-color:yellow"
+      :highlight-enabled="highlightEnabled"
+          :highlight="highlight"
+          class="my-4"
+          rows="10"
+          label="Question"
+          solo
+          v-model="qa.text"
+          hide-details="auto"
+          @keyup="keep_looping"
+    /> -->
         <v-textarea
           background-color="background"
           class="my-4"
@@ -46,6 +58,7 @@
           v-model="qa.answer_text"
           hide-details="auto"
           @input="update_representation"
+          
         ></v-textarea>
 
         <v-btn color="primary" @click="searchData">
@@ -55,15 +68,7 @@
     </v-card>
   </v-container>
 
-  <!-- <highlightable-input
-      highlight-style="background-color:yellow"
-      :highlight-enabled="highlightEnabled"
-      :highlight="highlight"
-      class="big-container"
-      placeholder="Please enter your question"
-      v-model="text"
-      @input="keep_looping"`
-    /> -->
+
 </template>
 
 <script>
@@ -153,6 +158,13 @@ export default {
         this.qa.binary_search_based_buzzer = response.data["buzz"];
         this.qa.importance = response.data["importance"];
         this.highlight = response.data["buzz_word"];
+        // if(this.qa.text.lastIndexOf(response.data["buzz_word"])>0)
+        // {
+        //   this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf(response.data["buzz_word"])+10) + "<mark> buzz </mark>" + this.qa.text.substr(this.qa.text.lastIndexOf(response.data["buzz_word"]),this.qa.text.length)
+        // }
+        // console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]))
+        // console.log(this.qa.text.indexOf(response.data["buzz_word"]))
+        
         console.log(response);
       });
       this.axios({

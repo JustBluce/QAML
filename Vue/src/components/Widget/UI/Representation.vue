@@ -24,7 +24,7 @@ Developers: Atith Gandhi and Jason Liu
       <tbody>
         <tr v-for="(user, index) in country_representation" :key="user.Country">
           <td>{{ index + 1 }}. {{ user.Country }}</td>
-          <td>{{ user.Score }}</td>
+          <!-- <td>{{ user.Score }}</td> -->
         </tr>
       </tbody>
     </table>
