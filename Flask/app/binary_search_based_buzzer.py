@@ -178,8 +178,7 @@ def buzz_full_question():
     start = time.time()
     if(flag):
         importance_sentence = get_importance_of_each_sentence(buzzer_string)
-        buzzer_last_word = buzzer_string[-10:-1]
-        buzzer_last_word=buzzer_string[-10:-1]
+        buzzer_last_word=buzzer_string[-10:]
         buzz_word.append(buzzer_last_word)
         buzzer_string = buzzer_string + ' 🔔BUZZ '
     else:

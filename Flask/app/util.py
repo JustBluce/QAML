@@ -68,7 +68,7 @@ def get_pretrained_tfidf_vectorizer():
 
     Returns
     --------
-    tf-idf vectorizer
+    tf-idf vectorizer from qanta
 
     """
     with open("./model/model.pickle", "rb") as f:
@@ -79,6 +79,26 @@ def get_pretrained_tfidf_vectorizer():
     ans = params["i_to_ans"]
     return vectorizer, Matrix, ans
 
+def get_pronunciation_models():
+    """
+    
+    Parameters
+    ----------
+    None
+
+    Returns
+    --------
+    tf-idf vectorizer on pronunciation
+    Logistic regression classifier
+
+    """
+    with open("./model/pronunciation_models/pronunciation_tf-idf.pickle", "rb") as f:
+        pron_vectorizer = pickle.load(f)
+    with open("./model/pronunciation_models/pronunciation_regression.pickle", "rb") as f1:
+        pron_regression = pickle.load(f1)
+    with open("./model/pronunciation_models/word_freq.pickle", "rb") as f2:
+        pron_word_freq = pickle.load(f2)
+    return pron_vectorizer, pron_regression, pron_word_freq
 
 def guess_top_n(question, params, max=12, n=3):
     """
@@ -175,8 +195,8 @@ def load_bert_country_model():
 
     """
     # model_name = "bert-base-multilingual-uncased"
-    model_name = "bert-large-uncased-whole-word-masking-finetuned-squad"
-    from transformers import AutoTokenizer,AutoModelForSequenceClassification, AutoModelForPreTraining
+    # model_name = "bert-large-uncased-whole-word-masking-finetuned-squad"
+    model_name = "bert-base-uncased"
     tokenizer_country = AutoTokenizer.from_pretrained(model_name, do_lower_case=True)
     model_country = AutoModelForPreTraining.from_pretrained(model_name, output_attentions=False, output_hidden_states=True)
     return tokenizer_country, model_country
@@ -211,10 +231,17 @@ def load_science_genre_model():
     model = BertForSequenceClassification.from_pretrained('./model/genre_classifier_models/Science_Genre_classifier', num_labels = 4)
     return model
 
+def load_pron_model_pronunciation():
+    model_name = './model/pronunciation_models/pronunciation'
+    tokenizer_pronunciation = AutoTokenizer.from_pretrained('squeezebert/squeezebert-uncased', do_lower_case=True)
+    model_pronunciation = AutoModelForSequenceClassification.from_pretrained('./model/pronunciation_models/pronunciation-squeezebert', num_labels = 2)
+    return tokenizer_pronunciation, model_pronunciation
 
 tokenizer_difficulty, model_difficulty = load_bert_model_difficulty()
 params = get_pretrained_tfidf_vectorizer()
 tokenizer_country, model_country = load_bert_country_model()
+pron_vectorizer, pron_regression, pron_word_freq = get_pronunciation_models()
+tokenizer_pronunciation, model_pronunciation = load_pron_model_pronunciation()
 
 sub_genres = {
             'Philosophy': [['Norse', 354], ['Other', 345], ['Philosophy', 5], ['European', 3], ['American', 2], ['Religion/Mythology', 1]],

@@ -12,7 +12,6 @@ Developers: Atith Gandhi and Jason Liu
       v-model="binary_search_based_buzzer"
     ></textarea> -->
     <Highlighter
-      :style="{ color: 'black' }"
       highlightClassName="highlight"
       :searchWords="keywords"
       :autoEscape="true"
