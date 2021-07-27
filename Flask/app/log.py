@@ -10,15 +10,15 @@ log = Blueprint('log', __name__)
 @log.route('/in', methods=['POST'])
 def log_in():
     if request.method == 'POST':
-        Username = request.form.get('User')
+        User = request.form.get('User')
         Password = request.form.get('Password')
         sql = '''SELECT
-user.`Username`,
-user.`Password`
+user_inf.`User`,
+user_inf.`Password`
 FROM
-user
+user_inf
 WHERE
-user.`Username` = \''''+Username+"'"
+user_inf.`User` = \''''+User+"'"
         result_sql = db.session.execute(sql)
         result_sql = result_sql.fetchall()
         # print(result_sql)
@@ -36,21 +36,21 @@ user.`Username` = \''''+Username+"'"
 @log.route('/add', methods=['POST'])
 def log_add():
     if request.method == 'POST':
-        Username = request.form.get('User')
+        User = request.form.get('User')
         Password = request.form.get('Password')
         # 先要判断
         sql = '''SELECT
-        user.`Username`,
-        user.`Password`
+        user_inf.`User`,
+        user_inf.`Password`
         FROM
-        user
+        user_inf
         WHERE
-        user.`Username` = \'''' + Username + "'"
+        user_inf.`User` = \'''' + User + "'"
         result_sql = db.session.execute(sql)
         result_sql = result_sql.fetchall()
         if result_sql == []:
-            sql = 'INSERT INTO `user` (`Username`, `Password`) VALUES (\'' + \
-                Username + '\',\'' + Password + '\')'
+            sql = 'INSERT INTO `user_inf` (`User`, `Password`) VALUES (\'' + \
+                User + '\',\'' + Password + '\')'
             db.session.execute(sql)
             return 'Successfully add new user'
         else:
@@ -60,27 +60,27 @@ def log_add():
 @log.route('/change', methods=['POST'])
 def log_change():
     if request.method == 'POST':
-        Username = request.form.get('User')
+        User = request.form.get('User')
         Password_old = request.form.get('Password_old')
         Password_new = request.form.get('Password_new')
         # Judge
         sql = '''SELECT
-        user.`Username`,
-        user.`Password`
+        user_inf.`User`,
+        user_inf.`Password`
         FROM
-        user
+        user_inf
         WHERE
-        user.`Username` = \'''' + Username + "'"
+        user_inf.`User` = \'''' + User + "'"
         result_sql = db.session.execute(sql)
         result_sql = result_sql.fetchall()
         if result_sql == []:
-            return 'Username does not exist'
+            return 'User does not exist'
         else:
             if result_sql[0][1] != Password_old:
                 return 'Password input error, change failed'
             else:
-                sql = "UPDATE `Username` SET `Password`=\'" + \
-                    Password_new + '\' WHERE (`Username`=\''+Username+'\')'
+                sql = "UPDATE `user_inf` SET `Password`=\'" + \
+                    Password_new + '\' WHERE (`User`=\''+User+'\')'
                 db.session.execute(sql)
                 db.session.commit()
                 return 'Successfully changed'

@@ -16,8 +16,12 @@ Developers: Atith Gandhi and Jason Liu
             </thead>
             <tbody>
                 <tr v-for="user in country_representation" :key="user.Country">
-                    <td>{{user.Country}}</td>
-                    <td>{{user.Score}}</td>
+                    <td style="text-align: center">
+                      {{user.Country}}
+                      
+
+                    </td>
+                    <!-- <td>{{user.Score}}</td> -->
                 </tr>
             </tbody>
         </table>

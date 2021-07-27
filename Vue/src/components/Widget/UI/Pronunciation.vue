@@ -15,29 +15,26 @@ Developers: Damien Rene and Jason Liu
     <!-- <div>
       <h4> Please add the pronunciation guide for the following words </h4>
     </div> -->
-    <v-textarea
+    <!-- <v-textarea
       readonly    
       color="background"
       rows="1"
       placeholder="Pronunciation highlighting"
       v-model="pronunciation"
-    ></v-textarea>
-    <!-- <table class="table table-striped table-bordered">
+    ></v-textarea> -->
+    <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Original_Word</th>
-                    <th>Transcribed_Word</th>
-                    <th>Score</th>
+                    <th>Please add the pronunication guide for the following words</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in pronunciation" :key="user.Original_Word">
-                    <td>{{user.Original_Word }}</td>
-                    <td>{{user.Transcribed_Word }}</td>
-                    <td>{{user.Score}}</td>
+                <tr v-for="user in pronunciation" :key="user.Word">
+                    <td>{{user.Word }}</td>
+                   
                 </tr>
             </tbody>
-        </table> -->
+        </table>
   </div>
 </template>
 

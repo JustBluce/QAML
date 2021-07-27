@@ -30,7 +30,7 @@ import time
 import torch
 import wikipedia
 import tensorflow as tf
-from transformers import BertTokenizer, BertForSequenceClassification
+from transformers import BertTokenizer, BertForSequenceClassification, RobertaForSequenceClassification, RobertaTokenizer
 from tabulate import tabulate
 from collections import defaultdict
 from typing import List, Optional, TYPE_CHECKING, Tuple

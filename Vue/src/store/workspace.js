@@ -5,6 +5,7 @@
 export function defaultQA() {
 	return {
 		text: '',
+		answer:'',
 		answer_text:'',
 		country_representation: '',
 		people_ethnicity: '',
