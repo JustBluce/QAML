@@ -53,5 +53,7 @@ from ibm_watson.websocket import RecognizeCallback, AudioSource
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 # nltk.download('punkt') #Download once
 from transformers import logging
+# logging.set_verbosity_error()
 
-logging.set_verbosity_error()
+# import transformers
+# transformers.logging.set_verbosity_error()

@@ -163,24 +163,62 @@ def load_bert_model_difficulty():
     tokenizer_difficulty = BertTokenizer.from_pretrained('bert-base-uncased')
     return tokenizer_difficulty, model_difficulty
 
+'''
+    Name:                   highlight
+    Author:                 CaiZefan
+    Required parameters:    text, keywords
+    Optional parameters:    color, count
+    Function:               Follow the number given by the parameter count to highlight the first few keywords.
+                            If parameter count is not given, then the function will highlight every keyword.
+    Example:
+                            text="I have an apple. I have 3 apples."
+                            keywords=["apple"]
+                            highlight=Highlight()
+                            highlight_text=highlight.highlight_text(text=text, keywords=keywords, color="yellow", count=1)
+                            highlight_text='<font color="#333333"><strong style="background:yellow"><em></em></strong></font>I have an apple. I have 3 apples.'
+'''
+class Highlight(object):
 
-def highlight_json(items = None, color = None):
-    '''
-    Organize the json structure for text highlighting in frontend
-    highlight: [
-        { text: "American", style: "background-color:#f37373" },
-        { text: "India", style: "background-color:#f37373" },
-        { text: "Jack", style: "background-color:#fff05e" },
-        { text: "Mary", style: "background-color:#fff05e" },
-      ],
-    '''
-    highlight = []
-    for item in items:
-        temp = {}
-        temp['text'] = item
-        temp['style'] = "background-color:"+color
-        highlight.append(temp)
-    return highlight
+    def __init__(self, **kw):
+        self.iText=''
+        self.iKeywords=[]
+        self.iColor="red"
+        self.iCount=0
+        if 'text' in kw:
+            self.iText=kw['text']
+        if 'keywords' in kw:
+            self.iKeywords=kw['keywords']
+
+    def highlight_text(self, text, keywords, **kw):
+        self.iText=text
+        self.iKeywords=keywords
+        if 'color' in kw:
+            self.iColor=kw['color']
+        if 'count' in kw:
+            self.iCount=kw['count']
+        for iKeyword in self.iKeywords:
+            self.iText = re.sub(iKeyword, '<font color="#333333"><strong style="background:'+ self.iColor +'"><em>' + iKeyword + '</em></strong></font>', self.iText, count=self.iCount)
+        # print(highlight_text)
+        return self.iText
+
+
+# def highlight_json(items = None, color = None):
+#     '''
+#     Organize the json structure for text highlighting in frontend
+#     highlight: [
+#         { text: "American", style: "background-color:#f37373" },
+#         { text: "India", style: "background-color:#f37373" },
+#         { text: "Jack", style: "background-color:#fff05e" },
+#         { text: "Mary", style: "background-color:#fff05e" },
+#       ],
+#     '''
+#     highlight = []
+#     for item in items:
+#         temp = {}
+#         temp['text'] = item
+#         temp['style'] = "background-color:"+color
+#         highlight.append(temp)
+#     return highlight
 
 def load_bert_country_model():
     """
