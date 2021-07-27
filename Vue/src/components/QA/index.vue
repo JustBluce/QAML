@@ -126,11 +126,11 @@ export default {
   methods: {
     keep_looping: _.debounce(function () {
       let formData = new FormData();
-      console.log(this.qa.text.lastIndexOf("🔔BUZZ")>0)
-      while(this.qa.text.lastIndexOf("🔔BUZZ")>0)
-        {
-          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf("🔔BUZZ")) + this.qa.text.substr(this.qa.text.lastIndexOf("🔔BUZZ") + "🔔BUZZ".length,this.qa.text.length)
-        }
+      // console.log(this.qa.text.lastIndexOf("🔔BUZZ")>0)
+      // while(this.qa.text.lastIndexOf("🔔BUZZ")>0)
+      //   {
+      //     this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf("🔔BUZZ")) + this.qa.text.substr(this.qa.text.lastIndexOf("🔔BUZZ") + "🔔BUZZ".length,this.qa.text.length)
+      //   }
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
       // this.qa.genre = this.selected_genre
@@ -157,10 +157,10 @@ export default {
         this.qa.binary_search_based_buzzer = response.data["buzz"];
         this.qa.importance = response.data["importance"];
         this.highlight = response.data["buzz_word"];
-        if(this.qa.text.lastIndexOf(response.data["buzz_word"])>0 && response.data["flag"])
-        {
-          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf(response.data["buzz_word"])+10) + "🔔BUZZ" + this.qa.text.substr(this.qa.text.lastIndexOf(response.data["buzz_word"])+10,this.qa.text.length)
-        }
+        // if(this.qa.text.lastIndexOf(response.data["buzz_word"])>0 && response.data["flag"])
+        // {
+        //   this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf(response.data["buzz_word"])+10) + "🔔BUZZ" + this.qa.text.substr(this.qa.text.lastIndexOf(response.data["buzz_word"])+10,this.qa.text.length)
+        // }
         // console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]))
         // console.log(this.qa.text.indexOf(response.data["buzz_word"]))
         
@@ -202,16 +202,16 @@ export default {
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
-      // this.axios({
-      //   url: "http://127.0.0.1:5000/over_present/highlight",
-      //   method: "POST",
-      //   data: formData,
-      // }).then((response) => {
-      //   this.highlight_text = response.data["highlight_text"];
-      //   // this.qa.importance = response.data["importance"];
-      //   // this.highlight = response.data["buzz_word"];
-      //   console.log(response);
-      // });
+      this.axios({
+        url: "http://127.0.0.1:5000/over_present/highlight",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.highlight_text = response.data["highlight_text"];
+        // this.qa.importance = response.data["importance"];
+        // this.highlight = response.data["buzz_word"];
+        console.log(response);
+      });
       this.axios({
         url: "http://127.0.0.1:5000/country_represent/country_present",
         method: "POST",

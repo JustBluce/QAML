@@ -165,7 +165,7 @@ def getpronuncation():
         question = request.form.get("text")
 
     start = time.time()
-    question = question.replace("-"," ")
+    # question = question.replace("-"," ")
     array_of_words = break_into_words(question)
     
     
