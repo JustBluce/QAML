@@ -1,5 +1,5 @@
 #Cai and Raj
-# Description of this file: 
+# Description of this file:
 # 1. Finding the top 5 guesses of the tf-idf vectorizer
 
 import sys
@@ -8,7 +8,7 @@ sys.path.insert(0, './app')
 from app import util
 from app.people import getPeoplesInfo1
 # from app.country_represent import country_present1
-from app.util import highlight_json
+# from app.util import highlight_json
 
 from app import util, import_libraries
 from import_libraries import *
@@ -42,7 +42,6 @@ def warn(*args, **kwargs):
 
 warnings.warn = warn
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
-
 
 
 func = Blueprint('func', __name__)
