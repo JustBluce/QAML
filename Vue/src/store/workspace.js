@@ -5,16 +5,16 @@
 export function defaultQA() {
 	return {
 		text: '',
-		answer:'',
-		answer_text:'',
-		country_representation: '',
+		answer: [],
+		answer_text: '',
+		country_representation: [],
 		people_ethnicity: '',
 		top5_similar_questions: [],
 		binary_search_based_buzzer: '',
-		importance: '',
+		importance: [],
 		genre: '',
 		subgenre: '',
-		pronunciation:''
+		pronunciation: []
 	};
 }
 
