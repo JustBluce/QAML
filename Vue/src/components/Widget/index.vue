@@ -3,8 +3,8 @@ Developers: Jason Liu
 -->
 
 <template>
-  <v-card class="widget mb-3" elevation="4">
-    <v-card-title class="widget-title">
+  <v-card class="mb-3" style="border-radius: 16px" elevation="4">
+    <v-card-title class="handle" style="cursor: grab">
       {{ widget.title }}
       <v-spacer></v-spacer>
       <v-btn icon @click="deleteWidget">
@@ -46,13 +46,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.widget {
-  border-radius: 15px;
-}
-
-.widget-title {
-  cursor: grab;
-}
-</style>
