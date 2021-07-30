@@ -4,8 +4,8 @@ Developers: Jason Liu and Cai Zefan
 
 <template>
   <v-main>
-    <Taskbar />
-    <v-sheet class="workspaces-container">
+    <Taskbar title="QA Interface" :qa="true" />
+    <v-container fluid class="workspaces-container">
       <transition-group type="transition" name="workspaces">
         <Workspace
           v-for="workspace_id in workspace_stack"
@@ -13,16 +13,17 @@ Developers: Jason Liu and Cai Zefan
           :id="workspace_id"
         />
       </transition-group>
-    </v-sheet>
+    </v-container>
   </v-main>
 </template>
 
 <script>
-import Taskbar from "./Taskbar";
-import Workspace from "@/components/Workspace";
 import draggable from "vuedraggable";
+import Taskbar from "@/components/Taskbar";
+import Workspace from "@/components/Workspace";
 
 export default {
+  name: "QA",
   components: {
     Taskbar,
     Workspace,
@@ -42,19 +43,6 @@ export default {
 </script>
 
 <style>
-html {
-  overflow: hidden;
-}
-
-.v-data-table__expanded.v-data-table__expanded__content {
-  box-shadow: none !important;
-}
-
-.v-data-table-header,
-.v-data-table__empty-wrapper {
-  background-color: var(--v-background-base) !important;
-}
-
 .workspaces-container {
   position: relative;
   overflow: hidden;

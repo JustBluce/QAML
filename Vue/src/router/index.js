@@ -73,15 +73,15 @@ export const constantRoutes = [
 	},
 
 	{
-		path: '/leaderboard',
+		path: '/data',
 		component: Layout,
-		redirect: '/leaderboard',
+		redirect: '/data',
 		children: [
 			{
 				path: '',
-				name: 'Leaderboard',
-				component: () => import('@/views/leaderboard/index'),
-				meta: { title: 'Leaderboard', icon: 'table' }
+				name: 'Data',
+				component: () => import('@/views/data/index'),
+				meta: { title: 'Data', icon: 'table' }
 			}
 		]
 	},
