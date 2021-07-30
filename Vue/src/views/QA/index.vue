@@ -18,7 +18,7 @@ Developers: Jason Liu and Cai Zefan
 </template>
 
 <script>
-import Taskbar from "@/components/Taskbar";
+import Taskbar from "./Taskbar";
 import Workspace from "@/components/Workspace";
 import draggable from "vuedraggable";
 

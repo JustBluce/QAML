@@ -23,6 +23,8 @@ Developers: Jason Liu
         <v-icon>mdi-brightness-6</v-icon>
       </v-btn>
 
+      <Profile />
+
       <template v-slot:extension>
         <v-tabs
           v-model="workspace_selected"
@@ -60,11 +62,13 @@ Developers: Jason Liu
 
 <script>
 import draggable from "vuedraggable";
+import Profile from "@/components/Profile";
 
 export default {
   name: "Taskbar",
   components: {
     draggable,
+    Profile,
   },
   computed: {
     workspaces: {
