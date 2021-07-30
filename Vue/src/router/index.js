@@ -59,12 +59,12 @@ export const constantRoutes = [
 	},
 
 	{
-		path: '/',
+		path: '/qa',
 		component: Layout,
 		redirect: '/qa',
 		children: [
 			{
-				path: 'qa',
+				path: '',
 				name: 'QA',
 				component: () => import('@/views/QA/index'),
 				meta: { title: 'QA', icon: 'form' }
@@ -73,12 +73,12 @@ export const constantRoutes = [
 	},
 
 	{
-		path: '/',
+		path: '/leaderboard',
 		component: Layout,
 		redirect: '/leaderboard',
 		children: [
 			{
-				path: 'leaderboard',
+				path: '',
 				name: 'Leaderboard',
 				component: () => import('@/views/leaderboard/index'),
 				meta: { title: 'Leaderboard', icon: 'table' }
