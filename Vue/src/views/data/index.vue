@@ -1,5 +1,6 @@
 <template>
   <v-main>
+    <Taskbar title="Data" />
     <v-card class="ma-2">
       <v-card-title>
         Leaderboard
@@ -25,13 +26,19 @@
 </template>
 
 <script>
+import Taskbar from "@/components/Taskbar";
+
 export default {
+  name: "Data",
+  components: {
+    Taskbar,
+  },
   data() {
     return {
       search: "",
       headers: [
-        { text: "Name", value: "name", width: "70%"},
-        { text: "Points", value: "points", width: "30%"},
+        { text: "Name", value: "name", width: "70%" },
+        { text: "Points", value: "points", width: "30%" },
       ],
       leaderboard: [
         { name: "Alice", points: "0" },
@@ -52,6 +59,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>

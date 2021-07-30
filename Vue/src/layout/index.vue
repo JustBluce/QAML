@@ -97,3 +97,18 @@ export default {
   width: 100%;
 }
 </style>
+
+<style>
+html {
+  overflow: hidden;
+}
+
+.v-data-table__expanded.v-data-table__expanded__content {
+  box-shadow: none !important;
+}
+
+.v-data-table-header,
+.v-data-table__empty-wrapper {
+  background-color: var(--v-background-base) !important;
+}
+</style>
