@@ -33,7 +33,6 @@ export default {
   name: "Buzzer",
   props: {
     workspace_id: Number,
-    widget_id: Number,
   },
   components: {
     Highlighter,

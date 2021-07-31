@@ -23,7 +23,6 @@ export default {
   name: "CountryRepresentation",
   props: {
     workspace_id: Number,
-    widget_id: Number,
   },
   data() {
     return {
