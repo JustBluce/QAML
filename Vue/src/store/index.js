@@ -73,12 +73,13 @@ const store = new Vuex.Store({
 		},
 		addWidget(state, { workspace_id, type }) {
 			let workspace = getters.workspace(state)(workspace_id);
-			workspace.widgets.push(widgetTemplate(workspace.widget_index, type));
-			workspace.widget_index++;
+			if (!workspace.widgets.find((widget) => widget.type === type)) {
+				workspace.widgets.push(widgetTemplate(type));
+			}
 		},
-		deleteWidget(state, { workspace_id, widget_id }) {
+		deleteWidget(state, { workspace_id, type }) {
 			let workspace = getters.workspace(state)(workspace_id);
-			workspace.widgets = workspace.widgets.filter((widget) => widget.id !== widget_id);
+			workspace.widgets = workspace.widgets.filter((widget) => widget.type !== type);
 		},
 		addResult(state, result) {
 			state.results.dialog = true;

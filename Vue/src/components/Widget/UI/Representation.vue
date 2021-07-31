@@ -37,7 +37,6 @@ export default {
   name: "Representation",
   props: {
     workspace_id: Number,
-    widget_id: Number,
   },
   components: {
     GChart,
