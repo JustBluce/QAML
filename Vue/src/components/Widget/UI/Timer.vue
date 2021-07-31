@@ -37,7 +37,6 @@ export default {
   name: "Timer",
   props: {
     workspace_id: Number,
-    widget_id: Number,
   },
   data() {
     return {

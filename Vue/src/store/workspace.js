@@ -18,40 +18,40 @@ export function defaultQA() {
 	};
 }
 
-export function widgetTemplate(id, type) {
+export function widgetTemplate(type) {
 	let widget_templates = {
 		Timer: {
-			id: id,
+			id: 0,
 			title: 'Timer',
 			type: 'Timer',
 			container: 'left'
 		},
 		Pronunciation: {
-			id: id,
+			id: 1,
 			title: 'Pronunciation difficulty',
 			type: 'Pronunciation',
 			container: 'right'
 		},
 		CountryRepresentation: {
-			id: id,
+			id: 2,
 			title: 'Country representation',
 			type: 'CountryRepresentation',
 			container: 'right'
 		},
 		SimilarQuestions: {
-			id: id,
+			id: 3,
 			title: 'Similar questions',
 			type: 'SimilarQuestions',
 			container: 'right'
 		},
 		Buzzer: {
-			id: id,
+			id: 4,
 			title: 'Buzzer',
 			type: 'Buzzer',
 			container: 'left'
 		},
 		MachineGuesses: {
-			id: id,
+			id: 5,
 			title: 'Machine guesses',
 			type: 'MachineGuesses',
 			container: 'left'
@@ -68,14 +68,13 @@ export function defaultWorkspace(id) {
 		title: id === 0 ? 'Workspace' : `Workspace (${id})`,
 		qa: defaultQA(),
 		widgets: [
-			widgetTemplate(0, 'Timer'),
-			widgetTemplate(1, 'Pronunciation'),
-			widgetTemplate(2, 'CountryRepresentation'),
-			widgetTemplate(3, 'SimilarQuestions'),
-			widgetTemplate(4, 'Buzzer'),
-			widgetTemplate(5, 'MachineGuesses')
+			widgetTemplate('Timer'),
+			widgetTemplate('Pronunciation'),
+			widgetTemplate('CountryRepresentation'),
+			widgetTemplate('SimilarQuestions'),
+			widgetTemplate('Buzzer'),
+			widgetTemplate('MachineGuesses')
 		],
-		widget_index: 7,
 		style: {
 			left: 0,
 			top: 0,
