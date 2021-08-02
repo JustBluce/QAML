@@ -123,7 +123,89 @@ export default {
       };
     },
   },
+
+  created: function () {
+    setInterval(function () {
+      let formData = new FormData();
+      console.log(this.qa.text.lastIndexOf("🔔")>0)
+      while(this.qa.text.lastIndexOf("🔔")>0)
+        {
+          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf("🔔")) + this.qa.text.substr(this.qa.text.lastIndexOf("🔔") + "🔔".length,this.qa.text.length)
+        }
+      formData.append("text", this.qa.text);
+      formData.append("answer_text", this.qa.answer_text);
+      // this.qa.genre = this.selected_genre
+      // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
+      //         {
+      //           this.addModal(
+      //           "Warning !!! Please some fields are empty","Please make sure the QA box and the Answer box are filled and the Genre is selected"
+      //         );
+      //         }
+      // else{
+      this.axios({
+        url: "http://127.0.0.1:5000/func/act",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.answer = response.data["guess"];
+        console.log(response);
+      });
+      this.axios({
+        url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.binary_search_based_buzzer = response.data["buzz"];
+        this.qa.importance = response.data["importance"];
+        this.highlight = response.data["buzz_word"];
+        if(this.qa.text.lastIndexOf(response.data["buzz_word"])>0 && response.data["flag"])
+        {
+          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf(response.data["buzz_word"])+10) + "🔔" + this.qa.text.substr(this.qa.text.lastIndexOf(response.data["buzz_word"])+10,this.qa.text.length)
+        }
+        console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]))
+        console.log(this.qa.text.indexOf(response.data["buzz_word"]))
+        
+        console.log(response);
+      });
+      this.axios({
+        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        // if (response.data["similar_question"][0]) {
+        //   this.addModal(
+        //     "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+        //     response.data["similar_question"][1][0]['text']
+        //   );
+        // }
+        this.qa.top5_similar_questions = response.data["similar_question"];
+        console.log(response);
+      });
+      this.axios({
+        url: "http://127.0.0.1:5000/country_represent/country_present",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.country_representation =
+          response.data["country_representation"];
+        console.log(response);
+      });
+      this.axios({
+        url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.pronunciation = response.data["message"];
+        console.log(response);
+      });
+    }.bind(this), 15000); 
+  },
+
+
+
   methods: {
+
+    
     keep_looping: _.debounce(function () {
       let formData = new FormData();
       console.log(this.qa.text.lastIndexOf("🔔")>0)
