@@ -2,12 +2,12 @@
   <v-main>
     <Taskbar title="Dashboard" />
     <v-container fluid style="height: calc(100vh - 64px); overflow: auto">
-      <v-card class="mx-lg-auto" width="50%">
+      <v-card class="mx-auto" width="50%">
         <v-card-text class="text-h3 text-center font-weight-bold">
           Adversarial Trivia Question Writing Interface
         </v-card-text>
       </v-card>
-      <v-card class="pa-4 ma-16 mr-lg-auto" width="60%" elevation="6">
+      <v-card class="pa-4 ma-16 mr-auto" width="60%" elevation="6">
         <v-card-title>Cybernetic question writing</v-card-title>
         <v-card-text class="text-h6 font-weight-bold">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -19,7 +19,7 @@
           culpa qui officia deserunt mollit anim id est laborum.
         </v-card-text>
       </v-card>
-      <v-card class="pa-4 ma-16 ml-lg-auto" width="60%" elevation="6">
+      <v-card class="pa-4 ma-16 ml-auto" width="60%" elevation="6">
         <v-card-title>AI-enhanced gameplay</v-card-title>
         <v-card-text class="text-h6 font-weight-bold">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -31,7 +31,7 @@
           culpa qui officia deserunt mollit anim id est laborum.
         </v-card-text>
       </v-card>
-      <v-card class="pa-4 ma-16 mr-lg-auto" width="60%" elevation="6">
+      <v-card class="pa-4 ma-16 mr-auto" width="60%" elevation="6">
         <v-card-title>Meet the team</v-card-title>
         <v-card-text class="text-h6 font-weight-bold">
           Developers: Zefan Cai, Atith Gandhi, Jason Liu, Damian Rene, Raj
