@@ -2,7 +2,7 @@
   <v-main>
     <Taskbar title="Dashboard" />
     <v-container fluid style="height: calc(100vh - 64px); overflow: auto">
-      <v-card class="mx-auto" width="50%">
+      <v-card class="mx-auto" width="80%">
         <v-card-text class="text-h3 text-center font-weight-bold">
           Adversarial Trivia Question Writing Interface
         </v-card-text>
