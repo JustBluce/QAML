@@ -1,45 +1,27 @@
 <template>
   <v-main>
     <Taskbar title="Dashboard" />
-    <v-container fluid style="height: calc(100vh - 64px); overflow: auto">
-      <v-card class="mx-auto" width="80%">
-        <v-card-text class="text-h3 text-center font-weight-bold">
-          Adversarial Trivia Question Writing Interface
-        </v-card-text>
-      </v-card>
-      <v-card class="pa-4 ma-16 mr-auto" width="60%" elevation="6">
-        <v-card-title>Cybernetic question writing</v-card-title>
-        <v-card-text class="text-h6 font-weight-bold">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </v-card-text>
-      </v-card>
-      <v-card class="pa-4 ma-16 ml-auto" width="60%" elevation="6">
-        <v-card-title>AI-enhanced gameplay</v-card-title>
-        <v-card-text class="text-h6 font-weight-bold">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </v-card-text>
-      </v-card>
-      <v-card class="pa-4 ma-16 mr-auto" width="60%" elevation="6">
-        <v-card-title>Meet the team</v-card-title>
-        <v-card-text class="text-h6 font-weight-bold">
-          Developers: Zefan Cai, Atith Gandhi, Jason Liu, Damian Rene, Raj
-          Shah<br />
-          Mentors: Saptarashmi Bandyopadhyay, Jordan Boyd-Graber
-        </v-card-text>
-      </v-card>
-    </v-container>
+    <v-card class="ma-2">
+      <v-card-title>
+        Leaderboard
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        :headers="headers"
+        :items="leaderboard"
+        :search="search"
+        :sort-by="['points', 'name']"
+        :sort-desc="[true, false]"
+        multi-sort
+      ></v-data-table>
+    </v-card>
   </v-main>
 </template>
 
@@ -47,9 +29,33 @@
 import Taskbar from "@/components/Taskbar";
 
 export default {
-  name: "Dashboard",
+  name: "Data",
   components: {
     Taskbar,
+  },
+  data() {
+    return {
+      search: "",
+      headers: [
+        { text: "Name", value: "name", width: "70%" },
+        { text: "Points", value: "points", width: "30%" },
+      ],
+      leaderboard: [
+        { name: "Alice", points: "0" },
+        { name: "Bob", points: "100" },
+        { name: "Carol", points: "200" },
+        { name: "David", points: "300" },
+        { name: "Eve", points: "400" },
+        { name: "Frank", points: "500" },
+        { name: "Grace", points: "600" },
+        { name: "Heidi", points: "700" },
+        { name: "Ivan", points: "800" },
+        { name: "Judy", points: "900" },
+        { name: "Mallory", points: "1000" },
+        { name: "Victor", points: "1000" },
+        { name: "Wendy", points: "1000" },
+      ],
+    };
   },
 };
 </script>

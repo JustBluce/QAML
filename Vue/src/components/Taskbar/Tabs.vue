@@ -5,6 +5,7 @@
     background-color="background"
     show-arrows
   >
+    <v-tab v-show="false"></v-tab>
     <draggable class="ma-0 row" v-model="workspaces">
       <v-tab
         v-show="workspace.tab"

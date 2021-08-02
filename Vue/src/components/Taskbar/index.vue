@@ -19,6 +19,21 @@ Developers: Jason Liu
       Create workspace
     </v-btn>
 
+    <v-btn
+      v-if="qa"
+      color="red"
+      class="mx-2"
+      text
+      outlined
+      @click="
+        $store.state.workspaces.forEach((workspace) =>
+          $store.commit('removeWorkspace', workspace.id)
+        )
+      "
+    >
+      Clear all
+    </v-btn>
+
     <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
       <v-icon>mdi-brightness-6</v-icon>
     </v-btn>

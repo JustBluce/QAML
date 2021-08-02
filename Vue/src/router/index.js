@@ -72,20 +72,6 @@ export const constantRoutes = [
 		]
 	},
 
-	{
-		path: '/data',
-		component: Layout,
-		redirect: '/data',
-		children: [
-			{
-				path: '',
-				name: 'Data',
-				component: () => import('@/views/data/index'),
-				meta: { title: 'Data', icon: 'table' }
-			}
-		]
-	},
-
 	// tableRouter,
 
 	// 404 page must be placed at the end !!!
