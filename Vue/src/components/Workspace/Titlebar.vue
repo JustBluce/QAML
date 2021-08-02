@@ -44,8 +44,9 @@ Developers: Jason Liu
             text
             outlined
             @click="toggleAll(true)"
-            >Activate all</v-btn
           >
+            Activate all widgets
+          </v-btn>
         </v-list-item>
         <v-list-item>
           <v-btn
@@ -54,15 +55,18 @@ Developers: Jason Liu
             text
             outlined
             @click="toggleAll(false)"
-            >Disable all</v-btn
-          ></v-list-item
-        >
+          >
+            Disable all widgets
+          </v-btn>
+        </v-list-item>
         <v-list-item v-for="widget_type in widget_types" :key="widget_type">
           <v-switch
             v-model="switches[widget_type]"
             :label="widget_type"
             @change="toggleSwitch(widget_type)"
             inset
+            class="my-1"
+            hide-details
           >
           </v-switch>
         </v-list-item>
