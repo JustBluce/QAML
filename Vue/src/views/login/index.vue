@@ -1,7 +1,13 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="loginRules"
+      class="login-form"
+      auto-complete="on"
+      label-position="left"
+    >
       <div class="title-container">
         <h3 class="title">Login Form</h3>
       </div>
@@ -37,45 +43,78 @@
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          <svg-icon
+            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+          />
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button
+        :loading="loading"
+        type="primary"
+        style="width: 100%; margin-bottom: 30px"
+        @click.native.prevent="handleLogin"
+        >Login</el-button
+      >
 
-      <el-button style="width:100%;margin-bottom:30px;"  @click="dialogFormVisible1 = true">Register account</el-button>
-      <el-button style="width:100%;margin-bottom:30px;"  @click="dialogFormVisible2 = true">Change password</el-button>
+      <el-button
+        style="width: 100%; margin-bottom: 30px"
+        @click="dialogFormVisible1 = true"
+        >Register account</el-button
+      >
+      <el-button
+        style="width: 100%; margin-bottom: 30px"
+        @click="dialogFormVisible2 = true"
+        >Change password</el-button
+      >
 
-
-
-
-      <el-dialog title="Register  account" :visible.sync="dialogFormVisible1"  >
-<!--        rules是传入规则，验证，下方其实没有规则传入-->
+      <el-dialog title="Register  account" :visible.sync="dialogFormVisible1">
+        <!--        rules是传入规则，验证，下方其实没有规则传入-->
         <div>
           <el-form :model="addForm" label-width="80px">
             <el-form-item label="Username:">
-              <el-input v-model.trim="addForm.username" aria-placeholder="Please enter username" clearable></el-input>
+              <el-input
+                v-model.trim="addForm.username"
+                aria-placeholder="Please enter username"
+                clearable
+              ></el-input>
             </el-form-item>
             <el-form-item label="Password:">
-              <el-input v-model.trim="addForm.password" aria-placeholder="Please enter password" clearable></el-input>
+              <el-input
+                v-model.trim="addForm.password"
+                aria-placeholder="Please enter password"
+                clearable
+              ></el-input>
             </el-form-item>
           </el-form>
           <el-button @click="dialogFormVisible1 = false">Cancel</el-button>
           <el-button type="primary" @click="From_confirm1">Confirm</el-button>
         </div>
       </el-dialog>
-      <el-dialog title="Change password" :visible.sync="dialogFormVisible2"  >
+      <el-dialog title="Change password" :visible.sync="dialogFormVisible2">
         <!--        rules是传入规则，验证，下方其实没有规则传入-->
         <div>
           <el-form :model="changeForm" label-width="80px">
             <el-form-item label="Username:">
-              <el-input v-model.trim="changeForm.username" aria-placeholder="Please enter username" clearable></el-input>
+              <el-input
+                v-model.trim="changeForm.username"
+                aria-placeholder="Please enter username"
+                clearable
+              ></el-input>
             </el-form-item>
             <el-form-item label="Old password:">
-              <el-input v-model.trim="changeForm.password_old" aria-placeholder="Please enter old password" clearable></el-input>
+              <el-input
+                v-model.trim="changeForm.password_old"
+                aria-placeholder="Please enter old password"
+                clearable
+              ></el-input>
             </el-form-item>
             <el-form-item label="New password:">
-              <el-input v-model.trim="changeForm.password_new" aria-placeholder="Please enter new password" clearable></el-input>
+              <el-input
+                v-model.trim="changeForm.password_new"
+                aria-placeholder="Please enter new password"
+                clearable
+              ></el-input>
             </el-form-item>
           </el-form>
           <el-button @click="dialogFormVisible2 = false">Cancel</el-button>
@@ -86,7 +125,6 @@
         <span style="margin-right:20px;">Default Account Number： lds</span>
         <span> Default Password： lds12321</span>
       </div> -->
-
     </el-form>
   </div>
 </template>
@@ -95,61 +133,65 @@
 // import { validUsername } from '@/utils/validate'
 
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!this.Username_False) {
-        callback(new Error('Username does not exist'))
+        callback(new Error("Username does not exist"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 0) {
-        callback(new Error('Password length should be greater than 0 digits'))
+        callback(new Error("Password length should be greater than 0 digits"));
       } else if (!this.Password_False) {
-        callback(new Error('Your password was entered incorrectly'))
+        callback(new Error("Your password was entered incorrectly"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       addForm: {
-        username: '',
-        password: ''
+        username: "",
+        password: "",
       },
       loginForm: {
-        username: 'lds',
-        password: 'lds12321'
+        username: "lds",
+        password: "lds12321",
       },
       changeForm: {
-        username: '',
-        password_old: '',
-        password_new: ''
+        username: "",
+        password_old: "",
+        password_new: "",
       },
-      Username_False:false,
-      Password_False:false,
+      Username_False: false,
+      Password_False: false,
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [
+          { required: true, trigger: "blur", validator: validateUsername },
+        ],
+        password: [
+          { required: true, trigger: "blur", validator: validatePassword },
+        ],
       },
       loading: false,
-      passwordType: 'password',
+      passwordType: "password",
       redirect: undefined,
       dialogFormVisible1: false,
-      dialogFormVisible2: false
-    }
+      dialogFormVisible2: false,
+    };
   },
   watch: {
     $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect
+      handler: function (route) {
+        this.redirect = route.query && route.query.redirect;
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
-    From_confirm1(){
+    From_confirm1() {
       let formData = new FormData();
       formData.append("User", this.addForm.username);
       formData.append("Password", this.addForm.password);
@@ -157,18 +199,18 @@ export default {
       this.axios({
         method: "POST",
         url: "http://127.0.0.1:5000/log/add",
-        data:formData,
+        data: formData,
       }).then((response) => {
         console.log(response.data);
-        if (response.data=='Successfully add new user'){
-          this.$message.success('Successfully add new user')
+        if (response.data == "Successfully add new user") {
+          this.$message.success("Successfully add new user");
           this.dialogFormVisible1 = false;
-        }else {
-          this.$message.error('The user already exists')
+        } else {
+          this.$message.error("The user already exists");
         }
       });
     },
-    From_confirm2(){
+    From_confirm2() {
       let formData = new FormData();
       formData.append("User", this.changeForm.username);
       formData.append("Password_old", this.changeForm.password_old);
@@ -177,35 +219,52 @@ export default {
       this.axios({
         method: "POST",
         url: "http://127.0.0.1:5000/log/change",
-        data:formData,
+        data: formData,
       }).then((response) => {
         console.log(response.data);
-        if (response.data=='Successfully changed'){
-          this.$message.success(response.data)
+        if (response.data == "Successfully changed") {
+          this.$message.success(response.data);
           this.dialogFormVisible2 = false;
-        }else if(response.data=='Password input error, change failed'){
-          this.$message.error(response.data)
-        }else if(response.data=='User does not exist'){
-          this.$message.error(response.data)
-        }else {
-          this.$message.error('Unknown error')
+        } else if (response.data == "Password input error, change failed") {
+          this.$message.error(response.data);
+        } else if (response.data == "User does not exist") {
+          this.$message.error(response.data);
+        } else {
+          this.$message.error("Unknown error");
         }
       });
     },
     showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
+      if (this.passwordType === "password") {
+        this.passwordType = "";
       } else {
-        this.passwordType = 'password'
+        this.passwordType = "password";
       }
       this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+        this.$refs.password.focus();
+      });
     },
     handleLogin() {
       let formData = new FormData();
       formData.append("User", this.loginForm.username);
       formData.append("Password", this.loginForm.password);
+
+      this.Username_False = true;
+      this.Password_False = true;
+      // this.$refs.loginForm.validate(valid => {
+      //   if (valid) {
+      //     this.loading = true
+      //     this.$store.dispatch('user/login', this.loginForm).then(() => {
+      //       this.$router.push({ path: this.redirect || '/' })
+      //       this.loading = false
+      //     }).catch(() => {
+      //       this.loading = false
+      //     })
+      //   } else {
+      //     console.log('error submit!!')
+      //     return false
+      //   }
+      // })
 
       this.axios({
         method: "POST",
@@ -213,17 +272,17 @@ export default {
         data: formData,
       }).then((response) => {
         console.log(response.data);
-        if (response.data=='User does not exist'){
-          this.Username_False=false
-          this.Username_False=true
+        if (response.data == "User does not exist") {
+          this.Username_False = false;
+          this.Username_False = true;
         }
-        if (response.data=='Incorrect password'){
-          this.Username_False=true
-          this.Password_False=false
+        if (response.data == "Incorrect password") {
+          this.Username_False = true;
+          this.Password_False = false;
         }
-        if (response.data=='Correct password'){
-          this.Username_False=true
-          this.Password_False=true
+        if (response.data == "Correct password") {
+          this.Username_False = true;
+          this.Password_False = true;
           // this.$refs.loginForm.validate(valid => {
           //   if (valid) {
           //     this.loading = true
@@ -238,33 +297,36 @@ export default {
           //     return false
           //   }
           // })
-          this.$refs.loginForm.validate(valid => {
+          this.$refs.loginForm.validate((valid) => {
             if (valid) {
-              this.loading = true
-              this.$store.dispatch('user/login', this.loginForm).then(() => {
-                this.$router.push({ path: this.redirect || '/' })
-                this.loading = false
-              }).catch(() => {
-                this.loading = false
-              })
+              this.loading = true;
+              this.$store
+                .dispatch("user/login", this.loginForm)
+                .then(() => {
+                  this.$router.push({ path: this.redirect || "/" });
+                  this.loading = false;
+                })
+                .catch(() => {
+                  this.loading = false;
+                });
             } else {
-              console.log('error submit!!')
-              return false
+              console.log("error submit!!");
+              return false;
             }
-          })
+          });
         }
       });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#fff;
+$bg: #283443;
+$light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -307,9 +369,9 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
 
 .login-container {
   min-height: 100%;

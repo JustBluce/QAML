@@ -3,29 +3,18 @@ Developers: Atith Gandhi and Jason Liu
 -->
 
 <template>
-
-  <div class="country_representation-container">
-    <div>
-    <h4>Please consider adding the following under-represented countries for 10 extra points</h4>
-    </div>
-    <table class="table table-striped table-bordered">
-            <thead>
-                <!-- <tr>
-                    <th>Please consider adding the following under-represented countries for 10 extra points</th> 
-                </tr> -->
-            </thead>
-            <tbody>
-                <tr v-for="user in country_representation" :key="user.Country">
-                    <td style="text-align: center">
-                      {{user.Country}}
-                      
-
-                    </td>
-                    <!-- <td>{{user.Score}}</td> -->
-                </tr>
-            </tbody>
-        </table>
-    
+  <div>
+    <h4 class="mb-2">
+      Please consider adding the following under-represented countries for 10
+      extra points
+    </h4>
+    <v-data-table
+      hide-default-header
+      hide-default-footer
+      :headers="headers"
+      :items="countries"
+      class="elevation-2"
+    ></v-data-table>
   </div>
 </template>
 
@@ -36,12 +25,17 @@ export default {
     workspace_id: Number,
     widget_id: Number,
   },
+  data() {
+    return {
+      headers: [{ text: "Country", value: "Country" }],
+    };
+  },
   computed: {
     qa() {
       return this.$store.getters.workspace(this.workspace_id).qa;
     },
-    country_representation() {
-      console.log(this.qa.country_representation)
+    countries() {
+      console.log(this.qa.country_representation);
       return this.qa.country_representation;
     },
     people_ethnicity() {

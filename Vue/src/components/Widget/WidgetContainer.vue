@@ -7,7 +7,7 @@ Developers: Jason Liu
     v-model="widgets"
     ref="widgets"
     ghost-class="ghost"
-    handle=".widget-title"
+    handle=".handle"
     group="widgets"
     tag="v-container"
     fluid
