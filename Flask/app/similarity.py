@@ -2,21 +2,10 @@ import sys
 sys.path.append("..")
 sys.path.insert(0, './app')
 
-from app import util, importance
+from app import util, import_libraries
+from import_libraries import *
 from util import *
-from importance import *
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity 
-import nltk
-from nltk.corpus import stopwords
-import json
-import numpy as np
-import spacy
-## import en_core_web_sm
-from flask import Blueprint, render_template, redirect
-from flask import Flask, jsonify, request
-nlp = spacy.load("en_core_web_sm")
-##nlp = en_core_web_sm.load()
+
 
 stopWords = stopwords.words('english')
 
@@ -37,7 +26,32 @@ tfidf_matrix = tfidf_vectorizer.fit_transform(questions)
 similar_question = Blueprint('similar_question', __name__)
 @similar_question.route("/retrieve_similar_question", methods=["POST"])
 def retrieve_similar_question():
+    """
     
+    Parameters
+    ----------
+    None
+
+    Returns
+    --------
+    Json object of the following format is returned:
+    {
+        "similar_questions": 
+        [
+            Flag (True or False, True if there is any question whose similarity is above a threshold in the dataset)
+            [   Top five similar questions and answers
+                (Question, Answer),
+                ...
+
+            ]
+        ]
+    }
+
+    Prints
+    --------
+    The time taken of the two sub-modules in the terminal:
+    1. Similarity of the question
+    """
     if request.method == "POST":
         question = request.form.get("text")
     start =time.time()
