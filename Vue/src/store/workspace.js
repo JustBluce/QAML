@@ -1,44 +1,60 @@
-export function widgetTemplate(id, type) {
+/**
+ * Developers: Jason Liu
+ */
+
+export function defaultQA() {
+	return {
+		text: '',
+		answer: [],
+		answer_text: '',
+		country_representation: [],
+		people_ethnicity: '',
+		top5_similar_questions: [],
+		binary_search_based_buzzer: '',
+		importance: [],
+		genre: '',
+		subgenre: '',
+		pronunciation: []
+	};
+}
+
+export function widgetTemplate(type) {
 	let widget_templates = {
 		Timer: {
-			id: id,
+			id: 0,
 			title: 'Timer',
 			type: 'Timer',
-			container: 'left',
-			expanded: true,
-			maxHeight: '200px'
+			container: 'left'
 		},
 		Pronunciation: {
-			id: id,
+			id: 1,
 			title: 'Pronunciation difficulty',
 			type: 'Pronunciation',
-			container: 'left',
-			expanded: true,
-			maxHeight: '250px'
+			container: 'right'
 		},
-		Representation: {
-			id: id,
-			title: 'Representation analysis',
-			type: 'Representation',
-			container: 'right',
-			expanded: true,
-			maxHeight: '300px'
+		CountryRepresentation: {
+			id: 2,
+			title: 'Country representation',
+			type: 'CountryRepresentation',
+			container: 'right'
 		},
 		SimilarQuestions: {
-			id: id,
+			id: 3,
 			title: 'Similar questions',
 			type: 'SimilarQuestions',
-			expanded: true,
-			container: 'right',
-			maxHeight: '400px'
+			container: 'right'
 		},
 		Buzzer: {
-			id: id,
+			id: 4,
 			title: 'Buzzer',
 			type: 'Buzzer',
-			container: 'left',
-			expanded: true,
-			maxHeight: '500px'
+			container: 'left'
+		},
+		MachineGuesses: {
+			id: 5,
+			title: 'Machine guesses',
+			type: 'MachineGuesses',
+			container: 'left'
 		}
 	};
 	return widget_templates[type];
@@ -47,50 +63,24 @@ export function widgetTemplate(id, type) {
 export function defaultWorkspace(id) {
 	return {
 		id: id,
-		title: 'Workspace',
-		qas: [
-			{
-				id: 0,
-				title: 'QA',
-				text: '',
-				country_representation: '',
-				people_ethnicity: '',
-				top5_similar_questions: [],
-				binary_search_based_buzzer: '',
-				importance: '',
-				genre: '',
-				subgenre: ''
-			}
-		],
-		qa_index: 1,
-		qa_selected: 0,
+		tab_id: id,
+		tab: true,
+		title: id === 0 ? 'Workspace' : `Workspace (${id})`,
+		qa: defaultQA(),
 		widgets: [
-			widgetTemplate(0, 'Timer'),
-			widgetTemplate(1, 'Pronunciation'),
-			widgetTemplate(2, 'Representation'),
-			widgetTemplate(3, 'SimilarQuestions'),
-			widgetTemplate(4, 'Buzzer')
+			widgetTemplate('Timer'),
+			widgetTemplate('Pronunciation'),
+			widgetTemplate('CountryRepresentation'),
+			widgetTemplate('SimilarQuestions'),
+			widgetTemplate('Buzzer'),
+			widgetTemplate('MachineGuesses')
 		],
-		widget_index: 5,
 		style: {
 			left: 0,
-			top: 0
+			top: 0,
+			width: 0,
+			height: 0
 		}
-	};
-}
-
-export function defaultQA(id) {
-	return {
-		id: id,
-		title: `QA (${id})`,
-		text: '',
-		country_representation: '',
-		people_ethnicity: '',
-		top5_similar_questions: [],
-		binary_search_based_buzzer: '',
-		importance: '',
-		genre: '',
-		subgenre: ''
 	};
 }
 

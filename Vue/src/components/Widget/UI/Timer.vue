@@ -1,13 +1,13 @@
 <!--
-Developers: Jason Liu
+Developers:
+Jason Liu
   - Created the Timer
-
-Developers: Cai
+Cai Zefan
   - Make the timer set with 1 hour when first accessed
 -->
 
 <template>
-  <div ref="timerContainer">
+  <div class="timer">
     <div class="timer">
       <div id="hours">{{ hours }}</div>
       :
@@ -15,30 +15,44 @@ Developers: Cai
       :
       <div id="seconds">{{ seconds }}</div>
     </div>
-    <!-- <div class="">
-      <h1>{{ time }}</h1>
-    </div> -->
+
+    <v-dialog v-model="dialog" width="500">
+      <v-card>
+        <v-card-title>
+          {{ workspace.title }}: Time's up
+          <v-spacer></v-spacer>
+          <v-btn icon @click="dialog = false">
+            <v-icon color="red">mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pt-2">Your question is being evaluated</v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import Modal from "@/components/Modal";
-
 export default {
   name: "Timer",
+  props: {
+    workspace_id: Number,
+  },
   data() {
     return {
       hours: "0",
-      minutes: "05",
+      minutes: "01",
       seconds: "00",
-      end: new Date(new Date().getTime() + 5 * 60 * 1000),
+      end: new Date(new Date().getTime() + 1 * 60 * 1000),
       timer: null,
       time: 20,
+      dialog: false,
     };
   },
-  mounted() {
-    this.timer = setInterval(this.update, 1000);
+  computed: {
+    workspace() {
+      return this.$store.getters.workspace(this.workspace_id);
+    },
   },
   methods: {
     validate() {
@@ -66,14 +80,12 @@ export default {
       this.minutes = String(minutes).padStart(2, "0");
       this.seconds = String(seconds).padStart(2, "0");
     },
-
     // countdown() {
     //   this.time--;
     //   if (this.time == 0) {
     //     clearInterval(this.timer);
     //   }
     // },
-
     display(time) {
       this.hours = String(Math.floor(time / 3600));
       this.minutes = String(Math.floor(time / 60 - 60 * this.hours)).padStart(
@@ -84,33 +96,24 @@ export default {
         Math.floor(time - 3600 * this.hours - 60 * this.minutes)
       ).padStart(2, "0");
     },
-
     update() {
       let diff = (this.end - Date.now()) / 1000;
-      this.display(diff)
-
+      this.display(diff);
       if (diff <= 0) {
-        this.addModal("Time's up !!!", "Your question is being evaluated.");
+        this.dialog = true;
         this.axios({
           url: "http://127.0.0.1:5000/func/timeup",
           method: "GET",
         }).then((response) => {
           console.log(response);
         });
-
         clearInterval(this.timer);
         this.display(0);
       }
     },
-
-    addModal(header, body) {
-      let ModalClass = Vue.extend(Modal);
-      let modal = new ModalClass({
-        propsData: { header, body },
-      });
-      modal.$mount();
-      this.$refs.timerContainer.appendChild(this.modal.$el);
-    },
+  },
+  mounted() {
+    this.timer = setInterval(this.update, 1000);
   },
   // beforeDestroy() {
   //   clearInterval(this.timer);
@@ -123,13 +126,12 @@ export default {
   display: flex;
   flex-direction: row;
   font-size: 64px;
-  margin-top: 10px;
+  line-height: 64px;
 }
 
 #hours,
 #minutes,
 #seconds {
-  background-color: rgba(241, 241, 241, 0.98);
   border: none;
   border-radius: 8px;
   width: 85px;

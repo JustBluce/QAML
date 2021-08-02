@@ -1,3 +1,7 @@
+# Atith
+# <<<-------DEPRECIATED FILE-------->>>
+# Description of this file: 
+# 1. Gender related functions
 import spacy
 from spacy import displacy
 from collections import Counter

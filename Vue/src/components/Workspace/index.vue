@@ -3,30 +3,60 @@ Developers: Jason Liu
 -->
 
 <template>
-  <div
+  <v-card
+    ref="workspaceContainer"
     class="workspace-container"
     :style="{
       left: style.left + 'px',
       top: style.top + 'px',
+      width: style.width + 'px',
+      height: style.height + 'px',
       zIndex: zIndex,
-      filter: workspace_selected === id ? 'contrast(100%)' : 'contrast(85%)',
+      border:
+        workspace_selected === id
+          ? `2px solid ${$vuetify.theme.currentTheme.primary}`
+          : '',
+      cursor: 'default',
     }"
-    @mousedown="onSelect"
+    elevation="16"
+    @mousedown="$store.commit('selectWorkspace', id)"
   >
-    <div class="drag-bar" @mousedown="startDrag" />
-    <Header :workspace_id="id" />
-    <div class="ui-container">
-      <WidgetContainer :workspace_id="id" container="left" />
-      <QA :workspace_id="id" :qa_id="qa_selected" />
-      <WidgetContainer :workspace_id="id" container="right" />
-    </div>
-  </div>
+    <Titlebar
+      :id="id"
+      @startDrag="startDrag($event, elementMove)"
+      @maximize="maximize"
+    />
+
+    <v-sheet class="ui-wrapper">
+      <v-sheet class="ui-container">
+        <WidgetContainer :id="id" container="left" />
+        <QA :id="id" />
+        <WidgetContainer :id="id" container="right" />
+      </v-sheet>
+    </v-sheet>
+
+    <v-btn
+      class="mb-8"
+      color="primary"
+      absolute
+      small
+      bottom
+      right
+      fab
+      @mousedown="startDrag($event, elementResize)"
+    >
+      <v-icon>mdi-arrow-top-left-bottom-right</v-icon>
+    </v-btn>
+
+    <Results />
+  </v-card>
 </template>
 
 <script>
-import Header from "./Header";
-import WidgetContainer from "./WidgetContainer";
-import QA from "./QA";
+import Titlebar from "./Titlebar";
+import WidgetContainer from "@/components/Widget/WidgetContainer";
+import QA from "@/components/QA";
+import Results from "@/components/Results";
 
 export default {
   name: "Workspace",
@@ -34,9 +64,10 @@ export default {
     id: Number,
   },
   components: {
-    Header,
+    Titlebar,
     WidgetContainer,
     QA,
+    Results,
   },
   data() {
     return {
@@ -45,17 +76,8 @@ export default {
     };
   },
   computed: {
-    widget_types() {
-      return this.$store.state.widget_types;
-    },
-    workspace() {
-      return this.$store.getters.workspace(this.id);
-    },
     style() {
-      return this.workspace.style;
-    },
-    qa_selected() {
-      return this.workspace.qa_selected;
+      return this.$store.getters.workspace(this.id).style;
     },
     workspace_selected() {
       return this.$store.state.workspace_stack.slice(-1)[0];
@@ -65,35 +87,66 @@ export default {
     },
   },
   methods: {
-    startDrag(event) {
+    app() {
+      return this.$parent.$parent.$parent.$el;
+    },
+    startDrag(event, func) {
       event.preventDefault();
       this.clientX = event.clientX;
       this.clientY = event.clientY;
-      document.onmousemove = this.elementDrag;
+      document.onmousemove = func;
       document.onmouseup = this.stopDrag;
     },
     elementDrag(event) {
-      event.preventDefault();
       let movementX = this.clientX - event.clientX;
       let movementY = this.clientY - event.clientY;
       this.clientX = event.clientX;
       this.clientY = event.clientY;
+      return { movementX, movementY };
+    },
+    elementMove(event) {
+      event.preventDefault();
+      let { movementX, movementY } = this.elementDrag(event);
       this.style.left = Math.min(
-        window.innerWidth - 100,
+        this.app().offsetWidth - 100,
         Math.max(0, this.style.left - movementX)
       );
       this.style.top = Math.min(
-        window.innerHeight - 150,
+        this.app().offsetHeight - 200,
         Math.max(0, this.style.top - movementY)
+      );
+      document.onmouseleave = this.stopDrag;
+    },
+    elementResize(event) {
+      event.preventDefault();
+      let { movementX, movementY } = this.elementDrag(event);
+      this.style.width = Math.min(
+        this.app().offsetWidth - 16,
+        this.style.width - movementX
+      );
+      this.style.height = Math.min(
+        this.app().offsetHeight - 16,
+        this.style.height - movementY
       );
     },
     stopDrag() {
       document.onmousemove = null;
       document.onmouseup = null;
+      document.onmouseleave = null;
+      this.style.width = Math.max(1024, this.style.width);
+      this.style.height = Math.max(64, this.style.height);
     },
-    onSelect() {
-      this.$store.commit("selectWorkspace", this.id);
+    maximize() {
+      this.style.top = 0;
+      this.style.left = 0;
+      this.style.width = this.app().offsetWidth - 16;
+      this.style.height = this.app().offsetHeight - 16;
     },
+  },
+  mounted() {
+    if (this.style.width === 0 || this.style.height === 0) {
+      this.maximize();
+    }
   },
 };
 </script>
@@ -103,32 +156,25 @@ export default {
   display: flex;
   flex-direction: column;
   position: absolute;
-  margin: 4px;
-  background-color: white;
-  border: 4px solid steelblue;
-  box-shadow: 0px 0px 4px black;
-  height: 750px;
-  min-height: 750px;
-  max-height: calc(100% - 8px);
-  width: calc(100% - 8px);
-  min-width: 1100px;
-  max-width: calc(100% - 8px);
-  overflow-x: hidden;
-  overflow-y: auto;
-  overflow-y: overlay;
-  resize: both;
+  min-width: 1024px;
+  max-width: calc(100% - 16px);
+  min-height: 64px;
+  max-height: calc(100% - 16px);
+  margin: 8px;
+  padding: 0;
+  overflow: hidden;
 }
 
-.drag-bar {
-  cursor: move;
-  height: 10px;
-  background-color: steelblue;
-  flex-shrink: 0;
+.ui-wrapper {
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .ui-container {
   display: flex;
-  flex-grow: 1;
   position: relative;
+  min-height: 100%;
+  max-height: fit-content;
 }
 </style>

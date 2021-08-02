@@ -1,4 +1,7 @@
 # Atith
+# <<<-------DEPRECIATED FILE-------->>>
+# Description of this file: 
+# 1. Contains code for the genre classifier: Pie chart on the front end
 def warn(*args, **kwargs):
     pass
 import warnings
@@ -18,9 +21,8 @@ sys.path.insert(0, './app')
 
 from app import util, importance
 from util import *
-from importance import *
 
-genres = ['Philosophy', 'History', 'Literature', 'Mythology', 'Current Events', 'Religion', 'Trash', 'Social Science', 'Science', 'Fine Arts', 'Geography']
+
 genre_classifier = Blueprint('genre_classifier', __name__)
 @genre_classifier.route("/classify", methods=["POST"])
 def classify():
@@ -28,10 +30,10 @@ def classify():
         question = request.form.get("text")
     start = time.time()
 
-    inputs = tokenizer(question, return_tensors="pt")
-    outputs = genre_model(**inputs)
-    logits = outputs.logits.detach().cpu().numpy()
-    genre_index = np.argmax(logits).flatten()
+    # inputs = tokenizer(question, return_tensors="pt")
+    # outputs = genre_model(**inputs)
+    # logits = outputs.logits.detach().cpu().numpy()
+    # genre_index = np.argmax(logits).flatten()
     end = time.time()
     print("----TIME (s) : /genre_classifier/classify [genre]---",end - start)
     # if(difficulty == 0):
@@ -39,9 +41,10 @@ def classify():
     # elif (difficulty == 1):
     #     return jsonify({"difficulty": "Hard"})
     # print(genres[genre_index[0]])
-    subgenre = None
-    if(genres[genre_index[0]] == 'Science'):
-        subgenre = subgenre_classifier.science_genre_classify(question)
+    # subgenre = None
+    # if(genres[genre_index[0]] == 'Science'):
+    #     subgenre = subgenre_classifier.science_genre_classify(question)
     # print(subgenre)
-    return jsonify({"genre": genres[genre_index[0]], "subgenre": subgenre})
+    # return jsonify({"genre": genres[genre_index[0]], "subgenre": subgenre})
+    return jsonify({ "subgenre": sub_genres})
     

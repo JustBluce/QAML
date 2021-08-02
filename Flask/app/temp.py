@@ -1,3 +1,4 @@
+# <<<_____ASK ATITH______>>>
 import json
 f = open('qanta.json')
 data = json.load(f)

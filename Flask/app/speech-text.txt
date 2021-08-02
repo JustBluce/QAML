@@ -1,0 +1,892 @@
+{
+  "result_index": 0,
+  "results": [
+    {
+      "final": true,
+      "alternatives": [
+        {
+          "transcript": "in fifteen eighty eight Chinese woman named Dan Yang C. did this action in broad daylight also the bundle was only Yudhishthira completes this action during which he is followed by a dog Simon magus injured himself while attempting this dusk which some believe Enoch did at the end of his life during a whirlwind Elijah is said to have undergone this phenomenon accompanied by chariots and horses off ",
+          "confidence": 0.8,
+          "word_confidence": [
+            [
+              "in",
+              0.93
+            ],
+            [
+              "fifteen",
+              1.0
+            ],
+            [
+              "eighty",
+              0.63
+            ],
+            [
+              "eight",
+              1.0
+            ],
+            [
+              "Chinese",
+              1.0
+            ],
+            [
+              "woman",
+              0.99
+            ],
+            [
+              "named",
+              0.94
+            ],
+            [
+              "Dan",
+              0.55
+            ],
+            [
+              "Yang",
+              0.73
+            ],
+            [
+              "C.",
+              0.47
+            ],
+            [
+              "did",
+              0.54
+            ],
+            [
+              "this",
+              1.0
+            ],
+            [
+              "action",
+              1.0
+            ],
+            [
+              "in",
+              1.0
+            ],
+            [
+              "broad",
+              1.0
+            ],
+            [
+              "daylight",
+              0.87
+            ],
+            [
+              "also",
+              0.21
+            ],
+            [
+              "the",
+              0.99
+            ],
+            [
+              "bundle",
+              0.29
+            ],
+            [
+              "was",
+              0.13
+            ],
+            [
+              "only",
+              1.0
+            ],
+            [
+              "Yudhishthira",
+              0.58
+            ],
+            [
+              "completes",
+              0.93
+            ],
+            [
+              "this",
+              0.92
+            ],
+            [
+              "action",
+              0.94
+            ],
+            [
+              "during",
+              1.0
+            ],
+            [
+              "which",
+              0.95
+            ],
+            [
+              "he",
+              0.64
+            ],
+            [
+              "is",
+              0.79
+            ],
+            [
+              "followed",
+              1.0
+            ],
+            [
+              "by",
+              1.0
+            ],
+            [
+              "a",
+              0.99
+            ],
+            [
+              "dog",
+              0.97
+            ],
+            [
+              "Simon",
+              1.0
+            ],
+            [
+              "magus",
+              1.0
+            ],
+            [
+              "injured",
+              1.0
+            ],
+            [
+              "himself",
+              1.0
+            ],
+            [
+              "while",
+              1.0
+            ],
+            [
+              "attempting",
+              0.78
+            ],
+            [
+              "this",
+              0.98
+            ],
+            [
+              "dusk",
+              0.35
+            ],
+            [
+              "which",
+              0.72
+            ],
+            [
+              "some",
+              0.94
+            ],
+            [
+              "believe",
+              1.0
+            ],
+            [
+              "Enoch",
+              0.44
+            ],
+            [
+              "did",
+              1.0
+            ],
+            [
+              "at",
+              1.0
+            ],
+            [
+              "the",
+              1.0
+            ],
+            [
+              "end",
+              1.0
+            ],
+            [
+              "of",
+              1.0
+            ],
+            [
+              "his",
+              1.0
+            ],
+            [
+              "life",
+              0.97
+            ],
+            [
+              "during",
+              0.97
+            ],
+            [
+              "a",
+              0.64
+            ],
+            [
+              "whirlwind",
+              0.92
+            ],
+            [
+              "Elijah",
+              0.25
+            ],
+            [
+              "is",
+              0.92
+            ],
+            [
+              "said",
+              0.54
+            ],
+            [
+              "to",
+              1.0
+            ],
+            [
+              "have",
+              1.0
+            ],
+            [
+              "undergone",
+              0.69
+            ],
+            [
+              "this",
+              1.0
+            ],
+            [
+              "phenomenon",
+              0.46
+            ],
+            [
+              "accompanied",
+              0.12
+            ],
+            [
+              "by",
+              1.0
+            ],
+            [
+              "chariots",
+              1.0
+            ],
+            [
+              "and",
+              1.0
+            ],
+            [
+              "horses",
+              0.98
+            ],
+            [
+              "off",
+              0.3
+            ]
+          ]
+        }
+      ],
+      "word_alternatives": [
+        {
+          "start_time": 0.0,
+          "end_time": 0.22,
+          "alternatives": [
+            {
+              "word": "in",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 0.22,
+          "end_time": 0.8,
+          "alternatives": [
+            {
+              "word": "fifteen",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 0.8,
+          "end_time": 1.36,
+          "alternatives": [
+            {
+              "word": "eighty",
+              "confidence": 0.97
+            }
+          ]
+        },
+        {
+          "start_time": 1.56,
+          "end_time": 1.78,
+          "alternatives": [
+            {
+              "word": "eight",
+              "confidence": 0.96
+            }
+          ]
+        },
+        {
+          "start_time": 1.78,
+          "end_time": 2.41,
+          "alternatives": [
+            {
+              "word": "Chinese",
+              "confidence": 0.96
+            }
+          ]
+        },
+        {
+          "start_time": 2.41,
+          "end_time": 2.75,
+          "alternatives": [
+            {
+              "word": "woman",
+              "confidence": 0.96
+            }
+          ]
+        },
+        {
+          "start_time": 5.28,
+          "end_time": 5.64,
+          "alternatives": [
+            {
+              "word": "broad",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 5.64,
+          "end_time": 6.28,
+          "alternatives": [
+            {
+              "word": "daylight",
+              "confidence": 0.95
+            }
+          ]
+        },
+        {
+          "start_time": 13.64,
+          "end_time": 13.77,
+          "alternatives": [
+            {
+              "word": "a",
+              "confidence": 0.95
+            }
+          ]
+        },
+        {
+          "start_time": 13.77,
+          "end_time": 14.31,
+          "alternatives": [
+            {
+              "word": "dog",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "start_time": 16.33,
+          "end_time": 17.02,
+          "alternatives": [
+            {
+              "word": "himself",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 17.02,
+          "end_time": 17.33,
+          "alternatives": [
+            {
+              "word": "while",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 17.33,
+          "end_time": 17.89,
+          "alternatives": [
+            {
+              "word": "attempting",
+              "confidence": 0.98
+            }
+          ]
+        },
+        {
+          "start_time": 21.23,
+          "end_time": 21.5,
+          "alternatives": [
+            {
+              "word": "end",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 21.5,
+          "end_time": 21.66,
+          "alternatives": [
+            {
+              "word": "of",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 21.66,
+          "end_time": 21.9,
+          "alternatives": [
+            {
+              "word": "his",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 21.9,
+          "end_time": 22.42,
+          "alternatives": [
+            {
+              "word": "life",
+              "confidence": 0.94
+            }
+          ]
+        },
+        {
+          "start_time": 26.58,
+          "end_time": 26.79,
+          "alternatives": [
+            {
+              "word": "this",
+              "confidence": 0.93
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "final": true,
+      "alternatives": [
+        {
+          "transcript": "asterisk fire the my analogy refers to the event when Mohammed did this action accompanied by Gabriel after location marked by the dome of the rock the doctrine of the assumption teaches that the virgin Mary did this under god's follow ",
+          "confidence": 0.75,
+          "word_confidence": [
+            [
+              "asterisk",
+              0.98
+            ],
+            [
+              "fire",
+              0.54
+            ],
+            [
+              "the",
+              1.0
+            ],
+            [
+              "my",
+              0.76
+            ],
+            [
+              "analogy",
+              0.19
+            ],
+            [
+              "refers",
+              0.43
+            ],
+            [
+              "to",
+              0.66
+            ],
+            [
+              "the",
+              0.97
+            ],
+            [
+              "event",
+              0.26
+            ],
+            [
+              "when",
+              0.97
+            ],
+            [
+              "Mohammed",
+              0.89
+            ],
+            [
+              "did",
+              0.97
+            ],
+            [
+              "this",
+              0.78
+            ],
+            [
+              "action",
+              0.57
+            ],
+            [
+              "accompanied",
+              1.0
+            ],
+            [
+              "by",
+              1.0
+            ],
+            [
+              "Gabriel",
+              0.81
+            ],
+            [
+              "after",
+              0.34
+            ],
+            [
+              "location",
+              0.99
+            ],
+            [
+              "marked",
+              0.63
+            ],
+            [
+              "by",
+              1.0
+            ],
+            [
+              "the",
+              1.0
+            ],
+            [
+              "dome",
+              1.0
+            ],
+            [
+              "of",
+              1.0
+            ],
+            [
+              "the",
+              1.0
+            ],
+            [
+              "rock",
+              0.97
+            ],
+            [
+              "the",
+              1.0
+            ],
+            [
+              "doctrine",
+              1.0
+            ],
+            [
+              "of",
+              1.0
+            ],
+            [
+              "the",
+              1.0
+            ],
+            [
+              "assumption",
+              0.8
+            ],
+            [
+              "teaches",
+              0.43
+            ],
+            [
+              "that",
+              0.88
+            ],
+            [
+              "the",
+              1.0
+            ],
+            [
+              "virgin",
+              0.47
+            ],
+            [
+              "Mary",
+              0.85
+            ],
+            [
+              "did",
+              0.94
+            ],
+            [
+              "this",
+              0.92
+            ],
+            [
+              "under",
+              0.36
+            ],
+            [
+              "god's",
+              0.45
+            ],
+            [
+              "follow",
+              0.48
+            ]
+          ]
+        }
+      ],
+      "word_alternatives": [
+        {
+          "start_time": 31.0,
+          "end_time": 31.87,
+          "alternatives": [
+            {
+              "word": "asterisk",
+              "confidence": 0.94
+            }
+          ]
+        },
+        {
+          "start_time": 41.84,
+          "end_time": 41.99,
+          "alternatives": [
+            {
+              "word": "of",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 41.99,
+          "end_time": 42.13,
+          "alternatives": [
+            {
+              "word": "the",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 42.13,
+          "end_time": 42.66,
+          "alternatives": [
+            {
+              "word": "rock",
+              "confidence": 0.91
+            }
+          ]
+        },
+        {
+          "start_time": 43.96,
+          "end_time": 44.12,
+          "alternatives": [
+            {
+              "word": "the",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 44.12,
+          "end_time": 44.78,
+          "alternatives": [
+            {
+              "word": "assumption",
+              "confidence": 0.98
+            }
+          ]
+        },
+        {
+          "start_time": 46.18,
+          "end_time": 46.64,
+          "alternatives": [
+            {
+              "word": "Mary",
+              "confidence": 0.95
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "final": true,
+      "alternatives": [
+        {
+          "transcript": "Jesus performed this action forty days after the resurrection for ten points name this kind of action in which holy people enter the afterlife without dying first ",
+          "confidence": 0.82,
+          "word_confidence": [
+            [
+              "Jesus",
+              0.98
+            ],
+            [
+              "performed",
+              0.42
+            ],
+            [
+              "this",
+              1.0
+            ],
+            [
+              "action",
+              1.0
+            ],
+            [
+              "forty",
+              0.83
+            ],
+            [
+              "days",
+              1.0
+            ],
+            [
+              "after",
+              1.0
+            ],
+            [
+              "the",
+              1.0
+            ],
+            [
+              "resurrection",
+              0.99
+            ],
+            [
+              "for",
+              0.71
+            ],
+            [
+              "ten",
+              0.97
+            ],
+            [
+              "points",
+              0.88
+            ],
+            [
+              "name",
+              0.75
+            ],
+            [
+              "this",
+              0.93
+            ],
+            [
+              "kind",
+              1.0
+            ],
+            [
+              "of",
+              1.0
+            ],
+            [
+              "action",
+              1.0
+            ],
+            [
+              "in",
+              1.0
+            ],
+            [
+              "which",
+              1.0
+            ],
+            [
+              "holy",
+              0.72
+            ],
+            [
+              "people",
+              0.99
+            ],
+            [
+              "enter",
+              0.21
+            ],
+            [
+              "the",
+              0.87
+            ],
+            [
+              "afterlife",
+              0.38
+            ],
+            [
+              "without",
+              0.98
+            ],
+            [
+              "dying",
+              0.9
+            ],
+            [
+              "first",
+              0.44
+            ]
+          ]
+        }
+      ],
+      "word_alternatives": [
+        {
+          "start_time": 52.32,
+          "end_time": 52.47,
+          "alternatives": [
+            {
+              "word": "the",
+              "confidence": 0.98
+            }
+          ]
+        },
+        {
+          "start_time": 52.47,
+          "end_time": 53.43,
+          "alternatives": [
+            {
+              "word": "resurrection",
+              "confidence": 0.98
+            }
+          ]
+        },
+        {
+          "start_time": 56.39,
+          "end_time": 56.55,
+          "alternatives": [
+            {
+              "word": "of",
+              "confidence": 0.91
+            }
+          ]
+        },
+        {
+          "start_time": 56.55,
+          "end_time": 57.08,
+          "alternatives": [
+            {
+              "word": "action",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "start_time": 57.08,
+          "end_time": 57.27,
+          "alternatives": [
+            {
+              "word": "in",
+              "confidence": 1.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
