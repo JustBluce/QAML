@@ -3,7 +3,7 @@ Developers: Damien Rene and Jason Liu
 -->
 
 <template>
-  <div class="Pronunciation-container">
+  <div>
     <!-- <div class="placeholder" v-show="!qa.text">Please enter your question</div>
     <Highlighter
       :style="{ color: 'black' }"
@@ -22,19 +22,16 @@ Developers: Damien Rene and Jason Liu
       placeholder="Pronunciation highlighting"
       v-model="pronunciation"
     ></v-textarea> -->
-    <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Please add the pronunication guide for the following words</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in pronunciation" :key="user.Word">
-                    <td>{{user.Word }}</td>
-                   
-                </tr>
-            </tbody>
-        </table>
+    <h4 class="mb-2">
+      Please add the pronunication guide for the following words
+    </h4>
+    <v-data-table
+      hide-default-header
+      hide-default-footer
+      :headers="headers"
+      :items="pronunciation"
+      class="elevation-2"
+    ></v-data-table>
   </div>
 </template>
 
@@ -52,11 +49,12 @@ export default {
   data() {
     return {
       words: "and or the quick",
+      headers: [{ text: "Word", value: "Word" }],
     };
   },
   computed: {
     qa() {
-     return this.$store.getters.workspace(this.workspace_id).qa;
+      return this.$store.getters.workspace(this.workspace_id).qa;
     },
     pronunciation() {
       return this.qa.pronunciation;
@@ -68,33 +66,3 @@ export default {
   methods: {},
 };
 </script>
-
-<style scoped>
-.Pronunciation-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-select {
-  cursor: pointer;
-  opacity: 1;
-  transition: opacity 0.3s;
-}
-
-select:hover {
-  opacity: 0.7;
-}
-
-.output {
-  cursor: default;
-  height: 172px;
-}
-
-.placeholder {
-  color: #757575;
-}
-
-.highlight {
-  background-color: #c8ebfb;
-}
-</style>
