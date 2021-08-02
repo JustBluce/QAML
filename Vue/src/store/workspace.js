@@ -63,7 +63,7 @@ export function widgetTemplate(type) {
 export function defaultWorkspace(id) {
 	return {
 		id: id,
-		tab_id: id,
+		tab_id: id+1,
 		tab: true,
 		title: id === 0 ? 'Workspace' : `Workspace (${id})`,
 		qa: defaultQA(),
