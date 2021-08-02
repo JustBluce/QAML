@@ -32,6 +32,8 @@ Developers: Jason Liu
 
     <v-menu
       offset-y
+      min-width="200px"
+      rounded
       :close-on-content-click="false"
       :disabled="widget_types.length == 0"
     >
