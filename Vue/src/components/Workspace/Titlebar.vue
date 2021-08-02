@@ -39,22 +39,24 @@ Developers: Jason Liu
       <v-list>
         <v-list-item>
           <v-btn
-            color="red"
-            class="mx-1"
-            text
-            outlined
-            @click="toggleAll(false)"
-            >Disable all</v-btn
-          >
-          <v-btn
             color="green"
-            class="mx-1"
+            class="mx-auto"
             text
             outlined
             @click="toggleAll(true)"
             >Activate all</v-btn
           >
         </v-list-item>
+        <v-list-item>
+          <v-btn
+            color="red"
+            class="mx-auto"
+            text
+            outlined
+            @click="toggleAll(false)"
+            >Disable all</v-btn
+          ></v-list-item
+        >
         <v-list-item v-for="widget_type in widget_types" :key="widget_type">
           <v-switch
             v-model="switches[widget_type]"
