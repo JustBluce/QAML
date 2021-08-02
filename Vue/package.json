@@ -23,6 +23,7 @@
     "echarts": "^4.9.0",
     "element-ui": "2.13.2",
     "file-saver": "^2.0.2",
+    "firebaseui": "^4.8.1",
     "js-cookie": "2.2.0",
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
@@ -36,7 +37,8 @@
     "vue-router": "^3.5.2",
     "vue2-editor": "^2.10.2",
     "vuedraggable": "^2.24.3",
-    "vuetify": "^2.5.7",
+    "vuelidate": "^0.7.6",
+    "vuetify": "^2.5.8",
     "vuex": "3.1.0",
     "xlsx": "^0.16.7"
   },
