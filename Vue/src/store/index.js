@@ -65,9 +65,6 @@ const store = new Vuex.Store({
 				state.workspace_selected = 0;
 			}
 		},
-		clearAllWorkspaces(state) {
-			state.workspaces.forEach((workspace) => this.commit('removeWorkspace', workspace.id));
-		},
 		updateTabs(state) {
 			state.workspace_selected =
 				state.workspaces.findIndex((workspace) => workspace.tab_id === state.workspace_selected) + 1;
