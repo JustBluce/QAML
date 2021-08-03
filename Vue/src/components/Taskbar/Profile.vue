@@ -3,7 +3,15 @@
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on">
         <v-avatar size="36px">
-          <img :src="user.photoURL"  style="width:35px;height:35px;border-radius:50%;border:2px solid #333"/>
+          <img
+            :src="user.photoURL"
+            style="
+              width: 35px;
+              height: 35px;
+              border-radius: 50%;
+              border: 2px solid #333;
+            "
+          />
         </v-avatar>
       </v-btn>
     </template>
@@ -34,24 +42,20 @@
 <script>
 import firebase from "firebase";
 export default {
- 
   name: "Profile",
   data() {
     return {
-      
       user: null,
     };
   },
   created() {
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                this.user = user;
-            
-            }
-        });
-    },
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.user = user;
+      }
+    });
+  },
   methods: {
-    
     async logout() {
       await this.$store.dispatch("user/logout");
       this.$router.push(`/login?redirect=${this.$route.fullPath}`);

@@ -36,7 +36,7 @@
           hide-details="auto"
           @keydown="keep_looping"
         ></v-textarea>
-          <!-- <highlightable-input
+        <!-- <highlightable-input
       highlight-style="background-color:yellow"
       :highlight-enabled="highlightEnabled"
           :highlight="highlight"
@@ -57,7 +57,6 @@
           v-model="qa.answer_text"
           hide-details="auto"
           @input="update_representation"
-          
         ></v-textarea>
 
         <v-btn color="primary" @click="searchData">
@@ -68,13 +67,12 @@
       </v-container>
     </v-card>
   </v-container>
-
-
 </template>
 
 <script>
 import HighlightableInput from "vue-highlightable-input";
 import { GChart } from "vue-google-charts";
+
 export default {
   name: "QA",
   props: {
@@ -103,8 +101,8 @@ export default {
         ["Subgenre", "Count"],
         ["None", 1],
       ],
-      highlight_text:"",
-      highlight:"🔔BUZZ",
+      highlight_text: "",
+      highlight: "🔔BUZZ",
       rules: [(value) => !!value || "Required."],
       showChart: false,
     };
@@ -163,7 +161,7 @@ export default {
         // }
         // console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]))
         // console.log(this.qa.text.indexOf(response.data["buzz_word"]))
-        
+
         console.log(response);
       });
       this.axios({
