@@ -8,7 +8,7 @@ Developers: Jason Liu
       <v-toolbar-title>{{ title }}</v-toolbar-title>
 
       <v-spacer></v-spacer>
-
+      
       <v-btn
         v-if="qa"
         color="green"

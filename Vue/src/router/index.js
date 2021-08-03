@@ -5,8 +5,10 @@ Vue.use(Router);
 import firebase from 'firebase'
 /* Layout */
 import Layout from '@/layout';
+import Login from '@/views/auth/login.vue'
+
 import tableRouter from './modules/table';
-import Register from '@/components/auth/Register.vue'
+
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -35,24 +37,23 @@ import Register from '@/components/auth/Register.vue'
 export const constantRoutes = [
 	
 	{
-		name: 'Login',
-		path: '/login',
-		component: () => import('@/views/login/index'),
+        path: '/login',
+        name: 'Login',
+        component: Login,
 		hidden: true,
-		meta: {guest: true}
+        meta: {
+			guest: true
+		  }
 
-	},
+      },
+	
 
 	{
 		path: '/404',
 		component: () => import('@/views/404'),
 		hidden: true
 	},
-	{
-		path: '/register',
-		name: 'Register',
-		component: Register
-	  },
+	
 
 	{
 		path: '/',
@@ -117,6 +118,8 @@ export function resetRouter() {
 	const newRouter = createRouter();
 	router.matcher = newRouter.matcher; // reset router
 }
+
+
 
 
 export default router;
