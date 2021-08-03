@@ -2,7 +2,7 @@
     <!-- display the navigation bar -->
     
     <v-toolbar elevation="4">
-    <v-toolbar-title>Adversarial Trivia Question Writing Interface</v-toolbar-title>
+    <v-toolbar-title style="color:black;">Adversarial Trivia Question Writing Interface</v-toolbar-title>
 
       <v-spacer></v-spacer>
 <!-- navigation bar links You can add more in the computed items -->
@@ -14,6 +14,7 @@
         </v-btn>
         <v-spacer></v-spacer>
       </v-toolbar-items>
+
 
       <!-- sign out button -->
       <v-toolbar-items class='hidden-xs-only'>
@@ -28,6 +29,7 @@
    
 </template>
 <script>
+
 
 export default {
     data() {
@@ -47,11 +49,6 @@ created() {
           title: 'Login',
           icon: 'mdi-login-variant',
           link: '/login'
-        },
-        {
-          title: 'Register',
-          icon: 'mdi-face',
-          link: '/register'
         }
       ]
     return menuItems
@@ -59,11 +56,20 @@ created() {
   },
   methods: {
     signOut(e) {
+      alert("Signed Out!");
       this.$router.push({name: "Login"});
         e.stopPropagation();
         firebase.auth().signOut();
+        
         
     }
 }
 }
 </script>
+
+<style scoped>
+.toolbar{
+  background: #50759e;
+ 
+}
+</style>
