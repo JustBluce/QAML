@@ -2,10 +2,13 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 Vue.use(Router);
-
+import firebase from 'firebase'
 /* Layout */
 import Layout from '@/layout';
+import Login from '@/views/auth/login.vue'
+
 import tableRouter from './modules/table';
+
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -32,17 +35,25 @@ import tableRouter from './modules/table';
  * all roles can be accessed
  */
 export const constantRoutes = [
+	
 	{
-		path: '/login',
-		component: () => import('@/views/login/index'),
-		hidden: true
-	},
+        path: '/login',
+        name: 'Login',
+        component: Login,
+		hidden: true,
+        meta: {
+			guest: true
+		  }
+
+      },
+	
 
 	{
 		path: '/404',
 		component: () => import('@/views/404'),
 		hidden: true
 	},
+	
 
 	{
 		path: '/',
@@ -53,7 +64,11 @@ export const constantRoutes = [
 				path: 'dashboard',
 				name: 'Dashboard',
 				component: () => import('@/views/dashboard/index'),
+<<<<<<< HEAD
 				meta: { title: 'Dashboard', icon: 'user' }
+=======
+				meta: { title: 'Dashboard', icon: 'dashboard' ,auth: true}
+>>>>>>> origin/Login-Features
 			}
 		]
 	},
@@ -82,6 +97,7 @@ const createRouter = () =>
 	new Router({
 		// mode: 'history', // require service support
 		scrollBehavior: () => ({ y: 0 }),
+		mode: 'history',
 		routes: constantRoutes
 	});
 
@@ -92,5 +108,8 @@ export function resetRouter() {
 	const newRouter = createRouter();
 	router.matcher = newRouter.matcher; // reset router
 }
+
+
+
 
 export default router;
