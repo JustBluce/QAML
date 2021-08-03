@@ -5,6 +5,7 @@
     <div class="box" >
         
         <h1>Login </h1> 
+        <button @click="show">CLICK ME</button>
         <section id="firebaseui-auth-container"></section>
     </div>
    
@@ -29,7 +30,6 @@ export default {
       // Hide the loader.
       document.getElementById('loader').style.display = 'none';
     }
-
   },
     data() {
         return {};
