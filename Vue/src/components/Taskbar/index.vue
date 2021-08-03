@@ -6,7 +6,6 @@ Developers: Jason Liu
   <v-toolbar elevation="4">
     <v-toolbar-title>{{ title }}</v-toolbar-title>
 
-<<<<<<< HEAD
     <v-spacer></v-spacer>
 
     <v-btn
@@ -19,20 +18,6 @@ Developers: Jason Liu
     >
       Create workspace
     </v-btn>
-=======
-      <v-spacer></v-spacer>
-      
-      <v-btn
-        v-if="qa"
-        color="green"
-        class="mx-2"
-        text
-        outlined
-        @click="$store.commit('createWorkspace')"
-      >
-        Create workspace
-      </v-btn>
->>>>>>> origin/Login-Features
 
     <v-btn
       v-if="qa"
@@ -53,7 +38,7 @@ Developers: Jason Liu
       <v-icon>mdi-brightness-6</v-icon>
     </v-btn>
 
-    <Profile />
+    <!-- <Profile /> -->
 
     <template v-slot:extension v-if="qa">
       <Tabs />
@@ -64,7 +49,6 @@ Developers: Jason Liu
 <script>
 import Profile from "./Profile";
 import Tabs from "./Tabs";
-
 
 export default {
   name: "Taskbar",
