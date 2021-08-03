@@ -5,7 +5,7 @@
     <div class="box" >
         
         <h1>Login </h1> 
-        <button @click="show">CLICK ME</button>
+        
         <section id="firebaseui-auth-container"></section>
     </div>
    
@@ -44,7 +44,7 @@ export default {
             signInSuccessUrl: "/dashboard", // This redirect can be achived by route using callback.
             signInFlow: "popup",
             signInOptions: [
-                firebase.auth.GithubAuthProvider.PROVIDER_ID,,
+                //firebase.auth.GithubAuthProvider.PROVIDER_ID,,
                 firebase.auth.GoogleAuthProvider.PROVIDER_ID,
                 firebase.auth.EmailAuthProvider.PROVIDER_ID
             ]
