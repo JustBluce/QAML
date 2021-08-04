@@ -112,7 +112,20 @@ export default {
       highlight: "🔔BUZZ",
       rules: [(value) => !!value || "Required."],
       showChart: false,
+      Question_id: -1,
     };
+  },
+  mounted: {
+    Create_Question_ID() {
+      formData.append("Timestamp", '2021-08-02 19:57:42');
+      this.axios({
+        url: "http://127.0.0.1:5000/question/Question_id",
+        method: "POST",
+      }).then((response) => {
+        this.Question_id = response.data["Question_id"];
+        console.log(response);
+      });
+    }
   },
   computed: {
     workspace() {
@@ -202,7 +215,7 @@ export default {
         this.qa.pronunciation = response.data["message"];
         console.log(response);
       });
-    }, 1000),
+    }, 10000),
     update_representation: _.debounce(function () {
       let formData = new FormData();
       formData.append("text", this.qa.text);
