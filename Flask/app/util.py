@@ -92,6 +92,7 @@ def get_pronunciation_models():
     Logistic regression classifier
 
     """
+    # TODO pronunciation_tf-idf.pickle
     with open("./model/pronunciation_models/pronunciation_tf-idf.pickle", "rb") as f:
         pron_vectorizer = pickle.load(f)
     with open("./model/pronunciation_models/pronunciation_regression.pickle", "rb") as f1:
@@ -199,6 +200,7 @@ class Highlight(object):
         for iKeyword in self.iKeywords:
             self.iText = re.sub(iKeyword, '<font color="#333333"><strong style="background:'+ self.iColor +'"><em>' + iKeyword + '</em></strong></font>', self.iText, count=self.iCount)
         # print(highlight_text)
+        print(self.iText)
         return self.iText
 
 

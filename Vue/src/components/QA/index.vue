@@ -36,18 +36,6 @@
           hide-details="auto"
           @keydown="keep_looping"
         ></v-textarea>
-        <!-- <highlightable-input
-      highlight-style="background-color:yellow"
-      :highlight-enabled="highlightEnabled"
-          :highlight="highlight"
-          class="my-4"
-          rows="10"
-          label="Question"
-          solo
-          v-model="qa.text"
-          hide-details="auto"
-          @keyup="keep_looping"
-    /> -->
         <v-textarea
           background-color="background"
           class="my-4"
@@ -63,7 +51,15 @@
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
 
-        <div v-html="highlight_text"></div>
+        <div
+          v-html="highlight_text"
+          background-color="background"
+          class="my-4"
+          rows="1"
+          label="Tips"
+          solo
+          hide-details="auto"
+        ></div>
       </v-container>
     </v-card>
   </v-container>
@@ -101,11 +97,24 @@ export default {
         ["Subgenre", "Count"],
         ["None", 1],
       ],
-      highlight_text: "",
+      highlight_text: "There are some <font color=\"#333333\"><strong style=\"background:red\"><em>tips</em></strong></font>",
       highlight: "🔔BUZZ",
       rules: [(value) => !!value || "Required."],
       showChart: false,
+      Question_id: -1,
     };
+  },
+  mounted: {
+    Create_Question_ID() {
+      formData.append("Timestamp", '2021-08-02 19:57:42');
+      this.axios({
+        url: "http://127.0.0.1:5000/question/Question_id",
+        method: "POST",
+      }).then((response) => {
+        this.Question_id = response.data["Question_id"];
+        console.log(response);
+      });
+    }
   },
   computed: {
     workspace() {
@@ -195,7 +204,7 @@ export default {
         this.qa.pronunciation = response.data["message"];
         console.log(response);
       });
-    }, 1000),
+    }, 10000),
     update_representation: _.debounce(function () {
       let formData = new FormData();
       formData.append("text", this.qa.text);

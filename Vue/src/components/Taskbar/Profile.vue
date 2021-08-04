@@ -4,6 +4,7 @@
       <v-btn icon v-on="on">
         <v-avatar size="36px">
           <img
+            v-if="user.photoURL"
             :src="user.photoURL"
             style="
               width: 35px;
@@ -12,6 +13,7 @@
               border: 2px solid #333;
             "
           />
+          <v-icon v-else>mdi-account-circle</v-icon>
         </v-avatar>
       </v-btn>
     </template>
