@@ -162,6 +162,11 @@ total_instance = sum(map_instance.values())
 
 under_countries = []
 over_countries = []
+current_over_countries = {}
+current_under_countries = {}
+prev_under_countries = {}
+prev_over_countries = {}
+suggested_countries = {}
 for country in map_instance.keys():
     # if country in question.lower():
     if len(list(filter(lambda x: x['countryLabel'].lower() == country.lower(), wiki_population))) != 0:
@@ -171,6 +176,27 @@ for country in map_instance.keys():
             over_countries.append(country)
 countries_vector = vectorize_albert(under_countries)
 answer = []
+
+country_represent_json = {}
+state_country_represent_json = {}
+
+def insert_into_db(q_id, date_incoming, question, ans):
+    ans = ans.replace(" ","_")
+    if q_id not in country_represent_json:
+        country_represent_json[q_id]=[]
+        
+    country_represent_json[q_id].append({
+                            "id":q_id,
+                            "data":{
+                                "Timestamp_frontend":date_incoming, 
+                                "Question":question,
+                                "answer":ans,
+                                "current_over_countries": current_over_countries[q_id],
+                                "current_under_countries": current_under_countries[q_id],
+                                "suggested_countries": suggested_countries[q_id] 
+                                }
+                            })
+
 
 
 @country_represent.route("/country_present", methods=["POST"])
@@ -198,22 +224,55 @@ def country_present():
     if request.method == "POST":
         question = request.form.get("text")
         ans = request.form.get("answer_text")
+        date_incoming = request.form.get("date")
+        q_id = request.form.get("id")
+        if q_id not in current_under_countries:
+            current_over_countries[q_id] = []
+            current_under_countries[q_id] = []
+            prev_under_countries[q_id] = []
+            prev_over_countries[q_id] = []
+            suggested_countries[q_id] = []
     start = time.time()
     message = ''
     question_vector = vectorize_albert([question])
     cosine_sim_ques_country = []
     # print(ans)
     page = wikipedia.page("\""+ans+"\"")
+    current_over_countries[q_id] = []
+    insert_db_flag = 0
+    for i in range(len(over_countries)):
+        if over_countries[i].lower() in question.lower(): 
+            current_over_countries[q_id].append(over_countries[i].lower())
+        elif over_countries[i].lower() not in question.lower() and over_countries[i].lower() in prev_over_countries[q_id]: 
+            insert_db_flag = 1
+           
+    
+    prev_over_countries[q_id] = current_over_countries[q_id]
+    current_under_countries[q_id] = []
     for i in range(len(under_countries)):
         # b = " ".join(x for x in i)
+        if under_countries[i].lower() in question.lower(): 
+            if under_countries[i].lower() in suggested_countries[q_id]:
+                insert_db_flag = 1
+            
+            current_under_countries[q_id].append(under_countries[i].lower())
+
         if under_countries[i].lower() not in question.lower() and under_countries[i].lower() in page.content.lower():
             cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]) ])
-
+    
+    
+    prev_under_countries[q_id] = current_under_countries[q_id]
     message = Sort(cosine_sim_ques_country)
 
     answer = []
+    suggested_countries[q_id] = []
     for i in message[:5]:
         answer.append({"Country": i[0], "Score":i[1]})
+        suggested_countries[q_id].append(i[0])
+    
+    if insert_db_flag == 1:
+        insert_into_db(q_id, date_incoming, question, ans)
+        print(country_represent_json)
     end = time.time()
     print("----TIME (s): /country_represent/country_present---", end - start)
     return jsonify({"country_representation": answer, "country": countries})

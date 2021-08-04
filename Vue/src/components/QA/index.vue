@@ -317,7 +317,7 @@ export default {
         this.qa.country_representation =
           response.data["country_representation"];
       });
-    }, 1000),
+    }, 500),
 
     searchData() {
       clearInterval(this.my_var);
