@@ -200,6 +200,7 @@ class Highlight(object):
         for iKeyword in self.iKeywords:
             self.iText = re.sub(iKeyword, '<font color="#333333"><strong style="background:'+ self.iColor +'"><em>' + iKeyword + '</em></strong></font>', self.iText, count=self.iCount)
         # print(highlight_text)
+        print(self.iText)
         return self.iText
 
 

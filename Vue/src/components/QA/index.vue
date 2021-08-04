@@ -108,7 +108,7 @@ export default {
         ["Subgenre", "Count"],
         ["None", 1],
       ],
-      highlight_text: "There are some tips",
+      highlight_text: "There are some <font color=\"#333333\"><strong style=\"background:red\"><em>tips</em></strong></font>",
       highlight: "🔔BUZZ",
       rules: [(value) => !!value || "Required."],
       showChart: false,
