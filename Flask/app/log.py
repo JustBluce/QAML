@@ -1,9 +1,10 @@
 #Cai
 import sys
+from app import db
 sys.path.append("..")
 sys.path.insert(0, './app')
-from app import import_libraries, util
-from import_libraries import *
+from flask import Flask, jsonify, request #Flask imports
+from flask import Blueprint, render_template, redirect #Flask import to re-route requests on server
 log = Blueprint('log', __name__)
 
 
