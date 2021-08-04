@@ -107,6 +107,7 @@ export default {
       highlight:"🔔BUZZ",
       rules: [(value) => !!value || "Required."],
       showChart: false,
+      my_var:""
     };
   },
   computed: {
@@ -125,7 +126,7 @@ export default {
   },
 
   created: function () {
-    setInterval(function () {
+    this.my_var =  setInterval(function () {
       let formData = new FormData();
       console.log(this.qa.text.lastIndexOf("🔔")>0)
       while(this.qa.text.lastIndexOf("🔔")>0)
@@ -134,6 +135,8 @@ export default {
         }
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
+      formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
+      formData.append("id",this.id);
       // this.qa.genre = this.selected_genre
       // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
       //         {
@@ -155,6 +158,10 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
+        while(this.qa.text.lastIndexOf("🔔")>0)
+        {
+          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf("🔔")) + this.qa.text.substr(this.qa.text.lastIndexOf("🔔") + "🔔".length,this.qa.text.length)
+        }
         this.qa.binary_search_based_buzzer = response.data["buzz"];
         this.qa.importance = response.data["importance"];
         this.highlight = response.data["buzz_word"];
@@ -202,19 +209,22 @@ export default {
   },
 
 
-
   methods: {
 
     
     keep_looping: _.debounce(function () {
+      clearInterval(this.my_var);
       let formData = new FormData();
-      console.log(this.qa.text.lastIndexOf("🔔")>0)
+      console.log(new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }))
+      // console.log(new Date().toString())
       while(this.qa.text.lastIndexOf("🔔")>0)
         {
           this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf("🔔")) + this.qa.text.substr(this.qa.text.lastIndexOf("🔔") + "🔔".length,this.qa.text.length)
         }
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
+      formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
+      formData.append("id",this.id);
       // this.qa.genre = this.selected_genre
       // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
       //         {
@@ -236,6 +246,10 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
+        while(this.qa.text.lastIndexOf("🔔")>0)
+        {
+          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf("🔔")) + this.qa.text.substr(this.qa.text.lastIndexOf("🔔") + "🔔".length,this.qa.text.length)
+        }
         this.qa.binary_search_based_buzzer = response.data["buzz"];
         this.qa.importance = response.data["importance"];
         this.highlight = response.data["buzz_word"];
@@ -280,6 +294,7 @@ export default {
         console.log(response);
       });
     }, 1000),
+
     update_representation: _.debounce(function () {
       let formData = new FormData();
       formData.append("text", this.qa.text);
@@ -303,7 +318,9 @@ export default {
           response.data["country_representation"];
       });
     }, 1000),
+
     searchData() {
+      clearInterval(this.my_var);
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
@@ -344,7 +361,9 @@ export default {
                 this.addResult({
                   title: "Saved",
                   body: "Your question is now added to the database.",
+
                 });
+                
               }
             }
             // this.qa.top5_similar_questions = response.data["similar_question"];

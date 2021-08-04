@@ -49,7 +49,48 @@ def guess(question, max=12):
 
 # Cai End -------------------
 
+def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_of_top_guesses_strings):
+    ans = ans.replace(" ","_")
+    if q_id not in machine_guess:
+        machine_guess[q_id]=[]
+        state_machine_guess[q_id]={
+                                    "ans_pos": -1, 
+                                    "current_guesses": array_of_top_guesses_strings
+                                    }
+        if ans in array_of_top_guesses_strings:
+            state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
+        
+        machine_guess[q_id].append({
+                                "id":q_id,
+                                "data":{
+                                    "Timestamp_frontend":date_incoming, 
+                                    "Timestamp_backend": date_outgoing, 
+                                    "guesses":answer,
+                                    "Question":question,
+                                    "answer":ans,
+                                    "ans_pos": state_machine_guess[q_id]["ans_pos"]
+                                    }
+                                })
+    else:
+        if ans in array_of_top_guesses_strings:
+            if(state_machine_guess[q_id]["ans_pos"] != array_of_top_guesses_strings.index(ans)):
+                state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
+                machine_guess[q_id].append({
+                                        "id":q_id,
+                                        "data":{
+                                            "Timestamp_frontend":date_incoming, 
+                                            "Timestamp_backend": date_outgoing, 
+                                            "guesses":answer,
+                                            "Question":question,
+                                            "answer":ans,
+                                            "ans_pos": state_machine_guess[q_id]["ans_pos"]
+                                            }
+                                        })
 
+
+machine_guess = {}
+state_machine_guess = {}
+# machine_guess["guess"] = []
 @func.route("/act", methods=["POST"])
 def act():
     """
@@ -74,12 +115,22 @@ def act():
     if request.method == "POST":
         question = request.form.get("text")
         ans = request.form.get("answer_text")
+        date_incoming = request.form.get("date")
+        q_id = request.form.get("id")
     start = time.time()
     answer = guess(question=[question])
+    array_of_top_guesses_strings = [str(x[0]) for x in answer]
     answer = [{"guess": str(x[0]),"score":str(x[1])} for x in answer]
+    
     end = time.time()
     # print(end - start)
     print("----TIME (s) : /func/act---", end - start)
+    date_outgoing = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+    add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_of_top_guesses_strings)
+    # print(machine_guess.keys)
+    print(machine_guess[q_id][-2:])
+    print(sys.getsizeof(machine_guess)) 
+
     return jsonify({"guess": answer})
 
 
@@ -142,4 +193,5 @@ def insert():
     answer = guess(question=[question])
     qa_table = metadata.tables["qa"]
     db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
+    
     return "submitted"
