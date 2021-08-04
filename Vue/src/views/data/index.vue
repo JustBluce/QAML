@@ -17,7 +17,7 @@
         :headers="headers"
         :items="leaderboard"
         :search="search"
-        :sort-by="['points', 'name']"
+        :sort-by="['Score', 'Name']"
         :sort-desc="[true, false]"
         multi-sort
       ></v-data-table>
@@ -37,25 +37,21 @@ export default {
     return {
       search: "",
       headers: [
-        { text: "Name", value: "name", width: "70%" },
-        { text: "Points", value: "points", width: "30%" },
+        { text: "Name", value: "Name", width: "30%" },
+        { text: "Score", value: "Score", width: "30%" },
+        { text: "LastLogin", value: "LastLogin", width: "40%" },
       ],
-      leaderboard: [
-        { name: "Alice", points: "0" },
-        { name: "Bob", points: "100" },
-        { name: "Carol", points: "200" },
-        { name: "David", points: "300" },
-        { name: "Eve", points: "400" },
-        { name: "Frank", points: "500" },
-        { name: "Grace", points: "600" },
-        { name: "Heidi", points: "700" },
-        { name: "Ivan", points: "800" },
-        { name: "Judy", points: "900" },
-        { name: "Mallory", points: "1000" },
-        { name: "Victor", points: "1000" },
-        { name: "Wendy", points: "1000" },
-      ],
+      leaderboard: [],
     };
+  },
+  mounted() {
+    this.axios({
+      url: "http://127.0.0.1:5000/users/leaderboard",
+      method: "GET",
+    }).then((response) => {
+      this.leaderboard = response.data;
+      console.log(response);
+    });
   },
 };
 </script>
