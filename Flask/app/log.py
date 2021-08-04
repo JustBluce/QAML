@@ -37,6 +37,7 @@ Users.`Username` = \''''+Username+"'"
 def log_add():
     if request.method == 'POST':
         Username = request.form.get('User')
+        Email = request.form.get('Email')
         Password = request.form.get('Password')
         # 先要判断
         sql = '''SELECT
@@ -49,8 +50,8 @@ def log_add():
         result_sql = db.session.execute(sql)
         result_sql = result_sql.fetchall()
         if result_sql == []:
-            sql = 'INSERT INTO `Users` (`Username`, `Password`) VALUES (\'' + \
-                Username + '\',\'' + Password + '\')'
+            sql = 'INSERT INTO `Users` (`Username`, `Email`, `Password`) VALUES (\'' + \
+                Username + '\',\'' + Email + '\',\'' + Password + '\')'
             db.session.execute(sql)
             return 'Successfully add new user'
         else:

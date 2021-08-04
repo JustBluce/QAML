@@ -71,11 +71,18 @@
       <el-dialog title="Register  account" :visible.sync="dialogFormVisible1">
         <!--        rules是传入规则，验证，下方其实没有规则传入-->
         <div>
-          <el-form :model="addForm" label-width="80px">
-            <el-form-item label="User:">
+          <el-form :model="addForm" label-width="100px">
+            <el-form-item label="Username:">
               <el-input
                 v-model.trim="addForm.username"
                 aria-placeholder="Please enter username"
+                clearable
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="Email:">
+              <el-input
+                v-model.trim="addForm.Email"
+                aria-placeholder="Please enter email"
                 clearable
               ></el-input>
             </el-form-item>
@@ -131,7 +138,6 @@
 
 <script>
 // import { validUsername } from '@/utils/validate'
-
 export default {
   name: "Login",
   data() {
@@ -154,6 +160,7 @@ export default {
     return {
       addForm: {
         username: "",
+        Email: "",
         password: "",
       },
       loginForm: {
@@ -194,8 +201,8 @@ export default {
     From_confirm1() {
       let formData = new FormData();
       formData.append("User", this.addForm.username);
+      formData.append("Email", this.addForm.Email);
       formData.append("Password", this.addForm.password);
-
       this.axios({
         method: "POST",
         url: "http://127.0.0.1:5000/log/add",
@@ -215,7 +222,6 @@ export default {
       formData.append("User", this.changeForm.username);
       formData.append("Password_old", this.changeForm.password_old);
       formData.append("Password_new", this.changeForm.password_new);
-
       this.axios({
         method: "POST",
         url: "http://127.0.0.1:5000/log/change",
@@ -248,7 +254,6 @@ export default {
       let formData = new FormData();
       formData.append("User", this.loginForm.username);
       formData.append("Password", this.loginForm.password);
-
       this.Username_False = true;
       this.Password_False = true;
       // this.$refs.loginForm.validate(valid => {
@@ -265,7 +270,6 @@ export default {
       //     return false
       //   }
       // })
-
       this.axios({
         method: "POST",
         url: "http://127.0.0.1:5000/log/in",
@@ -324,44 +328,38 @@ export default {
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
 $bg: #283443;
 $light_gray: #fff;
 $cursor: #fff;
-
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
-    color: $cursor;
+    color: #fff;
   }
 }
-
 /* reset element-ui css */
 .login-container {
   .el-input {
     display: inline-block;
     height: 47px;
     width: 85%;
-
     input {
       background: transparent;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: $light_gray;
+      color: rgb(15, 13, 13);
       height: 47px;
-      caret-color: $cursor;
-
+      caret-color: rgb(15, 13, 13);
       &:-webkit-autofill {
         box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: $cursor !important;
       }
     }
   }
-
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    background: rgb(241, 242, 243);
     border-radius: 5px;
     color: #454545;
   }
@@ -372,13 +370,11 @@ $cursor: #fff;
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
-
 .login-container {
   min-height: 100%;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
-
   .login-form {
     position: relative;
     width: 520px;
@@ -387,19 +383,16 @@ $light_gray: #eee;
     margin: 0 auto;
     overflow: hidden;
   }
-
   .tips {
     font-size: 14px;
     color: #fff;
     margin-bottom: 10px;
-
     span {
       &:first-of-type {
         margin-right: 16px;
       }
     }
   }
-
   .svg-container {
     padding: 6px 5px 6px 15px;
     color: $dark_gray;
@@ -407,10 +400,8 @@ $light_gray: #eee;
     width: 30px;
     display: inline-block;
   }
-
   .title-container {
     position: relative;
-
     .title {
       font-size: 26px;
       color: $light_gray;
@@ -419,7 +410,6 @@ $light_gray: #eee;
       font-weight: bold;
     }
   }
-
   .show-pwd {
     position: absolute;
     right: 10px;
