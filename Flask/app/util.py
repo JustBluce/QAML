@@ -56,6 +56,7 @@ def break_into_words(question):
 
     """
     array_of_words = question.split(' ')
+    array_of_words = [i for i in array_of_words if i]
     return array_of_words
 
 
