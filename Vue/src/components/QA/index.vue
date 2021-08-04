@@ -51,15 +51,16 @@
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
 
-        <div
-          v-html="highlight_text"
-          background-color="background"
-          class="my-4"
-          rows="1"
-          label="Tips"
-          solo
-          hide-details="auto"
-        ></div>
+        <v-card class="background mt-4 pa-2">
+          <div
+            v-html="qa.highlight_text"
+            background-color="background"
+            rows="1"
+            label="Tips"
+            solo
+            hide-details="auto"
+          ></div>
+        </v-card>
       </v-container>
     </v-card>
   </v-container>
@@ -97,7 +98,6 @@ export default {
         ["Subgenre", "Count"],
         ["None", 1],
       ],
-      highlight_text: "There are some <font color=\"#333333\"><strong style=\"background:red\"><em>tips</em></strong></font>",
       highlight: "🔔BUZZ",
       rules: [(value) => !!value || "Required."],
       showChart: false,
@@ -106,7 +106,7 @@ export default {
   },
   mounted: {
     Create_Question_ID() {
-      formData.append("Timestamp", '2021-08-02 19:57:42');
+      formData.append("Timestamp", "2021-08-02 19:57:42");
       this.axios({
         url: "http://127.0.0.1:5000/question/Question_id",
         method: "POST",
@@ -114,7 +114,7 @@ export default {
         this.Question_id = response.data["Question_id"];
         console.log(response);
       });
-    }
+    },
   },
   computed: {
     workspace() {
@@ -214,7 +214,7 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
-        this.highlight_text = response.data["highlight_text"];
+        this.qa.highlight_text = response.data["highlight_text"];
         // this.qa.importance = response.data["importance"];
         // this.highlight = response.data["buzz_word"];
         console.log(response);

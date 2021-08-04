@@ -10,11 +10,13 @@ export function defaultQA() {
 		country_representation: [],
 		people_ethnicity: '',
 		top5_similar_questions: [],
-		binary_search_based_buzzer: '',
+		binary_search_based_buzzer: 'Buzzer text goes here',
 		importance: [],
 		genre: '',
 		subgenre: '',
-		pronunciation: []
+		pronunciation: [],
+		highlight_text:
+			'There are some <mark class="yellow">tips</mark>'
 	};
 }
 
@@ -55,7 +57,7 @@ export function widgetTemplate(type) {
 			title: 'Machine guesses',
 			type: 'MachineGuesses',
 			container: 'left'
-		}
+		},
 	};
 	return widget_templates[type];
 }
@@ -63,7 +65,7 @@ export function widgetTemplate(type) {
 export function defaultWorkspace(id) {
 	return {
 		id: id,
-		tab_id: id+1,
+		tab_id: id + 1,
 		tab: true,
 		title: id === 0 ? 'Workspace' : `Workspace (${id})`,
 		qa: defaultQA(),
