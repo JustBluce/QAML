@@ -4,19 +4,14 @@ Developers: Atith Gandhi and Jason Liu
 
 <template>
   <div>
-    <!-- <textarea
-      readonly
-      class="container"
-      rows="5"
-      placeholder="Buzzer"
-      v-model="binary_search_based_buzzer"
-    ></textarea> -->
-    <Highlighter
-      highlightClassName="highlight"
-      :searchWords="keywords"
-      :autoEscape="true"
-      :textToHighlight="binary_search_based_buzzer"
-    />
+    <v-card class="background mb-4 pa-2">
+      <Highlighter
+        highlightClassName="highlight"
+        :searchWords="keywords"
+        :autoEscape="true"
+        :textToHighlight="binary_search_based_buzzer"
+      />
+    </v-card>
     <v-data-table
       :headers="headers"
       :items="importance"
@@ -29,6 +24,7 @@ Developers: Atith Gandhi and Jason Liu
 
 <script>
 import Highlighter from "vue-highlight-words";
+
 export default {
   name: "Buzzer",
   props: {
