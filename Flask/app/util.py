@@ -299,4 +299,9 @@ sub_genres = {
 genres = ['Philosophy', 'History', 'Literature', 'Mythology', 'Current Events', 'Religion', 'Trash', 'Social Science', 'Science', 'Fine Arts', 'Geography']
 
 
+# Lets make the dictionaries global
+country_represent_json = {}
+state_country_represent_json = {}
 
+machine_guess = {}
+state_machine_guess = {}
