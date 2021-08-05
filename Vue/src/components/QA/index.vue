@@ -321,6 +321,10 @@ export default {
 
     searchData() {
       clearInterval(this.my_var);
+      while(this.qa.text.lastIndexOf("🔔")>0)
+        {
+          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf("🔔")) + this.qa.text.substr(this.qa.text.lastIndexOf("🔔") + "🔔".length,this.qa.text.length)
+        }
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
@@ -358,12 +362,12 @@ export default {
                   method: "POST",
                   data: formData,
                 }).then((response) => {
-                  console.log(response);
+                  console.log("HERE IS PUSH");
+                  this.$router.push({ name: 'Dashboard' });
                 });
                 this.addResult({
                   title: "Saved",
                   body: "Your question is now added to the database.",
-
                 });
                 
               }

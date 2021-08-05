@@ -193,7 +193,10 @@ def insert():
     print(question, ans)
     # answer = guess(question=[question])
     print(q_id)
-    print(machine_guess.pop(q_id), country_represent_json.pop(q_id))
+    if q_id in machine_guess:
+        print(machine_guess.pop(q_id))
+    if q_id in country_represent_json:
+        print(country_represent_json.pop(q_id))
     qa_table = metadata.tables["qa"]
     db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
     end=time.time()
