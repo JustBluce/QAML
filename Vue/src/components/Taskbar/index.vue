@@ -8,31 +8,7 @@ Developers: Jason Liu
 
     <v-spacer></v-spacer>
 
-    <v-btn
-      v-if="qa"
-      color="green"
-      class="mx-2"
-      text
-      outlined
-      @click="$store.commit('createWorkspace')"
-    >
-      Create workspace
-    </v-btn>
-
-    <v-btn
-      v-if="qa"
-      color="red"
-      class="mx-2"
-      text
-      outlined
-      @click="
-        $store.state.workspaces.forEach((workspace) =>
-          $store.commit('removeWorkspace', workspace.id)
-        )
-      "
-    >
-      Clear all
-    </v-btn>
+    <WorkspaceMenu v-if="qa" />
 
     <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
       <v-icon>mdi-brightness-6</v-icon>
@@ -47,6 +23,7 @@ Developers: Jason Liu
 </template>
 
 <script>
+import WorkspaceMenu from "./WorkspaceMenu";
 import Profile from "./Profile";
 import Tabs from "./Tabs";
 
@@ -60,6 +37,7 @@ export default {
     },
   },
   components: {
+    WorkspaceMenu,
     Profile,
     Tabs,
   },

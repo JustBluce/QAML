@@ -41,6 +41,7 @@ Developers: Jason Liu
           <v-btn
             color="green"
             class="mx-auto"
+            style="width: 225px"
             text
             outlined
             @click="toggleAll(true)"
@@ -52,6 +53,7 @@ Developers: Jason Liu
           <v-btn
             color="red"
             class="mx-auto"
+            style="width: 225px"
             text
             outlined
             @click="toggleAll(false)"
