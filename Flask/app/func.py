@@ -88,8 +88,7 @@ def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_o
                                         })
 
 
-machine_guess = {}
-state_machine_guess = {}
+
 # machine_guess["guess"] = []
 @func.route("/act", methods=["POST"])
 def act():
@@ -128,8 +127,8 @@ def act():
     date_outgoing = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
     add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_of_top_guesses_strings)
     # print(machine_guess.keys)
-    print(machine_guess[q_id][-2:])
-    print(sys.getsizeof(machine_guess)) 
+    # print(machine_guess[q_id][-2:])
+    # print(sys.getsizeof(machine_guess)) 
 
     return jsonify({"guess": answer})
 
@@ -186,12 +185,17 @@ def insert():
     Insert into database and return status
 
     """
+    start = time.time()
     if request.method == "POST":
         question = request.form.get("text")
         ans = request.form.get("answer_text")
+        q_id = request.form.get("id")
     print(question, ans)
-    answer = guess(question=[question])
+    # answer = guess(question=[question])
+    print(q_id)
+    print(machine_guess.pop(q_id), country_represent_json.pop(q_id))
     qa_table = metadata.tables["qa"]
     db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
-    
+    end=time.time()
+    print("----TIME (s) : /func/submit [SUBMIT]---",end-start)
     return "submitted"
