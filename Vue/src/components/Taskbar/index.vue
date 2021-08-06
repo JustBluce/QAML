@@ -14,7 +14,7 @@ Developers: Jason Liu
       <v-icon>mdi-brightness-6</v-icon>
     </v-btn>
 
-    <!-- <Profile /> -->
+    <Profile />
 
     <template v-slot:extension v-if="qa">
       <Tabs />

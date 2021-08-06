@@ -1,34 +1,34 @@
-<template>
-  <!-- display the navigation bar -->
+<!--
+Developers: Damian Rene
+--> 
 
-  <v-toolbar elevation="4" class="px-0">
-    <v-toolbar-title style="color: black"
-      >Adversarial Trivia Question Writing Interface</v-toolbar-title
-    >
+<template>
+  <v-app-bar app>
+    <v-toolbar-title>
+      Adversarial Trivia Question Writing Interface
+    </v-toolbar-title>
 
     <v-spacer></v-spacer>
-    <!-- navigation bar links You can add more in the computed items -->
 
-    <v-toolbar-items class="hidden-xs-only">
-      <v-btn
-        class="mx-2"
-        v-for="item in items"
-        :key="item.title"
-        :to="item.link"
-      >
-        <v-icon right>{{ item.icon }}</v-icon
-        >{{ item.title }}
+    <v-toolbar-items>
+      <v-btn v-for="item in items" :key="item.title" :to="item.link">
+        <v-icon class="mr-1">{{ item.icon }}</v-icon>
+        {{ item.title }}
       </v-btn>
-      <v-spacer></v-spacer>
-    </v-toolbar-items>
-
-    <!-- sign out button -->
-    <v-toolbar-items class="hidden-xs-only">
-      <v-btn v-show="!user" @click="signOut" class="mx-2">
-        <v-icon right>mdi-logout</v-icon>Logout
+      <v-btn v-show="!user" @click="logOut">
+        <v-icon class="mr-1">mdi-logout</v-icon>
+        Logout
       </v-btn>
     </v-toolbar-items>
-  </v-toolbar>
+
+    <v-btn
+      icon
+      class="ml-1"
+      @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+    >
+      <v-icon>mdi-brightness-6</v-icon>
+    </v-btn>
+  </v-app-bar>
 </template>
 
 <script>
@@ -40,6 +40,14 @@ export default {
       user: null,
     };
   },
+  /*
+updated() {
+    firebase.auth().onAuthStateChanged(user => {
+        this.user = user;
+    });
+    
+},
+*/
   computed: {
     items() {
       let menuItems = [
@@ -48,28 +56,21 @@ export default {
           icon: "mdi-login-variant",
           link: "/login",
         },
+        {
+          title: "About",
+          icon: "mdi-information-outline",
+          link: "/about",
+        },
       ];
       return menuItems;
     },
   },
   methods: {
-    signOut(e) {
-      alert("Signed Out!");
+    logOut(e) {
       this.$router.push({ name: "Login" });
       e.stopPropagation();
       firebase.auth().signOut();
     },
   },
-  created() {
-    firebase.auth().onAuthStateChanged((user) => {
-      this.user = user;
-    });
-  },
 };
 </script>
-
-<style scoped>
-.toolbar {
-  background: #50759e;
-}
-</style>
