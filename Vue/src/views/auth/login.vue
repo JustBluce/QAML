@@ -1,20 +1,68 @@
+<!--
+Developers: Damian Rene and Jason Liu
+--> 
+
 <template>
-  <div>
-    <particles-bg type="cobweb" :bg="true" />
+  <v-container fill-height>
+    <particles-bg :color="$vuetify.theme.currentTheme.primary" type="cobweb" />
 
-    <div class="box">
-      <h1>Login</h1>
+    <v-card
+      class="ma-auto pa-8 background justify-center"
+      style="border-radius: 16px"
+      elevation="16"
+      max-width="600"
+    >
+      <v-card-title class="text-h3 justify-center">Login</v-card-title>
 
-      <section id="firebaseui-auth-container"></section>
-    </div>
-  </div>
+      <v-form ref="form" class="px-8">
+        <v-text-field
+          v-model="email"
+          label="Email"
+          placeholder="Email address"
+          :rules="emailRules"
+        ></v-text-field>
+
+        <v-text-field
+          v-model="password"
+          label="Password"
+          placeholder="Password"
+          :rules="passwordRules"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword ? 'text' : 'password'"
+          @click:append="showPassword = !showPassword"
+        ></v-text-field>
+      </v-form>
+
+      <v-card-actions class="justify-center">
+        <v-btn class="primary" @click="emailLogin">
+          <v-img
+            class="mr-2"
+            width="20px"
+            alt="Email sign-in"
+            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/mail.svg "
+          ></v-img>
+          Email login
+        </v-btn>
+        <v-btn class="red" @click="socialLogin">
+          <v-img
+            class="mr-2"
+            width="20px"
+            alt="Google sign-in"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+          ></v-img>
+          Google login
+        </v-btn>
+        <v-btn @click="guestLogin">
+          <v-icon class="mr-2" size="20">mdi-account-circle</v-icon>
+          Guest login
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
 import firebase from "firebase";
-import * as firebaseui from "firebaseui";
-import "firebaseui/dist/firebaseui.css";
-
 import { ParticlesBg } from "particles-bg-vue";
 
 export default {
@@ -22,52 +70,58 @@ export default {
   components: {
     ParticlesBg,
   },
-  methods: {
-    uiShown: function () {
-      // The widget is rendered.
-      // Hide the loader.
-      document.getElementById("loader").style.display = "none";
-    },
-  },
   data() {
-    return {};
-  },
-
-  mounted() {
-    let ui = firebaseui.auth.AuthUI.getInstance();
-    if (!ui) {
-      ui = new firebaseui.auth.AuthUI(firebase.auth());
-    }
-    var uiConfig = {
-      signInSuccessUrl: "/dashboard", // This redirect can be achived by route using callback.
-      signInFlow: "popup",
-      signInOptions: [
-        //firebase.auth.GithubAuthProvider.PROVIDER_ID,,
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    return {
+      email: "",
+      password: "",
+      showPassword: false,
+      emailRules: [
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      ],
+      passwordRules: [
+        (v) => !!v || "Password is required",
+        (v) => v.length >= 8 || "Min 8 characters",
       ],
     };
-    ui.start("#firebaseui-auth-container", uiConfig);
+  },
+  methods: {
+    emailLogin() {
+      if (this.$refs.form.validate()) {
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(this.email, this.password)
+          .then(() => {
+            this.$router.push("/dashboard");
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      }
+    },
+    socialLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+          this.$router.replace("Dashboard");
+        })
+        .catch((err) => {
+          alert("Oops. " + err.message);
+        });
+    },
+    guestLogin() {
+      this.$router.push("/dashboard");
+    },
   },
 };
 </script>
 
 <style>
-.main-container {
-  min-height: 100%;
-  transition: margin-left 0.28s;
-  position: relative;
-}
-.box {
-  text-align: center;
-
-  background: rgb(216, 216, 216);
-  height: 300px;
-  width: 400px;
-  padding: 5px;
-  margin: auto;
-  margin-top: 10%;
-  border-radius: 20px;
-  border: 2px solid black;
+.canvas {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
 }
 </style>

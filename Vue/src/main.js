@@ -24,11 +24,21 @@ import firebase from 'firebase';
 
 import '@/icons'; // icon
 import '@/permission'; // permission control
-import firebaseui from 'firebaseui';
 
 import Vuelidate from 'vuelidate';
 
 window._ = require('lodash');
+
+const firebaseConfig = {
+	apiKey: 'AIzaSyAXEuo-gAHpxQ9YxmdDhDK978I4ZDXMPK4',
+	authDomain: 'test-login-90a1d.firebaseapp.com',
+	projectId: 'test-login-90a1d',
+	storageBucket: 'test-login-90a1d.appspot.com',
+	messagingSenderId: '199458901110',
+	appId: '1:199458901110:web:fc95dd5a9a3ff7c1b36357'
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 /**
  * If you don't want to use mock-server
@@ -53,21 +63,9 @@ new Vue({
 	el: '#app',
 	vuetify,
 	router,
-
 	store,
 	render: (h) => h(App)
 });
-
-const firebaseConfig = {
-	apiKey: 'AIzaSyAXEuo-gAHpxQ9YxmdDhDK978I4ZDXMPK4',
-	authDomain: 'test-login-90a1d.firebaseapp.com',
-	projectId: 'test-login-90a1d',
-	storageBucket: 'test-login-90a1d.appspot.com',
-	messagingSenderId: '199458901110',
-	appId: '1:199458901110:web:fc95dd5a9a3ff7c1b36357'
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
 
 firebase
 	.auth()

@@ -3,7 +3,7 @@ Developers: Jason Liu and Cai Zefan
 -->
 
 <template>
-  <v-main>
+  <div>
     <Taskbar title="QA Interface" :qa="true" />
     <v-container fluid class="workspaces-container">
       <transition-group type="transition" name="workspaces">
@@ -14,7 +14,7 @@ Developers: Jason Liu and Cai Zefan
         />
       </transition-group>
     </v-container>
-  </v-main>
+  </div>
 </template>
 
 <script>
