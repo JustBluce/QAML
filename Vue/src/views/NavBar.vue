@@ -1,3 +1,4 @@
+<!-- Nav Bar Login: Damian Rene--> 
 <template>
     <!-- display the navigation bar -->
     
@@ -10,26 +11,26 @@
       <v-toolbar-items class='hidden-xs-only'>
 
         <v-btn  class="mx-2"  v-for="item in items" :key="item.title" :to="item.link">
-          <v-icon right>{{item.icon}}</v-icon>{{item.title}}
+          <v-icon class="nav-button-icon" right>{{item.icon}}</v-icon>{{item.title}}
         </v-btn>
         <v-spacer></v-spacer>
       </v-toolbar-items>
 
 
-      <!-- sign out button -->
+      <!-- sign out button (You can chnage to only show when logged in, but then the Navbar looks empty)-->
       <v-toolbar-items class='hidden-xs-only'>
         <v-btn v-show="!user" @click="signOut"
         class="mx-2"
           flat
           >
-          <v-icon right>mdi-logout</v-icon>Logout
+          <v-icon class="nav-button-icon" right>mdi-logout</v-icon>Logout
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
    
 </template>
 <script>
-
+import firebase from "firebase";
 
 export default {
     data() {
@@ -37,11 +38,14 @@ export default {
         user: null
     };
 },
-created() {
+/*
+updated() {
     firebase.auth().onAuthStateChanged(user => {
         this.user = user;
     });
+    
 },
+*/
   computed: {
     items() {
       let menuItems =  [
@@ -49,6 +53,11 @@ created() {
           title: 'Login',
           icon: 'mdi-login-variant',
           link: '/login'
+        },
+        {
+          title: 'About',
+          icon: 'mdi-login-variant',
+          link: '/about'
         }
       ]
     return menuItems
@@ -61,7 +70,6 @@ created() {
         e.stopPropagation();
         firebase.auth().signOut();
         
-        
     }
 }
 }
@@ -71,5 +79,9 @@ created() {
 .toolbar{
   background: #50759e;
  
+}
+.nav-button-icon{
+  margin-right: 5px;
+
 }
 </style>

@@ -4,6 +4,7 @@
         <h1 class="title">Profile</h1>
         <div class="card horizontal"  v-if="user">
             
+            
             <div class="card-image" style="margin-top:25px;margin-left:10px;">
                 <img
                     :src="user.photoURL"
@@ -31,7 +32,13 @@
 
 <script>
 import firebase from "firebase";
+import { ParticlesBg } from "particles-bg-vue";
+
 export default {
+    components: {
+    ParticlesBg
+  
+  },
     methods:{
         updateUserProfile(){
         // [START auth_update_user_profile]
