@@ -3,6 +3,7 @@
     <!-- display nav bar -->
     <nav-bar v-if="this.$route.name === 'Login' " ></nav-bar>
     <nav-bar v-if="this.$route.name === 'Register' " ></nav-bar>
+    <nav-bar v-if="this.$route.name === 'About' " ></nav-bar>
 
     <router-view />
   </div>

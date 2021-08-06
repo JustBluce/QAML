@@ -6,6 +6,8 @@ import firebase from 'firebase'
 /* Layout */
 import Layout from '@/layout';
 import Login from '@/views/auth/login.vue'
+import About from '@/views/auth/about.vue'
+import Email_Login from '@/views/auth/email_login.vue'
 
 import tableRouter from './modules/table';
 
@@ -40,6 +42,28 @@ export const constantRoutes = [
         path: '/login',
         name: 'Login',
         component: Login,
+		hidden: true,
+        meta: {
+			guest: true
+		  }
+
+      },
+	  {
+        path: '/email-login',
+        name: 'Email-Login',
+        component: Email_Login,
+		hidden: true,
+        meta: {
+			guest: true
+		  }
+
+      },
+	
+
+	{
+        path: '/about',
+        name: 'About',
+        component: About,
 		hidden: true,
         meta: {
 			guest: true
@@ -120,6 +144,7 @@ export function resetRouter() {
 }
 
 
+  
+  export default router
 
 
-export default router;
