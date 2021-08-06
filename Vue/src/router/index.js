@@ -5,7 +5,9 @@ Vue.use(Router);
 
 /* Layout */
 import Layout from '@/layout';
-import tableRouter from './modules/table';
+import Login from '@/views/auth/login.vue';
+import About from '@/views/auth/about.vue';
+import Email_Login from '@/views/auth/email_login.vue';
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -34,8 +36,31 @@ import tableRouter from './modules/table';
 export const constantRoutes = [
 	{
 		path: '/login',
-		component: () => import('@/views/login/index'),
-		hidden: true
+		name: 'Login',
+		component: Login,
+		hidden: true,
+		meta: {
+			guest: true
+		}
+	},
+	{
+		path: '/email-login',
+		name: 'Email-Login',
+		component: Email_Login,
+		hidden: true,
+		meta: {
+			guest: true
+		}
+	},
+
+	{
+		path: '/about',
+		name: 'About',
+		component: About,
+		hidden: true,
+		meta: {
+			guest: true
+		}
 	},
 
 	{
@@ -53,7 +78,7 @@ export const constantRoutes = [
 				path: 'dashboard',
 				name: 'Dashboard',
 				component: () => import('@/views/dashboard/index'),
-				meta: { title: 'Dashboard', icon: 'dashboard' }
+				meta: { title: 'Dashboard', icon: 'user', auth: true }
 			}
 		]
 	},
@@ -72,20 +97,6 @@ export const constantRoutes = [
 		]
 	},
 
-	{
-		path: '/data',
-		component: Layout,
-		redirect: '/data',
-		children: [
-			{
-				path: '',
-				name: 'Data',
-				component: () => import('@/views/data/index'),
-				meta: { title: 'Data', icon: 'table' }
-			}
-		]
-	},
-
 	// tableRouter,
 
 	// 404 page must be placed at the end !!!
@@ -96,6 +107,7 @@ const createRouter = () =>
 	new Router({
 		// mode: 'history', // require service support
 		scrollBehavior: () => ({ y: 0 }),
+		mode: 'history',
 		routes: constantRoutes
 	});
 

@@ -39,21 +39,27 @@ Developers: Jason Liu
       <v-list>
         <v-list-item>
           <v-btn
-            color="red"
-            class="mx-1"
-            text
-            outlined
-            @click="toggleAll(false)"
-            >Disable all</v-btn
-          >
-          <v-btn
             color="green"
-            class="mx-1"
+            class="mx-auto"
+            style="width: 225px"
             text
             outlined
             @click="toggleAll(true)"
-            >Activate all</v-btn
           >
+            Activate all widgets
+          </v-btn>
+        </v-list-item>
+        <v-list-item>
+          <v-btn
+            color="red"
+            class="mx-auto"
+            style="width: 225px"
+            text
+            outlined
+            @click="toggleAll(false)"
+          >
+            Disable all widgets
+          </v-btn>
         </v-list-item>
         <v-list-item v-for="widget_type in widget_types" :key="widget_type">
           <v-switch
@@ -61,6 +67,8 @@ Developers: Jason Liu
             :label="widget_type"
             @change="toggleSwitch(widget_type)"
             inset
+            class="my-1"
+            hide-details
           >
           </v-switch>
         </v-list-item>

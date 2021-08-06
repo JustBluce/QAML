@@ -44,7 +44,7 @@ const store = new Vuex.Store({
 			}
 			state.workspaces.push(newWorkspace);
 			state.workspace_stack.push(state.workspace_index);
-			state.workspace_selected = state.workspace_index;
+			state.workspace_selected = state.workspace_index + 1;
 			state.workspace_index++;
 			this.commit('updateTabs');
 		},
@@ -66,10 +66,9 @@ const store = new Vuex.Store({
 			}
 		},
 		updateTabs(state) {
-			state.workspace_selected = state.workspaces.findIndex(
-				(workspace) => workspace.tab_id === state.workspace_selected
-			);
-			state.workspaces = state.workspaces.map((workspace, i) => Object.assign(workspace, { tab_id: i }));
+			state.workspace_selected =
+				state.workspaces.findIndex((workspace) => workspace.tab_id === state.workspace_selected) + 1;
+			state.workspaces = state.workspaces.map((workspace, i) => Object.assign(workspace, { tab_id: i + 1 }));
 		},
 		addWidget(state, { workspace_id, type }) {
 			let workspace = getters.workspace(state)(workspace_id);
