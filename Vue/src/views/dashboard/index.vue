@@ -1,8 +1,32 @@
+<!--
+Developers: Jason Liu, Damian Rene, and Cai Zefan
+-->
+
 <template>
-  <v-main>
+  <div>
     <Taskbar title="Dashboard" />
-    <Profile></Profile>
-    <v-card class="ma-2">
+
+    <v-card class="ma-4 pa-2" max-width="400">
+      <v-card-title>
+        <v-avatar size="56" v-if="user">
+          <img alt="user" :src="user.photoURL" />
+        </v-avatar>
+        <v-icon size="56" v-else>mdi-account-circle</v-icon>
+        <p class="text-h4 ml-3 mb-0">Profile</p>
+      </v-card-title>
+      <v-card-text>
+        <div class="text--primary text-body-1" v-if="user">
+          Name: <strong>{{ user.displayName }}</strong
+          ><br />
+          Email: <strong>{{ user.email }}</strong
+          ><br />
+          Provider: <strong>{{ user.providerData[0].providerId }}</strong>
+        </div>
+        <div v-else>Logged in as guest</div>
+      </v-card-text>
+    </v-card>
+
+    <v-card class="ma-4">
       <v-card-title>
         Leaderboard
         <v-spacer></v-spacer>
@@ -23,21 +47,21 @@
         multi-sort
       ></v-data-table>
     </v-card>
-  </v-main>
+  </div>
 </template>
 
 <script>
+import firebase from "firebase";
 import Taskbar from "@/components/Taskbar";
-import Profile from "@/components/auth/profile";
 
 export default {
   name: "Data",
   components: {
     Taskbar,
-    Profile,
   },
   data() {
     return {
+      user: null,
       search: "",
       headers: [
         { text: "Name", value: "Name", width: "30%" },
@@ -46,6 +70,34 @@ export default {
       ],
       leaderboard: [],
     };
+  },
+  methods: {
+    updateUserProfile() {
+      // [START auth_update_user_profile]
+      const user = firebase.auth().currentUser;
+
+      user
+        .updateProfile({
+          photoURL: user.photoURL,
+        })
+        .then(() => {
+          alert("yay");
+          // Update successful
+          // ...
+        })
+        .catch((error) => {
+          alert(error);
+          // An error occurred
+          // ...
+        });
+    },
+  },
+  created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.user = user;
+      }
+    });
   },
   mounted() {
     this.axios({
