@@ -10,6 +10,14 @@ Developers: Damian Rene
 
     <v-spacer></v-spacer>
 
+    <v-btn
+      icon
+      class="mr-2"
+      @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+    >
+      <v-icon>mdi-brightness-6</v-icon>
+    </v-btn>
+
     <v-toolbar-items>
       <v-btn v-for="item in items" :key="item.title" :to="item.link">
         <v-icon class="mr-1">{{ item.icon }}</v-icon>
@@ -20,14 +28,6 @@ Developers: Damian Rene
         Logout
       </v-btn>
     </v-toolbar-items>
-
-    <v-btn
-      icon
-      class="ml-1"
-      @click="$vuetify.theme.dark = !$vuetify.theme.dark"
-    >
-      <v-icon>mdi-brightness-6</v-icon>
-    </v-btn>
   </v-app-bar>
 </template>
 

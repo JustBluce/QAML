@@ -105,7 +105,7 @@ export default {
         .auth()
         .signInWithPopup(provider)
         .then((result) => {
-          this.$router.replace("Dashboard");
+          this.$router.push("/dashboard");
         })
         .catch((err) => {
           alert("Oops. " + err.message);
@@ -114,6 +114,13 @@ export default {
     guestLogin() {
       this.$router.push("/dashboard");
     },
+  },
+  created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$router.push("/dashboard");
+      }
+    });
   },
 };
 </script>

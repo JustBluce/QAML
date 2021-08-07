@@ -32,6 +32,7 @@
 
 <script>
 import draggable from "vuedraggable";
+
 export default {
   name: "Tabs",
   components: {
