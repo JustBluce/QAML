@@ -43,10 +43,14 @@ const store = new Vuex.Store({
 				state.recommended = state.recommended.filter((rec) => rec !== title);
 			}
 			state.workspaces.push(newWorkspace);
-			state.workspace_stack.push(state.workspace_index);
-			state.workspace_selected = state.workspace_index + 1;
 			state.workspace_index++;
 			this.commit('updateTabs');
+			this.commit('selectWorkspace', newWorkspace.id);
+		},
+		addWorkspace(state, workspace_id) {
+			getters.workspace(state)(workspace_id).tab = true;
+			this.commit('updateTabs');
+			this.commit('selectWorkspace', workspace_id);
 		},
 		removeWorkspace(state, workspace_id) {
 			this.commit('minimizeWorkspace', workspace_id);
