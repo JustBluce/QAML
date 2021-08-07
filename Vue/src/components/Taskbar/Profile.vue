@@ -13,7 +13,7 @@
         <div class="mx-auto text-center">
           <h3 class="pa-2">{{ user ? user.displayName : "Guest" }}</h3>
           <v-divider class="my-1"></v-divider>
-          <v-btn depressed rounded text href="/"> Home </v-btn>
+          <v-btn depressed rounded text href="/about"> About </v-btn>
           <v-divider class="my-1"></v-divider>
           <v-btn
             depressed
