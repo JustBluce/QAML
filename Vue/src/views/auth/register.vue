@@ -85,12 +85,15 @@ export default {
         firebase
           .auth()
           .createUserWithEmailAndPassword(this.email, this.password)
-          .then((data) => {
-            data.user
+          .then((cred) => {
+            db.collection('users').doc(cred.user.uid).set({
+                  displayName: this.name,
+                  email: this.email,
+            }).then((data) => {
+              data.user
               .updateProfile({
                 displayName: this.name,
               })
-              .then(() => {
                 this.$router.push("/dashboard");
               });
           })
