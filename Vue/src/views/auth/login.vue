@@ -92,6 +92,7 @@ export default {
           .auth()
           .signInWithEmailAndPassword(this.email, this.password)
           .then(() => {
+            
             this.$router.push("/dashboard");
           })
           .catch((error) => {

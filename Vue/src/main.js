@@ -30,19 +30,33 @@ import Vuelidate from 'vuelidate';
 window._ = require('lodash');
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyAXEuo-gAHpxQ9YxmdDhDK978I4ZDXMPK4',
-	authDomain: 'test-login-90a1d.firebaseapp.com',
-	projectId: 'test-login-90a1d',
-	storageBucket: 'test-login-90a1d.appspot.com',
-	messagingSenderId: '199458901110',
-	appId: '1:199458901110:web:fc95dd5a9a3ff7c1b36357'
-};
+    apiKey: "AIzaSyBeQWRzGbIiVnHijn_eZrBRbbsuT3N5D0s",
+    authDomain: "question-writing-interface.firebaseapp.com",
+    projectId: "question-writing-interface",
+    storageBucket: "question-writing-interface.appspot.com",
+    messagingSenderId: "668025043214",
+    appId: "1:668025043214:web:f49afb9f95c5c906907f5f",
+    measurementId: "G-8JMB36KVE8"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
 firebase.auth().onAuthStateChanged((user) => {
 	store.dispatch('fetchUser', user)
+	if(user){
+		debounce.collection('guides').onSnapshot(snapshot =>{
+			setupGuides(snapshot.docs);
+			setupUI(user);
+		}, err => {
+			console.log(err.messge)
+		})
+	} else{
+		setupUI();
+		setupGuides([]);
+	}
 });
 
 /**
