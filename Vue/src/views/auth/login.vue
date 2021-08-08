@@ -75,10 +75,62 @@ export default {
     ParticlesBg
   },
   data() {
+<<<<<<< Updated upstream
         return {
             email: '',
             password: '',
         };
+=======
+    return {
+      email: "",
+      password: "",
+      showPassword: false,
+      emailRules: [
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      ],
+      passwordRules: [
+        (v) => !!v || "Password is required",
+        (v) => v.length >= 8 || "Min 8 characters",
+      ],
+    };
+  },
+  methods: {
+    emailLogin() {
+      if (this.$refs.form.validate()) {
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password)
+          .then(() => {
+            alert("Signed IN!")
+            this.$router.push("/dashboard");
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      }
+    },
+    socialLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+          result.user.displayName;
+          this.$router.push("/dashboard");
+        })
+        .catch((err) => {
+          alert("Oops. " + err.message);
+        });
+    },
+    guestLogin() {
+      firebase.auth().signInAnonymously().then((result) =>{
+        this.$router.push("/dashboard");
+      })
+      .catch((err)=> {
+        alert("Oops. "+ err.message);
+        })
+>>>>>>> Stashed changes
     },
   methods: {
      socialLogin(){
