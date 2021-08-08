@@ -91,8 +91,6 @@ export const constantRoutes = [
 		]
 	},
 
-	// tableRouter,
-
 	// 404 page must be placed at the end !!!
 	{ path: '*', redirect: '/404', hidden: true }
 ];
@@ -116,7 +114,7 @@ export function resetRouter() {
 router.beforeEach((to, from, next) => {
 	if (to.matched.some((record) => record.meta.requiresAuth)) {
 		if (store.getters.isLoggedIn) {
-			next('/dashboard');
+			next();
 			return;
 		}
 		next('/login');
