@@ -8,7 +8,7 @@ Developers: Jason Liu, Damian Rene, and Cai Zefan
 
     <v-card class="ma-4 pa-2" max-width="400">
       <v-card-title>
-        <v-avatar size="56" v-if="user">
+        <v-avatar size="56" v-if="user && user.photoURL">
           <img alt="user" :src="user.photoURL" />
         </v-avatar>
         <v-icon size="56" v-else>mdi-account-circle</v-icon>
@@ -94,7 +94,7 @@ export default {
   },
   created() {
     firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
+      if (user.email) {
         this.user = user;
       }
     });
