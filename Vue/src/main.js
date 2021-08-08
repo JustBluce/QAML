@@ -40,6 +40,12 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+firebase.auth().onAuthStateChanged(user => {
+	store.dispatch("fetchUser", user);
+  });
+
+
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
