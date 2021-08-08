@@ -10,7 +10,7 @@ Developers: Damian Rene and Jason Liu
       class="ma-auto pa-8 background justify-center"
       style="border-radius: 16px"
       elevation="16"
-      max-width="600"
+      min-width="600"
     >
       <v-card-title class="text-h3 justify-center">Login</v-card-title>
 
@@ -81,7 +81,7 @@ export default {
       ],
       passwordRules: [
         (v) => !!v || "Password is required",
-        (v) => v.length >= 8 || "Min 8 characters",
+        // (v) => v.length >= 8 || "Min 8 characters",
       ],
     };
   },

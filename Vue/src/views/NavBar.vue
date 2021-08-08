@@ -19,12 +19,18 @@ Developers: Damian Rene
     </v-btn>
 
     <v-toolbar-items>
-      <v-btn v-for="item in items" :key="item.title" :to="item.link">
+      <v-btn
+        v-for="item in items"
+        :key="item.title"
+        :to="item.link"
+        min-width="125"
+        max-width="125"
+      >
         <v-icon class="mr-1">{{ item.icon }}</v-icon>
         {{ item.title }}
       </v-btn>
-      <v-btn v-show="!user" @click="logOut">
-        <v-icon class="mr-1">mdi-logout</v-icon>
+      <v-btn v-show="!user" @click="logOut" min-width="125">
+        <v-icon class="mr-1">mdi-logout-variant</v-icon>
         Logout
       </v-btn>
     </v-toolbar-items>
@@ -57,6 +63,11 @@ updated() {
           link: "/login",
         },
         {
+          title: "Register",
+          icon: "mdi-account-plus-outline",
+          link: "/register",
+        },
+        {
           title: "About",
           icon: "mdi-information-outline",
           link: "/about",
@@ -74,3 +85,13 @@ updated() {
   },
 };
 </script>
+
+<style scoped>
+.toolbar {
+  background: #50759e;
+}
+
+.nav-button-icon {
+  margin-right: 5px;
+}
+</style>
