@@ -2,7 +2,7 @@
   <v-menu bottom rounded offset-y min-width="125">
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on">
-        <v-avatar size="36px" v-if="user">
+        <v-avatar size="36px" v-if="user && user.photoURL">
           <img v-if="user.photoURL" :src="user.photoURL" />
         </v-avatar>
         <v-icon size="36px" v-else>mdi-account-circle</v-icon>
@@ -44,7 +44,7 @@ export default {
   },
   created() {
     firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
+      if (user.email) {
         this.user = user;
       }
     });
@@ -54,6 +54,7 @@ export default {
       this.$router.push({ name: "Login" });
       e.stopPropagation();
       firebase.auth().signOut();
+      this.$store.dispatch("fetchUser", null);
     },
   },
 };

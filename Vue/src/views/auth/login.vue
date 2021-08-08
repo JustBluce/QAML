@@ -77,7 +77,7 @@ export default {
       showPassword: false,
       emailRules: [
         (v) => !!v || "E-mail is required",
-        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+        //(v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
       passwordRules: [
         (v) => !!v || "Password is required",
@@ -104,7 +104,7 @@ export default {
       firebase
         .auth()
         .signInWithPopup(provider)
-        .then((result) => {
+        .then(() => {
           this.$router.push("/dashboard");
         })
         .catch((err) => {
@@ -112,7 +112,12 @@ export default {
         });
     },
     guestLogin() {
-      this.$router.push("/dashboard");
+      firebase
+        .auth()
+        .signInAnonymously()
+        .then(() => {
+          this.$router.push("/dashboard");
+        });
     },
   },
   created() {

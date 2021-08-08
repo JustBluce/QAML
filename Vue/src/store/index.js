@@ -36,8 +36,8 @@ const store = new Vuex.Store({
 	},
 	modules: {
 		app,
-		settings,
-		user
+		settings
+		//user
 	},
 	mutations: {
 		SET_LOGGED_IN(state, value) {
@@ -105,27 +105,25 @@ const store = new Vuex.Store({
 		}
 	},
 	getters: {
-		user(state) {
-			return state.user.loggedIn;
-		},
 		isLoggedIn: (state) => state.user.loggedIn,
+		userData: (state) => state.user.data,
 		sidebar: (state) => state.app.sidebar,
 		device: (state) => state.app.device,
-		token: (state) => state.user.token,
-		avatar: (state) => state.user.avatar,
-		name: (state) => state.user.name,
+		//token: (state) => state.user.token,
+		//avatar: (state) => state.user.avatar,
+		//name: (state) => state.user.name,
 		...getters
 	},
 	actions: {
 		fetchUser({ commit }, user) {
-			this.commit('SET_LOGGED_IN', user !== null);
+			commit('SET_LOGGED_IN', user !== null);
 			if (user) {
-				this.commit('SET_USER', {
+				commit('SET_USER', {
 					displayName: user.displayName,
 					email: user.email
 				});
 			} else {
-				this.commit('SET_USER', null);
+				commit('SET_USER', null);
 			}
 		}
 	}
