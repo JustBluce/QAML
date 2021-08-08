@@ -40,6 +40,10 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+firebase.auth().onAuthStateChanged((user) => {
+	store.dispatch('fetchUser', user);
+});
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -66,24 +70,3 @@ new Vue({
 	store,
 	render: (h) => h(App)
 });
-
-firebase
-	.auth()
-	.setPersistence(firebase.auth.Auth.Persistence.local)
-	.then(() => {
-		// Existing and future Auth states are now persisted in the current
-		// session only. Closing the window would clear any existing state even
-		// if a user forgets to sign out.
-		// ...
-		// New sign-in will be persisted with session persistence.
-		var provider = new firebase.auth.GoogleAuthProvider();
-		// In memory persistence will be applied to the signed in Google user
-		// even though the persistence was set to 'none' and a page redirect
-		// occurred.
-		return firebase.auth().signInWithRedirect(provider);
-	})
-	.catch((error) => {
-		// Handle Errors here.
-		var errorCode = error.code;
-		var errorMessage = error.message;
-	});
