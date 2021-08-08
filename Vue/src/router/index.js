@@ -42,6 +42,7 @@ export const constantRoutes = [
 		component: Login,
 		hidden: true
 	},
+
 	{
 		path: '/register',
 		name: 'Register',
@@ -71,7 +72,6 @@ export const constantRoutes = [
 				path: 'dashboard',
 				name: 'Dashboard',
 				component: () => import('@/views/dashboard/index'),
-
 				meta: { title: 'Dashboard', icon: 'user', requiresAuth: true }
 			}
 		]

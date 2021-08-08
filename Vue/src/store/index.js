@@ -54,14 +54,10 @@ const store = new Vuex.Store({
 				state.recommended = state.recommended.filter((rec) => rec !== title);
 			}
 			state.workspaces.push(newWorkspace);
+			state.workspace_stack.push(state.workspace_index);
+			state.workspace_selected = state.workspace_index;
 			state.workspace_index++;
 			this.commit('updateTabs');
-			this.commit('selectWorkspace', newWorkspace.id);
-		},
-		addWorkspace(state, workspace_id) {
-			getters.workspace(state)(workspace_id).tab = true;
-			this.commit('updateTabs');
-			this.commit('selectWorkspace', workspace_id);
 		},
 		removeWorkspace(state, workspace_id) {
 			this.commit('minimizeWorkspace', workspace_id);
@@ -81,19 +77,19 @@ const store = new Vuex.Store({
 			}
 		},
 		updateTabs(state) {
-			state.workspace_selected =
-				state.workspaces.findIndex((workspace) => workspace.tab_id === state.workspace_selected) + 1;
-			state.workspaces = state.workspaces.map((workspace, i) => Object.assign(workspace, { tab_id: i + 1 }));
+			state.workspace_selected = state.workspaces.findIndex(
+				(workspace) => workspace.tab_id === state.workspace_selected
+			);
+			state.workspaces = state.workspaces.map((workspace, i) => Object.assign(workspace, { tab_id: i }));
 		},
 		addWidget(state, { workspace_id, type }) {
 			let workspace = getters.workspace(state)(workspace_id);
-			if (!workspace.widgets.find((widget) => widget.type === type)) {
-				workspace.widgets.push(widgetTemplate(type));
-			}
+			workspace.widgets.push(widgetTemplate(workspace.widget_index, type));
+			workspace.widget_index++;
 		},
-		deleteWidget(state, { workspace_id, type }) {
+		deleteWidget(state, { workspace_id, widget_id }) {
 			let workspace = getters.workspace(state)(workspace_id);
-			workspace.widgets = workspace.widgets.filter((widget) => widget.type !== type);
+			workspace.widgets = workspace.widgets.filter((widget) => widget.id !== widget_id);
 		},
 		addResult(state, result) {
 			state.results.dialog = true;
