@@ -9,6 +9,19 @@ from app import import_libraries, util
 from util import *
 from import_libraries import *
 
+def add_to_db(q_id, date_incoming, date_outgoing, question, ans, diff_level):
+    ans = ans.replace(" ","_")    
+    difficulty[q_id].append({
+                                "id":q_id,
+                                "data":{
+                                    "Timestamp_frontend":date_incoming, 
+                                    "Timestamp_backend": date_outgoing, 
+                                    "Question":question,
+                                    "answer":ans,
+                                    "difficulty":diff_level,
+                                    }
+                                })
+  
 difficulty_classifier = Blueprint('difficulty_classifier', __name__)
 @difficulty_classifier.route("/classify", methods=["POST"])
 def classify():
@@ -27,6 +40,9 @@ def classify():
     """
     if request.method == "POST":
         question = request.form.get("text")
+        ans = request.form.get("answer_text")
+        date_incoming = request.form.get("date")
+        q_id = request.form.get("id")
     start = time.time()
     inputs = tokenizer_difficulty(question, return_tensors="pt")
     outputs = model_difficulty(**inputs)
@@ -34,10 +50,14 @@ def classify():
     difficulty = np.argmax(logits).flatten()
     end = time.time()
     print("----TIME (s) : /difficulty_classifier/classify---",end - start)
+    date_outgoing = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+
     if(difficulty == 0):
+        add_to_db(q_id, date_incoming, date_outgoing, question, ans, "Easy")
         return jsonify({"difficulty": "Easy"})
     elif (difficulty == 1):
+        add_to_db(q_id, date_incoming, date_outgoing, question, ans, "Hard")
         return jsonify({"difficulty": "Hard"})
-
+    add_to_db(q_id, date_incoming, date_outgoing, question, ans, "Error")
     return jsonify({"difficulty": "error"})
     

@@ -305,3 +305,14 @@ state_country_represent_json = {}
 
 machine_guess = {}
 state_machine_guess = {}
+
+difficulty = {}
+
+pronunciation_dict = {}
+# state_pronunciation = {}
+
+similarity = {}
+state_similarity = {}
+# Raj: Might synchronize using locks
+# This is when I will access using the following method: 
+modules_responsible = {}
