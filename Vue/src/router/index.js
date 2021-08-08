@@ -39,18 +39,14 @@ export const constantRoutes = [
 		name: 'Login',
 		component: Login,
 		hidden: true,
-		meta: {
-			guest: true
-		}
+	
 	},
 	{
 		path: '/email-login',
 		name: 'Email-Login',
 		component: Email_Login,
 		hidden: true,
-		meta: {
-			guest: true
-		}
+	
 	},
 
 	{
@@ -58,9 +54,7 @@ export const constantRoutes = [
 		name: 'About',
 		component: About,
 		hidden: true,
-		meta: {
-			guest: true
-		}
+	
 	},
 
 	{
@@ -78,7 +72,7 @@ export const constantRoutes = [
 				path: 'dashboard',
 				name: 'Dashboard',
 				component: () => import('@/views/dashboard/index'),
-				meta: { title: 'Dashboard', icon: 'user', auth: true }
+				meta: { title: 'Dashboard', icon: 'user', requiresAuth: true }
 			}
 		]
 	},
@@ -92,7 +86,7 @@ export const constantRoutes = [
 				path: '',
 				name: 'QA',
 				component: () => import('@/views/QA/index'),
-				meta: { title: 'QA', icon: 'form' }
+				meta: { title: 'QA', icon: 'form', requiresAuth: true }
 			}
 		]
 	},
@@ -118,5 +112,18 @@ export function resetRouter() {
 	const newRouter = createRouter();
 	router.matcher = newRouter.matcher; // reset router
 }
+
+router.beforeEach((to, from, next) => {
+	if(to.matched.some(record => record.meta.requiresAuth)) {
+	  if (store.getters.isLoggedIn) {
+		next('/dashboard')
+		return
+	  }
+	  next('/login')
+	} else {
+	  next()
+	}
+  })
+
 
 export default router;
