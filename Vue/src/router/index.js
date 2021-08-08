@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+<<<<<<< Updated upstream
 Vue.use(Router);
 import firebase from 'firebase'
 /* Layout */
@@ -10,6 +11,19 @@ import About from '@/views/auth/about.vue'
 import Email_Login from '@/views/auth/email_login.vue'
 
 import tableRouter from './modules/table';
+=======
+
+/* Layout */
+import Layout from '@/layout';
+import Login from '@/views/auth/login.vue';
+import About from '@/views/auth/about.vue';
+import Register from '@/views/auth/register.vue';
+
+import store from '@/store/index.js';
+
+
+Vue.use(Router);
+>>>>>>> Stashed changes
 
 
 /**
@@ -43,6 +57,7 @@ export const constantRoutes = [
         name: 'Login',
         component: Login,
 		hidden: true,
+<<<<<<< Updated upstream
         meta: {
 			guest: true
 		  }
@@ -59,18 +74,34 @@ export const constantRoutes = [
 
       },
 	
+=======
+		
+	},
+	{
+		path: '/register',
+		name: 'Register',
+		component: Register,
+		hidden: true,
+		
+	},
+>>>>>>> Stashed changes
 
 	{
         path: '/about',
         name: 'About',
         component: About,
 		hidden: true,
+<<<<<<< Updated upstream
         meta: {
 			guest: true
 		  }
 
       },
 	
+=======
+		
+	},
+>>>>>>> Stashed changes
 
 	{
 		path: '/404',
@@ -88,7 +119,11 @@ export const constantRoutes = [
 				path: 'dashboard',
 				name: 'Dashboard',
 				component: () => import('@/views/dashboard/index'),
+<<<<<<< Updated upstream
 				meta: { title: 'Dashboard', icon: 'dashboard' ,auth: true}
+=======
+				meta: { title: 'Dashboard', icon: 'user', requiresAuth: true }
+>>>>>>> Stashed changes
 			}
 		]
 	},
@@ -102,7 +137,7 @@ export const constantRoutes = [
 				path: '',
 				name: 'QA',
 				component: () => import('@/views/QA/index'),
-				meta: { title: 'QA', icon: 'form' }
+				meta: { title: 'QA', icon: 'form' ,requiresAuth: true }
 			}
 		]
 	},
@@ -143,8 +178,24 @@ export function resetRouter() {
 	router.matcher = newRouter.matcher; // reset router
 }
 
+<<<<<<< Updated upstream
 
   
   export default router
 
 
+=======
+router.beforeEach((to, from, next) => {
+	if(to.matched.some(record => record.meta.requiresAuth)) {
+	  if (store.getters.isLoggedIn) {
+		next('/dashboard')
+		return
+	  }
+	  next('/login')
+	} else {
+	  next()
+	}
+  })
+
+export default router;
+>>>>>>> Stashed changes

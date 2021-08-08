@@ -41,7 +41,13 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+<<<<<<< Updated upstream
 
+=======
+firebase.auth().onAuthStateChanged(user => {
+	store.dispatch("fetchUser", user);
+  });
+>>>>>>> Stashed changes
 
 /**
  * If you don't want to use mock-server
@@ -73,6 +79,7 @@ new Vue({
 });
 
 
+<<<<<<< Updated upstream
   
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.local)
   .then(() => {
@@ -92,3 +99,6 @@ new Vue({
     var errorCode = error.code;
     var errorMessage = error.message;
   });
+=======
+
+>>>>>>> Stashed changes

@@ -64,6 +64,7 @@ updated() {
     }
   },
   methods: {
+<<<<<<< Updated upstream
     signOut(e) {
       alert("Signed Out!");
       this.$router.push({name: "Login"});
@@ -85,3 +86,18 @@ updated() {
 
 }
 </style>
+=======
+     logOut() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace({
+            name: "Login"
+          });
+        });
+    }
+  },
+};
+</script>
+>>>>>>> Stashed changes
