@@ -12,6 +12,10 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	state: {
+		user: {
+			loggedIn: false,
+			data: null
+		},
 		workspaces: initial_workspaces,
 		workspace_stack: initial_workspaces.map((workspace) => workspace.id),
 		workspace_index: initial_workspaces.length,
@@ -36,6 +40,13 @@ const store = new Vuex.Store({
 		user
 	},
 	mutations: {
+		SET_LOGGED_IN(state, value) {
+			state.user.loggedIn = value;
+		},
+		SET_USER(state, data) {
+			state.user.data = data;
+		},
+
 		createWorkspace(state, title) {
 			let newWorkspace = defaultWorkspace(state.workspace_index);
 			if (title) {
@@ -94,12 +105,29 @@ const store = new Vuex.Store({
 		}
 	},
 	getters: {
+		user(state) {
+			return state.user.loggedIn;
+		},
+		isLoggedIn: (state) => state.user.loggedIn,
 		sidebar: (state) => state.app.sidebar,
 		device: (state) => state.app.device,
 		token: (state) => state.user.token,
 		avatar: (state) => state.user.avatar,
 		name: (state) => state.user.name,
 		...getters
+	},
+	actions: {
+		fetchUser({ commit }, user) {
+			this.commit('SET_LOGGED_IN', user !== null);
+			if (user) {
+				this.commit('SET_USER', {
+					displayName: user.displayName,
+					email: user.email
+				});
+			} else {
+				this.commit('SET_USER', null);
+			}
+		}
 	}
 });
 
