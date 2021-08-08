@@ -11,16 +11,19 @@ from import_libraries import *
 
 def add_to_db(q_id, date_incoming, date_outgoing, question, ans, diff_level):
     ans = ans.replace(" ","_")    
+    if q_id not in difficulty:
+        difficulty[q_id]=[]
     difficulty[q_id].append({
-                                "id":q_id,
-                                "data":{
-                                    "Timestamp_frontend":date_incoming, 
-                                    "Timestamp_backend": date_outgoing, 
-                                    "Question":question,
-                                    "answer":ans,
-                                    "difficulty":diff_level,
-                                    }
-                                })
+                                    "id":q_id,
+                                    "data":{
+                                        "Timestamp_frontend":date_incoming, 
+                                        "Timestamp_backend": date_outgoing, 
+                                        "Question":question,
+                                        "answer":ans,
+                                        "difficulty":diff_level,
+                                        }
+                                    })
+    
   
 difficulty_classifier = Blueprint('difficulty_classifier', __name__)
 @difficulty_classifier.route("/classify", methods=["POST"])

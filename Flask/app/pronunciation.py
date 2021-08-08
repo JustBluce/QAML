@@ -149,7 +149,9 @@ r = sr.Recognizer()
 vectorizer, Matrix, ans = params[0], params[1], params[2]
 
 def add_to_db(q_id, date_incoming, date_outgoing, ret_value, question, ans):
-    ans = ans.replace(" ","_")    
+    ans = ans.replace(" ","_") 
+    if q_id not in pronunciation_dict:
+        pronunciation_dict[q_id]=[]   
     pronunciation_dict[q_id].append({
                                 "id":q_id,
                                 "data":{
