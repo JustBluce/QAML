@@ -159,9 +159,9 @@ def load_bert_model_difficulty():
     Bert model and tokenizer of difficulty of questions
 
     """
-    model_difficulty = BertForSequenceClassification.from_pretrained(
-        './model/difficulty_models/BERT_full_question')
-    tokenizer_difficulty = BertTokenizer.from_pretrained('bert-base-uncased')
+    model_difficulty = DistilBertForSequenceClassification.from_pretrained(
+        './model/difficulty_models/DistilBERT_full_question')
+    tokenizer_difficulty = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
     return tokenizer_difficulty, model_difficulty
 
 
