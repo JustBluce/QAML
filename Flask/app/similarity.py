@@ -107,5 +107,6 @@ def retrieve_similar_question():
         isSimilar = True
         # print([max_cosine, questions[max_index[0]]])
     end = time.time()
+    print(data[0])
     print("----TIME (s) : /similar_question/retrieve_similar_question---",end - start)
     return jsonify({"similar_question": [isSimilar, [data[index] for index in top_5_idx]]})

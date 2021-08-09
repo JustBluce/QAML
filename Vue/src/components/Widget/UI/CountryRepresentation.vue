@@ -1,5 +1,5 @@
 <!--
-Developers: Atith Gandhi and Jason Liu
+Developers: Atith Gandhi, Raj Shah and Jason Liu
 -->
 
 <template>
@@ -9,16 +9,27 @@ Developers: Atith Gandhi and Jason Liu
       extra points
     </h4>
     <v-data-table
+      :headers="headers"
+      :items="country_representation"
+      :expanded.sync="expanded"
+      item-key="id"
+      show-expand
       hide-default-header
       hide-default-footer
-      :headers="headers"
-      :items="countries"
-      class="elevation-2"
-    ></v-data-table>
+      class="elevation-2 background"
+    >
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length">
+          <span :style="{ color: $vuetify.theme.currentTheme.primary }">{{
+            item.text
+          }}</span>
+        </td>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
-<script >
+<script>
 export default {
   name: "CountryRepresentation",
   props: {
@@ -27,32 +38,28 @@ export default {
   },
   data() {
     return {
-      headers: [{ text: "Country", value: "Country" }],
+      expanded: [],
+      headers: [
+        { text: "Answer", value: "answer" },
+        { text: "", value: "data-table-expand", align: "right" },
+      ],
     };
   },
   computed: {
     qa() {
       return this.$store.getters.workspace(this.workspace_id).qa;
     },
-    countries() {
-      console.log(this.qa.country_representation);
-      return this.qa.country_representation;
-    },
-    people_ethnicity() {
-      return this.qa.people_ethnicity;
+    // country_representation() {
+    //   return this.qa.country_representation;
+    // },
+    country_representation() {
+      if (this.qa.country_representation) {
+        return this.qa.country_representation.map((question, index) =>
+          Object.assign(question, { id: index })
+        );
+      }
+      return [];
     },
   },
 };
 </script>
-
-<style scoped>
-.representation-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.container {
-  cursor: default;
-}
-</style>
