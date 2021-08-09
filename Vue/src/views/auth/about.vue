@@ -4,6 +4,8 @@ Developers: Jason Liu
 
 <template>
   <v-container fluid style="height: calc(100vh - 64px); overflow: auto">
+    <particles-bg :color="$vuetify.theme.currentTheme.primary" type="cobweb" />
+
     <v-card class="mx-auto" width="80%">
       <v-card-text class="text-h4 text-center font-weight-bold">
         Adversarial Trivia Question Writing Interface
@@ -46,7 +48,14 @@ Developers: Jason Liu
 </template>
 
 <script>
-export default {};
+import { ParticlesBg } from "particles-bg-vue";
+
+export default {
+  name: "About",
+  components: {
+    ParticlesBg,
+  },
+};
 </script>
 
 <style>
