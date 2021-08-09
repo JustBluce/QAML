@@ -258,7 +258,9 @@ def country_present():
             current_under_countries[q_id].append(under_countries[i].lower())
 
         if under_countries[i].lower() not in question.lower() and under_countries[i].lower() in page.content.lower():
-            cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]) ])
+            idx = page.content.lower().find(under_countries[i].lower())
+            sub_part = page.content[max(idx-200, 0) : min(idx + 200, len(page.content) - 1)]
+            cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]), sub_part ])
     
     
     prev_under_countries[q_id] = current_under_countries[q_id]
@@ -267,7 +269,7 @@ def country_present():
     answer = []
     suggested_countries[q_id] = []
     for i in message[:5]:
-        answer.append({"Country": i[0], "Score":i[1]})
+        answer.append({"answer": i[0], "Score":i[1], "text": i[2]})
         suggested_countries[q_id].append(i[0])
     
     if insert_db_flag == 1:
