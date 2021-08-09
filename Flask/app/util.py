@@ -280,7 +280,7 @@ tokenizer_difficulty, model_difficulty = load_bert_model_difficulty()
 params = get_pretrained_tfidf_vectorizer()
 tokenizer_country, model_country = load_bert_country_model()
 pron_vectorizer, pron_regression, pron_word_freq = get_pronunciation_models()
-tokenizer_pronunciation, model_pronunciation = load_pron_model_pronunciation()
+# tokenizer_pronunciation, model_pronunciation = load_pron_model_pronunciation()
 
 sub_genres = {
             'Philosophy': [['Norse', 354], ['Other', 345], ['Philosophy', 5], ['European', 3], ['American', 2], ['Religion/Mythology', 1]],
@@ -299,4 +299,20 @@ sub_genres = {
 genres = ['Philosophy', 'History', 'Literature', 'Mythology', 'Current Events', 'Religion', 'Trash', 'Social Science', 'Science', 'Fine Arts', 'Geography']
 
 
+# Lets make the dictionaries global
+country_represent_json = {}
+state_country_represent_json = {}
 
+machine_guess = {}
+state_machine_guess = {}
+
+difficulty = {}
+
+pronunciation_dict = {}
+# state_pronunciation = {}
+
+similarity = {}
+state_similarity = {}
+# Raj: Might synchronize using locks
+# This is when I will access using the following method: 
+modules_responsible = {}

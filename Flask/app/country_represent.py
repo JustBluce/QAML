@@ -177,10 +177,9 @@ for country in map_instance.keys():
 countries_vector = vectorize_albert(under_countries)
 answer = []
 
-country_represent_json = {}
-state_country_represent_json = {}
 
-def insert_into_db(q_id, date_incoming, question, ans):
+
+def insert_into_db(q_id, date_incoming, date_outgoing, question, ans):
     ans = ans.replace(" ","_")
     if q_id not in country_represent_json:
         country_represent_json[q_id]=[]
@@ -189,6 +188,7 @@ def insert_into_db(q_id, date_incoming, question, ans):
                             "id":q_id,
                             "data":{
                                 "Timestamp_frontend":date_incoming, 
+                                "Timestamp_backend": date_outgoing,
                                 "Question":question,
                                 "answer":ans,
                                 "current_over_countries": current_over_countries[q_id],
@@ -271,8 +271,9 @@ def country_present():
         suggested_countries[q_id].append(i[0])
     
     if insert_db_flag == 1:
-        insert_into_db(q_id, date_incoming, question, ans)
-        print(country_represent_json)
+        date_outgoing = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+        insert_into_db(q_id, date_incoming, date_outgoing, question, ans)
+        # print(country_represent_json)
     end = time.time()
     print("----TIME (s): /country_represent/country_present---", end - start)
     return jsonify({"country_representation": answer, "country": countries})

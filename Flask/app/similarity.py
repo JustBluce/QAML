@@ -21,6 +21,43 @@ for i in range(0, len(data)):
 tfidf_vectorizer = TfidfVectorizer(stop_words = stopWords)
 tfidf_matrix = tfidf_vectorizer.fit_transform(questions)
 
+def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_of_top_guesses_strings):
+    ans = ans.replace(" ","_")
+    if q_id not in machine_guess:
+        machine_guess[q_id]=[]
+        state_machine_guess[q_id]={
+                                    "ans_pos": -1, 
+                                    "current_guesses": array_of_top_guesses_strings
+                                    }
+        if ans in array_of_top_guesses_strings:
+            state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
+        
+        machine_guess[q_id].append({
+                                "id":q_id,
+                                "data":{
+                                    "Timestamp_frontend":date_incoming, 
+                                    "Timestamp_backend": date_outgoing, 
+                                    "guesses":answer,
+                                    "Question":question,
+                                    "answer":ans,
+                                    "ans_pos": state_machine_guess[q_id]["ans_pos"]
+                                    }
+                                })
+    else:
+        if ans in array_of_top_guesses_strings:
+            if(state_machine_guess[q_id]["ans_pos"] != array_of_top_guesses_strings.index(ans)):
+                state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
+                machine_guess[q_id].append({
+                                        "id":q_id,
+                                        "data":{
+                                            "Timestamp_frontend":date_incoming, 
+                                            "Timestamp_backend": date_outgoing, 
+                                            "guesses":answer,
+                                            "Question":question,
+                                            "answer":ans,
+                                            "ans_pos": state_machine_guess[q_id]["ans_pos"]
+                                            }
+                                        })
 
 
 similar_question = Blueprint('similar_question', __name__)

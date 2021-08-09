@@ -148,6 +148,21 @@ r = sr.Recognizer()
 #question = request.form.get("text")
 vectorizer, Matrix, ans = params[0], params[1], params[2]
 
+def add_to_db(q_id, date_incoming, date_outgoing, ret_value, question, ans):
+    ans = ans.replace(" ","_") 
+    if q_id not in pronunciation_dict:
+        pronunciation_dict[q_id]=[]   
+    pronunciation_dict[q_id].append({
+                                "id":q_id,
+                                "data":{
+                                    "Timestamp_frontend":date_incoming, 
+                                    "Timestamp_backend": date_outgoing, 
+                                    "Question":question,
+                                    "answer":ans,
+                                    "word_2_pronounce":ret_value,
+                                    }
+                                })
+
 @pronunciation.route('/get_pronunciation', methods=["POST"])
 def getpronuncation():
     """
@@ -163,6 +178,9 @@ def getpronuncation():
     """
     if request.method == "POST":
         question = request.form.get("text")
+        ans = request.form.get("answer_text")
+        date_incoming = request.form.get("date")
+        q_id = request.form.get("id")
 
     start = time.time()
     # question = question.replace("-"," ")
@@ -173,6 +191,8 @@ def getpronuncation():
     print(ret_value)
     end = time.time()
     print("----TIME (s) : /pronunciation/get_pronunciation---", end - start)
+    date_outgoing = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+    add_to_db(q_id, date_incoming, date_outgoing, ret_value, question, ans)
     return jsonify({"message": ret_value})
 
 
