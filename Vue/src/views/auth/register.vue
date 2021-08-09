@@ -41,7 +41,7 @@ Developers: Damian Rene and Jason Liu
       </v-form>
 
       <v-card-actions class="justify-center">
-        <v-btn class="primary" @click="submit">
+        <v-btn class="primary" @click="emailLogin">
           <v-icon class="mr-2"> mdi-account-plus </v-icon>
           Register
         </v-btn>
@@ -80,28 +80,29 @@ export default {
     };
   },
   methods: {
-    submit() {
+    emailLogin() {
+      const db = firebase.firestore();
+
       if (this.$refs.form.validate()) {
         firebase
           .auth()
           .createUserWithEmailAndPassword(this.email, this.password)
           .then((cred) => {
             db.collection('users').doc(cred.user.uid).set({
-                  displayName: this.name,
-                  email: this.email,
-            }).then((data) => {
-              data.user
-              .updateProfile({
+              displayName: this.name, 
+              email: this.email,
+            }),
+            cred.user.updateProfile({
                 displayName: this.name,
               })
-                this.$router.push("/dashboard");
-              });
+            this.$router.push("/dashboard");
           })
-          .catch((err) => {
-            this.error = err.message;
+          .catch((error) => {
+            alert(error.message);
           });
       }
     },
+    
   },
 };
 </script>
