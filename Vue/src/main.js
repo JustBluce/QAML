@@ -40,23 +40,16 @@ const firebaseConfig = {
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
+  //firebase.analytics();
 
-  const db = firebase.firestore();
+  
+  var db = firebase.firestore();
+  db.settings({timestampsInSnapshots: true});
+  
+
 
 firebase.auth().onAuthStateChanged((user) => {
 	store.dispatch('fetchUser', user)
-	if(user){
-		debounce.collection('guides').onSnapshot(snapshot =>{
-			setupGuides(snapshot.docs);
-			setupUI(user);
-		}, err => {
-			console.log(err.messge)
-		})
-	} else{
-		setupUI();
-		setupGuides([]);
-	}
 });
 
 /**
