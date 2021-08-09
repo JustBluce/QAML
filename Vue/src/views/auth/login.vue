@@ -3,8 +3,11 @@ Developers: Damian Rene and Jason Liu
 --> 
 
 <template>
-  <v-container fill-height>
+  <v-container fill-height >
+
+    
     <particles-bg :color="$vuetify.theme.currentTheme.primary" type="cobweb" />
+
 
     <v-card
       class="ma-auto pa-8 background justify-center"
@@ -92,7 +95,6 @@ export default {
           .auth()
           .signInWithEmailAndPassword(this.email, this.password)
           .then(() => {
-            
             this.$router.push("/dashboard");
           })
           .catch((error) => {
