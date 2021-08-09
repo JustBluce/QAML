@@ -3,11 +3,8 @@ Developers: Damian Rene and Jason Liu
 --> 
 
 <template>
-  <v-container fill-height >
-
-    
+  <v-container fill-height>
     <particles-bg :color="$vuetify.theme.currentTheme.primary" type="cobweb" />
-
 
     <v-card
       class="ma-auto pa-8 background justify-center"
@@ -33,6 +30,7 @@ Developers: Damian Rene and Jason Liu
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :type="showPassword ? 'text' : 'password'"
           @click:append="showPassword = !showPassword"
+          @keydown.enter="emailLogin"
         ></v-text-field>
       </v-form>
 
@@ -136,7 +134,6 @@ export default {
 <style>
 .canvas {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  left: 0;
 }
 </style>
