@@ -321,9 +321,15 @@ export default {
 
     searchData() {
       clearInterval(this.my_var);
+      while(this.qa.text.lastIndexOf("🔔")>0)
+        {
+          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf("🔔")) + this.qa.text.substr(this.qa.text.lastIndexOf("🔔") + "🔔".length,this.qa.text.length)
+        }
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
+      formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
+      formData.append("id",this.id);
       this.axios({
         url: "http://127.0.0.1:5000/difficulty_classifier/classify",
         method: "POST",
@@ -356,12 +362,12 @@ export default {
                   method: "POST",
                   data: formData,
                 }).then((response) => {
-                  console.log(response);
+                  console.log("HERE IS PUSH");
+                  this.$router.push({ name: 'Dashboard' });
                 });
                 this.addResult({
                   title: "Saved",
                   body: "Your question is now added to the database.",
-
                 });
                 
               }
