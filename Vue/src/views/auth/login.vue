@@ -34,7 +34,7 @@ Developers: Damian Rene and Jason Liu
         ></v-text-field>
       </v-form>
 
-      <v-card-actions class="justify-center">
+      <v-card-actions class="justify-center pb-4">
         <v-btn class="primary" @click="emailLogin">
           <v-img
             class="mr-2"
@@ -44,6 +44,9 @@ Developers: Damian Rene and Jason Liu
           ></v-img>
           Email login
         </v-btn>
+      </v-card-actions>
+      <v-divider></v-divider>
+      <v-card-actions class="justify-center pa-4">
         <v-btn class="red" @click="socialLogin">
           <v-img
             class="mr-2"
