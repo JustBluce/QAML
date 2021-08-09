@@ -119,8 +119,8 @@ export default {
     },
   },
 
-  created: function () {
-    setInterval(
+  created() {
+    this.interval = setInterval(
       function () {
         let formData = new FormData();
         console.log(this.qa.text.lastIndexOf("🔔") > 0);
@@ -421,6 +421,9 @@ export default {
       this.Question_id = response.data["Question_id"];
       console.log(response);
     });
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
 };
 </script>

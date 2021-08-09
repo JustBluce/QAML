@@ -14,7 +14,7 @@ Developers: Damian Rene and Jason Liu
     >
       <v-card-title class="text-h3 justify-center">Register</v-card-title>
 
-      <v-form ref="form" class="px-8">
+      <v-form ref="form" class="px-8" @submit="createUser">
         <v-text-field
           v-model="name"
           label="Name"
@@ -41,7 +41,7 @@ Developers: Damian Rene and Jason Liu
       </v-form>
 
       <v-card-actions class="justify-center">
-        <v-btn class="primary" @click="emailLogin">
+        <v-btn class="primary" @click="createUser">
           <v-icon class="mr-2"> mdi-account-plus </v-icon>
           Register
         </v-btn>
@@ -80,7 +80,7 @@ export default {
     };
   },
   methods: {
-    emailLogin() {
+    createUser() {
       const db = firebase.firestore();
 
       if (this.$refs.form.validate()) {
@@ -88,13 +88,13 @@ export default {
           .auth()
           .createUserWithEmailAndPassword(this.email, this.password)
           .then((cred) => {
-            db.collection('users').doc(cred.user.uid).set({
-              displayName: this.name, 
+            db.collection("users").doc(cred.user.uid).set({
+              displayName: this.name,
               email: this.email,
             }),
-            cred.user.updateProfile({
+              cred.user.updateProfile({
                 displayName: this.name,
-              })
+              });
             this.$router.push("/dashboard");
           })
           .catch((error) => {
@@ -102,7 +102,6 @@ export default {
           });
       }
     },
-    
   },
 };
 </script>
