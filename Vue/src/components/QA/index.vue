@@ -51,6 +51,46 @@
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
 
+     <v-row justify="center">
+    <v-dialog
+      v-model="popup"
+      persistent
+      max-width="350"
+    >
+      
+      <v-card>
+        <v-card-title class="text-h5">
+         Verify Your Email Address
+        </v-card-title>
+        <v-card-text>To ensure the security of our service we ask that you verify your email address. An email should have been sent to you when you created your account. If you do not have this email, please click the resend email address button to try again. </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="red"
+            text
+            @click="popup = false"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="sendverification"
+          >
+            Resend Email
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
+
+
+
+  
+    
+
+
+
         <v-card class="background mt-4 pa-2">
           <div
             v-html="qa.highlight_text"
@@ -69,6 +109,8 @@
 <script>
 import HighlightableInput from "vue-highlightable-input";
 import { GChart } from "vue-google-charts";
+import firebase from "firebase";
+
 
 export default {
   name: "QA",
@@ -81,6 +123,20 @@ export default {
   },
   data() {
     return {
+      popup: false,
+      popup2: false, 
+      email: "",
+      user: null,
+      password: "",
+      showPassword: false,
+      emailRules: [
+        (v) => !!v || "E-mail is required",
+        //(v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      ],
+      passwordRules: [
+        (v) => !!v || "Password is required",
+        // (v) => v.length >= 8 || "Min 8 characters",
+      ],
       genres: [
         "Philosophy",
         "History",
@@ -120,6 +176,13 @@ export default {
   },
 
   created() {
+    
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+       this.user = user;
+      }
+    });
+  
     this.interval = setInterval(
       function () {
         let formData = new FormData();
@@ -215,6 +278,16 @@ export default {
   },
 
   methods: {
+    sendverification(){
+      this.popup = false;
+      const currentUser = this.user;
+      firebase.auth().currentUser.sendEmailVerification()
+      .then(() => {
+        console.log("Sent Verification to: " + currentUser.email);
+        // Email verification sent!
+        // ...
+      });
+    },
     keep_looping: _.debounce(function () {
       let formData = new FormData();
       console.log(this.qa.text.lastIndexOf("🔔") > 0);
@@ -328,6 +401,7 @@ export default {
       });
     }, 1000),
     searchData() {
+      if(this.$store.state.user.verified){
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
@@ -389,6 +463,9 @@ export default {
       //   this.qa.country_representation = response.data["country_representation"];
       //   this.highlight = response.data["Highlight"];
       // });
+      }else{
+        this.popup = true;
+      }
     },
     changeGenre() {
       let formData = new FormData();
