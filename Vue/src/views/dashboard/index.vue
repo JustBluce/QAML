@@ -15,12 +15,16 @@ Developers: Jason Liu, Damian Rene, and Cai Zefan
         <p class="text-h4 ml-3 mb-0">Profile</p>
       </v-card-title>
       <v-card-text>
+        
         <div class="text--primary text-body-1" v-if="user">
           Name: <strong>{{ user.displayName }}</strong
           ><br />
           Email: <strong>{{ user.email }}</strong
           ><br />
-          Provider: <strong>{{ user.providerData[0].providerId }}</strong>
+          Verified: <strong>{{ user.emailVerified }}</strong
+          ><br/>
+          Provider: <strong>{{ user.providerData[0].providerId }}</strong
+          >
         </div>
         <div v-else>Logged in as guest</div>
       </v-card-text>

@@ -34,6 +34,11 @@ Developers: Damian Rene and Jason Liu
         ></v-text-field>
       </v-form>
 
+      
+      <router-link class="ma-auto pa-8 background justify-center" :to="{name: 'Password-Reset' }">
+        Forgot Password?
+      </router-link>
+
       <v-card-actions class="justify-center pb-4">
         <v-btn class="primary" @click="emailLogin">
           <v-img
