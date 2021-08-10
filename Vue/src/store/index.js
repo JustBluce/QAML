@@ -4,7 +4,6 @@ import * as getters from './getters';
 import { defaultWorkspace, initial_workspaces, widgetTemplate } from './workspace';
 import app from './modules/app';
 import settings from './modules/settings';
-import user from './modules/user';
 import VueGoogleCharts from 'vue-google-charts';
 
 Vue.use(VueGoogleCharts);
@@ -14,6 +13,7 @@ const store = new Vuex.Store({
 	state: {
 		user: {
 			loggedIn: false,
+			verified: false,
 			data: null
 		},
 		workspaces: initial_workspaces,
@@ -45,6 +45,9 @@ const store = new Vuex.Store({
 		},
 		SET_USER(state, data) {
 			state.user.data = data;
+		},
+		SET_VERIFIED(state, value){
+			state.user.verified = value;
 		},
 
 		createWorkspace(state, title) {
@@ -107,6 +110,8 @@ const store = new Vuex.Store({
 	getters: {
 		isLoggedIn: (state) => state.user.loggedIn,
 		userData: (state) => state.user.data,
+		verified: (state) => state.user.verified,
+		
 		sidebar: (state) => state.app.sidebar,
 		device: (state) => state.app.device,
 		//token: (state) => state.user.token,
@@ -115,12 +120,16 @@ const store = new Vuex.Store({
 		...getters
 	},
 	actions: {
+		
 		fetchUser({ commit }, user) {
 			commit('SET_LOGGED_IN', user !== null);
 			if (user) {
 				commit('SET_USER', {
 					displayName: user.displayName,
 					email: user.email
+				}),
+				commit('SET_VERIFIED', {
+					verified: user.emailVerified, 
 				});
 			} else {
 				commit('SET_USER', null);
