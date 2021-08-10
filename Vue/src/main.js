@@ -47,9 +47,15 @@ db.settings({ timestampsInSnapshots: true });
 
 firebase.auth().onAuthStateChanged((user) => {
 	store.dispatch('fetchUser', user);
-	if(user.emailVerified = true){
+	
+	
+	
+	if(user.emailVerified ){
 		store.commit('SET_VERIFIED', true);
 		console.log("EMAIL IS VERIFIED:" + store.state.user.verified)
+	}
+	else{
+		store.commit('SET_VERIFIED', false);
 	}
 });
 

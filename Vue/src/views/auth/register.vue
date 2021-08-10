@@ -14,7 +14,7 @@ Developers: Damian Rene and Jason Liu
     >
       <v-card-title class="text-h3 justify-center">Register</v-card-title>
 
-      <v-form ref="form" class="px-8" @submit="createUser;sendverification">
+      <v-form ref="form" class="px-8" >
         <v-text-field
           v-model="name"
           label="Name"
@@ -80,14 +80,8 @@ export default {
     };
   },
   methods: {
-    sendverification(){
-      firebase.auth().currentUser.sendEmailVerification()
-      .then(() => {
-        console.log("Verified: " + currentUser.email);
-        // Email verification sent!
-        // ...
-      });
-    },
+    
+    
     createUser() {
       const db = firebase.firestore();
 
@@ -96,10 +90,10 @@ export default {
           .auth()
           .createUserWithEmailAndPassword(this.email, this.password)
           .then((cred) => {
-            db.collection("users").doc(cred.user.uid).set({
-              displayName: this.name,
-              email: this.email,
-            }),
+            //db.collection("users").doc(cred.user.uid).set({
+             // displayName: this.name,
+             // email: this.email,
+            //}),
               cred.user.updateProfile({
                 displayName: this.name,
               });
@@ -108,6 +102,10 @@ export default {
           .catch((error) => {
             alert(error.message);
           });
+          
+          
+
+    
       }
     },
   },
