@@ -6,7 +6,7 @@ import Layout from '@/layout';
 import Login from '@/views/auth/login.vue';
 import About from '@/views/auth/about.vue';
 import Register from '@/views/auth/register.vue';
-
+import PReset from '@/views/auth/PReset.vue'
 import store from '@/store/index.js';
 
 Vue.use(Router);
@@ -49,6 +49,13 @@ export const constantRoutes = [
 		component: Register,
 		hidden: true
 	},
+	{
+		path: '/password-reset',
+		name: 'Password-Reset',
+		component: PReset,
+		hidden: true
+	},
+
 
 	{
 		path: '/about',
