@@ -230,6 +230,8 @@ def buzz_full_question():
         date_incoming = request.form.get("date")
         ans = request.form.get("answer_text")
         q_id = request.form.get("id")
+    if(question.strip()==""):
+        return jsonify({"buzz": "", "buzz_word": "", "flag": False, "top_guess" : "", "importance": [{"sentence":"-", "importance":-1}] })
     start = time.time()
     buzzer_string, rest_of_sentence, flag, top_guess, set_flag, buzzer_word_number = buzz(question, ans)
 
@@ -242,7 +244,8 @@ def buzz_full_question():
         importance_sentence, sentence_string, sentence_number = get_importance_of_each_sentence(buzzer_string)
         buzzer_last_word=buzzer_string[-10:]
         buzz_word.append(buzzer_last_word)
-        date_outgoing = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+        date_outgoing.replace(', 00',', 24')
         insert_into_db(q_id, date_incoming, date_outgoing, question, ans, buzzer_string, len(break_into_sentences(buzzer_string)), buzzer_word_number, sentence_number, sentence_string, set_flag)
         buzzer_string = buzzer_string + ' 🔔BUZZ '
     else:

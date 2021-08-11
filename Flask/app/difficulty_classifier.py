@@ -50,8 +50,8 @@ def classify():
     difficulty = np.argmax(logits).flatten()
     end = time.time()
     print("----TIME (s) : /difficulty_classifier/classify---",end - start)
-    date_outgoing = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
-
+    date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+    date_outgoing.replace(', 00',', 24')
     if(difficulty == 0):
         add_to_db(q_id, date_incoming, date_outgoing, question, ans, "Easy")
         return jsonify({"difficulty": "Easy"})

@@ -128,7 +128,8 @@ def act():
     end = time.time()
     # print(end - start)
     print("----TIME (s) : /func/act---", end - start)
-    date_outgoing = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+    date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+    date_outgoing.replace(', 00',', 24')
     add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_of_top_guesses_strings)
     # print(machine_guess.keys)
     # print(machine_guess[q_id][-2:])
@@ -206,6 +207,7 @@ def insert():
     counter_country  = 0
     counter_difficulty = 0
     counter_buzz = 0
+    counter_sim = 0
     if q_id in time_stamps:
         for j in range(len(time_stamps[q_id])):
             i = time_stamps[q_id][j]
@@ -218,6 +220,11 @@ def insert():
                     flag = 1
                     big_dict["data"][i]["machine_guess"] = machine_guess[q_id][counter_guess]
                     counter_guess+=1
+            if q_id in similarity and counter_sim < len(similarity[q_id]):
+                if i == similarity[q_id][counter_guess]["Timestamp_frontend"]:
+                    flag = 1
+                    big_dict["data"][i]["similarity"] = similarity[q_id][counter_sim]
+                    counter_sim+=1
             if q_id in buzzer and counter_buzz < len(buzzer[q_id]):
                 if i == buzzer[q_id][counter_buzz]["Timestamp_frontend"]:
                     flag = 1
@@ -244,7 +251,18 @@ def insert():
             
                 
     print(json.dumps(big_dict, indent = 10))
-    
+    with open('test.json', 'w') as outfile:
+        json.dump(big_dict, outfile)
+    with open('machine_guess.json', 'w') as outfile:
+        json.dump(machine_guess, outfile)
+    with open('pronunciation_dict.json', 'w') as outfile:
+        json.dump(pronunciation_dict, outfile)
+    with open('country_represent_json.json', 'w') as outfile:
+        json.dump(country_represent_json, outfile)
+    with open('buzzer.json', 'w') as outfile:
+        json.dump(buzzer, outfile)
+    with open('similarity.json', 'w') as outfile:
+        json.dump(similarity, outfile)
     if q_id in machine_guess:
         machine_guess.pop(q_id)
         state_machine_guess.pop(q_id)
@@ -259,6 +277,9 @@ def insert():
     if q_id in buzzer:
         buzzer.pop(q_id)
         state_buzzer.pop(q_id)
+    if q_id in similarity:
+        similarity.pop(q_id)
+        state_similarity.pop(q_id)
     # if q_id in pronunciation_dict:
     #     print(json.dumps(pronunciation_dict[q_id], indent = 7))
     # if q_id in country_represent_json:

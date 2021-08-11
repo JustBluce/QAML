@@ -21,25 +21,45 @@ for i in range(0, len(data)):
 tfidf_vectorizer = TfidfVectorizer(stop_words = stopWords)
 tfidf_matrix = tfidf_vectorizer.fit_transform(questions)
 
-def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_of_top_guesses_strings):
+def add_to_db(q_id, date_incoming, date_outgoing, question, ans, isSimilar, array_of_data):
     ans = ans.replace(" ","_")
-    if q_id not in machine_guess:
-        machine_guess[q_id]=[]
-        state_machine_guess[q_id]={
-                                    "ans_pos": -1, 
-                                    "current_guesses": array_of_top_guesses_strings
-                                    }
-        if ans in array_of_top_guesses_strings:
-            state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
-        
-        machine_guess[q_id].append({
+    if q_id not in similarity:
+        similarity[q_id]=[]
+        state_similarity[q_id] ={
+                                    "wasSimilar":False,
+                                    "prev_top_3": []
+
+                                }
+    if isSimilar!= state_similarity[q_id]["wasSimilar"]:
+        similarity[q_id].append({
                                
                                     "Timestamp_frontend":date_incoming, 
                                     "Timestamp_backend": date_outgoing, 
-                                    "guesses":answer,
-                                    "ans_pos": state_machine_guess[q_id]["ans_pos"]
+                                    "top_3_positions": array_of_data
                                     
                                 })
+        state_similarity[q_id] ={
+                                    "wasSimilar":isSimilar,
+                                    "prev_top_3": array_of_data
+
+                                }
+        return
+            
+    if len(state_similarity[q_id]["prev_top_3"])>0 and array_of_data[0]!= state_similarity[q_id]["prev_top_3"][0] and isSimilar:
+        similarity[q_id].append({
+                               
+                                    "Timestamp_frontend":date_incoming, 
+                                    "Timestamp_backend": date_outgoing, 
+                                    "top_3_positions": array_of_data
+                                    
+                                })
+        state_similarity[q_id] ={
+                                    "wasSimilar":isSimilar,
+                                    "prev_top_3": array_of_data
+
+                                }
+
+
     
 
 
@@ -74,6 +94,9 @@ def retrieve_similar_question():
     """
     if request.method == "POST":
         question = request.form.get("text")
+        ans = request.form.get("answer_text")
+        q_id = request.form.get("id")
+        date_incoming = request.form.get("date")
     start =time.time()
     questions.append(question)
     repre = tfidf_vectorizer.transform([question])
@@ -82,7 +105,7 @@ def retrieve_similar_question():
     # cosine = cosine_similarity(tfidf_matrix[len(questions)-1], tfidf_matrix)[0]
     max_cosine = max(matrix[0])
     # print(matrix)
-    top_5_idx = np.flipud(np.argsort(matrix[0])[-5:])
+    top_3_idx = np.flipud(np.argsort(matrix[0])[-3:])
     # print([matrix[0][index] for index in top_5_idx])
     
     isSimilar = False
@@ -91,5 +114,8 @@ def retrieve_similar_question():
         # print([max_cosine, questions[max_index[0]]])
     end = time.time()
     # print(data[0])
+    date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+    date_outgoing.replace(', 00',', 24')
+    add_to_db(q_id, date_incoming, date_outgoing, question, ans, isSimilar, [data[index]['answer'] for index in top_3_idx])
     print("----TIME (s) : /similar_question/retrieve_similar_question---",end - start)
-    return jsonify({"similar_question": [isSimilar, [data[index] for index in top_5_idx]]})
+    return jsonify({"similar_question": [isSimilar, [data[index] for index in top_3_idx]]})
