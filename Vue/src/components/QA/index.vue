@@ -165,6 +165,7 @@ export default {
         this.qa.binary_search_based_buzzer = response.data["buzz"];
         this.qa.importance = response.data["importance"];
         this.highlight = response.data["buzz_word"];
+        this.qa.top_guess_buzzer = response.data["top_guess"];
         if(this.qa.text.lastIndexOf(response.data["buzz_word"])>0 && response.data["flag"])
         {
           this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf(response.data["buzz_word"])+10) + "🔔" + this.qa.text.substr(this.qa.text.lastIndexOf(response.data["buzz_word"])+10,this.qa.text.length)
@@ -225,14 +226,6 @@ export default {
       formData.append("answer_text", this.qa.answer_text);
       formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
       formData.append("id",this.id);
-      // this.qa.genre = this.selected_genre
-      // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
-      //         {
-      //           this.addModal(
-      //           "Warning !!! Please some fields are empty","Please make sure the QA box and the Answer box are filled and the Genre is selected"
-      //         );
-      //         }
-      // else{
       this.axios({
         url: "http://127.0.0.1:5000/func/act",
         method: "POST",
@@ -253,14 +246,11 @@ export default {
         this.qa.binary_search_based_buzzer = response.data["buzz"];
         this.qa.importance = response.data["importance"];
         this.highlight = response.data["buzz_word"];
+        this.qa.top_guess_buzzer = response.data["top_guess"];
         if(this.qa.text.lastIndexOf(response.data["buzz_word"])>0 && response.data["flag"])
         {
           this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf(response.data["buzz_word"])+10) + "🔔" + this.qa.text.substr(this.qa.text.lastIndexOf(response.data["buzz_word"])+10,this.qa.text.length)
         }
-        console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]))
-        console.log(this.qa.text.indexOf(response.data["buzz_word"]))
-        
-        console.log(response);
       });
       this.axios({
         url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
@@ -274,7 +264,6 @@ export default {
         //   );
         // }
         this.qa.top5_similar_questions = response.data["similar_question"];
-        console.log(response);
       });
       this.axios({
         url: "http://127.0.0.1:5000/country_represent/country_present",
@@ -283,7 +272,6 @@ export default {
       }).then((response) => {
         this.qa.country_representation =
           response.data["country_representation"];
-        console.log(response);
       });
       this.axios({
         url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
@@ -291,7 +279,6 @@ export default {
         data: formData,
       }).then((response) => {
         this.qa.pronunciation = response.data["message"];
-        console.log(response);
       });
     }, 1000),
 
@@ -299,16 +286,16 @@ export default {
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
-      this.axios({
-        url: "http://127.0.0.1:5000/over_present/highlight",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.highlight_text = response.data["highlight_text"];
-        // this.qa.importance = response.data["importance"];
-        // this.highlight = response.data["buzz_word"];
-        console.log(response);
-      });
+      // this.axios({
+      //   url: "http://127.0.0.1:5000/over_present/highlight",
+      //   method: "POST",
+      //   data: formData,
+      // }).then((response) => {
+      //   this.highlight_text = response.data["highlight_text"];
+      //   // this.qa.importance = response.data["importance"];
+      //   // this.highlight = response.data["buzz_word"];
+      //   console.log(response);
+      // });
       this.axios({
         url: "http://127.0.0.1:5000/country_represent/country_present",
         method: "POST",
@@ -317,7 +304,7 @@ export default {
         this.qa.country_representation =
           response.data["country_representation"];
       });
-    }, 500),
+    }, 1000),
 
     searchData() {
       clearInterval(this.my_var);
@@ -331,55 +318,67 @@ export default {
       formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
       formData.append("id",this.id);
       this.axios({
-        url: "http://127.0.0.1:5000/difficulty_classifier/classify",
+        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
         method: "POST",
         data: formData,
       }).then((response) => {
-        if (response.data["difficulty"] === "Hard") {
-          this.axios({
-            url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
-            method: "POST",
-            data: formData,
-          }).then((response) => {
-            if (response.data["similar_question"][0]) {
+        if (response.data["similar_question"][0])
+        {
               this.addResult({
                 title: "Similar question detected",
                 body: response.data["similar_question"][1][0]["text"],
               });
-            } else {
-              if (
-                this.qa.answer_text === "" ||
-                this.qa.text === "" ||
-                this.qa.genre === ""
-              ) {
-                this.addResult({
-                  title: "Empty fields",
-                  body: "Please make sure Question and Answer boxes are filled and Question Genre is selected.",
-                });
-              } else {
-                this.axios({
-                  url: "http://127.0.0.1:5000/func/insert",
-                  method: "POST",
-                  data: formData,
-                }).then((response) => {
-                  console.log("HERE IS PUSH");
-                  this.$router.push({ name: 'Dashboard' });
-                });
-                this.addResult({
-                  title: "Saved",
-                  body: "Your question is now added to the database.",
-                });
-                
+        } 
+        else {
+          this.axios({
+            url: "http://127.0.0.1:5000/difficulty_classifier/classify",
+            
+            method: "POST",
+            data: formData,
+          }).then((response) => {
+            if (response.data["difficulty"] === "Hard" || response.data["difficulty"]==="Easy")
+              {
+                if (
+                  this.qa.answer_text === "" ||
+                  this.qa.text === "" ||
+                  this.qa.genre === ""
+                ) {
+                  this.addResult({
+                    title: "Empty fields",
+                    body: "Please make sure Question and Answer boxes are filled and Question Genre is selected.",
+                  });
+                } else {
+                  console.log('1');
+                  window.setTimeout(() => {
+                    this.axios({
+                      
+                      url: "http://127.0.0.1:5000/func/insert",
+                      method: "POST",
+                      data: formData,
+                    }).then((response) => {
+                      console.log("HERE IS PUSH");
+                      console.log("Inside this .axios");
+                      // this.$router.push({ name: 'Dashboard' });
+                    });
+                    this.addResult({
+                      title: "Saved",
+                      body: "Your question is now added to the database.",
+                    });
+                    console.log('2');
+                  }, 5000)
+                 
+                  
+                }
               }
-            }
+              else {
+                this.addResult({
+                  title: "Not saved",
+                  body: "Your question was not difficult enough for the computer. Please try again.",
+                });
+              }
             // this.qa.top5_similar_questions = response.data["similar_question"];
           });
-        } else {
-          this.addResult({
-            title: "Not saved",
-            body: "Your question was not difficult enough for the computer. Please try again.",
-          });
-        }
+        } 
       });
       // this.axios({
       //   url: "http://127.0.0.1:5000/func/country_people",

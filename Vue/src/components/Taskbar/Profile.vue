@@ -2,7 +2,7 @@
   <v-menu bottom rounded offset-y>
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on">
-        <v-avatar size="36px">
+        <v-avatar size="24px">
           <img v-if="user.avatar" alt="Avatar" :src="user.avatar" />
           <v-icon v-else>mdi-account-circle</v-icon>
         </v-avatar>

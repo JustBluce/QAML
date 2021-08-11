@@ -309,10 +309,16 @@ state_machine_guess = {}
 difficulty = {}
 
 pronunciation_dict = {}
-# state_pronunciation = {}
+state_pronunciation = {}
 
+time_stamps = {}
+questions_all_time_stamps = {}
+ans_all_time_stamps = {}
 similarity = {}
 state_similarity = {}
+
+buzzer = {}
+state_buzzer = {}
 # Raj: Might synchronize using locks
 # This is when I will access using the following method: 
 modules_responsible = {}

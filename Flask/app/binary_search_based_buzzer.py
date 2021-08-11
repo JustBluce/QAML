@@ -13,7 +13,7 @@ from util import * # Imports the tf-idf vectorizer used in qanta
 binary_search_based_buzzer = Blueprint('binary_search_based_buzzer', __name__)
 
 
-def buzz(question, min_index=5):
+def buzz(question, ans, min_index=5):
     """
     
     Parameters
@@ -33,23 +33,45 @@ def buzz(question, min_index=5):
     temp_word_array = question.split(' ')
     # check if buzzer ever goes above threshold
     index_of_bin_search = len(temp_word_array)
-    question_sentence = question
-    temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=1)
-    if(len(temp_word_array)<7):
-        return "The string is too short", "", False
+    
+    if(len(temp_word_array)<15):
+        return "The string is too short", "", False, "", -1, -1
+    if(len(temp_word_array)<30):
+        question_sentence = question
+        temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=1)
+        if (temp_var[0][1] < threshold_buzz):
+            return "The string does not cross the threshold", "", False, "", -1, -1
+    # print(temp_word_array)
     max_index = index_of_bin_search - 1
+    max_index = int(max_index/15)*15
     # print(max_index,temp_word_array)
     # while max_index >= min_index:
-    for i in range(int(max_index/7), max_index, max(1,int(max_index/7))):
+    set_flag = 0
+    first_question_sentence = ''
+    first_index_of_bin_search = -1
+    for i in range(15, max_index+1, 15):
+        # print(i, max_index)
         index_of_bin_search = i
         question_sentence = " ".join(temp_word_array[:index_of_bin_search])
         temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=1)
         if (temp_var[0][1] > threshold_buzz):
-            break
+            if(temp_var[0][0] == ans.replace(' ','_')):
+                set_flag = 1
+                break
+            elif(set_flag!=2):
+                set_flag = 2
+                first_question_sentence = question_sentence
+                first_index_of_bin_search = index_of_bin_search
+
+
         elif(i == max_index):
-            return "Buzzer does not cross the threshold", "", False
+            return "Buzzer does not cross the threshold", "", False, "", -1, -1
+    if(set_flag == 2):
+        question_sentence = first_question_sentence
+        index_of_bin_search = first_index_of_bin_search
+
     rest_of_sentence = " ".join(temp_word_array[index_of_bin_search:])
-    return question_sentence, rest_of_sentence, True
+    return question_sentence, rest_of_sentence, True, temp_var[0][0], set_flag, index_of_bin_search
 
 def get_actual_guess_with_index(question, max=12):
     """
@@ -141,7 +163,43 @@ def get_importance_of_each_sentence(question):
     for i in range(len(array_of_importances)):
         a = break_into_words(temp_sentence_array[i])
         most_important.append({"sentence":a[0] + " ... " + a[-1], "importance":round(array_of_importances[i],3)})
-    return most_important
+    return most_important, temp_sentence_array[highest_confidence_sentence], highest_confidence_sentence+1
+
+def insert_into_db(q_id, date_incoming, date_outgoing, question, ans, buzzer_string, buzzer_sentence_number, buzzer_word_number, most_important_sentence_number, most_important_sentence, if_ans_found):
+    ans = ans.replace(" ","_")
+    if q_id not in buzzer:
+        buzzer[q_id]=[]
+        state_buzzer[q_id] = {
+            "ans":False,
+            "pos":-1
+        }
+    is_relevant = False
+    if state_buzzer[q_id]["ans"]==True:
+        if state_buzzer[q_id]["pos"]<=buzzer_word_number or if_ans_found==2:
+            is_relevant = True
+            state_buzzer[q_id]["ans"] = False
+            
+    else:
+        if if_ans_found == 1:
+            is_relevant = True
+            state_buzzer[q_id]["ans"] = True
+            state_buzzer[q_id]["pos"] = buzzer_word_number
+
+
+    buzzer[q_id].append({
+                            
+                                "Timestamp_frontend":date_incoming, 
+                                "Timestamp_backend": date_outgoing,
+                                "buzzer_string":buzzer_string,
+                                "buzzer_sentence_number": buzzer_sentence_number,
+                                "buzzer_word_number": buzzer_word_number,
+                                "most_important_sentence_number": most_important_sentence_number,
+                                "most_important_sentence": most_important_sentence,
+                                "if_ans_found":if_ans_found,
+                                "is_relevant": is_relevant,
+                                
+                            })
+
 
 @binary_search_based_buzzer.route("/buzz_full_question", methods=["POST"])
 def buzz_full_question():
@@ -170,24 +228,27 @@ def buzz_full_question():
     if request.method == "POST":
         question = request.form.get("text")
         date_incoming = request.form.get("date")
+        ans = request.form.get("answer_text")
+        q_id = request.form.get("id")
     start = time.time()
-    buzzer_string, rest_of_sentence, flag = buzz(question)
+    buzzer_string, rest_of_sentence, flag, top_guess, set_flag, buzzer_word_number = buzz(question, ans)
 
     end = time.time()
     buzz_word = []
     print("----TIME (s) : /binary_search_based_buzzer/buzz_full_question---", end - start)
-
+ 
     start = time.time()
     if(flag):
-        importance_sentence = get_importance_of_each_sentence(buzzer_string)
+        importance_sentence, sentence_string, sentence_number = get_importance_of_each_sentence(buzzer_string)
         buzzer_last_word=buzzer_string[-10:]
         buzz_word.append(buzzer_last_word)
+        date_outgoing = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        insert_into_db(q_id, date_incoming, date_outgoing, question, ans, buzzer_string, len(break_into_sentences(buzzer_string)), buzzer_word_number, sentence_number, sentence_string, set_flag)
         buzzer_string = buzzer_string + ' 🔔BUZZ '
     else:
 
-        importance_sentence = get_importance_of_each_sentence(question)
+        importance_sentence, sentence_string, sentence_number = get_importance_of_each_sentence(question)
     end = time.time()
     print("----TIME (s) : /binary_search_based_buzzer/get_importance_sentence---", end - start)
-    date_outgoing = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     
-    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "importance": importance_sentence})
+    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence})

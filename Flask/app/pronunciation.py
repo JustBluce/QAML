@@ -1,5 +1,7 @@
 #Damian and Raj
 import sys
+
+from nltk.corpus.reader import wordlist
 sys.path.append("..")
 sys.path.insert(0, './app')
 from app import util, import_libraries
@@ -130,16 +132,19 @@ def classify(list_of_words):
     #     if(pronunciation_output == 1):
     #         ans.append({"Word":list_of_words[indices_of_new_list_of_words[i]]})
     
-    print(new_list_of_words)
+    # print(new_list_of_words)
     if len(new_list_of_words)>0:
         predictions = pron_regression.predict(pron_vectorizer.transform([break_into_character_n_grams(i,4) for i in new_list_of_words]))
     else:
-        return ans
-    print(predictions)
+        return ans, []
+    # print(predictions)
+    word_list = []
     for i in range(len(predictions)):
         if predictions[i] == 1:
             ans.append({"Word":list_of_words[indices_of_new_list_of_words[i]]})
-    return ans
+            word_list.append(list_of_words[indices_of_new_list_of_words[i]])
+    
+    return ans, word_list
     
 pronunciation = Blueprint('pronunciation', __name__)
 myRecognizeCallback = MyRecognizeCallback()
@@ -148,20 +153,23 @@ r = sr.Recognizer()
 #question = request.form.get("text")
 vectorizer, Matrix, ans = params[0], params[1], params[2]
 
-def add_to_db(q_id, date_incoming, date_outgoing, ret_value, question, ans):
+def add_to_db(q_id, date_incoming, date_outgoing, ret_value, word_list, question, ans):
     ans = ans.replace(" ","_") 
     if q_id not in pronunciation_dict:
-        pronunciation_dict[q_id]=[]   
-    pronunciation_dict[q_id].append({
-                                "id":q_id,
-                                "data":{
+        pronunciation_dict[q_id]=[]
+    if q_id not in state_pronunciation:
+        state_pronunciation[q_id]= []
+    # print(set(word_list))
+    # print(set(state_pronunciation[q_id]))
+    if set(word_list)!= set(state_pronunciation[q_id]):   
+        pronunciation_dict[q_id].append({
+                                
                                     "Timestamp_frontend":date_incoming, 
                                     "Timestamp_backend": date_outgoing, 
-                                    "Question":question,
-                                    "answer":ans,
                                     "word_2_pronounce":ret_value,
-                                    }
+                                    
                                 })
+    state_pronunciation[q_id] = word_list
 
 @pronunciation.route('/get_pronunciation', methods=["POST"])
 def getpronuncation():
@@ -185,14 +193,16 @@ def getpronuncation():
     start = time.time()
     # question = question.replace("-"," ")
     array_of_words = break_into_words(question)
+    if(len(array_of_words)==0):
+        jsonify({"message": ""})
     
-    
-    ret_value = classify(array_of_words)
-    print(ret_value)
+    ret_value, word_list = classify(array_of_words)
+    # print(ret_value)
     end = time.time()
     print("----TIME (s) : /pronunciation/get_pronunciation---", end - start)
     date_outgoing = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
-    add_to_db(q_id, date_incoming, date_outgoing, ret_value, question, ans)
+    if len(word_list)>0:
+        add_to_db(q_id, date_incoming, date_outgoing, ret_value, word_list, question, ans)
     return jsonify({"message": ret_value})
 
 
