@@ -274,7 +274,7 @@ def country_present():
         suggested_countries[q_id].append(i[0])
     
     if insert_db_flag == 1:
-        date_outgoing = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+        date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
         insert_into_db(q_id, date_incoming, date_outgoing, question, ans)
         # print(country_represent_json)
     end = time.time()
