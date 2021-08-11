@@ -185,16 +185,13 @@ def insert_into_db(q_id, date_incoming, date_outgoing, question, ans):
         country_represent_json[q_id]=[]
         
     country_represent_json[q_id].append({
-                            "id":q_id,
-                            "data":{
+                            
                                 "Timestamp_frontend":date_incoming, 
                                 "Timestamp_backend": date_outgoing,
-                                "Question":question,
-                                "answer":ans,
                                 "current_over_countries": current_over_countries[q_id],
                                 "current_under_countries": current_under_countries[q_id],
                                 "suggested_countries": suggested_countries[q_id] 
-                                }
+                                
                             })
 
 
@@ -237,9 +234,13 @@ def country_present():
     question_vector = vectorize_albert([question])
     cosine_sim_ques_country = []
     # print(ans)
+    # if ans == "":
+    #     return jsonify({"country_representation": "", "country": ""})
     page = wikipedia.page("\""+ans+"\"")
     current_over_countries[q_id] = []
     insert_db_flag = 0
+    if q_id not in country_represent_json:
+        insert_db_flag = 1
     for i in range(len(over_countries)):
         if over_countries[i].lower() in question.lower(): 
             current_over_countries[q_id].append(over_countries[i].lower())

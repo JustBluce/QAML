@@ -4,19 +4,19 @@ Developers: Atith Gandhi and Jason Liu
 
 <template>
   <div>
-    <!-- <textarea
-      readonly
-      class="container"
-      rows="5"
-      placeholder="Buzzer"
-      v-model="binary_search_based_buzzer"
-    ></textarea> -->
+    
     <Highlighter
       highlightClassName="highlight"
       :searchWords="keywords"
       :autoEscape="true"
       :textToHighlight="binary_search_based_buzzer"
     />
+    <v-textarea
+      readonly
+      class="container"
+      rows="1"
+      v-model="buzz_guess"
+    ></v-textarea>
     <v-data-table
       :headers="headers"
       :items="importance"
@@ -24,6 +24,7 @@ Developers: Atith Gandhi and Jason Liu
       class="elevation-2"
     >
     </v-data-table>
+    
   </div>
 </template>
 
@@ -56,6 +57,16 @@ export default {
     },
     importance() {
       return this.qa.importance;
+    },
+    buzz_guess() {
+      if(this.qa.top_guess_buzzer==="")
+      {
+        return "The buzzer does not buzz"
+      }
+      else
+      {
+        return "The buzzer guess is: " + this.qa.top_guess_buzzer;
+      }
     },
     keywords() {
       return this.words.split(" ");
