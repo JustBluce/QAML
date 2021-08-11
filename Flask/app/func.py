@@ -3,6 +3,8 @@
 # 1. Finding the top 5 guesses of the tf-idf vectorizer
 
 import sys
+
+from numpy import divide
 sys.path.append("..")
 sys.path.insert(0, './app')
 from app import util
@@ -61,30 +63,24 @@ def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_o
             state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
         
         machine_guess[q_id].append({
-                                "id":q_id,
-                                "data":{
+                                
                                     "Timestamp_frontend":date_incoming, 
                                     "Timestamp_backend": date_outgoing, 
                                     "guesses":answer,
-                                    "Question":question,
-                                    "answer":ans,
                                     "ans_pos": state_machine_guess[q_id]["ans_pos"]
-                                    }
+                                    
                                 })
     else:
         if ans in array_of_top_guesses_strings:
             if(state_machine_guess[q_id]["ans_pos"] != array_of_top_guesses_strings.index(ans)):
                 state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
                 machine_guess[q_id].append({
-                                        "id":q_id,
-                                        "data":{
+                                        
                                             "Timestamp_frontend":date_incoming, 
                                             "Timestamp_backend": date_outgoing, 
                                             "guesses":answer,
-                                            "Question":question,
-                                            "answer":ans,
                                             "ans_pos": state_machine_guess[q_id]["ans_pos"]
-                                            }
+                                            
                                         })
 
 
@@ -116,10 +112,18 @@ def act():
         ans = request.form.get("answer_text")
         date_incoming = request.form.get("date")
         q_id = request.form.get("id")
+    if q_id not in time_stamps:
+        time_stamps[q_id]=[]
+        questions_all_time_stamps[q_id] = []
+        ans_all_time_stamps[q_id] = []
+    time_stamps[q_id].append(date_incoming)
+    questions_all_time_stamps[q_id].append(question)
+    ans_all_time_stamps[q_id].append(ans)
+
     start = time.time()
     answer = guess(question=[question])
     array_of_top_guesses_strings = [str(x[0]) for x in answer]
-    answer = [{"guess": str(x[0]),"score":str(x[1])} for x in answer]
+    answer = [{"guess": str(x[0]),"score":str(round(x[1],3))} for x in answer]
     
     end = time.time()
     # print(end - start)
@@ -190,13 +194,75 @@ def insert():
         question = request.form.get("text")
         ans = request.form.get("answer_text")
         q_id = request.form.get("id")
-    print(question, ans)
+    # print(question, ans)
     # answer = guess(question=[question])
-    print(q_id)
+    # print(q_id)
+    big_dict = {
+        "q_id": q_id,
+        "data":{}
+    }
+    counter_guess = 0
+    counter_pron = 0
+    counter_country  = 0
+    counter_difficulty = 0
+    counter_buzz = 0
+    if q_id in time_stamps:
+        for j in range(len(time_stamps[q_id])):
+            i = time_stamps[q_id][j]
+            big_dict["data"][i] = {}
+            big_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][j]
+            big_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][j]
+            flag = 0
+            if q_id in machine_guess and counter_guess < len(machine_guess[q_id]):
+                if i == machine_guess[q_id][counter_guess]["Timestamp_frontend"]:
+                    flag = 1
+                    big_dict["data"][i]["machine_guess"] = machine_guess[q_id][counter_guess]
+                    counter_guess+=1
+            if q_id in buzzer and counter_buzz < len(buzzer[q_id]):
+                if i == buzzer[q_id][counter_buzz]["Timestamp_frontend"]:
+                    flag = 1
+                    # if buzzer[q_id][counter_buzz]["is_relevant"]:
+                    big_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
+                    counter_buzz+=1
+            if q_id in difficulty and counter_difficulty < len(difficulty[q_id]):
+                if i == difficulty[q_id][counter_difficulty]["Timestamp_frontend"]:
+                    flag = 1
+                    big_dict["data"][i]["difficulty"] = difficulty[q_id][counter_difficulty]
+                    counter_difficulty+=1
+            if q_id in country_represent_json and counter_country < len(country_represent_json[q_id]):
+                if i == country_represent_json[q_id][counter_country]["Timestamp_frontend"]:
+                    flag = 1
+                    big_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
+                    counter_country+=1
+            if q_id in pronunciation_dict and counter_pron < len(pronunciation_dict[q_id]):
+                if i == pronunciation_dict[q_id][counter_pron]["Timestamp_frontend"]:
+                    flag = 1
+                    big_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]    
+                    counter_pron+=1
+            if flag==0:
+                big_dict["data"].pop(i)
+            
+                
+    print(json.dumps(big_dict, indent = 10))
+    
     if q_id in machine_guess:
-        print(machine_guess.pop(q_id))
+        machine_guess.pop(q_id)
+        state_machine_guess.pop(q_id)
+    if q_id in pronunciation_dict:
+        pronunciation_dict.pop(q_id)
+        state_pronunciation.pop(q_id)
     if q_id in country_represent_json:
-        print(country_represent_json.pop(q_id))
+        country_represent_json.pop(q_id)
+        # state_country_represent_json.pop(q_id)
+    if q_id in difficulty:
+        difficulty.pop(q_id)
+    if q_id in buzzer:
+        buzzer.pop(q_id)
+        state_buzzer.pop(q_id)
+    # if q_id in pronunciation_dict:
+    #     print(json.dumps(pronunciation_dict[q_id], indent = 7))
+    # if q_id in country_represent_json:
+    #     print(json.dumps(country_represent_json[q_id], indent = 7))
     qa_table = metadata.tables["qa"]
     db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
     end=time.time()

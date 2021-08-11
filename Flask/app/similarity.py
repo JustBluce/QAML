@@ -33,30 +33,28 @@ def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_o
             state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
         
         machine_guess[q_id].append({
-                                "id":q_id,
-                                "data":{
+                               
                                     "Timestamp_frontend":date_incoming, 
                                     "Timestamp_backend": date_outgoing, 
                                     "guesses":answer,
                                     "Question":question,
                                     "answer":ans,
                                     "ans_pos": state_machine_guess[q_id]["ans_pos"]
-                                    }
+                                    
                                 })
     else:
         if ans in array_of_top_guesses_strings:
             if(state_machine_guess[q_id]["ans_pos"] != array_of_top_guesses_strings.index(ans)):
                 state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
                 machine_guess[q_id].append({
-                                        "id":q_id,
-                                        "data":{
+                                        
                                             "Timestamp_frontend":date_incoming, 
                                             "Timestamp_backend": date_outgoing, 
                                             "guesses":answer,
                                             "Question":question,
                                             "answer":ans,
                                             "ans_pos": state_machine_guess[q_id]["ans_pos"]
-                                            }
+                                            
                                         })
 
 
@@ -107,6 +105,6 @@ def retrieve_similar_question():
         isSimilar = True
         # print([max_cosine, questions[max_index[0]]])
     end = time.time()
-    print(data[0])
+    # print(data[0])
     print("----TIME (s) : /similar_question/retrieve_similar_question---",end - start)
     return jsonify({"similar_question": [isSimilar, [data[index] for index in top_5_idx]]})
