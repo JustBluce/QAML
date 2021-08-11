@@ -37,25 +37,10 @@ def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_o
                                     "Timestamp_frontend":date_incoming, 
                                     "Timestamp_backend": date_outgoing, 
                                     "guesses":answer,
-                                    "Question":question,
-                                    "answer":ans,
                                     "ans_pos": state_machine_guess[q_id]["ans_pos"]
                                     
                                 })
-    else:
-        if ans in array_of_top_guesses_strings:
-            if(state_machine_guess[q_id]["ans_pos"] != array_of_top_guesses_strings.index(ans)):
-                state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
-                machine_guess[q_id].append({
-                                        
-                                            "Timestamp_frontend":date_incoming, 
-                                            "Timestamp_backend": date_outgoing, 
-                                            "guesses":answer,
-                                            "Question":question,
-                                            "answer":ans,
-                                            "ans_pos": state_machine_guess[q_id]["ans_pos"]
-                                            
-                                        })
+    
 
 
 similar_question = Blueprint('similar_question', __name__)
