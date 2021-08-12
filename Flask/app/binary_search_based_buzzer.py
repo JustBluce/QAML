@@ -174,20 +174,32 @@ def insert_into_db(q_id, date_incoming, date_outgoing, question, ans, buzzer_str
             "pos":-1
         }
     is_relevant = False
+    string_new = ""
+    previous_pos = state_buzzer[q_id]["pos"]
     if state_buzzer[q_id]["ans"]==True:
-        if state_buzzer[q_id]["pos"]<=buzzer_word_number or if_ans_found==2:
-            is_relevant = True
+        if state_buzzer[q_id]["pos"]<buzzer_word_number and if_ans_found==2:
+            is_relevant = False
             state_buzzer[q_id]["ans"] = False
+            string_new = "Buzzer shifted to right but not for the correct answer"
             
     else:
         if if_ans_found == 1:
             is_relevant = True
             state_buzzer[q_id]["ans"] = True
             state_buzzer[q_id]["pos"] = buzzer_word_number
-
-
+            if(previous_pos!=-1):
+                if(buzzer_word_number<previous_pos):
+                    string_new = "Buzzer buzzed earlier than previous position by " + str(previous_pos - buzzer_word_number) + "postions"
+                else:
+                    string_new = "Buzzer buzzed later than previous position by " + str( buzzer_word_number - previous_pos) + "postions"
+            else:
+                string_new = "Buzzer buzzed on the correct answer for the first time"
     buzzer[q_id].append({
-                            
+                                "edit_history":
+                                            {
+                                                "change_in_position": string_new,
+                                                "isRelevant": is_relevant,
+                                            },
                                 "Timestamp_frontend":date_incoming, 
                                 "Timestamp_backend": date_outgoing,
                                 "buzzer_string":buzzer_string,
@@ -197,6 +209,7 @@ def insert_into_db(q_id, date_incoming, date_outgoing, question, ans, buzzer_str
                                 "most_important_sentence": most_important_sentence,
                                 "if_ans_found":if_ans_found,
                                 "is_relevant": is_relevant,
+                                "prev_pos": previous_pos,
                                 
                             })
 

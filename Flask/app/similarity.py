@@ -30,9 +30,14 @@ def add_to_db(q_id, date_incoming, date_outgoing, question, ans, isSimilar, arra
                                     "prev_top_3": []
 
                                 }
-    if isSimilar!= state_similarity[q_id]["wasSimilar"]:
+    if isSimilar != state_similarity[q_id]["wasSimilar"]:
         similarity[q_id].append({
-                               
+                                    "edit_history":
+                                            {
+                                                "wasSimilar": state_similarity[q_id]["wasSimilar"],
+                                                "isSimilar": isSimilar,
+                                                "change_in_most_similar": "Not Relevant" ,
+                                            },
                                     "Timestamp_frontend":date_incoming, 
                                     "Timestamp_backend": date_outgoing, 
                                     "top_3_positions": array_of_data
@@ -46,8 +51,24 @@ def add_to_db(q_id, date_incoming, date_outgoing, question, ans, isSimilar, arra
         return
             
     if len(state_similarity[q_id]["prev_top_3"])>0 and array_of_data[0]!= state_similarity[q_id]["prev_top_3"][0] and isSimilar:
+        pos = -1
+        for i in range(len(array_of_data)):
+            if array_of_data[i]==state_similarity[q_id]["prev_top_3"]:
+                pos = i 
+                break
+        string_new = ""
+        if (pos ==-1):
+            string_new = "The previous most similar question is no longer in the top 3"
+        else:
+            string_new = "The previous most similar question is now on position" + str(i)
         similarity[q_id].append({
                                
+                                    "edit_history":
+                                            {
+                                                "wasSimilar": True,
+                                                "isSimilar": isSimilar,
+                                                "change_in_most_similar": string_new ,
+                                            },
                                     "Timestamp_frontend":date_incoming, 
                                     "Timestamp_backend": date_outgoing, 
                                     "top_3_positions": array_of_data

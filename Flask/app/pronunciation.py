@@ -162,13 +162,21 @@ def add_to_db(q_id, date_incoming, date_outgoing, ret_value, word_list, question
     # print(set(word_list))
     # print(set(state_pronunciation[q_id]))
     if set(word_list)!= set(state_pronunciation[q_id]):   
+        set_A = set(word_list)
+        set_B = set(state_pronunciation[q_id])
+        list_A = list(set_A.difference(set_B))
+        list_B = list(set_B.difference(set_A))
         pronunciation_dict[q_id].append({
-                                
+                                    "edit_history":
+                                    {
+                                        "new_words_added_to_pronunciation": list_A,
+                                        "old_words_removed_from_pronunication": list_B
+                                    },
                                     "Timestamp_frontend":date_incoming, 
                                     "Timestamp_backend": date_outgoing, 
                                     "word_2_pronounce":ret_value,
                                     
-                                })
+                                    })
     state_pronunciation[q_id] = word_list
 
 @pronunciation.route('/get_pronunciation', methods=["POST"])
