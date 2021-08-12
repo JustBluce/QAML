@@ -15,8 +15,6 @@ export function defaultQA() {
 		genre: '',
 		subgenre: '',
 		pronunciation: [],
-		highlight_text:
-			'There are some <mark class="yellow">tips</mark>'
 	};
 }
 
