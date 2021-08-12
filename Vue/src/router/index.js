@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import firebase from 'firebase';
 
 /* Layout */
 import Layout from '@/layout';
 import Login from '@/views/auth/login.vue';
 import About from '@/views/auth/about.vue';
 import Register from '@/views/auth/register.vue';
-import PReset from '@/views/auth/PReset.vue'
+import PReset from '@/views/auth/PReset.vue';
 import store from '@/store/index.js';
 
 Vue.use(Router);
@@ -55,7 +56,6 @@ export const constantRoutes = [
 		component: PReset,
 		hidden: true
 	},
-
 
 	{
 		path: '/about',
@@ -120,11 +120,13 @@ export function resetRouter() {
 
 router.beforeEach((to, from, next) => {
 	if (to.matched.some((record) => record.meta.requiresAuth)) {
-		if (store.getters.isLoggedIn) {
-			next();
-			return;
-		}
-		next('/login');
+		firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				next();
+			} else {
+				next('/login');
+			}
+		});
 	} else {
 		next();
 	}

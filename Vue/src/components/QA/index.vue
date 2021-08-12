@@ -118,14 +118,18 @@ export default {
     },
     highlight() {
       return [
-        { text: "🔔BUZZ", class: "primary" },
-        { text: "highlight me", class: "yellow" },
+        { text: "🔔BUZZ", class: "yellow" },
+        { text: "highlight me", class: "primary" },
       ];
     },
     highlight_text() {
-      return this.qa.text
-        .replace(/\n$/g, "\n\n")
-        .replace(/[A-Z].*?\b/g, "<mark>$&</mark>");
+      let text = this.qa.text;
+      this.highlight.forEach((highlight) => {
+        text = text
+          .split(`${highlight.text}`)
+          .join(`<mark class="${highlight.class}">${highlight.text}</mark>`);
+      });
+      return text.replace(/\n$/g, "\n\n");
     },
     options() {
       return {
@@ -470,13 +474,14 @@ export default {
 }
 
 mark {
+  border-radius: 3px;
   color: transparent;
 }
 
 .backdrop {
   position: absolute;
   margin-top: 10px;
-  padding-left: 10px;
+  padding-left: 12px;
   padding-right: 12px;
   line-height: 1.75rem;
   z-index: 1;

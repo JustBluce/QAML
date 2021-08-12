@@ -45,13 +45,13 @@ firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
 db.settings({ timestampsInSnapshots: true });
 
-firebase.auth().onAuthStateChanged((user) => {
+/* firebase.auth().onAuthStateChanged((user) => {
 	store.dispatch('fetchUser', user);
 	if(user.emailVerified = true){
 		store.commit('SET_VERIFIED', true);
 		console.log("EMAIL IS VERIFIED:" + store.state.user.verified)
 	}
-});
+}); */
 
 /**
  * If you don't want to use mock-server
