@@ -340,7 +340,7 @@ export default {
           }).then((response) => {
             if (response.data["difficulty"] === "Hard" || response.data["difficulty"]==="Easy")
               {
-                if(response.data["difficulty"]==="Easy"):
+                if(response.data["difficulty"]==="Easy")
                 {
                   this.addResult({
                   title: "Easy Question",
