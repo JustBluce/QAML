@@ -18,7 +18,7 @@ Developers: Jason Liu
           : '',
       cursor: 'default',
     }"
-    elevation="16"
+    elevation="4"
     @mousedown="$store.commit('selectWorkspace', id)"
   >
     <Titlebar

@@ -1,20 +1,18 @@
 <template>
-  <v-app>
-    <div :class="classObj" class="app-wrapper">
-      <div
-        v-if="device === 'mobile' && sidebar.opened"
-        class="drawer-bg primary"
-        @click="handleClickOutside"
-      />
-      <sidebar class="sidebar-container" />
-      <div class="main-container">
-        <!-- <div :class="{ 'fixed-header': fixedHeader }">
+  <div :class="classObj" class="app-wrapper">
+    <div
+      v-if="device === 'mobile' && sidebar.opened"
+      class="drawer-bg primary"
+      @click="handleClickOutside"
+    />
+    <sidebar class="sidebar-container" />
+    <div class="main-container">
+      <!-- <div :class="{ 'fixed-header': fixedHeader }">
           <navbar />
         </div> -->
-        <app-main />
-      </div>
+      <app-main />
     </div>
-  </v-app>
+  </div>
 </template>
 
 <script>
