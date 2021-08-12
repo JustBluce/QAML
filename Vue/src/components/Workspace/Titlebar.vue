@@ -30,31 +30,47 @@ Developers: Jason Liu
 
     <v-spacer></v-spacer>
 
-    <v-menu
-      offset-y
-      min-width="200px"
-      rounded
-      :close-on-content-click="false"
-      :disabled="widget_types.length == 0"
-    >
+    <v-menu offset-y rounded :close-on-content-click="false">
       <template v-slot:activator="{ on }">
-        <v-btn v-on="on" icon :disabled="widget_types.length == 0">
+        <v-btn v-on="on" icon>
           <v-icon>mdi-hammer-wrench</v-icon>
         </v-btn>
       </template>
       <v-list>
-        <v-list-item
-          v-for="widget_type in widget_types"
-          :key="widget_type"
-          link
-          @click="
-            $store.commit('addWidget', {
-              workspace_id: id,
-              type: widget_type,
-            })
-          "
-        >
-          <v-list-item-title>{{ widget_type }}</v-list-item-title>
+        <v-list-item>
+          <v-btn
+            color="green"
+            class="mx-auto"
+            style="width: 225px"
+            text
+            outlined
+            @click="toggleAll(true)"
+          >
+            Activate all widgets
+          </v-btn>
+        </v-list-item>
+        <v-list-item>
+          <v-btn
+            color="red"
+            class="mx-auto"
+            style="width: 225px"
+            text
+            outlined
+            @click="toggleAll(false)"
+          >
+            Disable all widgets
+          </v-btn>
+        </v-list-item>
+        <v-list-item v-for="widget_type in widget_types" :key="widget_type">
+          <v-switch
+            v-model="switches[widget_type]"
+            :label="widget_type"
+            @change="toggleSwitch(widget_type)"
+            inset
+            class="my-1"
+            hide-details
+          >
+          </v-switch>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -91,10 +107,38 @@ export default {
       return this.workspace.style;
     },
     widget_types() {
-      let added_types = this.workspace.widgets.map((widget) => widget.type);
-      return this.$store.state.widget_types.filter(
-        (type) => !added_types.includes(type)
+      return this.$store.state.widget_types;
+    },
+    switches() {
+      let switches = {};
+      this.widget_types.forEach(
+        (type) =>
+          (switches[type] = Boolean(
+            this.workspace.widgets.find((widget) => widget.type === type)
+          ))
       );
+      return switches;
+    },
+  },
+  methods: {
+    toggleSwitch(type) {
+      if (this.switches[type]) {
+        this.$store.commit("addWidget", {
+          workspace_id: this.id,
+          type: type,
+        });
+      } else {
+        this.$store.commit("deleteWidget", {
+          workspace_id: this.id,
+          type: type,
+        });
+      }
+    },
+    toggleAll(mode) {
+      this.widget_types.forEach((type) => {
+        this.switches[type] = mode;
+        this.toggleSwitch(type);
+      });
     },
   },
 };
