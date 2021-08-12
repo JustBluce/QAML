@@ -53,20 +53,22 @@ def guess(question, max=12):
 
 def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_of_top_guesses_strings):
     ans = ans.replace(" ","_")
+    isRelevant =  False
     if q_id not in machine_guess:
         machine_guess[q_id]=[]
         state_machine_guess[q_id]={
                                     "ans_pos": -1, 
                                     "current_guesses": array_of_top_guesses_strings
                                     }
+        isRelevant = False
         if ans in array_of_top_guesses_strings:
             state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
-        
+            isRelevant = True
         machine_guess[q_id].append({
                                     "edit_history":
                                     {
                                         "change_in_position": "First Entry",
-                                        "isRelevant": False,
+                                        "isRelevant": isRelevant,
                                     },
                                     "Timestamp_frontend":date_incoming, 
                                     "Timestamp_backend": date_outgoing, 
@@ -77,7 +79,10 @@ def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_o
                                     
                                 })
     else:
+        # print(array_of_top_guesses_strings.index(ans))
         if ans in array_of_top_guesses_strings:
+            isRelevant =  False
+            print("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
             if(state_machine_guess[q_id]["ans_pos"] != array_of_top_guesses_strings.index(ans)):
                 prev_pos = state_machine_guess[q_id]["ans_pos"]
                 
@@ -85,11 +90,12 @@ def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_o
                 string_new = ""
                 if prev_pos == -1:
                     string_new = string_new + "The machine did not guess previously"
+                    isRelevant =  True
                 elif(prev_pos < state_machine_guess[q_id]["ans_pos"]) :
-                    string_new = string_new + "The previous position was " + str(prev_pos) + "and the new position is " + str(state_machine_guess[q_id]["ans_pos"])
+                    string_new = string_new + "The previous position was " + str(prev_pos) + " and the new position is " + str(state_machine_guess[q_id]["ans_pos"])
                     isRelevant =  True
                 else:
-                    string_new = string_new + "The previous position was " + str(prev_pos) + "and the new position is " + str(state_machine_guess[q_id]["ans_pos"])
+                    string_new = string_new + "The previous position was " + str(prev_pos) + " and the new position is " + str(state_machine_guess[q_id]["ans_pos"])
                     isRelevant =  False
                 machine_guess[q_id].append({
                                             "edit_history":
@@ -249,8 +255,8 @@ def insert():
             if q_id in buzzer and counter_buzz < len(buzzer[q_id]):
                 if i == buzzer[q_id][counter_buzz]["Timestamp_frontend"]:
                     flag = 1
-                    # if buzzer[q_id][counter_buzz]["is_relevant"]:
-                    big_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
+                    if buzzer[q_id][counter_buzz]["is_relevant"]:
+                        big_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
                     counter_buzz+=1
             if q_id in difficulty and counter_difficulty < len(difficulty[q_id]):
                 if i == difficulty[q_id][counter_difficulty]["Timestamp_frontend"]:
