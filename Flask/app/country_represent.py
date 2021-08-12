@@ -3,6 +3,8 @@
 # Description of this file: 
 # 1. Finding underrepresented countries with respect to the question and answer both.
 import sys
+
+from numpy.lib.function_base import insert
 sys.path.append("..")
 sys.path.insert(0, './app')
 
@@ -184,6 +186,8 @@ def insert_into_db(q_id, date_incoming, date_outgoing, question, ans):
     if q_id not in country_represent_json:
         country_represent_json[q_id]=[]
         
+    added_change_in_over_represented_countries = list(set(current_over_countries)-set(prev_over_countries))
+    change_in_over_represented_countries = list(set(current_over_countries)-set(prev_over_countries))
     country_represent_json[q_id].append({
                             
                                 "Timestamp_frontend":date_incoming, 
@@ -237,18 +241,20 @@ def country_present():
     # if ans == "":
     #     return jsonify({"country_representation": "", "country": ""})
     page = wikipedia.page("\""+ans+"\"")
+    prev_over_countries[q_id] = current_over_countries[q_id]
+    prev_under_countries[q_id] = current_under_countries[q_id]
     current_over_countries[q_id] = []
     insert_db_flag = 0
     if q_id not in country_represent_json:
         insert_db_flag = 1
     for i in range(len(over_countries)):
-        if over_countries[i].lower() in question.lower(): 
+        if over_countries[i].lower() in question.lower() and over_countries[i].lower() not in prev_over_countries[q_id]: 
             current_over_countries[q_id].append(over_countries[i].lower())
+            insert_db_flag = 1
         elif over_countries[i].lower() not in question.lower() and over_countries[i].lower() in prev_over_countries[q_id]: 
             insert_db_flag = 1
            
     
-    prev_over_countries[q_id] = current_over_countries[q_id]
     current_under_countries[q_id] = []
     for i in range(len(under_countries)):
         # b = " ".join(x for x in i)
@@ -262,9 +268,7 @@ def country_present():
             idx = page.content.lower().find(under_countries[i].lower())
             sub_part = page.content[max(idx-200, 0) : min(idx + 200, len(page.content) - 1)]
             cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]), sub_part ])
-    
-    
-    prev_under_countries[q_id] = current_under_countries[q_id]
+ 
     message = Sort(cosine_sim_ques_country)
 
     answer = []

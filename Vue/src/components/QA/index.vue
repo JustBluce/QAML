@@ -286,6 +286,8 @@ export default {
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
+      formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
+      formData.append("id",this.id);
       // this.axios({
       //   url: "http://127.0.0.1:5000/over_present/highlight",
       //   method: "POST",
@@ -338,6 +340,13 @@ export default {
           }).then((response) => {
             if (response.data["difficulty"] === "Hard" || response.data["difficulty"]==="Easy")
               {
+                if(response.data["difficulty"]==="Easy"):
+                {
+                  this.addResult({
+                  title: "Easy Question",
+                  body: "Your question was not difficult enough for the computer.",
+                });
+                }
                 if (
                   this.qa.answer_text === "" ||
                   this.qa.text === "" ||
@@ -393,6 +402,8 @@ export default {
     changeGenre() {
       let formData = new FormData();
       formData.append("text", this.qa.text);
+      formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
+      formData.append("id",this.id);
       this.axios({
         url: "http://127.0.0.1:5000/genre_classifier/classify",
         method: "POST",
