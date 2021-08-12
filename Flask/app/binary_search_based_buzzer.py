@@ -34,22 +34,22 @@ def buzz(question, ans, min_index=5):
     # check if buzzer ever goes above threshold
     index_of_bin_search = len(temp_word_array)
     
-    if(len(temp_word_array)<15):
+    if(len(temp_word_array)<10):
         return "The string is too short", "", False, "", -1, -1
-    if(len(temp_word_array)<30):
+    if(len(temp_word_array)<20):
         question_sentence = question
         temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=1)
         if (temp_var[0][1] < threshold_buzz):
             return "The string does not cross the threshold", "", False, "", -1, -1
     # print(temp_word_array)
     max_index = index_of_bin_search - 1
-    max_index = int(max_index/15)*15
+    max_index = int(max_index/10)*10
     # print(max_index,temp_word_array)
     # while max_index >= min_index:
     set_flag = 0
     first_question_sentence = ''
     first_index_of_bin_search = -1
-    for i in range(15, max_index+1, 15):
+    for i in range(10, max_index+1, 10):
         # print(i, max_index)
         index_of_bin_search = i
         question_sentence = " ".join(temp_word_array[:index_of_bin_search])
@@ -243,6 +243,7 @@ def buzz_full_question():
         date_incoming = request.form.get("date")
         ans = request.form.get("answer_text")
         q_id = request.form.get("id")
+    ans = ans.strip()
     if(question.strip()==""):
         return jsonify({"buzz": "", "buzz_word": "", "flag": False, "top_guess" : "", "importance": [{"sentence":"-", "importance":-1}] })
     start = time.time()
