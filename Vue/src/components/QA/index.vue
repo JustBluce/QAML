@@ -26,9 +26,16 @@
             </div>
           </v-expand-transition>
         </v-card>
+
+        <div class="backdrop" ref="backdrop">
+          <div class="highlight" v-html="highlight_text">
+            <!-- cloned text with <mark> tags here -->
+          </div>
+        </div>
         <v-textarea
+          ref="textarea"
           background-color="background"
-          class="my-4"
+          class="highlight-textarea my-4"
           rows="10"
           label="Question"
           solo
@@ -51,7 +58,7 @@
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
 
-        <v-card class="background mt-4 pa-2">
+        <!-- <v-card class="background mt-4 pa-2">
           <div
             v-html="qa.highlight_text"
             background-color="background"
@@ -60,14 +67,13 @@
             solo
             hide-details="auto"
           ></div>
-        </v-card>
+        </v-card> -->
       </v-container>
     </v-card>
   </v-container>
 </template>
 
 <script>
-import HighlightableInput from "vue-highlightable-input";
 import { GChart } from "vue-google-charts";
 
 export default {
@@ -76,7 +82,6 @@ export default {
     id: Number,
   },
   components: {
-    HighlightableInput,
     GChart,
   },
   data() {
@@ -98,10 +103,10 @@ export default {
         ["Subgenre", "Count"],
         ["None", 1],
       ],
-      highlight: "🔔BUZZ",
       rules: [(value) => !!value || "Required."],
       showChart: false,
       Question_id: -1,
+      textarea: {},
     };
   },
   computed: {
@@ -110,6 +115,17 @@ export default {
     },
     qa() {
       return this.workspace.qa;
+    },
+    highlight() {
+      return [
+        { text: "🔔BUZZ", class: "primary" },
+        { text: "highlight me", class: "yellow" },
+      ];
+    },
+    highlight_text() {
+      return this.qa.text
+        .replace(/\n$/g, "\n\n")
+        .replace(/[A-Z].*?\b/g, "<mark>$&</mark>");
     },
     options() {
       return {
@@ -217,6 +233,7 @@ export default {
   methods: {
     keep_looping: _.debounce(function () {
       let formData = new FormData();
+      console.log("Looping");
       console.log(this.qa.text.lastIndexOf("🔔") > 0);
       while (this.qa.text.lastIndexOf("🔔") > 0) {
         this.qa.text =
@@ -308,7 +325,7 @@ export default {
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
-      this.axios({
+      /** this.axios({
         url: "http://127.0.0.1:5000/over_present/highlight",
         method: "POST",
         data: formData,
@@ -317,7 +334,7 @@ export default {
         // this.qa.importance = response.data["importance"];
         // this.highlight = response.data["buzz_word"];
         console.log(response);
-      });
+      }); **/
       this.axios({
         url: "http://127.0.0.1:5000/country_represent/country_present",
         method: "POST",
@@ -421,9 +438,48 @@ export default {
       this.Question_id = response.data["Question_id"];
       console.log(response);
     });
+
+    this.styleInterval = setInterval(
+      function () {
+        let backdrop = this.$refs.backdrop;
+        let textarea = this.$refs.textarea;
+        backdrop.style.height = textarea.$el.offsetHeight - 10 + "px";
+        backdrop.style.width = textarea.$el.offsetWidth + "px";
+        backdrop.scrollTop =
+          document.getElementsByTagName("textarea")[0].scrollTop;
+      }.bind(this),
+      10
+    );
   },
   beforeDestroy() {
     clearInterval(this.interval);
+    clearInterval(this.styleInterval);
   },
 };
 </script>
+
+<style>
+.highlight-textarea textarea {
+  z-index: 2;
+}
+
+.highlight {
+  color: transparent;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+mark {
+  color: transparent;
+}
+
+.backdrop {
+  position: absolute;
+  margin-top: 10px;
+  padding-left: 10px;
+  padding-right: 12px;
+  line-height: 1.75rem;
+  z-index: 1;
+  overflow: auto;
+}
+</style>
