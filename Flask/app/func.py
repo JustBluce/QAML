@@ -63,24 +63,45 @@ def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_o
             state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
         
         machine_guess[q_id].append({
-                                
+                                    "edit_history":
+                                    {
+                                        "change_in_position": "First Entry",
+                                        "isRelevant": False,
+                                    },
                                     "Timestamp_frontend":date_incoming, 
                                     "Timestamp_backend": date_outgoing, 
                                     "guesses":answer,
-                                    "ans_pos": state_machine_guess[q_id]["ans_pos"]
+                                    "ans_pos": state_machine_guess[q_id]["ans_pos"],
+                                    "prev_pos": -1,
+                                    
                                     
                                 })
     else:
         if ans in array_of_top_guesses_strings:
             if(state_machine_guess[q_id]["ans_pos"] != array_of_top_guesses_strings.index(ans)):
+                prev_pos = state_machine_guess[q_id]["ans_pos"]
+                
                 state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
+                string_new = ""
+                if prev_pos == -1:
+                    string_new = string_new + "The machine did not guess previously"
+                elif(prev_pos < state_machine_guess[q_id]["ans_pos"]) :
+                    string_new = string_new + "The previous position was " + str(prev_pos) + "and the new position is " + str(state_machine_guess[q_id]["ans_pos"])
+                    isRelevant =  True
+                else:
+                    string_new = string_new + "The previous position was " + str(prev_pos) + "and the new position is " + str(state_machine_guess[q_id]["ans_pos"])
+                    isRelevant =  False
                 machine_guess[q_id].append({
-                                        
+                                            "edit_history":
+                                            {
+                                                "change_in_position": string_new,
+                                                "isRelevant": isRelevant,
+                                            },
                                             "Timestamp_frontend":date_incoming, 
                                             "Timestamp_backend": date_outgoing, 
                                             "guesses":answer,
-                                            "ans_pos": state_machine_guess[q_id]["ans_pos"]
-                                            
+                                            "ans_pos": state_machine_guess[q_id]["ans_pos"],
+                                            "prev_pos": prev_pos,
                                         })
 
 
