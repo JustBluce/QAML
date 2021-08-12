@@ -5,6 +5,7 @@
     background-color="background"
     show-arrows
   >
+    <v-tab v-show="false"></v-tab>
     <draggable class="ma-0 row" v-model="workspaces">
       <v-tab
         v-show="workspace.tab"
@@ -31,6 +32,7 @@
 
 <script>
 import draggable from "vuedraggable";
+
 export default {
   name: "Tabs",
   components: {
@@ -59,10 +61,12 @@ export default {
     },
   },
   mounted() {
-    let self = this;
-    this.interval = setInterval(function () {
-      self.$refs.tabs.onResize();
-    }, 100);
+    this.interval = setInterval(
+      function () {
+        this.$refs.tabs.onResize();
+      }.bind(this),
+      100
+    );
   },
   beforeDestroy() {
     clearInterval(this.interval);
