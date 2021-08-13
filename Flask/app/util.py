@@ -1,12 +1,13 @@
 import sys
+
 sys.path.append("..")
-sys.path.insert(0, './app')
+sys.path.insert(0, "./app")
 from app import import_libraries
 from import_libraries import *
+
 threshold_buzz = 0.2
 threshold_similar = 0.5
 threshold_pronunciation = 0.4
-
 
 
 def colored(r, g, b, text):
@@ -62,7 +63,7 @@ def break_into_words(question):
 
 def get_pretrained_tfidf_vectorizer():
     """
-    
+
     Parameters
     ----------
     None
@@ -80,9 +81,10 @@ def get_pretrained_tfidf_vectorizer():
     ans = params["i_to_ans"]
     return vectorizer, Matrix, ans
 
+
 def get_pronunciation_models():
     """
-    
+
     Parameters
     ----------
     None
@@ -93,13 +95,17 @@ def get_pronunciation_models():
     Logistic regression classifier
 
     """
+    # TODO pronunciation_tf-idf.pickle
     with open("./model/pronunciation_models/pronunciation_tf-idf.pickle", "rb") as f:
         pron_vectorizer = pickle.load(f)
-    with open("./model/pronunciation_models/pronunciation_regression.pickle", "rb") as f1:
+    with open(
+        "./model/pronunciation_models/pronunciation_regression.pickle", "rb"
+    ) as f1:
         pron_regression = pickle.load(f1)
     with open("./model/pronunciation_models/word_freq.pickle", "rb") as f2:
         pron_word_freq = pickle.load(f2)
     return pron_vectorizer, pron_regression, pron_word_freq
+
 
 def guess_top_n(question, params, max=12, n=3):
     """
@@ -123,6 +129,7 @@ def guess_top_n(question, params, max=12, n=3):
     for i in range(len(question)):
         answer.append([(ans[j], matrix[i, j]) for j in indices[i]])
     return answer[0][0:n]
+
 
 def guess_top_1(question, params, max=12, n=1):
     """
@@ -149,7 +156,7 @@ def guess_top_1(question, params, max=12, n=1):
 
 def load_bert_model_difficulty():
     """
-    
+
     Parameters
     ----------
     None
@@ -166,7 +173,7 @@ def load_bert_model_difficulty():
 
 
 class Highlight(object):
-    '''
+    """
     Name:                   highlight
     Author:                 CaiZefan
     Required parameters:    text, keywords
@@ -179,27 +186,34 @@ class Highlight(object):
                             highlight=Highlight()
                             highlight_text=highlight.highlight_text(text=text, keywords=keywords, color="yellow", count=1)
                             highlight_text='<font color="#333333"><strong style="background:yellow"><em></em></strong></font>I have an apple. I have 3 apples.'
-    '''
+    """
+
     def __init__(self, **kw):
-        self.iText=''
-        self.iKeywords=[]
-        self.iColor="red"
-        self.iCount=0
-        if 'text' in kw:
-            self.iText=kw['text']
-        if 'keywords' in kw:
-            self.iKeywords=kw['keywords']
+        self.iText = ""
+        self.iKeywords = []
+        self.iColor = "red"
+        self.iCount = 0
+        if "text" in kw:
+            self.iText = kw["text"]
+        if "keywords" in kw:
+            self.iKeywords = kw["keywords"]
 
     def highlight_text(self, text, keywords, **kw):
-        self.iText=text
-        self.iKeywords=keywords
-        if 'color' in kw:
-            self.iColor=kw['color']
-        if 'count' in kw:
-            self.iCount=kw['count']
+        self.iText = text
+        self.iKeywords = keywords
+        if "color" in kw:
+            self.iColor = kw["color"]
+        if "count" in kw:
+            self.iCount = kw["count"]
         for iKeyword in self.iKeywords:
-            self.iText = re.sub(iKeyword, '<font color="#333333"><strong style="background:'+ self.iColor +'"><em>' + iKeyword + '</em></strong></font>', self.iText, count=self.iCount)
+            self.iText = re.sub(
+                iKeyword,
+                '<mark class="' + self.iColor + '">' + iKeyword + "</mark>",
+                self.iText,
+                count=self.iCount,
+            )
         # print(highlight_text)
+        print(self.iText)
         return self.iText
 
 
@@ -221,9 +235,10 @@ class Highlight(object):
 #         highlight.append(temp)
 #     return highlight
 
+
 def load_bert_country_model():
     """
-    
+
     Parameters
     ----------
     None
@@ -237,12 +252,15 @@ def load_bert_country_model():
     # model_name = "bert-large-uncased-whole-word-masking-finetuned-squad"
     model_name = "distilbert-base-cased-distilled-squad"
     tokenizer_country = AutoTokenizer.from_pretrained(model_name, do_lower_case=True)
-    model_country = AutoModelForPreTraining.from_pretrained(model_name, output_attentions=False, output_hidden_states=True)
+    model_country = AutoModelForPreTraining.from_pretrained(
+        model_name, output_attentions=False, output_hidden_states=True
+    )
     return tokenizer_country, model_country
+
 
 def load_genre_model():
     """
-    
+
     Parameters
     ----------
     None
@@ -252,12 +270,15 @@ def load_genre_model():
     Bert model and tokenizer for genre classifier
 
     """
-    model = BertForSequenceClassification.from_pretrained('./model/genre_classifier_models/BERT_genre_classifier', num_labels = 11)
+    model = BertForSequenceClassification.from_pretrained(
+        "./model/genre_classifier_models/BERT_genre_classifier", num_labels=11
+    )
     return model
+
 
 def load_science_genre_model():
     """
-    
+
     Parameters
     ----------
     None
@@ -267,14 +288,22 @@ def load_science_genre_model():
     Bert model and tokenizer for science sub-genre classifier
 
     """
-    model = BertForSequenceClassification.from_pretrained('./model/genre_classifier_models/Science_Genre_classifier', num_labels = 4)
+    model = BertForSequenceClassification.from_pretrained(
+        "./model/genre_classifier_models/Science_Genre_classifier", num_labels=4
+    )
     return model
 
+
 def load_pron_model_pronunciation():
-    model_name = './model/pronunciation_models/pronunciation'
-    tokenizer_pronunciation = AutoTokenizer.from_pretrained('squeezebert/squeezebert-uncased', do_lower_case=True)
-    model_pronunciation = AutoModelForSequenceClassification.from_pretrained('./model/pronunciation_models/pronunciation-squeezebert', num_labels = 2)
+    model_name = "./model/pronunciation_models/pronunciation"
+    tokenizer_pronunciation = AutoTokenizer.from_pretrained(
+        "squeezebert/squeezebert-uncased", do_lower_case=True
+    )
+    model_pronunciation = AutoModelForSequenceClassification.from_pretrained(
+        "./model/pronunciation_models/pronunciation-squeezebert", num_labels=2
+    )
     return tokenizer_pronunciation, model_pronunciation
+
 
 tokenizer_difficulty, model_difficulty = load_bert_model_difficulty()
 params = get_pretrained_tfidf_vectorizer()

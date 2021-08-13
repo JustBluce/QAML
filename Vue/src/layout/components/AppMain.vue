@@ -23,10 +23,9 @@ export default {
   height: 100vh;
   width: 100%;
   position: relative;
-  /*overflow: auto;
-  overflow: overlay; */
   overflow: hidden;
 }
+
 .fixed-header + .app-main {
   padding-top: 50px;
 }
