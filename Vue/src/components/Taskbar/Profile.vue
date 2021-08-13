@@ -29,10 +29,12 @@
             <v-btn depressed rounded text @click.native="logout">
               Logout
             </v-btn>
-            <v-divider class="my-1"></v-divider>
-            <v-btn depressed rounded text color="red" @click="popup = true">
-              Delete Account
-            </v-btn>
+            <div v-if="user">
+              <v-divider class="my-1"></v-divider>
+              <v-btn depressed rounded text color="red" @click="popup = true">
+                Delete Account
+              </v-btn>
+            </div>
           </div>
         </v-list-item-content>
       </v-card>

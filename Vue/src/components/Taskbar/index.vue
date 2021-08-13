@@ -3,7 +3,7 @@ Developers: Jason Liu
 -->
 
 <template>
-  <v-toolbar elevation="4">
+  <v-toolbar style="z-index: 1000" elevation="4">
     <v-toolbar-title>{{ title }}</v-toolbar-title>
 
     <v-spacer></v-spacer>
