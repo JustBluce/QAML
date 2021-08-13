@@ -82,6 +82,7 @@ export default {
       this.$router.push({ name: "Login" });
       e.stopPropagation();
       firebase.auth().signOut();
+      //this.$store.dispatch("fetchUser", null);
     },
     deleteAccount() {},
   },
