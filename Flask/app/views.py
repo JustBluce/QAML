@@ -3,7 +3,6 @@ sys.path.append("..")
 sys.path.insert(0, './app')
 from app import app, Database
 from Database.question import question
-from Database.users import users
 from .log import log
 from .func import func
 from .question import question
@@ -33,4 +32,3 @@ app.register_blueprint(genre_classifier, url_prefix='/genre_classifier')
 app.register_blueprint(pronunciation, url_prefix='/pronunciation')
 app.register_blueprint(over_present, url_prefix='/over_present')
 app.register_blueprint(question, url_prefix='/question')
-app.register_blueprint(users, url_prefix='/users')
