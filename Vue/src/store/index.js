@@ -121,7 +121,7 @@ const store = new Vuex.Store({
 	},
 	actions: {
 		
-		fetchUser({ commit }, user) {
+		/* fetchUser({ commit }, user) {
 			commit('SET_LOGGED_IN', user !== null);
 			if (user) {
 				commit('SET_USER', {
@@ -134,7 +134,7 @@ const store = new Vuex.Store({
 			} else {
 				commit('SET_USER', null);
 			}
-		}
+		} */
 	}
 });
 
