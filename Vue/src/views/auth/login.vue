@@ -84,6 +84,7 @@ export default {
       email: "",
       password: "",
       showPassword: false,
+      user: null,
       emailRules: [
         (v) => !!v || "E-mail is required",
         //(v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
@@ -109,11 +110,43 @@ export default {
       }
     },
     socialLogin() {
+      const db = firebase.firestore();
+      const docs = db.collection("users");
+       let lastUser = 0;
+
       const provider = new firebase.auth.GoogleAuthProvider();
+      this.user = firebase.auth().currentUser;
+
       firebase
         .auth()
         .signInWithPopup(provider)
         .then(() => {
+        db.collection("users").where('email', '==',this.user.email).get().then((snapshot)=> {
+        if(snapshot.exists){
+            snapshot.docs.forEach(doc => {
+            console.log("EMAIL FOUND! I dont have to make new docs, yay!")
+            console.log(doc.data().email ) ;
+          })
+        }else{
+          console.log("No email found, adding new docs...")
+          db.collection("users").orderBy('timestamp','desc').limit(1).get().then((snapshot2)=> {
+          snapshot2.docs.forEach(doc => {
+              lastUser = doc.data().User_ID + 1;
+              console.log("USER: "+ doc.data().User_ID) ;
+              console.log(lastUser ) ;
+              //document titles correlate to User UID
+            db.collection("users").doc(this.user.uid).set({
+              User_ID: lastUser,
+              displayName: this.user.displayName,
+              email: this.user.email,
+              signInMethod: "Google",
+              timestamp: firebase.firestore.Timestamp.now(),
+            })
+            console.log("Docs Added!")
+          })
+          })
+        }
+      })  
           this.$router.push("/dashboard");
         })
         .catch((err) => {
@@ -129,13 +162,8 @@ export default {
         });
     },
   },
-  created() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.$router.push("/dashboard");
-      }
-    });
-  },
+ 
+      
 };
 </script>
 
