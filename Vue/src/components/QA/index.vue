@@ -55,17 +55,6 @@
         <v-btn color="primary" @click="searchData">
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
-
-        <!-- <v-card class="background mt-4 pa-2">
-          <div
-            v-html="qa.highlight_text"
-            background-color="background"
-            rows="1"
-            label="Tips"
-            solo
-            hide-details="auto"
-          ></div>
-        </v-card> -->
       </v-container>
     </v-card>
   </v-container>
@@ -105,7 +94,6 @@ export default {
       showChart: false,
       Question_id: -1,
       textarea: {},
-      highlight_text: "",
     };
   },
   computed: {
@@ -128,6 +116,22 @@ export default {
         blue: "blue",
         purple: "purple",
       };
+    },
+    highlight_text() {
+      let highlight_regex = new RegExp(
+        Object.keys(this.highlight).join("|"),
+        "gi"
+      );
+      return this.qa.text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\n$/g, "\n\n")
+        .replace(
+          highlight_regex,
+          (word) =>
+            `<mark class="${this.highlight[word.toLowerCase()]}">${word}</mark>`
+        );
     },
     options() {
       return {
@@ -445,27 +449,10 @@ export default {
       function () {
         let backdrop = this.$refs.backdrop;
         let textarea = this.$refs.textarea;
-        let input = document.getElementsByTagName("textarea")[0];
         backdrop.style.height = textarea.$el.offsetHeight - 10 + "px";
         backdrop.style.width = textarea.$el.offsetWidth + "px";
-        backdrop.scrollTop = input.scrollTop;
-
-        const highlight_regex = new RegExp(
-          Object.keys(this.highlight).join("|"),
-          "gi"
-        );
-        this.highlight_text = this.qa.text
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/\n$/g, "\n\n")
-          .replace(
-            highlight_regex,
-            (word) =>
-              `<mark class="${
-                this.highlight[word.toLowerCase()]
-              }">${word}</mark>`
-          );
+        backdrop.scrollTop =
+          document.getElementsByTagName("textarea")[0].scrollTop;
       }.bind(this),
       10
     );
