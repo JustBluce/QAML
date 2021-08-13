@@ -57,13 +57,31 @@
         </v-btn>
       </v-container>
     </v-card>
+
+    <v-dialog v-model="popup" persistent max-width="500">
+      <v-card>
+        <v-card-title class="text-h5"> Verify Email Address </v-card-title>
+        <v-card-text
+          >To ensure the security of our service we ask that you verify your
+          email address. An email should have been sent to you when you created
+          your account. If you do not have this email, please click the resend
+          email address button to try again.
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="popup = false"> Cancel </v-btn>
+          <v-btn color="green darken-1" text @click="sendverification">
+            Resend Email
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
-
 
 export default {
   name: "QA",
@@ -76,7 +94,6 @@ export default {
   data() {
     return {
       popup: false,
-      popup2: false, 
       email: "",
       user: null,
       password: "",
@@ -158,13 +175,13 @@ export default {
   },
 
   created() {
-    
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-       this.user = user;
+        this.user = user;
+        this.verified = user.emailVerified;
       }
     });
-  
+
     this.interval = setInterval(
       function () {
         let formData = new FormData();
@@ -260,15 +277,17 @@ export default {
   },
 
   methods: {
-    sendverification(){
+    sendverification() {
       this.popup = false;
       const currentUser = this.user;
-      firebase.auth().currentUser.sendEmailVerification()
-      .then(() => {
-        console.log("Sent Verification to: " + currentUser.email);
-        // Email verification sent!
-        // ...
-      });
+      firebase
+        .auth()
+        .currentUser.sendEmailVerification()
+        .then(() => {
+          console.log("Sent Verification to: " + currentUser.email);
+          // Email verification sent!
+          // ...
+        });
     },
     keep_looping: _.debounce(function () {
       let formData = new FormData();
@@ -384,69 +403,69 @@ export default {
       });
     }, 1000),
     searchData() {
-      if(this.$store.state.user.verified){
-      let formData = new FormData();
-      formData.append("text", this.qa.text);
-      formData.append("answer_text", this.qa.answer_text);
-      this.axios({
-        url: "http://127.0.0.1:5000/difficulty_classifier/classify",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        if (response.data["difficulty"] === "Hard") {
-          this.axios({
-            url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
-            method: "POST",
-            data: formData,
-          }).then((response) => {
-            if (response.data["similar_question"][0]) {
-              this.addResult({
-                title: "Similar question detected",
-                body: response.data["similar_question"][1][0]["text"],
-              });
-            } else {
-              if (
-                this.qa.answer_text === "" ||
-                this.qa.text === "" ||
-                this.qa.genre === ""
-              ) {
+      if (this.verified) {
+        let formData = new FormData();
+        formData.append("text", this.qa.text);
+        formData.append("answer_text", this.qa.answer_text);
+        this.axios({
+          url: "http://127.0.0.1:5000/difficulty_classifier/classify",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          if (response.data["difficulty"] === "Hard") {
+            this.axios({
+              url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+              method: "POST",
+              data: formData,
+            }).then((response) => {
+              if (response.data["similar_question"][0]) {
                 this.addResult({
-                  title: "Empty fields",
-                  body: "Please make sure Question and Answer boxes are filled and Question Genre is selected.",
+                  title: "Similar question detected",
+                  body: response.data["similar_question"][1][0]["text"],
                 });
               } else {
-                this.axios({
-                  url: "http://127.0.0.1:5000/func/insert",
-                  method: "POST",
-                  data: formData,
-                }).then((response) => {
-                  console.log(response);
-                });
-                this.addResult({
-                  title: "Saved",
-                  body: "Your question is now added to the database.",
-                });
+                if (
+                  this.qa.answer_text === "" ||
+                  this.qa.text === "" ||
+                  this.qa.genre === ""
+                ) {
+                  this.addResult({
+                    title: "Empty fields",
+                    body: "Please make sure Question and Answer boxes are filled and Question Genre is selected.",
+                  });
+                } else {
+                  this.axios({
+                    url: "http://127.0.0.1:5000/func/insert",
+                    method: "POST",
+                    data: formData,
+                  }).then((response) => {
+                    console.log(response);
+                  });
+                  this.addResult({
+                    title: "Saved",
+                    body: "Your question is now added to the database.",
+                  });
+                }
               }
-            }
-            // this.qa.top5_similar_questions = response.data["similar_question"];
-          });
-        } else {
-          this.addResult({
-            title: "Not saved",
-            body: "Your question was not difficult enough for the computer. Please try again.",
-          });
-        }
-      });
-      // this.axios({
-      //   url: "http://127.0.0.1:5000/func/country_people",
-      //   method: "POST",
-      //   data: formData,
-      // }).then((response) => {
-      //   console.log(response);
-      //   this.qa.country_representation = response.data["country_representation"];
-      //   this.highlight = response.data["Highlight"];
-      // });
-      }else{
+              // this.qa.top5_similar_questions = response.data["similar_question"];
+            });
+          } else {
+            this.addResult({
+              title: "Not saved",
+              body: "Your question was not difficult enough for the computer. Please try again.",
+            });
+          }
+        });
+        // this.axios({
+        //   url: "http://127.0.0.1:5000/func/country_people",
+        //   method: "POST",
+        //   data: formData,
+        // }).then((response) => {
+        //   console.log(response);
+        //   this.qa.country_representation = response.data["country_representation"];
+        //   this.highlight = response.data["Highlight"];
+        // });
+      } else {
         this.popup = true;
       }
     },
