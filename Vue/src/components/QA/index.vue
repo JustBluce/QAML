@@ -26,9 +26,14 @@
             </div>
           </v-expand-transition>
         </v-card>
+
+        <div class="backdrop" ref="backdrop">
+          <div class="highlight" v-html="highlight_text"></div>
+        </div>
         <v-textarea
+          ref="textarea"
           background-color="background"
-          class="my-4"
+          class="highlight-textarea my-4"
           rows="10"
           label="Question"
           solo
@@ -51,47 +56,7 @@
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
 
-     <v-row justify="center">
-    <v-dialog
-      v-model="popup"
-      persistent
-      max-width="350"
-    >
-      
-      <v-card>
-        <v-card-title class="text-h5">
-         Verify Your Email Address
-        </v-card-title>
-        <v-card-text>To ensure the security of our service we ask that you verify your email address. An email should have been sent to you when you created your account. If you do not have this email, please click the resend email address button to try again. </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="red"
-            text
-            @click="popup = false"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="sendverification"
-          >
-            Resend Email
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
-
-
-
-  
-    
-
-
-
-        <v-card class="background mt-4 pa-2">
+        <!-- <v-card class="background mt-4 pa-2">
           <div
             v-html="qa.highlight_text"
             background-color="background"
@@ -100,14 +65,13 @@
             solo
             hide-details="auto"
           ></div>
-        </v-card>
+        </v-card> -->
       </v-container>
     </v-card>
   </v-container>
 </template>
 
 <script>
-import HighlightableInput from "vue-highlightable-input";
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
 
@@ -118,7 +82,6 @@ export default {
     id: Number,
   },
   components: {
-    HighlightableInput,
     GChart,
   },
   data() {
@@ -154,10 +117,11 @@ export default {
         ["Subgenre", "Count"],
         ["None", 1],
       ],
-      highlight: "🔔BUZZ",
       rules: [(value) => !!value || "Required."],
       showChart: false,
       Question_id: -1,
+      textarea: {},
+      highlight_text: "",
     };
   },
   computed: {
@@ -166,6 +130,20 @@ export default {
     },
     qa() {
       return this.workspace.qa;
+    },
+    highlight() {
+      return {
+        "🔔BUZZ": "yellow",
+        "highlight me": "primary",
+        mask: "yellow",
+        highlight: "yellow",
+        red: "red",
+        orange: "orange",
+        yellow: "yellow",
+        green: "green",
+        blue: "blue",
+        purple: "purple",
+      };
     },
     options() {
       return {
@@ -290,6 +268,7 @@ export default {
     },
     keep_looping: _.debounce(function () {
       let formData = new FormData();
+      console.log("Looping");
       console.log(this.qa.text.lastIndexOf("🔔") > 0);
       while (this.qa.text.lastIndexOf("🔔") > 0) {
         this.qa.text =
@@ -381,7 +360,7 @@ export default {
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
-      this.axios({
+      /** this.axios({
         url: "http://127.0.0.1:5000/over_present/highlight",
         method: "POST",
         data: formData,
@@ -390,7 +369,7 @@ export default {
         // this.qa.importance = response.data["importance"];
         // this.highlight = response.data["buzz_word"];
         console.log(response);
-      });
+      }); **/
       this.axios({
         url: "http://127.0.0.1:5000/country_represent/country_present",
         method: "POST",
@@ -498,9 +477,68 @@ export default {
       this.Question_id = response.data["Question_id"];
       console.log(response);
     });
+
+    this.highlightInterval = setInterval(
+      function () {
+        let backdrop = this.$refs.backdrop;
+        let textarea = this.$refs.textarea;
+        let input = document.getElementsByTagName("textarea")[0];
+        backdrop.style.height = textarea.$el.offsetHeight - 10 + "px";
+        backdrop.style.width = textarea.$el.offsetWidth + "px";
+        backdrop.scrollTop = input.scrollTop;
+
+        const highlight_regex = new RegExp(
+          Object.keys(this.highlight).join("|"),
+          "gi"
+        );
+        this.highlight_text = this.qa.text
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\n$/g, "\n\n")
+          .replace(
+            highlight_regex,
+            (word) =>
+              `<mark class="${
+                this.highlight[word.toLowerCase()]
+              }">${word}</mark>`
+          );
+      }.bind(this),
+      10
+    );
   },
   beforeDestroy() {
     clearInterval(this.interval);
+    clearInterval(this.highlightInterval);
   },
 };
 </script>
+
+<style>
+.highlight-textarea textarea {
+  z-index: 2;
+}
+
+.highlight {
+  color: transparent;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+mark {
+  display: inline-block;
+  border-radius: 5px;
+  color: transparent;
+  opacity: 0.8;
+}
+
+.backdrop {
+  position: absolute;
+  margin-top: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+  line-height: 1.75rem;
+  z-index: 1;
+  overflow: auto;
+}
+</style>

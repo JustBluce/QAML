@@ -29,7 +29,10 @@ Developers: Damian Rene
         <v-icon class="mr-1">{{ item.icon }}</v-icon>
         {{ item.title }}
       </v-btn>
-      
+      <!-- <v-btn v-show="!user" @click="logOut" min-width="125">
+        <v-icon class="mr-1">mdi-logout-variant</v-icon>
+        Logout
+      </v-btn> -->
     </v-toolbar-items>
   </v-app-bar>
 </template>
