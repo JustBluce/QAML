@@ -21,11 +21,8 @@ Developers: Damian Rene and Jason Liu
           placeholder="Email address to reset password"
           :rules="emailRules"
         ></v-text-field>
-
       </v-form>
 
-      
-     
       <v-card-actions class="justify-center pb-4">
         <v-btn class="primary" @click="resetPassword">
           <v-img
@@ -37,8 +34,6 @@ Developers: Damian Rene and Jason Liu
           Send Reset Email
         </v-btn>
       </v-card-actions>
-      
-     
     </v-card>
   </v-container>
 </template>
@@ -69,25 +64,20 @@ export default {
   },
   methods: {
     resetPassword() {
-      firebase.auth().sendPasswordResetEmail(this.email)
+      firebase
+        .auth()
+        .sendPasswordResetEmail(this.email)
         .then(() => {
-            alert("Reset Email Sent!");
-            // Password reset email sent!
-            // ..
+          alert("Reset Email Sent!");
+          // Password reset email sent!
+          // ..
         })
         .catch((error) => {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ..
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // ..
         });
     },
-  }
+  },
 };
 </script>
-
-<style>
-.canvas {
-  position: absolute;
-  left: 0;
-}
-</style>
