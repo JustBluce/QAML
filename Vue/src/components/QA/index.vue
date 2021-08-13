@@ -28,9 +28,7 @@
         </v-card>
 
         <div class="backdrop" ref="backdrop">
-          <div class="highlight" v-html="highlight_text">
-            <!-- cloned text with <mark> tags here -->
-          </div>
+          <div class="highlight" v-html="highlight_text"></div>
         </div>
         <v-textarea
           ref="textarea"
@@ -122,7 +120,7 @@ export default {
         "🔔BUZZ": "yellow",
         "highlight me": "primary",
         mask: "yellow",
-        highlighted: "yellow",
+        highlight: "yellow",
         red: "red",
         orange: "orange",
         yellow: "yellow",
@@ -488,12 +486,13 @@ export default {
   color: transparent;
   white-space: pre-wrap;
   word-wrap: break-word;
-  opacity: 0.8;
 }
 
 mark {
-  border-radius: 3px;
+  display: inline-block;
+  border-radius: 5px;
   color: transparent;
+  opacity: 0.8;
 }
 
 .backdrop {
