@@ -26,6 +26,50 @@
           </v-btn>
           <v-divider class="my-1"></v-divider>
           <v-btn depressed rounded text @click.native="logout"> Logout </v-btn>
+          <v-divider class="my-1"></v-divider>
+           <v-btn
+            depressed
+            rounded
+            text
+            target="_blank"
+            color="red"
+            @click="popup=true"
+            
+          >
+           DELETE ACCOUNT
+          </v-btn>
+           <v-row justify="center">
+    <v-dialog
+      v-model="popup"
+      persistent
+      max-width="350"
+    >
+      
+      <v-card>
+        <v-card-title class="text-h5">
+        DELETE YOUR ACCOUNT
+        </v-card-title>
+        <v-card-text>Are you sure you want to delete your account? This will erase all of your data and progress.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="popup = false"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="red"
+            text
+            @click="deleteAccount"
+          >
+            DELETE ACCOUNT
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
         </div>
       </v-list-item-content>
     </v-card>
@@ -40,6 +84,7 @@ export default {
   data() {
     return {
       user: null,
+      popup: false,
     };
   },
   created() {
@@ -55,6 +100,10 @@ export default {
       e.stopPropagation();
       firebase.auth().signOut();
       this.$store.dispatch("fetchUser", null);
+    },
+    deleteAccount(){
+
+
     },
   },
 };
