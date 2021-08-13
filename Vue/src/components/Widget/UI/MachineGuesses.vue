@@ -19,7 +19,6 @@ export default {
   name: "MachineGuesses",
   props: {
     workspace_id: Number,
-    widget_id: Number,
   },
   data() {
     return {

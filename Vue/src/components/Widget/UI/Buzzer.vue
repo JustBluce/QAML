@@ -30,11 +30,11 @@ Developers: Atith Gandhi and Jason Liu
 
 <script>
 import Highlighter from "vue-highlight-words";
+
 export default {
   name: "Buzzer",
   props: {
     workspace_id: Number,
-    widget_id: Number,
   },
   components: {
     Highlighter,

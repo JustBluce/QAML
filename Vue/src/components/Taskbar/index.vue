@@ -3,37 +3,27 @@ Developers: Jason Liu
 -->
 
 <template>
-  <div>
-    <v-toolbar elevation="4">
-      <v-toolbar-title>{{ title }}</v-toolbar-title>
+  <v-toolbar elevation="4">
+    <v-toolbar-title>{{ title }}</v-toolbar-title>
 
-      <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
 
-      <v-btn
-        v-if="qa"
-        color="green"
-        class="mx-2"
-        text
-        outlined
-        @click="$store.commit('createWorkspace')"
-      >
-        Create workspace
-      </v-btn>
+    <WorkspaceMenu v-if="qa" />
 
-      <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
-        <v-icon>mdi-brightness-6</v-icon>
-      </v-btn>
+    <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
+      <v-icon>mdi-brightness-6</v-icon>
+    </v-btn>
 
-      <Profile />
+    <Profile />
 
-      <template v-slot:extension v-if="qa">
-        <Tabs />
-      </template>
-    </v-toolbar>
-  </div>
+    <template v-slot:extension v-if="qa">
+      <Tabs />
+    </template>
+  </v-toolbar>
 </template>
 
 <script>
+import WorkspaceMenu from "./WorkspaceMenu";
 import Profile from "./Profile";
 import Tabs from "./Tabs";
 
@@ -47,6 +37,7 @@ export default {
     },
   },
   components: {
+    WorkspaceMenu,
     Profile,
     Tabs,
   },

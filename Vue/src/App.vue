@@ -1,11 +1,26 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+  <v-app>
+    <!-- display nav bar -->
+    <div v-if="showBar.includes($route.name)">
+      <nav-bar />
+    </div>
+
+    <v-main><router-view /></v-main>
+  </v-app>
 </template>
 
 <script>
+import NavBar from "@/views/NavBar";
+
 export default {
-  name: 'App'
-}
+  name: "App",
+  components: {
+    NavBar,
+  },
+  data() {
+    return {
+      showBar: ["Login", "Register", "About"],
+    };
+  },
+};
 </script>
