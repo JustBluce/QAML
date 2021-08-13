@@ -8,7 +8,7 @@ Developers: Jason Liu
     ref="widgets"
     ghost-class="ghost"
     handle=".handle"
-    group="widgets"
+    :group="`widgets-${id}`"
     tag="v-container"
     fluid
     class="background"

@@ -41,7 +41,6 @@ export default {
   name: "Pronunciation",
   props: {
     workspace_id: Number,
-    widget_id: Number,
   },
   components: {
     Highlighter,
