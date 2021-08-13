@@ -62,6 +62,8 @@
 
 <script>
 import { GChart } from "vue-google-charts";
+import firebase from "firebase";
+
 
 export default {
   name: "QA",
@@ -73,6 +75,20 @@ export default {
   },
   data() {
     return {
+      popup: false,
+      popup2: false, 
+      email: "",
+      user: null,
+      password: "",
+      showPassword: false,
+      emailRules: [
+        (v) => !!v || "E-mail is required",
+        //(v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      ],
+      passwordRules: [
+        (v) => !!v || "Password is required",
+        // (v) => v.length >= 8 || "Min 8 characters",
+      ],
       genres: [
         "Philosophy",
         "History",
@@ -142,6 +158,13 @@ export default {
   },
 
   created() {
+    
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+       this.user = user;
+      }
+    });
+  
     this.interval = setInterval(
       function () {
         let formData = new FormData();
@@ -237,6 +260,16 @@ export default {
   },
 
   methods: {
+    sendverification(){
+      this.popup = false;
+      const currentUser = this.user;
+      firebase.auth().currentUser.sendEmailVerification()
+      .then(() => {
+        console.log("Sent Verification to: " + currentUser.email);
+        // Email verification sent!
+        // ...
+      });
+    },
     keep_looping: _.debounce(function () {
       let formData = new FormData();
       console.log("Looping");
@@ -351,6 +384,7 @@ export default {
       });
     }, 1000),
     searchData() {
+      if(this.$store.state.user.verified){
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
@@ -412,6 +446,9 @@ export default {
       //   this.qa.country_representation = response.data["country_representation"];
       //   this.highlight = response.data["Highlight"];
       // });
+      }else{
+        this.popup = true;
+      }
     },
     changeGenre() {
       let formData = new FormData();
