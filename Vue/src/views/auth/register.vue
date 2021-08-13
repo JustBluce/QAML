@@ -94,13 +94,17 @@ export default {
       const db = firebase.firestore();
       let lastUser = 0;
 
-      db.collection("users").orderBy('timestamp','desc').limit(1).get().then((snapshot)=> {
+      db.collection("users").where('email', '==','damiancren@gmail.com').get().then((snapshot)=> {
+        if(snapshot.exists){
             snapshot.docs.forEach(doc => {
-              lastUser = doc.data().User_ID + 1;
-              console.log("USER: "+ doc.data().User_ID) ;
-              console.log(lastUser ) ;
+              console.log("EMAIL FOUND!")
+              console.log(doc.data().email ) ;
           })
-      })       
+        }else{
+          console.log("ERROR(Doc Fetch): DOCUMENT DOES NOT EXSIST")
+        }
+      })  
+         
     },
     
     
@@ -125,6 +129,7 @@ export default {
               User_ID: lastUser,
               displayName: this.name,
               email: this.email,
+              signInMethod: "Email and Password",
               timestamp: firebase.firestore.Timestamp.now(),
             })
           })
