@@ -46,7 +46,7 @@ firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
 db.settings({ timestampsInSnapshots: true });
 
-firebase.auth().onAuthStateChanged((user) => {
+/* firebase.auth().onAuthStateChanged((user) => {
 	store.dispatch('fetchUser', user);
 	
 	
@@ -59,6 +59,7 @@ firebase.auth().onAuthStateChanged((user) => {
 		store.commit('SET_VERIFIED', false);
 	}
 });
+}); */
 
 /**
  * If you don't want to use mock-server
