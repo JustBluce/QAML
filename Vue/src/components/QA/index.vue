@@ -107,6 +107,7 @@ export default {
       showChart: false,
       Question_id: -1,
       textarea: {},
+      highlight_text: "",
     };
   },
   computed: {
@@ -117,19 +118,18 @@ export default {
       return this.workspace.qa;
     },
     highlight() {
-      return [
-        { text: "🔔BUZZ", class: "yellow" },
-        { text: "highlight me", class: "primary" },
-      ];
-    },
-    highlight_text() {
-      let text = this.qa.text;
-      this.highlight.forEach((highlight) => {
-        text = text
-          .split(`${highlight.text}`)
-          .join(`<mark class="${highlight.class}">${highlight.text}</mark>`);
-      });
-      return text.replace(/\n$/g, "\n\n");
+      return {
+        "🔔BUZZ": "yellow",
+        "highlight me": "primary",
+        mask: "yellow",
+        highlighted: "yellow",
+        red: "red",
+        orange: "orange",
+        yellow: "yellow",
+        green: "green",
+        blue: "blue",
+        purple: "purple",
+      };
     },
     options() {
       return {
@@ -443,21 +443,38 @@ export default {
       console.log(response);
     });
 
-    this.styleInterval = setInterval(
+    this.highlightInterval = setInterval(
       function () {
         let backdrop = this.$refs.backdrop;
         let textarea = this.$refs.textarea;
+        let input = document.getElementsByTagName("textarea")[0];
         backdrop.style.height = textarea.$el.offsetHeight - 10 + "px";
         backdrop.style.width = textarea.$el.offsetWidth + "px";
-        backdrop.scrollTop =
-          document.getElementsByTagName("textarea")[0].scrollTop;
+        backdrop.scrollTop = input.scrollTop;
+
+        const highlight_regex = new RegExp(
+          Object.keys(this.highlight).join("|"),
+          "gi"
+        );
+        this.highlight_text = this.qa.text
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\n$/g, "\n\n")
+          .replace(
+            highlight_regex,
+            (word) =>
+              `<mark class="${
+                this.highlight[word.toLowerCase()]
+              }">${word}</mark>`
+          );
       }.bind(this),
       10
     );
   },
   beforeDestroy() {
     clearInterval(this.interval);
-    clearInterval(this.styleInterval);
+    clearInterval(this.highlightInterval);
   },
 };
 </script>
@@ -471,6 +488,7 @@ export default {
   color: transparent;
   white-space: pre-wrap;
   word-wrap: break-word;
+  opacity: 0.8;
 }
 
 mark {
