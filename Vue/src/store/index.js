@@ -108,9 +108,9 @@ const store = new Vuex.Store({
 		}
 	},
 	getters: {
-		isLoggedIn: (state) => state.user.loggedIn,
-		userData: (state) => state.user.data,
-		verified: (state) => state.user.verified,
+		//isLoggedIn: (state) => state.user.loggedIn,
+		//userData: (state) => state.user.data,
+		//verified: (state) => state.user.verified,
 		
 		sidebar: (state) => state.app.sidebar,
 		device: (state) => state.app.device,
@@ -120,7 +120,7 @@ const store = new Vuex.Store({
 		...getters
 	},
 	actions: {
-		
+		/*
 		fetchUser({ commit }, user) {
 			commit('SET_LOGGED_IN', user !== null);
 			if (user) {
@@ -135,6 +135,7 @@ const store = new Vuex.Store({
 				commit('SET_USER', null);
 			}
 		}
+		*/
 	}
 });
 
