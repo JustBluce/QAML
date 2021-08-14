@@ -51,6 +51,48 @@ def guess(question, max=12):
 
 # Cai End -------------------
 
+def minDistance(word1, word2):
+        dp = list(range(len(word2) + 1))
+        
+        for i in range(1, len(word1) + 1):
+            dp_next = [i] + [0] * len(word2)
+            for j in range(1, len(word2) + 1):
+                if word1[i - 1] == word2[j - 1]:
+                    dp_next[j] = dp[j - 1]
+                else:
+                    dp_next[j] = min(dp[j - 1], dp[j], dp_next[j - 1]) + 1
+            dp = dp_next
+        
+        return dp[len(word2)]
+
+def store_in_db (q_id, date_incoming, date_outgoing, question, ans):
+    if ' ' in ans:
+        ans = ans.replace(" ","_")
+    if q_id not in general_edit_history:
+        general_edit_history[q_id] = {
+            "question_id"  : q_id,
+            "entries" : [
+                {
+                    "question": question,
+                    "answer" : ans,
+                    "Timestamp_frontend":date_incoming, 
+                    "Timestamp_backend": date_outgoing, 
+                }
+            ]
+        }   
+    else:
+        if(minDistance(general_edit_history[q_id]["entries"][-1]["question"].split(), question.split())) > len(question.split())*0.1:
+            general_edit_history[q_id]["entries"].append(
+                {
+                    "question": question,
+                    "answer" : ans,
+                    "Timestamp_frontend":date_incoming, 
+                    "Timestamp_backend": date_outgoing, 
+                }
+            )
+        
+    print(general_edit_history[q_id])
+
 def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_of_top_guesses_strings):
     ans = ans.replace(" ","_")
     if q_id not in machine_guess:
@@ -152,6 +194,7 @@ def act():
     date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
     date_outgoing.replace(', 00',', 24')
     add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_of_top_guesses_strings)
+    store_in_db (q_id, date_incoming, date_outgoing, question, ans)
     # print(machine_guess.keys)
     # print(machine_guess[q_id][-2:])
     # print(sys.getsizeof(machine_guess)) 
@@ -284,6 +327,8 @@ def insert():
         json.dump(buzzer, outfile)
     with open('similarity.json', 'w') as outfile:
         json.dump(similarity, outfile)
+    with open('general_edit_history.json', 'w') as outfile:
+        json.dump(general_edit_history, outfile)
     if q_id in machine_guess:
         machine_guess.pop(q_id)
         state_machine_guess.pop(q_id)
@@ -292,6 +337,8 @@ def insert():
         state_pronunciation.pop(q_id)
     if q_id in country_represent_json:
         country_represent_json.pop(q_id)
+    if q_id in general_edit_history:
+        general_edit_history.pop(q_id)
         # state_country_represent_json.pop(q_id)
     if q_id in difficulty:
         difficulty.pop(q_id)
