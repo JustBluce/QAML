@@ -22,7 +22,7 @@
           class="ml-2"
           color="red"
           small
-          @click="$store.commit('removeWorkspace', workspace.id)"
+          @click="$store.commit('closeWorkspace', workspace.id)"
           >mdi-close</v-icon
         >
       </v-tab>
