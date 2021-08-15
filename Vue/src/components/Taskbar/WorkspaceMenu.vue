@@ -33,7 +33,7 @@
           outlined
           @click="show = true"
         >
-          Load workspace
+          Open workspace
         </v-btn>
       </v-list-item>
       <v-list-item>
@@ -45,11 +45,11 @@
           outlined
           @click="
             $store.state.workspaces.forEach((workspace) =>
-              $store.commit('removeWorkspace', workspace.id)
+              $store.commit('closeWorkspace', workspace.id)
             )
           "
         >
-          Clear all workspaces
+          Close all workspaces
         </v-btn>
       </v-list-item>
     </v-list>
@@ -64,19 +64,26 @@
           </v-btn>
         </v-card-title>
         <v-divider></v-divider>
-        <v-card-text class="pa-4 text-center" v-show="workspaces.length == 0">
-          No workspaces to load
+        <v-card-text class="py-2 px-6">
+          <v-text-field
+            append-icon="mdi-magnify"
+            placeholder="Workspace title"
+            v-model="search"
+          ></v-text-field>
         </v-card-text>
+        <v-divider></v-divider>
+        <p v-show="filteredWorkspaces.length == 0" class="py-4 text-center">
+          No workspaces
+        </p>
         <v-virtual-scroll
-          v-if="workspaces.length > 0"
+          v-if="filteredWorkspaces.length > 0"
           :bench="2"
-          :items="workspaces"
-          height="500"
+          :items="filteredWorkspaces"
+          height="450"
           item-height="64"
-          class="background"
         >
           <template v-slot:default="{ item }">
-            <v-list-item :key="item">
+            <v-list-item :key="item.id">
               <v-list-item-action>
                 <v-btn
                   icon
@@ -107,11 +114,17 @@ export default {
   data() {
     return {
       show: false,
+      search: "",
     };
   },
   computed: {
     workspaces() {
       return this.$store.state.workspaces.filter((workspace) => !workspace.tab);
+    },
+    filteredWorkspaces() {
+      return this.workspaces.filter((workspace) =>
+        workspace.title.toLowerCase().includes(this.search.toLowerCase())
+      );
     },
   },
 };
