@@ -11,11 +11,6 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	state: {
-		/* user: {
-			loggedIn: false,
-			verified: false,
-			data: null
-		}, */
 		workspaces: initial_workspaces,
 		workspace_stack: initial_workspaces.map((workspace) => workspace.id),
 		workspace_index: initial_workspaces.length,
@@ -40,16 +35,6 @@ const store = new Vuex.Store({
 		//user
 	},
 	mutations: {
-		/* SET_LOGGED_IN(state, value) {
-			state.user.loggedIn = value;
-		},
-		SET_USER(state, data) {
-			state.user.data = data;
-		},
-		SET_VERIFIED(state, value){
-			state.user.verified = value;
-		}, */
-
 		createWorkspace(state, title) {
 			let newWorkspace = defaultWorkspace(state.workspace_index);
 			if (title) {
@@ -66,7 +51,7 @@ const store = new Vuex.Store({
 			this.commit('updateTabs');
 			this.commit('selectWorkspace', workspace_id);
 		},
-		removeWorkspace(state, workspace_id) {
+		closeWorkspace(state, workspace_id) {
 			this.commit('minimizeWorkspace', workspace_id);
 			getters.workspace(state)(workspace_id).tab = false;
 		},
@@ -82,6 +67,11 @@ const store = new Vuex.Store({
 			} else {
 				state.workspace_selected = 0;
 			}
+		},
+		deleteWorkspace(state, workspace_id) {
+			this.commit('closeWorkspace', workspace_id);
+			state.workspaces = state.workspaces.filter((workspace) => workspace.id !== workspace_id);
+			this.commit('updateTabs');
 		},
 		updateTabs(state) {
 			state.workspace_selected =
@@ -111,7 +101,7 @@ const store = new Vuex.Store({
 		//isLoggedIn: (state) => state.user.loggedIn,
 		//userData: (state) => state.user.data,
 		//verified: (state) => state.user.verified,
-		
+
 		sidebar: (state) => state.app.sidebar,
 		device: (state) => state.app.device,
 		//token: (state) => state.user.token,
@@ -120,7 +110,6 @@ const store = new Vuex.Store({
 		...getters
 	},
 	actions: {
-		
 		/* fetchUser({ commit }, user) {
 			commit('SET_LOGGED_IN', user !== null);
 			if (user) {
