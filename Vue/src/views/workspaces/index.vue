@@ -5,8 +5,9 @@
     <v-container class="px-16 pt-8">
       <v-text-field
         append-icon="mdi-magnify"
-        placeholder="Workspace title"
+        label="Workspace title"
         v-model="search"
+        single-line
       ></v-text-field>
     </v-container>
 
