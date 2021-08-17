@@ -23,11 +23,12 @@ Developers: Jason Liu, Damian Rene, and Cai Zefan
             ><br />
             Verified: <strong>{{ user.emailVerified }}</strong
             ><br />
-            Provider: <strong>{{ user.providerData[0].providerId }}</strong>
+            Provider: <strong>{{ user.providerData[0].providerId }}</strong> 
           </div>
           <div v-else>Logged in as guest</div>
         </v-card-text>
       </v-card>
+     
 
       <v-card class="ma-4">
         <v-card-title>
@@ -76,6 +77,13 @@ export default {
     };
   },
   methods: {
+    test(){
+      this.user = firebase.auth().currentUser;
+      if(this.user?.isAnonymous){
+        console.log("ANONYMOUS!!!")
+      }
+        
+    },
     updateUserProfile() {
       // [START auth_update_user_profile]
       const user = firebase.auth().currentUser;

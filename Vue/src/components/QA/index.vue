@@ -278,7 +278,9 @@ export default {
 
   methods: {
     sendverification() {
+       this.user = firebase.auth().currentUser;
       this.popup = false;
+      alert("Verification email sent! Please check the email connected to this account.")
       const currentUser = this.user;
       firebase
         .auth()
@@ -403,7 +405,8 @@ export default {
       });
     }, 1000),
     searchData() {
-      if (this.verified) {
+      this.user = firebase.auth().currentUser;
+      if (this.user.emailVerified) {
         let formData = new FormData();
         formData.append("text", this.qa.text);
         formData.append("answer_text", this.qa.answer_text);
