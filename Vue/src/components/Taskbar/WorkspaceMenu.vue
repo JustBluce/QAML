@@ -54,7 +54,7 @@
       </v-list-item>
     </v-list>
 
-    <v-dialog v-model="show" width="400" persistent>
+    <v-dialog v-model="show" width="400">
       <v-card height="600">
         <v-card-title>
           Load workspaces
@@ -67,8 +67,9 @@
         <v-card-text class="py-2 px-6">
           <v-text-field
             append-icon="mdi-magnify"
-            placeholder="Workspace title"
+            label="Workspace title"
             v-model="search"
+            single-line
           ></v-text-field>
         </v-card-text>
         <v-divider></v-divider>
