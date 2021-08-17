@@ -43,7 +43,7 @@
         Open
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn icon @click="confirm">
+      <v-btn icon fab small elevation="2" @click="confirm">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-card-actions>
