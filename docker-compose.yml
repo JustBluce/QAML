@@ -10,6 +10,7 @@ services:
         #  expose port on the container, only to other containers
         ports:
             - "5000:5000"
+            
 
     frontend:
             build: .

@@ -67,6 +67,7 @@ Developers: Damian Rene and Jason Liu
           <v-icon class="mr-2" size="20">mdi-account-circle</v-icon>
           Guest login
         </v-btn>
+        
       </v-card-actions>
     </v-card>
   </v-container>
@@ -98,6 +99,7 @@ export default {
     };
   },
   methods: {
+    
     emailLogin() {
       if (this.$refs.form.validate()) {
         firebase
@@ -161,7 +163,7 @@ export default {
                     displayName: this.user.displayName,
                     email: this.user.email,
                     signInMethod: "Google",
-                    timestamp: firebase.firestore.Timestamp.now(),
+                    CreatedTimestamp: firebase.firestore.Timestamp.now(),
                   });
                 });
               })

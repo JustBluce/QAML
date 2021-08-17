@@ -50,12 +50,7 @@ Developers: Damian Rene and Jason Liu
             Register
           </v-btn>
         </v-card-actions>
-        <v-card-actions class="justify-center pb-4">
-          <v-btn class="primary" @click="test">
-            <v-icon class="mr-2"> mdi-account-plus </v-icon>
-            Tester
-          </v-btn>
-        </v-card-actions>
+       
       </v-card>
     </v-container>
   </div>
@@ -91,24 +86,8 @@ export default {
     };
   },
   methods: {
-    test() {
-      const db = firebase.firestore();
-      let lastUser = 0;
+    
 
-      db.collection("users")
-        .where("email", "==", "damiancren@gmail.com")
-        .get()
-        .then((snapshot) => {
-          if (snapshot.exists) {
-            snapshot.docs.forEach((doc) => {
-              console.log("EMAIL FOUND!");
-              console.log(doc.data().email);
-            });
-          } else {
-            console.log("ERROR(Doc Fetch): DOCUMENT DOES NOT EXSIST");
-          }
-        });
-    },
 
     createUser() {
       const db = firebase.firestore();
@@ -127,8 +106,8 @@ export default {
               .then((snapshot) => {
                 snapshot.docs.forEach((doc) => {
                   lastUser = doc.data().User_ID + 1;
-                  console.log("USER: " + doc.data().User_ID);
-                  console.log(lastUser);
+                  //console.log("USER: " + doc.data().User_ID);
+                  //console.log(lastUser);
                   //document titles correlate to User UID
                   db.collection("users").doc(cred.user.uid).set({
                     User_ID: lastUser,
