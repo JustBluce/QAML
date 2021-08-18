@@ -31,9 +31,8 @@
           <div class="highlight" v-html="highlight_text"></div>
         </div>
         <v-textarea
-          ref="textarea"
           background-color="background"
-          class="highlight-textarea my-4"
+          class="my-4"
           rows="10"
           label="Question"
           solo
@@ -80,6 +79,7 @@
 </template>
 
 <script>
+import HighlightableInput from "vue-highlightable-input";
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
 
@@ -89,6 +89,7 @@ export default {
     id: Number,
   },
   components: {
+    HighlightableInput,
     GChart,
   },
   data() {
@@ -123,6 +124,8 @@ export default {
         ["Subgenre", "Count"],
         ["None", 1],
       ],
+      highlight_text: "",
+      highlight: "🔔BUZZ",
       rules: [(value) => !!value || "Required."],
       showChart: false,
       Question_id: -1,
