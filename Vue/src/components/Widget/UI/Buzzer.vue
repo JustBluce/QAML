@@ -12,6 +12,9 @@ Developers: Atith Gandhi and Jason Liu
         :textToHighlight="binary_search_based_buzzer"
       />
     </v-card>
+    <v-card class="background mb-4 pa-2">
+      {{ buzz_guess }}
+    </v-card>
     <v-data-table
       :headers="headers"
       :items="importance"
@@ -51,6 +54,13 @@ export default {
     },
     importance() {
       return this.qa.importance;
+    },
+    buzz_guess() {
+      if (this.qa.top_guess_buzzer === "") {
+        return "The buzzer does not buzz";
+      } else {
+        return "The buzzer guess is: " + this.qa.top_guess_buzzer;
+      }
     },
     keywords() {
       return this.words.split(" ");
