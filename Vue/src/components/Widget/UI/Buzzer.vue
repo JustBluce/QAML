@@ -12,12 +12,9 @@ Developers: Atith Gandhi and Jason Liu
         :textToHighlight="binary_search_based_buzzer"
       />
     </v-card>
-    <v-textarea
-      readonly
-      class="container"
-      rows="1"
-      v-model="buzz_guess"
-    ></v-textarea>
+    <v-card class="background mb-4 pa-2">
+      {{ buzz_guess }}
+    </v-card>
     <v-data-table
       :headers="headers"
       :items="importance"
