@@ -56,7 +56,7 @@ def break_into_words(question):
     list of strings(words)
 
     """
-    array_of_words = question.split(" ")
+    array_of_words = question.split(' ')
     array_of_words = [i for i in array_of_words if i]
     return array_of_words
 
@@ -463,6 +463,7 @@ ans_all_time_stamps = {}
 similarity = {}
 state_similarity = {}
 
+general_edit_history = {}
 buzzer = {}
 state_buzzer = {}
 # Raj: Might synchronize using locks
