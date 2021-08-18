@@ -14,7 +14,8 @@ export function defaultQA() {
 		importance: [],
 		genre: '',
 		subgenre: '',
-		pronunciation: [],
+		top_guess_buzzer: '',
+		pronunciation: []
 	};
 }
 

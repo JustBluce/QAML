@@ -56,7 +56,8 @@ def break_into_words(question):
     list of strings(words)
 
     """
-    array_of_words = question.split(" ")
+    array_of_words = question.split(' ')
+    array_of_words = [i for i in array_of_words if i]
     return array_of_words
 
 
@@ -169,6 +170,11 @@ def load_bert_model_difficulty():
         "./model/difficulty_models/BERT_full_question"
     )
     tokenizer_difficulty = BertTokenizer.from_pretrained("bert-base-uncased")
+    """
+    model_difficulty = DistilBertForSequenceClassification.from_pretrained(
+        './model/difficulty_models/DistilBERT_full_question')
+    tokenizer_difficulty = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
+    """
     return tokenizer_difficulty, model_difficulty
 
 
@@ -309,7 +315,7 @@ tokenizer_difficulty, model_difficulty = load_bert_model_difficulty()
 params = get_pretrained_tfidf_vectorizer()
 tokenizer_country, model_country = load_bert_country_model()
 pron_vectorizer, pron_regression, pron_word_freq = get_pronunciation_models()
-tokenizer_pronunciation, model_pronunciation = load_pron_model_pronunciation()
+# tokenizer_pronunciation, model_pronunciation = load_pron_model_pronunciation()
 
 sub_genres = {
     "Philosophy": [
@@ -437,3 +443,29 @@ genres = [
     "Fine Arts",
     "Geography",
 ]
+
+
+# Lets make the dictionaries global
+country_represent_json = {}
+state_country_represent_json = {}
+
+machine_guess = {}
+state_machine_guess = {}
+
+difficulty = {}
+
+pronunciation_dict = {}
+state_pronunciation = {}
+
+time_stamps = {}
+questions_all_time_stamps = {}
+ans_all_time_stamps = {}
+similarity = {}
+state_similarity = {}
+
+general_edit_history = {}
+buzzer = {}
+state_buzzer = {}
+# Raj: Might synchronize using locks
+# This is when I will access using the following method:
+modules_responsible = {}
