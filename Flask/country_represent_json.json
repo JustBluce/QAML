@@ -1,1 +1,7 @@
-{"0": [{"Timestamp_frontend": "08/14/2021, 23:58:13", "Timestamp_backend": "08/14/2021, 23:58:16", "edit_message": "", "current_over_countries": [], "current_under_countries": [], "suggested_countries": ["india", "china", "chad", "myanmar", "japan"]}, {"Timestamp_frontend": "08/14/2021, 23:58:17", "Timestamp_backend": "08/14/2021, 23:58:19", "edit_message": "The under-represented countries \"india\" was added on the basis of suggestion. ", "current_over_countries": [], "current_under_countries": ["india"], "suggested_countries": ["indonesia", "china", "chad", "myanmar", "south korea"]}, {"Timestamp_frontend": "08/14/2021, 23:58:28", "Timestamp_backend": "08/14/2021, 23:58:31", "edit_message": "The under-represented countries \"china\" was added on the basis of suggestion. ", "current_over_countries": [], "current_under_countries": ["china", "india"], "suggested_countries": ["indonesia", "south korea", "japan", "myanmar", "pakistan"]}, {"Timestamp_frontend": "08/14/2021, 23:58:43", "Timestamp_backend": "08/14/2021, 23:58:46", "edit_message": "The under-represented countries \"japan\" was added on the basis of suggestion. ", "current_over_countries": [], "current_under_countries": ["china", "india", "japan"], "suggested_countries": ["south korea", "indonesia", "myanmar", "pakistan", "philippines"]}]}
+{"0": 
+    [{"Timestamp_frontend": "08/16/2021, 19:21:33", 
+        "Timestamp_backend": "08/16/2021, 19:21:37", 
+        "edit_message": "", 
+        "current_over_countries": [], 
+        "current_under_countries": [], 
+        "suggested_countries": []}]}
