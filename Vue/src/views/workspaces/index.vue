@@ -49,11 +49,8 @@ export default {
     };
   },
   computed: {
-    workspaces() {
-      return this.$store.state.workspaces;
-    },
     filteredWorkspaces() {
-      return this.workspaces.filter((workspace) =>
+      return this.$store.state.workspaces.filter((workspace) =>
         workspace.title.toLowerCase().includes(this.search.toLowerCase())
       );
     },
