@@ -4,8 +4,9 @@
 
 import re #Regex library
 import warnings #Operating system warnings
-import warnings
 warnings.filterwarnings("ignore")
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 import sys #Importing the system
 sys.path.append("..")
 sys.path.insert(0, './app') #Adding the path to the files on the system
@@ -30,7 +31,7 @@ import time
 import torch
 import wikipedia
 import tensorflow as tf
-from transformers import BertTokenizer, BertForSequenceClassification, RobertaForSequenceClassification, RobertaTokenizer
+from transformers import BertTokenizer, BertForSequenceClassification, RobertaForSequenceClassification, RobertaTokenizer, DistilBertForSequenceClassification, DistilBertTokenizer
 from tabulate import tabulate
 from collections import defaultdict
 from typing import List, Optional, TYPE_CHECKING, Tuple
@@ -54,3 +55,5 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 # nltk.download('punkt') #Download once
 from transformers import logging
 logging.set_verbosity_error()
+from datetime import datetime
+import functools

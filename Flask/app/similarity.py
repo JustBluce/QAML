@@ -21,6 +21,67 @@ for i in range(0, len(data)):
 tfidf_vectorizer = TfidfVectorizer(stop_words = stopWords)
 tfidf_matrix = tfidf_vectorizer.fit_transform(questions)
 
+def add_to_db(q_id, date_incoming, date_outgoing, question, ans, isSimilar, array_of_data):
+    ans = ans.replace(" ","_")
+    if q_id not in similarity:
+        similarity[q_id]=[]
+        state_similarity[q_id] ={
+                                    "wasSimilar":False,
+                                    "prev_top_3": []
+
+                                }
+    if isSimilar != state_similarity[q_id]["wasSimilar"]:
+        similarity[q_id].append({
+                                    "edit_history":
+                                            {
+                                                "wasSimilar": state_similarity[q_id]["wasSimilar"],
+                                                "isSimilar": isSimilar,
+                                                "change_in_most_similar": "Not Relevant" ,
+                                            },
+                                    "Timestamp_frontend":date_incoming, 
+                                    "Timestamp_backend": date_outgoing, 
+                                    "top_3_positions": array_of_data
+                                    
+                                })
+        state_similarity[q_id] ={
+                                    "wasSimilar":isSimilar,
+                                    "prev_top_3": array_of_data
+
+                                }
+        return
+            
+    if len(state_similarity[q_id]["prev_top_3"])>0 and array_of_data[0]!= state_similarity[q_id]["prev_top_3"][0] and isSimilar:
+        pos = -1
+        for i in range(len(array_of_data)):
+            if array_of_data[i]==state_similarity[q_id]["prev_top_3"]:
+                pos = i 
+                break
+        string_new = ""
+        if (pos ==-1):
+            string_new = "The previous most similar question is no longer in the top 3"
+        else:
+            string_new = "The previous most similar question is now on position" + str(i)
+        similarity[q_id].append({
+                               
+                                    "edit_history":
+                                            {
+                                                "wasSimilar": True,
+                                                "isSimilar": isSimilar,
+                                                "change_in_most_similar": string_new ,
+                                            },
+                                    "Timestamp_frontend":date_incoming, 
+                                    "Timestamp_backend": date_outgoing, 
+                                    "top_3_positions": array_of_data
+                                    
+                                })
+        state_similarity[q_id] ={
+                                    "wasSimilar":isSimilar,
+                                    "prev_top_3": array_of_data
+
+                                }
+
+
+    
 
 
 similar_question = Blueprint('similar_question', __name__)
@@ -54,6 +115,9 @@ def retrieve_similar_question():
     """
     if request.method == "POST":
         question = request.form.get("text")
+        ans = request.form.get("answer_text")
+        q_id = request.form.get("id")
+        date_incoming = request.form.get("date")
     start =time.time()
     questions.append(question)
     repre = tfidf_vectorizer.transform([question])
@@ -62,7 +126,7 @@ def retrieve_similar_question():
     # cosine = cosine_similarity(tfidf_matrix[len(questions)-1], tfidf_matrix)[0]
     max_cosine = max(matrix[0])
     # print(matrix)
-    top_5_idx = np.flipud(np.argsort(matrix[0])[-5:])
+    top_3_idx = np.flipud(np.argsort(matrix[0])[-3:])
     # print([matrix[0][index] for index in top_5_idx])
     
     isSimilar = False
@@ -70,5 +134,9 @@ def retrieve_similar_question():
         isSimilar = True
         # print([max_cosine, questions[max_index[0]]])
     end = time.time()
+    # print(data[0])
+    date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+    date_outgoing.replace(', 00',', 24')
+    add_to_db(q_id, date_incoming, date_outgoing, question, ans, isSimilar, [data[index]['answer'] for index in top_3_idx])
     print("----TIME (s) : /similar_question/retrieve_similar_question---",end - start)
-    return jsonify({"similar_question": [isSimilar, [data[index] for index in top_5_idx]]})
+    return jsonify({"similar_question": [isSimilar, [data[index] for index in top_3_idx]]})

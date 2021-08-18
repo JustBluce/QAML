@@ -41,9 +41,9 @@ export default {
   data() {
     return {
       hours: "0",
-      minutes: "01",
+      minutes: "05",
       seconds: "00",
-      end: new Date(new Date().getTime() + 1 * 60 * 1000),
+      end: new Date(new Date().getTime() + 5 * 60 * 1000),
       timer: null,
       time: 20,
       dialog: false,
