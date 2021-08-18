@@ -80,7 +80,6 @@
 </template>
 
 <script>
-import HighlightableInput from "vue-highlightable-input";
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
 
@@ -90,7 +89,6 @@ export default {
     id: Number,
   },
   components: {
-    HighlightableInput,
     GChart,
   },
   data() {
