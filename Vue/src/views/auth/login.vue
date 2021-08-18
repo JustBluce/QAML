@@ -113,8 +113,12 @@ export default {
       firebase
         .auth()
         .signInWithPopup(provider)
-        .then(() => {
+        .then(function(result) {
+          var user_name = result.user;
+          // this.qa.uid = user.uid
+          console.log(this.qa.uid)
           this.$router.push("/dashboard");
+          
         })
         .catch((err) => {
           alert("Oops. " + err.message);
