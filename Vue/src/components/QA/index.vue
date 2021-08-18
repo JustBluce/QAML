@@ -179,6 +179,7 @@ export default {
       if (user) {
         this.user = user;
         this.verified = user.emailVerified;
+        
       }
     });
 

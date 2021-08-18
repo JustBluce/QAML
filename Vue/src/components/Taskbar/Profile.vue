@@ -45,7 +45,7 @@
         <v-card-title class="text-h5"> Account deletion </v-card-title>
         <v-card-text
           >Are you sure you want to delete your account? This will erase all of
-          your data and progress.</v-card-text
+          your data and progress PERMANENTLY.</v-card-text
         >
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -69,6 +69,7 @@ export default {
   data() {
     return {
       user: null,
+      document: null,
       popup: false,
     };
   },
@@ -86,7 +87,36 @@ export default {
       firebase.auth().signOut();
       //this.$store.dispatch("fetchUser", null);
     },
-    deleteAccount() {},
+    deleteAccount() {
+      const db = firebase.firestore();
+      this.user = firebase.auth().currentUser;
+      
+       
+      db.collection("users")
+        .where("email", "==", this.user.email)
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            this.document = doc
+              const data = doc.data()
+              
+              console.log(data)
+            
+              console.log("Deleting documents and erasing all data. Goodbye.")
+              
+              
+            
+          })
+        })
+        const docs = this.document
+        db.collection("users").docs.delete().then(() => {
+          console.log("document deleted")
+        })
+
+          
+
+
+    },
   },
 };
 </script>
