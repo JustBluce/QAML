@@ -32,7 +32,8 @@
         </div>
         <v-textarea
           background-color="background"
-          class="my-4"
+          ref="textarea"
+          class="highlight-textarea my-4"
           rows="10"
           label="Question"
           solo
@@ -124,8 +125,6 @@ export default {
         ["Subgenre", "Count"],
         ["None", 1],
       ],
-      highlight_text: "",
-      highlight: "🔔BUZZ",
       rules: [(value) => !!value || "Required."],
       showChart: false,
       Question_id: -1,
@@ -611,6 +610,7 @@ export default {
         let textarea = this.$refs.textarea;
         backdrop.style.height = textarea.$el.offsetHeight - 10 + "px";
         backdrop.style.width = textarea.$el.offsetWidth + "px";
+        console.log(document.getElementsByTagName("textarea"));
         backdrop.scrollTop =
           document.getElementsByTagName("textarea")[0].scrollTop;
       }.bind(this),
