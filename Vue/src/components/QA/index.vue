@@ -74,6 +74,7 @@
 
 <script>
 import HighlightableInput from "vue-highlightable-input";
+import firebase from "firebase";
 import { GChart } from "vue-google-charts";
 export default {
   name: "QA",
@@ -107,7 +108,8 @@ export default {
       highlight:"🔔BUZZ",
       rules: [(value) => !!value || "Required."],
       showChart: false,
-      my_var:""
+      my_var:"",
+      user_id: ""
     };
   },
   computed: {
@@ -126,6 +128,9 @@ export default {
   },
 
   created: function () {
+    
+    this.user_id = firebase.auth().currentUser.uid;
+    console.log(this.user_id)
     this.my_var =  setInterval(function () {
       let formData = new FormData();
       console.log(this.qa.text.lastIndexOf("🔔")>0)
@@ -136,7 +141,7 @@ export default {
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
       formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
-      formData.append("id",this.id);
+      formData.append("id",this.user_id);
       // this.qa.genre = this.selected_genre
       // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
       //         {
@@ -225,7 +230,7 @@ export default {
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
       formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
-      formData.append("id",this.id);
+      formData.append("id",this.user_id);
       this.axios({
         url: "http://127.0.0.1:5000/func/act",
         method: "POST",
@@ -287,7 +292,7 @@ export default {
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
       formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
-      formData.append("id",this.id);
+      formData.append("id",this.user_id);
       // this.axios({
       //   url: "http://127.0.0.1:5000/over_present/highlight",
       //   method: "POST",
@@ -298,6 +303,15 @@ export default {
       //   // this.highlight = response.data["buzz_word"];
       //   console.log(response);
       // });
+      
+      this.axios({
+        url: "http://127.0.0.1:5000/func/act",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.answer = response.data["guess"];
+        console.log(response);
+      });
       this.axios({
         url: "http://127.0.0.1:5000/country_represent/country_present",
         method: "POST",
@@ -318,8 +332,9 @@ export default {
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
       formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
-      formData.append("id",this.id);
+      formData.append("id",this.user_id);
       this.axios({
+        url: "http://127.0.0.1:5000/func/act",
         url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
         method: "POST",
         data: formData,
@@ -403,7 +418,7 @@ export default {
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
-      formData.append("id",this.id);
+      formData.append("id",this.user_id);
       this.axios({
         url: "http://127.0.0.1:5000/genre_classifier/classify",
         method: "POST",
