@@ -119,12 +119,11 @@ export default {
     };
   },
   computed: {
-    workspaces() {
-      return this.$store.state.workspaces.filter((workspace) => !workspace.tab);
-    },
     filteredWorkspaces() {
-      return this.workspaces.filter((workspace) =>
-        workspace.title.toLowerCase().includes(this.search.toLowerCase())
+      return this.$store.state.workspaces.filter(
+        (workspace) =>
+          workspace.title.toLowerCase().includes(this.search.toLowerCase()) &&
+          !this.$store.state.workspace_stack.includes(workspace.id)
       );
     },
   },
