@@ -3,6 +3,8 @@
 # 1. Finding the top 5 guesses of the tf-idf vectorizer
 
 import sys
+
+from numpy import divide
 sys.path.append("..")
 sys.path.insert(0, './app')
 from app import util
@@ -49,7 +51,68 @@ def guess(question, max=12):
 
 # Cai End -------------------
 
+def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_of_top_guesses_strings):
+    ans = ans.replace(" ","_")
+    isRelevant =  False
+    if q_id not in machine_guess:
+        machine_guess[q_id]=[]
+        state_machine_guess[q_id]={
+                                    "ans_pos": -1, 
+                                    "current_guesses": array_of_top_guesses_strings
+                                    }
+        isRelevant = False
+        if ans in array_of_top_guesses_strings:
+            state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
+            isRelevant = True
+        machine_guess[q_id].append({
+                                    "edit_history":
+                                    {
+                                        "change_in_position": "First Entry",
+                                        "isRelevant": isRelevant,
+                                    },
+                                    "Timestamp_frontend":date_incoming, 
+                                    "Timestamp_backend": date_outgoing, 
+                                    "guesses":answer,
+                                    "ans_pos": state_machine_guess[q_id]["ans_pos"],
+                                    "prev_pos": -1,
+                                    
+                                    
+                                })
+    else:
+        # print(array_of_top_guesses_strings.index(ans))
+        if ans in array_of_top_guesses_strings:
+            isRelevant =  False
+            print("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+            if(state_machine_guess[q_id]["ans_pos"] != array_of_top_guesses_strings.index(ans)):
+                prev_pos = state_machine_guess[q_id]["ans_pos"]
+                
+                state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
+                string_new = ""
+                if prev_pos == -1:
+                    string_new = string_new + "The machine did not guess previously"
+                    isRelevant =  True
+                elif(prev_pos < state_machine_guess[q_id]["ans_pos"]) :
+                    string_new = string_new + "The previous position was " + str(prev_pos) + " and the new position is " + str(state_machine_guess[q_id]["ans_pos"])
+                    isRelevant =  True
+                else:
+                    string_new = string_new + "The previous position was " + str(prev_pos) + " and the new position is " + str(state_machine_guess[q_id]["ans_pos"])
+                    isRelevant =  False
+                machine_guess[q_id].append({
+                                            "edit_history":
+                                            {
+                                                "change_in_position": string_new,
+                                                "isRelevant": isRelevant,
+                                            },
+                                            "Timestamp_frontend":date_incoming, 
+                                            "Timestamp_backend": date_outgoing, 
+                                            "guesses":answer,
+                                            "ans_pos": state_machine_guess[q_id]["ans_pos"],
+                                            "prev_pos": prev_pos,
+                                        })
 
+
+
+# machine_guess["guess"] = []
 @func.route("/act", methods=["POST"])
 def act():
     """
@@ -74,12 +137,31 @@ def act():
     if request.method == "POST":
         question = request.form.get("text")
         ans = request.form.get("answer_text")
+        date_incoming = request.form.get("date")
+        q_id = request.form.get("id")
+    if q_id not in time_stamps:
+        time_stamps[q_id]=[]
+        questions_all_time_stamps[q_id] = []
+        ans_all_time_stamps[q_id] = []
+    time_stamps[q_id].append(date_incoming)
+    questions_all_time_stamps[q_id].append(question)
+    ans_all_time_stamps[q_id].append(ans)
+
     start = time.time()
     answer = guess(question=[question])
-    answer = [{"guess": str(x[0]),"score":str(x[1])} for x in answer]
+    array_of_top_guesses_strings = [str(x[0]) for x in answer]
+    answer = [{"guess": str(x[0]),"score":str(round(x[1],3))} for x in answer]
+    
     end = time.time()
     # print(end - start)
     print("----TIME (s) : /func/act---", end - start)
+    date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+    date_outgoing.replace(', 00',', 24')
+    add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_of_top_guesses_strings)
+    # print(machine_guess.keys)
+    # print(machine_guess[q_id][-2:])
+    # print(sys.getsizeof(machine_guess)) 
+
     return jsonify({"guess": answer})
 
 
@@ -135,11 +217,102 @@ def insert():
     Insert into database and return status
 
     """
+    start = time.time()
     if request.method == "POST":
         question = request.form.get("text")
         ans = request.form.get("answer_text")
-    print(question, ans)
-    answer = guess(question=[question])
+        q_id = request.form.get("id")
+    # print(question, ans)
+    # answer = guess(question=[question])
+    # print(q_id)
+    big_dict = {
+        "q_id": q_id,
+        "data":{}
+    }
+    counter_guess = 0
+    counter_pron = 0
+    counter_country  = 0
+    counter_difficulty = 0
+    counter_buzz = 0
+    counter_sim = 0
+    if q_id in time_stamps:
+        for j in range(len(time_stamps[q_id])):
+            i = time_stamps[q_id][j]
+            big_dict["data"][i] = {}
+            big_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][j]
+            big_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][j]
+            flag = 0
+            if q_id in machine_guess and counter_guess < len(machine_guess[q_id]):
+                if i == machine_guess[q_id][counter_guess]["Timestamp_frontend"]:
+                    flag = 1
+                    big_dict["data"][i]["machine_guess"] = machine_guess[q_id][counter_guess]
+                    counter_guess+=1
+            if q_id in similarity and counter_sim < len(similarity[q_id]):
+                if i == similarity[q_id][counter_guess]["Timestamp_frontend"]:
+                    flag = 1
+                    big_dict["data"][i]["similarity"] = similarity[q_id][counter_sim]
+                    counter_sim+=1
+            if q_id in buzzer and counter_buzz < len(buzzer[q_id]):
+                if i == buzzer[q_id][counter_buzz]["Timestamp_frontend"]:
+                    flag = 1
+                    if buzzer[q_id][counter_buzz]["is_relevant"]:
+                        big_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
+                    counter_buzz+=1
+            if q_id in difficulty and counter_difficulty < len(difficulty[q_id]):
+                if i == difficulty[q_id][counter_difficulty]["Timestamp_frontend"]:
+                    flag = 1
+                    big_dict["data"][i]["difficulty"] = difficulty[q_id][counter_difficulty]
+                    counter_difficulty+=1
+            if q_id in country_represent_json and counter_country < len(country_represent_json[q_id]):
+                if i == country_represent_json[q_id][counter_country]["Timestamp_frontend"]:
+                    flag = 1
+                    big_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
+                    counter_country+=1
+            if q_id in pronunciation_dict and counter_pron < len(pronunciation_dict[q_id]):
+                if i == pronunciation_dict[q_id][counter_pron]["Timestamp_frontend"]:
+                    flag = 1
+                    big_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]    
+                    counter_pron+=1
+            if flag==0:
+                big_dict["data"].pop(i)
+            
+                
+    print(json.dumps(big_dict, indent = 10))
+    with open('test.json', 'w') as outfile:
+        json.dump(big_dict, outfile)
+    with open('machine_guess.json', 'w') as outfile:
+        json.dump(machine_guess, outfile)
+    with open('pronunciation_dict.json', 'w') as outfile:
+        json.dump(pronunciation_dict, outfile)
+    with open('country_represent_json.json', 'w') as outfile:
+        json.dump(country_represent_json, outfile)
+    with open('buzzer.json', 'w') as outfile:
+        json.dump(buzzer, outfile)
+    with open('similarity.json', 'w') as outfile:
+        json.dump(similarity, outfile)
+    if q_id in machine_guess:
+        machine_guess.pop(q_id)
+        state_machine_guess.pop(q_id)
+    if q_id in pronunciation_dict:
+        pronunciation_dict.pop(q_id)
+        state_pronunciation.pop(q_id)
+    if q_id in country_represent_json:
+        country_represent_json.pop(q_id)
+        # state_country_represent_json.pop(q_id)
+    if q_id in difficulty:
+        difficulty.pop(q_id)
+    if q_id in buzzer:
+        buzzer.pop(q_id)
+        state_buzzer.pop(q_id)
+    if q_id in similarity:
+        similarity.pop(q_id)
+        state_similarity.pop(q_id)
+    # if q_id in pronunciation_dict:
+    #     print(json.dumps(pronunciation_dict[q_id], indent = 7))
+    # if q_id in country_represent_json:
+    #     print(json.dumps(country_represent_json[q_id], indent = 7))
     qa_table = metadata.tables["qa"]
     db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
+    end=time.time()
+    print("----TIME (s) : /func/submit [SUBMIT]---",end-start)
     return "submitted"
