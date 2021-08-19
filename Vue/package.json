@@ -37,7 +37,6 @@
     "vue-axios": "^2.1.5",
     "vue-google-charts": "^0.3.3",
     "vue-highlight-words": "^1.2.0",
-    "vue-highlightable-input": "^1.0.9",
     "vue-router": "^3.5.2",
     "vue2-editor": "^2.10.2",
     "vuedraggable": "^2.24.3",
