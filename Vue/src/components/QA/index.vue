@@ -143,14 +143,10 @@ export default {
       return {
         "🔔BUZZ": "yellow",
         "highlight me": "primary",
-        mask: "yellow",
-        highlight: "yellow",
-        red: "red",
-        orange: "orange",
-        yellow: "yellow",
-        green: "green",
-        blue: "blue",
-        purple: "purple",
+        Chávez: "yellow",
+        Takemitsu: "yellow",
+        
+  
       };
     },
     highlight_text() {
