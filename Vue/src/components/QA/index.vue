@@ -617,9 +617,8 @@ export default {
         let textarea = this.$refs.textarea;
         backdrop.style.height = textarea.$el.offsetHeight - 10 + "px";
         backdrop.style.width = textarea.$el.offsetWidth + "px";
-        console.log(document.getElementsByTagName("textarea"));
         backdrop.scrollTop =
-          document.getElementsByTagName("textarea")[0].scrollTop;
+          textarea.$el.getElementsByTagName("textarea")[0].scrollTop;
       }.bind(this),
       10
     );
