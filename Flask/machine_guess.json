@@ -1,1 +1,36 @@
-{"0": [{"edit_history": {"change_in_position": "First Entry", "isRelevant": false}, "Timestamp_frontend": "08/17/2021, 21:33:03", "Timestamp_backend": "08/17/2021, 21:33:04", "guesses": [{"guess": "Romanian_language", "score": "0.0"}, {"guess": "Dutch_Revolt", "score": "0.0"}, {"guess": "C.R.E.A.M.", "score": "0.0"}, {"guess": "Talking_Heads", "score": "0.0"}, {"guess": "Potter_Stewart", "score": "0.0"}], "ans_pos": -1, "prev_pos": -1}, {"edit_history": {"change_in_position": "The machine did not guess previously", "isRelevant": true}, "Timestamp_frontend": "08/17/2021, 21:33:14", "Timestamp_backend": "08/17/2021, 21:33:14", "guesses": [{"guess": "Aaron_Copland", "score": "0.306"}, {"guess": "Anton_Bruckner", "score": "0.199"}, {"guess": "Ludwig_van_Beethoven", "score": "0.184"}, {"guess": "Jean_Sibelius", "score": "0.184"}, {"guess": "Robert_Schumann", "score": "0.181"}], "ans_pos": 0, "prev_pos": -1}]}
+{
+  "0": [
+    {
+      "edit_history": {
+        "change_in_position": "First Entry",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "08/19/2021, 09:42:48",
+      "Timestamp_backend": "08/19/2021, 09:42:49",
+      "guesses": [
+        {
+          "guess": "Aaron_Copland",
+          "score": "0.305"
+        },
+        {
+          "guess": "Anton_Bruckner",
+          "score": "0.198"
+        },
+        {
+          "guess": "Jean_Sibelius",
+          "score": "0.184"
+        },
+        {
+          "guess": "Ludwig_van_Beethoven",
+          "score": "0.184"
+        },
+        {
+          "guess": "Robert_Schumann",
+          "score": "0.181"
+        }
+      ],
+      "ans_pos": -1,
+      "prev_pos": -1
+    }
+  ]
+}
