@@ -1,13 +1,18 @@
 <template>
   <div>
     <v-menu bottom rounded offset-y min-width="125">
-      <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on">
-          <v-avatar size="36px" v-if="user && user.photoURL">
-            <img v-if="user.photoURL" :src="user.photoURL" />
-          </v-avatar>
-          <v-icon size="36px" v-else>mdi-account-circle</v-icon>
-        </v-btn>
+      <template v-slot:activator="{ on: onMenu }">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on: onTooltip, attrs }">
+            <v-btn icon v-bind="attrs" v-on="{ ...onMenu, ...onTooltip }">
+              <v-avatar size="36px" v-if="user && user.photoURL">
+                <img v-if="user.photoURL" :src="user.photoURL" />
+              </v-avatar>
+              <v-icon size="36px" v-else>mdi-account-circle</v-icon>
+            </v-btn>
+          </template>
+          <span>User profile</span>
+        </v-tooltip>
       </template>
       <v-card>
         <v-list-item-content class="justify-center">
@@ -90,32 +95,26 @@ export default {
     deleteAccount() {
       const db = firebase.firestore();
       this.user = firebase.auth().currentUser;
-      
-       
+
       db.collection("users")
         .where("email", "==", this.user.email)
         .get()
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
-            this.document = doc
-              const data = doc.data()
-              
-              console.log(data)
-            
-              console.log("Deleting documents and erasing all data. Goodbye.")
-              
-              
-            
-          })
-        })
-        const docs = this.document
-        db.collection("users").docs.delete().then(() => {
-          console.log("document deleted")
-        })
+            this.document = doc;
+            const data = doc.data();
 
-          
+            console.log(data);
 
-
+            console.log("Deleting documents and erasing all data. Goodbye.");
+          });
+        });
+      const docs = this.document;
+      db.collection("users")
+        .docs.delete()
+        .then(() => {
+          console.log("document deleted");
+        });
     },
   },
 };
