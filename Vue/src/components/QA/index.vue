@@ -26,9 +26,14 @@
             </div>
           </v-expand-transition>
         </v-card>
+
+        <div class="backdrop" ref="backdrop">
+          <div class="highlight" v-html="highlight_text"></div>
+        </div>
         <v-textarea
           background-color="background"
-          class="my-4"
+          ref="textarea"
+          class="highlight-textarea my-4"
           rows="10"
           label="Question"
           solo
@@ -36,18 +41,6 @@
           hide-details="auto"
           @keydown="keep_looping"
         ></v-textarea>
-          <!-- <highlightable-input
-      highlight-style="background-color:yellow"
-      :highlight-enabled="highlightEnabled"
-          :highlight="highlight"
-          class="my-4"
-          rows="10"
-          label="Question"
-          solo
-          v-model="qa.text"
-          hide-details="auto"
-          @keyup="keep_looping"
-    /> -->
         <v-textarea
           background-color="background"
           class="my-4"
@@ -57,36 +50,61 @@
           v-model="qa.answer_text"
           hide-details="auto"
           @input="update_representation"
-          
         ></v-textarea>
 
         <v-btn color="primary" @click="searchData">
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
-
-        <div v-html="highlight_text"></div>
       </v-container>
     </v-card>
+
+    <v-dialog v-model="popup" persistent max-width="500">
+      <v-card>
+        <v-card-title class="text-h5"> Verify Email Address </v-card-title>
+        <v-card-text
+          >To ensure the security of our service we ask that you verify your
+          email address. An email should have been sent to you when you created
+          your account. If you do not have this email, please click the resend
+          email address button to try again.
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="popup = false"> Cancel </v-btn>
+          <v-btn color="green darken-1" text @click="sendverification">
+            Resend Email
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
-
-
 </template>
 
 <script>
-import HighlightableInput from "vue-highlightable-input";
-import firebase from "firebase";
 import { GChart } from "vue-google-charts";
+import firebase from "firebase";
 export default {
   name: "QA",
   props: {
     id: Number,
   },
   components: {
-    HighlightableInput,
     GChart,
   },
   data() {
     return {
+      popup: false,
+      email: "",
+      user: null,
+      password: "",
+      showPassword: false,
+      emailRules: [
+        (v) => !!v || "E-mail is required",
+        //(v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      ],
+      passwordRules: [
+        (v) => !!v || "Password is required",
+        // (v) => v.length >= 8 || "Min 8 characters",
+      ],
       genres: [
         "Philosophy",
         "History",
@@ -104,12 +122,12 @@ export default {
         ["Subgenre", "Count"],
         ["None", 1],
       ],
-      highlight_text:"",
-      highlight:"🔔BUZZ",
       rules: [(value) => !!value || "Required."],
       showChart: false,
-      my_var:"",
-      user_id: ""
+      Question_id: -1,
+      textarea: {},
+      interval: null,
+      highlight_words : {}
     };
   },
   computed: {
@@ -119,6 +137,33 @@ export default {
     qa() {
       return this.workspace.qa;
     },
+    highlight() {
+      // return {
+      //   "🔔BUZZ": "yellow",
+      //   "highlight me": "primary",
+      //   Chávez: "yellow",
+      //   Takemitsu: "yellow",
+        
+  
+      // };
+      return this.highlight_words;
+    },
+    highlight_text() {
+      let highlight_regex = new RegExp(
+        Object.keys(this.highlight).join("|"),
+        "gi"
+      );
+      return this.qa.text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\n$/g, "\n\n")
+        .replace(
+          highlight_regex,
+          (word) =>
+            `<mark class="${this.highlight[word.toLowerCase()]}">${word}</mark>`
+        );
+    },
     options() {
       return {
         width: Math.max(1024, this.workspace.style.width) / 3 - 50,
@@ -126,111 +171,185 @@ export default {
       };
     },
   },
-
   created: function () {
-    
-    this.user_id = firebase.auth().currentUser.uid;
-    console.log(this.user_id)
-    this.my_var =  setInterval(function () {
-      let formData = new FormData();
-      console.log(this.qa.text.lastIndexOf("🔔")>0)
-      while(this.qa.text.lastIndexOf("🔔")>0)
-        {
-          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf("🔔")) + this.qa.text.substr(this.qa.text.lastIndexOf("🔔") + "🔔".length,this.qa.text.length)
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.user = user;
+      }
+    });
+    this.interval = setInterval(
+      function () {
+        let formData = new FormData();
+        console.log(this.qa.text.lastIndexOf("🔔") > 0);
+        while (this.qa.text.lastIndexOf("🔔") > 0) {
+          this.qa.text =
+            this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+            this.qa.text.substr(
+              this.qa.text.lastIndexOf("🔔") + "🔔".length,
+              this.qa.text.length
+            );
         }
-      formData.append("text", this.qa.text);
-      formData.append("answer_text", this.qa.answer_text);
-      formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
-      formData.append("id",this.user_id);
-      // this.qa.genre = this.selected_genre
-      // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
-      //         {
-      //           this.addModal(
-      //           "Warning !!! Please some fields are empty","Please make sure the QA box and the Answer box are filled and the Genre is selected"
-      //         );
-      //         }
-      // else{
-      this.axios({
-        url: "http://127.0.0.1:5000/func/act",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.qa.answer = response.data["guess"];
-        console.log(response);
-      });
-      this.axios({
-        url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        while(this.qa.text.lastIndexOf("🔔")>0)
-        {
-          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf("🔔")) + this.qa.text.substr(this.qa.text.lastIndexOf("🔔") + "🔔".length,this.qa.text.length)
-        }
-        this.qa.binary_search_based_buzzer = response.data["buzz"];
-        this.qa.importance = response.data["importance"];
-        this.highlight = response.data["buzz_word"];
-        this.qa.top_guess_buzzer = response.data["top_guess"];
-        if(this.qa.text.lastIndexOf(response.data["buzz_word"])>0 && response.data["flag"])
-        {
-          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf(response.data["buzz_word"])+10) + "🔔" + this.qa.text.substr(this.qa.text.lastIndexOf(response.data["buzz_word"])+10,this.qa.text.length)
-        }
-        console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]))
-        console.log(this.qa.text.indexOf(response.data["buzz_word"]))
-        
-        console.log(response);
-      });
-      this.axios({
-        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        // if (response.data["similar_question"][0]) {
-        //   this.addModal(
-        //     "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
-        //     response.data["similar_question"][1][0]['text']
-        //   );
-        // }
-        this.qa.top5_similar_questions = response.data["similar_question"];
-        console.log(response);
-      });
-      this.axios({
-        url: "http://127.0.0.1:5000/country_represent/country_present",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.qa.country_representation =
-          response.data["country_representation"];
-        console.log(response);
-      });
-      this.axios({
-        url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.qa.pronunciation = response.data["message"];
-        console.log(response);
-      });
-    }.bind(this), 15000); 
+        formData.append("text", this.qa.text);
+        formData.append("answer_text", this.qa.answer_text);
+        formData.append(
+          "date",
+          new Date().toLocaleString("en-US", {
+            hour12: false,
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          })
+        );
+        formData.append("id", this.id);
+        // this.qa.genre = this.selected_genre
+        // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
+        //         {
+        //           this.addModal(
+        //           "Warning !!! Please some fields are empty","Please make sure the QA box and the Answer box are filled and the Genre is selected"
+        //         );
+        //         }
+        // else{
+        this.axios({
+          url: "http://127.0.0.1:5000/func/act",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          this.qa.answer = response.data["guess"];
+          console.log(response);
+        });
+        this.axios({
+          url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          while (this.qa.text.lastIndexOf("🔔") > 0) {
+            this.qa.text =
+              this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+              this.qa.text.substr(
+                this.qa.text.lastIndexOf("🔔") + "🔔".length,
+                this.qa.text.length
+              );
+          }
+          this.qa.binary_search_based_buzzer = response.data["buzz"];
+          this.qa.importance = response.data["importance"];
+          this.highlight = response.data["buzz_word"];
+          this.qa.top_guess_buzzer = response.data["top_guess"];
+          if (
+            this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
+            response.data["flag"]
+          ) {
+            this.qa.text =
+              this.qa.text.substr(
+                0,
+                this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10
+              ) +
+              "🔔" +
+              this.qa.text.substr(
+                this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
+                this.qa.text.length
+              );
+          }
+          console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]));
+          console.log(this.qa.text.indexOf(response.data["buzz_word"]));
+          console.log(response);
+        });
+        this.axios({
+          url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          // if (response.data["similar_question"][0]) {
+          //   this.addModal(
+          //     "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+          //     response.data["similar_question"][1][0]['text']
+          //   );
+          // }
+          this.qa.top5_similar_questions = response.data["similar_question"];
+          console.log(response);
+        });
+        this.axios({
+          url: "http://127.0.0.1:5000/country_represent/country_present",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          this.qa.country_representation =
+            response.data["country_representation"];
+          console.log(response);
+        });
+        this.axios({
+          url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          this.qa.pronunciation = response.data["message"];
+          for (let i = 0; i < response.data["message"].length; i++) {
+            this.highlight_words[response.data["message"][i]['Word']] = "red";
+          }
+          console.log(this.highlight_words)
+          console.log(response);
+        });
+      }.bind(this),
+      15000
+    );
   },
-
-
   methods: {
-
-    
+    sendverification() {
+      this.user = firebase.auth().currentUser;
+      this.popup = false;
+      alert(
+        "Verification email sent! Please check the email connected to this account."
+      );
+      const currentUser = this.user;
+      firebase
+        .auth()
+        .currentUser.sendEmailVerification()
+        .then(() => {
+          console.log("Sent Verification to: " + currentUser.email);
+          // Email verification sent!
+          // ...
+        });
+    },
     keep_looping: _.debounce(function () {
-      clearInterval(this.my_var);
+      clearInterval(this.interval);
       let formData = new FormData();
-      console.log(new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }))
+      console.log(
+        new Date().toLocaleString("en-US", {
+          hour12: false,
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
       // console.log(new Date().toString())
-      while(this.qa.text.lastIndexOf("🔔")>0)
-        {
-          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf("🔔")) + this.qa.text.substr(this.qa.text.lastIndexOf("🔔") + "🔔".length,this.qa.text.length)
-        }
+      while (this.qa.text.lastIndexOf("🔔") > 0) {
+        this.qa.text =
+          this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+          this.qa.text.substr(
+            this.qa.text.lastIndexOf("🔔") + "🔔".length,
+            this.qa.text.length
+          );
+      }
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
-      formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
-      formData.append("id",this.user_id);
+      formData.append(
+        "date",
+        new Date().toLocaleString("en-US", {
+          hour12: false,
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
+      formData.append("id", this.id);
       this.axios({
         url: "http://127.0.0.1:5000/func/act",
         method: "POST",
@@ -244,17 +363,32 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
-        while(this.qa.text.lastIndexOf("🔔")>0)
-        {
-          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf("🔔")) + this.qa.text.substr(this.qa.text.lastIndexOf("🔔") + "🔔".length,this.qa.text.length)
+        while (this.qa.text.lastIndexOf("🔔") > 0) {
+          this.qa.text =
+            this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+            this.qa.text.substr(
+              this.qa.text.lastIndexOf("🔔") + "🔔".length,
+              this.qa.text.length
+            );
         }
         this.qa.binary_search_based_buzzer = response.data["buzz"];
         this.qa.importance = response.data["importance"];
         this.highlight = response.data["buzz_word"];
         this.qa.top_guess_buzzer = response.data["top_guess"];
-        if(this.qa.text.lastIndexOf(response.data["buzz_word"])>0 && response.data["flag"])
-        {
-          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf(response.data["buzz_word"])+10) + "🔔" + this.qa.text.substr(this.qa.text.lastIndexOf(response.data["buzz_word"])+10,this.qa.text.length)
+        if (
+          this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
+          response.data["flag"]
+        ) {
+          this.qa.text =
+            this.qa.text.substr(
+              0,
+              this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10
+            ) +
+            "🔔" +
+            this.qa.text.substr(
+              this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
+              this.qa.text.length
+            );
         }
       });
       this.axios({
@@ -283,16 +417,29 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
-        this.qa.pronunciation = response.data["message"];
+         this.qa.pronunciation = response.data["message"];
+          for (let i = 0; i < response.data["message"].length; i++) {
+            this.highlight_words[response.data["message"][i]['Word']] = "red";
+          }
       });
     }, 1000),
-
     update_representation: _.debounce(function () {
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
-      formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
-      formData.append("id",this.user_id);
+      formData.append(
+        "date",
+        new Date().toLocaleString("en-US", {
+          hour12: false,
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
+      formData.append("id", this.id);
       // this.axios({
       //   url: "http://127.0.0.1:5000/over_present/highlight",
       //   method: "POST",
@@ -303,15 +450,6 @@ export default {
       //   // this.highlight = response.data["buzz_word"];
       //   console.log(response);
       // });
-      
-      this.axios({
-        url: "http://127.0.0.1:5000/func/act",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.qa.answer = response.data["guess"];
-        console.log(response);
-      });
       this.axios({
         url: "http://127.0.0.1:5000/country_represent/country_present",
         method: "POST",
@@ -321,46 +459,59 @@ export default {
           response.data["country_representation"];
       });
     }, 1000),
-
     searchData() {
-      clearInterval(this.my_var);
-      while(this.qa.text.lastIndexOf("🔔")>0)
-        {
-          this.qa.text= this.qa.text.substr(0,this.qa.text.lastIndexOf("🔔")) + this.qa.text.substr(this.qa.text.lastIndexOf("🔔") + "🔔".length,this.qa.text.length)
-        }
-      let formData = new FormData();
-      formData.append("text", this.qa.text);
-      formData.append("answer_text", this.qa.answer_text);
-      formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
-      formData.append("id",this.user_id);
-      this.axios({
-        url: "http://127.0.0.1:5000/func/act",
-        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        if (response.data["similar_question"][0])
-        {
-              this.addResult({
-                title: "Similar question detected",
-                body: response.data["similar_question"][1][0]["text"],
-              });
-        } 
-        else {
-          this.axios({
-            url: "http://127.0.0.1:5000/difficulty_classifier/classify",
-            
-            method: "POST",
-            data: formData,
-          }).then((response) => {
-            if (response.data["difficulty"] === "Hard" || response.data["difficulty"]==="Easy")
-              {
-                if(response.data["difficulty"]==="Easy")
-                {
+      //clearInterval(this.interval);
+      while (this.qa.text.lastIndexOf("🔔") > 0) {
+        this.qa.text =
+          this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+          this.qa.text.substr(
+            this.qa.text.lastIndexOf("🔔") + "🔔".length,
+            this.qa.text.length
+          );
+      }
+      this.user = firebase.auth().currentUser;
+      if (this.user.emailVerified) {
+        let formData = new FormData();
+        formData.append("text", this.qa.text);
+        formData.append("answer_text", this.qa.answer_text);
+        formData.append(
+          "date",
+          new Date().toLocaleString("en-US", {
+            hour12: false,
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          })
+        );
+        formData.append("id", this.id);
+        this.axios({
+          url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          if (response.data["similar_question"][0]) {
+            this.addResult({
+              title: "Similar question detected",
+              body: response.data["similar_question"][1][0]["text"],
+            });
+          } else {
+            this.axios({
+              url: "http://127.0.0.1:5000/difficulty_classifier/classify",
+              method: "POST",
+              data: formData,
+            }).then((response) => {
+              if (
+                response.data["difficulty"] === "Hard" ||
+                response.data["difficulty"] === "Easy"
+              ) {
+                if (response.data["difficulty"] === "Easy") {
                   this.addResult({
-                  title: "Easy Question",
-                  body: "Your question was not difficult enough for the computer.",
-                });
+                    title: "Easy Question",
+                    body: "Your question was not difficult enough for the computer.",
+                  });
                 }
                 if (
                   this.qa.answer_text === "" ||
@@ -372,10 +523,9 @@ export default {
                     body: "Please make sure Question and Answer boxes are filled and Question Genre is selected.",
                   });
                 } else {
-                  console.log('1');
+                  console.log("1");
                   window.setTimeout(() => {
                     this.axios({
-                      
                       url: "http://127.0.0.1:5000/func/insert",
                       method: "POST",
                       data: formData,
@@ -388,22 +538,20 @@ export default {
                       title: "Saved",
                       body: "Your question is now added to the database.",
                     });
-                    console.log('2');
-                  }, 5000)
-                 
-                  
+                    console.log("2");
+                  }, 5000);
                 }
-              }
-              else {
+              } else {
                 this.addResult({
                   title: "Not saved",
                   body: "Your question was not difficult enough for the computer. Please try again.",
                 });
               }
-            // this.qa.top5_similar_questions = response.data["similar_question"];
-          });
-        } 
-      });
+              // this.qa.top5_similar_questions = response.data["similar_question"];
+            });
+          }
+        });
+      }
       // this.axios({
       //   url: "http://127.0.0.1:5000/func/country_people",
       //   method: "POST",
@@ -417,8 +565,19 @@ export default {
     changeGenre() {
       let formData = new FormData();
       formData.append("text", this.qa.text);
-      formData.append("date",new Date().toLocaleString('en-US',{ hour12: false, month: "2-digit", day: "2-digit",  year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }));
-      formData.append("id",this.user_id);
+      formData.append(
+        "date",
+        new Date().toLocaleString("en-US", {
+          hour12: false,
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
+      formData.append("id", this.id);
       this.axios({
         url: "http://127.0.0.1:5000/genre_classifier/classify",
         method: "POST",
@@ -437,5 +596,58 @@ export default {
       this.$store.commit("addResult", result);
     },
   },
+  mounted() {
+    let formData = new FormData();
+    formData.append("Timestamp", "2021-08-02 19:57:42");
+    this.axios({
+      url: "http://127.0.0.1:5000/question/Question_id",
+      method: "POST",
+    }).then((response) => {
+      this.Question_id = response.data["Question_id"];
+      console.log(response);
+    });
+    this.highlightInterval = setInterval(
+      function () {
+        let backdrop = this.$refs.backdrop;
+        let textarea = this.$refs.textarea;
+        backdrop.style.height = textarea.$el.offsetHeight - 10 + "px";
+        backdrop.style.width = textarea.$el.offsetWidth + "px";
+        console.log(document.getElementsByTagName("textarea"));
+        backdrop.scrollTop =
+          document.getElementsByTagName("textarea")[0].scrollTop;
+      }.bind(this),
+      10
+    );
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
+    clearInterval(this.highlightInterval);
+  },
 };
 </script>
+
+<style>
+.highlight-textarea textarea {
+  z-index: 2;
+}
+.highlight {
+  color: transparent;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+mark {
+  display: inline-block;
+  border-radius: 5px;
+  color: transparent;
+  opacity: 0.8;
+}
+.backdrop {
+  position: absolute;
+  margin-top: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+  line-height: 1.75rem;
+  z-index: 1;
+  overflow: auto;
+}
+</style>
