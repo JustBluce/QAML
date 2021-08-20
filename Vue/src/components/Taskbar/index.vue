@@ -10,9 +10,18 @@ Developers: Jason Liu
 
     <WorkspaceMenu v-if="qa" />
 
-    <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
+    <v-tooltip bottom>
+    <template v-slot:activator="{ on, attrs }">
+    <v-btn 
+    v-bind="attrs"
+    v-on="on"
+    icon 
+    @click="$vuetify.theme.dark = !$vuetify.theme.dark">
       <v-icon>mdi-brightness-6</v-icon>
     </v-btn>
+     </template>
+    <span>Dark Mode </span>
+    </v-tooltip>
 
     <Profile />
 
