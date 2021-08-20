@@ -316,10 +316,11 @@ def insert():
 
         for j in range(1, len(time_stamps[q_id])):
             i = time_stamps[q_id][j]
-            diff_val = ld(questions_all_time_stamps[q_id][j-1].split(),questions_all_time_stamps[q_id][j].split())
+            diff_val, add, remove = ld(questions_all_time_stamps[q_id][j-1].split(),questions_all_time_stamps[q_id][j].split())
             if diff_val>5:
                 Relevant = "{} words need to be added, deleted or replaced between diff".format(diff_val)
                 isRelevant = True
+                
             else:
                 Relevant = "Not a big enough difference between strings"
                 isRelevant = False
@@ -327,7 +328,8 @@ def insert():
             big_dict["data"][i] = {}
             big_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][j]
             big_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][j]
-            
+            big_dict["data"][i]["add"] = add
+            big_dict["data"][i]["remove"] = remove
             small_dict["data"][i] = {}
             small_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][j]
             small_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][j]
@@ -377,7 +379,7 @@ def insert():
                     big_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]   
                     Flag_String = Flag_String + "Pronunciation;" 
                     counter_pron+=1
-            big_dict["data"][i]["Relevant"] = Relevant + ":::" + Flag_String
+            big_dict["data"][i]["Relevant"] = Relevant + "  " + Flag_String
             if flag==0:
                 if not isRelevant:
                     big_dict["data"].pop(i)

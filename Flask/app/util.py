@@ -304,9 +304,86 @@ def load_pron_model_pronunciation():
     )
     return tokenizer_pronunciation, model_pronunciation
 
+# def ld(s1, s2):  # Levenshtein Distance word level
+#     len1 = len(s1)+1
+#     len2 = len(s2)+1
+#     lt = [[0 for i2 in range(len2)] for i1 in range(len1)]  # lt - levenshtein_table
+#     lt[0] = list(range(len2))
+#     i = 0
+#     for l in lt:
+#         l[0] = i
+#         i += 1
+#     for i1 in range(1, len1):
+#         for i2 in range(1, len2):
+#             if s1[i1-1] == s2[i2-1]:
+#                 v = 0
+#             else:
+#                 v = 1
+#             lt[i1][i2] = min(lt[i1][i2-1]+1, lt[i1-1][i2]+1, lt[i1-1][i2-1]+v)
+#     return lt[-1][-1]
+
+
+def merge_stop_words(s1):
+  s1_new = []
+  i = 0
+  while i < len(s1):
+      # print(i,s1)
+      t1 = s1[i]
+
+      if s1[i] in stop_words:
+        temp1 = i
+        for j in range(temp1+1, len(s1)):
+          if s1[j] in stop_words:
+            t1 = t1+" "+s1[j]
+            i = j
+          else:
+            i = j-1
+            break
+      
+      s1_new.append(t1)
+      i = i+1
+      # print(t1, i)
+  return s1_new
+
 def ld(s1, s2):  # Levenshtein Distance word level
-    len1 = len(s1)+1
-    len2 = len(s2)+1
+    stop_words = set(stopwords.words('english'))
+    # s1 = merge_stop_words(s1)
+    # s2 = merge_stop_words(s2)
+    # reverse_1 = [i for i in reversed(s1) if not i.lower() in stop_words]
+    # reverse_2 = [i for i in reversed(s2) if not i.lower() in stop_words]
+    reverse_1 = [i for i in reversed(s1)]
+    reverse_2 = [i for i in reversed(s2)]
+    word_tok = ""
+    print(s1,s2)
+    for i in reverse_1:
+      for j in reverse_2: 
+        if i == j:
+          word_tok = j
+          break
+      if (word_tok != ""):
+        break
+    print(word_tok)
+    if (word_tok != ""):
+      len1 = len(s1) + 1 - 1 - s1[::-1].index(word_tok)
+      len2 = len(s2) + 1 - 1 - s2[::-1].index(word_tok)
+      
+    else:
+      len1 = len(s1)
+      len2 = len(s2)
+    print(len1, len2)
+    addition = len(s2) - len2
+    removal = len(s1) - len1
+    word_list_removal = []
+    word_list_addition = []
+    if addition == 0:
+      word_list_addition = []
+    else:
+      word_list_addition = s2[-addition:]
+    if removal == 0:
+      word_list_removal = []
+    else:
+      word_list_removal = s1[-removal:]
+
     lt = [[0 for i2 in range(len2)] for i1 in range(len1)]  # lt - levenshtein_table
     lt[0] = list(range(len2))
     i = 0
@@ -320,8 +397,52 @@ def ld(s1, s2):  # Levenshtein Distance word level
             else:
                 v = 1
             lt[i1][i2] = min(lt[i1][i2-1]+1, lt[i1-1][i2]+1, lt[i1-1][i2-1]+v)
-    return lt[-1][-1]
+    
+    i = len(lt)-1
+    j = len(lt[0])-1
+    remove = []
+    add = []
+    while i!=-1 and j!=-1:
+ 
+      if s1[i] == s2[j]:
+        i-=1
+        j-=1
+      else:
+        if lt[i-1][j]<=lt[i-1][j-1] and lt[i-1][j] <= lt[i][j-1]:
+          remove.append(s1[i])
+          i-=1
+        elif lt[i][j-1]<=lt[i-1][j-1] and lt[i][j-1] <= lt[i-1][j]:
+          add.append(s2[j])
+          j-=1
+        else:
+          remove.append(s1[i])
+          i-=1
+          add.append(s2[j])
+          j-=1
+    while (j!=-1):
+      add.append(s2[j])
+      j-=1
+    while(i!=-1):
+      remove.append(s1[i])
+      i-=1
+    add = [i for i in reversed(add)] + word_list_addition
+    remove = [i for i in reversed(remove)] + word_list_removal
+    remove_final = []
+    add_final = []
+    for i in remove:
+      remove_final = remove_final + i.split()
+    for i in add:
+      add_final = add_final + i.split()
+    word_list_addition_final = []
+    for i in word_list_addition:
+      word_list_addition_final = word_list_addition_final + i.split()
+    word_list_removal_final = []
+    for i in word_list_removal:
+      word_list_removal_final = word_list_removal_final + i.split()
+    return lt[-1][-1] + len(word_list_addition) + len(word_list_removal), add, remove
+    # return lt[-1][-1]+len(word_list_addition_final) + len(word_list_removal_final), add_final, remove_final
 
+    
 tokenizer_difficulty, model_difficulty = load_bert_model_difficulty()
 params = get_pretrained_tfidf_vectorizer()
 tokenizer_country, model_country = load_bert_country_model()
