@@ -1,3 +1,7 @@
+<!--
+Developers: Jason Liu
+-->
+
 <template>
   <div>
     <v-tooltip bottom>
@@ -68,7 +72,7 @@
         </v-card-text>
         <v-divider></v-divider>
         <p v-show="filteredWorkspaces.length == 0" class="py-4 text-center">
-          No unopened workspaces
+          No unopened workspaces found
         </p>
         <v-virtual-scroll
           v-if="filteredWorkspaces.length > 0"

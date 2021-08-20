@@ -1,3 +1,7 @@
+<!--
+Developers: Jason Liu
+-->
+
 <template>
   <v-card class="ma-2" style="border-radius: 16px" elevation="4">
     <v-card-title class="background">
