@@ -304,6 +304,23 @@ def load_pron_model_pronunciation():
     )
     return tokenizer_pronunciation, model_pronunciation
 
+def ld(s1, s2):  # Levenshtein Distance word level
+    len1 = len(s1)+1
+    len2 = len(s2)+1
+    lt = [[0 for i2 in range(len2)] for i1 in range(len1)]  # lt - levenshtein_table
+    lt[0] = list(range(len2))
+    i = 0
+    for l in lt:
+        l[0] = i
+        i += 1
+    for i1 in range(1, len1):
+        for i2 in range(1, len2):
+            if s1[i1-1] == s2[i2-1]:
+                v = 0
+            else:
+                v = 1
+            lt[i1][i2] = min(lt[i1][i2-1]+1, lt[i1-1][i2]+1, lt[i1-1][i2-1]+v)
+    return lt[-1][-1]
 
 tokenizer_difficulty, model_difficulty = load_bert_model_difficulty()
 params = get_pretrained_tfidf_vectorizer()
