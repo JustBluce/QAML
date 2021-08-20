@@ -1,58 +1,52 @@
 <template>
-  <v-menu
-    offset-y
-    rounded
-    :close-on-content-click="false"
-    style="z-index: 1000"
-  >
-    <template v-slot:activator="{ on }">
-      <v-btn v-on="on" icon>
-        <v-icon>mdi-dock-window</v-icon>
-      </v-btn>
-    </template>
-
-    <v-list>
-      <v-list-item>
+  <div>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="green"
-          class="mx-auto"
-          style="width: 225px"
-          text
-          outlined
-          @click="$store.commit('createWorkspace')"
+          class="mx-1"
+          icon
+          v-bind="attrs"
+          v-on="on"
+          @click="createWorkspace"
         >
-          Create workspace
+          <v-icon>mdi-plus</v-icon>
         </v-btn>
-      </v-list-item>
-      <v-list-item>
+      </template>
+      <span>Create workspace</span>
+    </v-tooltip>
+
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="primary"
-          class="mx-auto"
-          style="width: 225px"
-          text
-          outlined
+          class="mx-1"
+          icon
+          v-bind="attrs"
+          v-on="on"
           @click="show = true"
         >
-          Open workspace
+          <v-icon>mdi-dock-window</v-icon>
         </v-btn>
-      </v-list-item>
-      <v-list-item>
+      </template>
+      <span>Open workspaces</span>
+    </v-tooltip>
+
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="red"
-          class="mx-auto"
-          style="width: 225px"
-          text
-          outlined
-          @click="
-            $store.state.workspaces.forEach((workspace) =>
-              $store.commit('closeWorkspace', workspace.id)
-            )
-          "
+          class="mx-1"
+          icon
+          v-bind="attrs"
+          v-on="on"
+          @click="closeWorkspaces"
         >
-          Close all workspaces
+          <v-icon>mdi-close</v-icon>
         </v-btn>
-      </v-list-item>
-    </v-list>
+      </template>
+      <span>Close all workspaces</span>
+    </v-tooltip>
 
     <v-dialog v-model="show" width="400">
       <v-card height="600">
@@ -74,7 +68,7 @@
         </v-card-text>
         <v-divider></v-divider>
         <p v-show="filteredWorkspaces.length == 0" class="py-4 text-center">
-          No workspaces
+          No unopened workspaces
         </p>
         <v-virtual-scroll
           v-if="filteredWorkspaces.length > 0"
@@ -106,12 +100,12 @@
         </v-virtual-scroll>
       </v-card>
     </v-dialog>
-  </v-menu>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "WorkspaceMenu",
+  name: "WorkspaceBtns",
   data() {
     return {
       show: false,
@@ -124,6 +118,16 @@ export default {
         (workspace) =>
           workspace.title.toLowerCase().includes(this.search.toLowerCase()) &&
           !this.$store.state.workspace_stack.includes(workspace.id)
+      );
+    },
+  },
+  methods: {
+    createWorkspace() {
+      this.$store.commit("createWorkspace");
+    },
+    closeWorkspaces() {
+      this.$store.state.workspaces.forEach((workspace) =>
+        this.$store.commit("closeWorkspace", workspace.id)
       );
     },
   },

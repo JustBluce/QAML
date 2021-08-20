@@ -31,10 +31,15 @@ Developers: Jason Liu
     <v-spacer></v-spacer>
 
     <v-menu offset-y rounded :close-on-content-click="false">
-      <template v-slot:activator="{ on }">
-        <v-btn v-on="on" icon>
-          <v-icon>mdi-hammer-wrench</v-icon>
-        </v-btn>
+      <template v-slot:activator="{ on: onMenu }">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on: onTooltip, attrs }">
+            <v-btn icon v-bind="attrs" v-on="{ ...onMenu, ...onTooltip }">
+              <v-icon>mdi-hammer-wrench</v-icon>
+            </v-btn>
+          </template>
+          <span>Toggle widgets</span>
+        </v-tooltip>
       </template>
       <v-list>
         <v-list-item>
