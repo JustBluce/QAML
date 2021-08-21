@@ -277,6 +277,10 @@ export default {
         }).then((response) => {
           this.qa.country_representation =
             response.data["country_representation"];
+          for (let i = 0; i < response.data["current_over_countries"].length; i++) {
+            this.highlight_words[response.data["current_over_countries"][i]] = "yellow";
+          }
+          console.log(this.highlight_words)
           console.log(response);
         });
         this.axios({
@@ -411,6 +415,10 @@ export default {
       }).then((response) => {
         this.qa.country_representation =
           response.data["country_representation"];
+        for (let i = 0; i < response.data["current_over_countries"].length; i++) {
+            this.highlight_words[response.data["current_over_countries"][i]] = "yellow";
+        }
+        console.log(this.highlight_words)
       });
       this.axios({
         url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
@@ -457,6 +465,10 @@ export default {
       }).then((response) => {
         this.qa.country_representation =
           response.data["country_representation"];
+        for (let i = 0; i < response.data["current_over_countries"].length; i++) {
+            this.highlight_words[response.data["current_over_countries"][i]] = "yellow";
+        }
+        console.log(this.highlight_words)
       });
     }, 1000),
     searchData() {
@@ -599,13 +611,13 @@ export default {
   mounted() {
     let formData = new FormData();
     formData.append("Timestamp", "2021-08-02 19:57:42");
-    this.axios({
-      url: "http://127.0.0.1:5000/question/Question_id",
-      method: "POST",
-    }).then((response) => {
-      this.Question_id = response.data["Question_id"];
-      console.log(response);
-    });
+    // this.axios({
+    //   url: "http://127.0.0.1:5000/question/Question_id",
+    //   method: "POST",
+    // }).then((response) => {
+    //   this.Question_id = response.data["Question_id"];
+    //   console.log(response);
+    // });
     this.highlightInterval = setInterval(
       function () {
         let backdrop = this.$refs.backdrop;
