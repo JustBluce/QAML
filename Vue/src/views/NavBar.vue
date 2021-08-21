@@ -72,6 +72,11 @@ updated() {
           icon: "mdi-information-outline",
           link: "/about",
         },
+        {
+          title: "Tutorial",
+          icon: "mdi-school-outline",
+          link: "/tutorial",
+        },
       ];
       return menuItems;
     },
