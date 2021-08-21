@@ -1,3 +1,7 @@
+<!--
+Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
+-->
+
 <template>
   <v-container fluid class="background" style="flex-shrink: 1">
     <v-card class="mb-3">

@@ -25,6 +25,8 @@ Developers: Jason Liu and Damian Rene
             <v-divider class="my-1"></v-divider>
             <v-btn depressed rounded text href="/about"> About </v-btn>
             <v-divider class="my-1"></v-divider>
+            <v-btn depressed rounded text href="/tutorial"> Tutorial </v-btn>
+            <v-divider class="my-1"></v-divider>
             <v-btn
               depressed
               rounded

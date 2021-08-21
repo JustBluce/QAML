@@ -6,6 +6,7 @@ import firebase from 'firebase';
 import Layout from '@/layout';
 import Login from '@/views/auth/login.vue';
 import About from '@/views/auth/about.vue';
+import Tutorial from '@/views/auth/tutorial.vue';
 import Register from '@/views/auth/register.vue';
 import PReset from '@/views/auth/PReset.vue';
 import store from '@/store/index.js';
@@ -61,6 +62,13 @@ export const constantRoutes = [
 		path: '/about',
 		name: 'About',
 		component: About,
+		hidden: true
+	},
+
+	{
+		path: '/tutorial',
+		name: 'Tutorial',
+		component: Tutorial,
 		hidden: true
 	},
 
