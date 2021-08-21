@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      showBar: ["Login", "Register", "About"],
+      showBar: ["Login", "Register", "About", "Tutorial"],
     };
   },
 };
