@@ -186,8 +186,8 @@ def insert_into_db(q_id, date_incoming, date_outgoing, question, ans, edit_messa
     if q_id not in country_represent_json:
         country_represent_json[q_id]=[]
         
-    added_change_in_over_represented_countries = list(set(current_over_countries)-set(prev_over_countries))
-    change_in_over_represented_countries = list(set(current_over_countries)-set(prev_over_countries))
+    # added_change_in_over_represented_countries = list(set(current_over_countries)-set(prev_over_countries))
+    # change_in_over_represented_countries = list(set(current_over_countries)-set(prev_over_countries))
     country_represent_json[q_id].append({
                                 "edit_history":
                                             {
@@ -303,8 +303,9 @@ def country_present():
         insert_into_db(q_id, date_incoming, date_outgoing, question, ans, edit_message, added_under_represented_countries, removed_over_represented_countries, added_over_represented_countries)
         # print(country_represent_json)
     end = time.time()
+    print(current_over_countries[q_id])
     print("----TIME (s): /country_represent/country_present---", end - start)
-    return jsonify({"country_representation": answer, "country": countries})
+    return jsonify({"country_representation": answer, "country": countries, "current_over_countries" : current_over_countries[q_id]})
 
 # def country_present1(question):
 # <<<------DEPRECIATED------>>>
