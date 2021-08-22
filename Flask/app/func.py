@@ -313,13 +313,19 @@ def insert():
                 counter_pron+=1
         
 
-
+        curr_value = questions_all_time_stamps[q_id][0].split()
         for j in range(1, len(time_stamps[q_id])):
             i = time_stamps[q_id][j]
-            diff_val, add, remove = ld(questions_all_time_stamps[q_id][j-1].split(),questions_all_time_stamps[q_id][j].split())
+            
+            try:
+                diff_val, add, remove = ld(curr_value ,questions_all_time_stamps[q_id][j].split())
+            except Exception:
+                diff_val, add, remove = find_basic_diff(curr_value ,questions_all_time_stamps[q_id][j].split())
+                
             if diff_val>5:
                 Relevant = "{} words need to be added, deleted or replaced between diff".format(diff_val)
                 isRelevant = True
+                curr_value = questions_all_time_stamps[q_id][j].split()
                 
             else:
                 Relevant = "Not a big enough difference between strings"
