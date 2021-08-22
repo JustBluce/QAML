@@ -81,7 +81,7 @@ def store_in_db (q_id, date_incoming, date_outgoing, question, ans):
             ]
         }   
     else:
-        if(minDistance(general_edit_history[q_id]["entries"][-1]["question"].split(), question.split())) > len(question.split())*0.1:
+        if(minDistance(general_edit_history[q_id]["entries"][-1]["question"].split(), question.split())) > 5:
             general_edit_history[q_id]["entries"].append(
                 {
                     "question": question,
