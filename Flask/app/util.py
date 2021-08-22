@@ -347,6 +347,10 @@ def merge_stop_words(s1):
 
 def ld(s1, s2):  # Levenshtein Distance word level
     stop_words = set(stopwords.words('english'))
+    for i in range(len(s1)):
+        s1[i] = re.sub(r'[^\w\s]', '', s1[i])
+    for i in range(len(s2)):
+        s2[i] = re.sub(r'[^\w\s]', '', s2[i])
     # s1 = merge_stop_words(s1)
     # s2 = merge_stop_words(s2)
     # reverse_1 = [i for i in reversed(s1) if not i.lower() in stop_words]
@@ -354,7 +358,7 @@ def ld(s1, s2):  # Levenshtein Distance word level
     reverse_1 = [i for i in reversed(s1)]
     reverse_2 = [i for i in reversed(s2)]
     word_tok = ""
-    print(s1,s2)
+    # print(s1,s2)
     for i in reverse_1:
       for j in reverse_2: 
         if i == j:
@@ -362,7 +366,7 @@ def ld(s1, s2):  # Levenshtein Distance word level
           break
       if (word_tok != ""):
         break
-    print(word_tok)
+    # print(word_tok)
     if (word_tok != ""):
       len1 = len(s1) + 1 - 1 - s1[::-1].index(word_tok)
       len2 = len(s2) + 1 - 1 - s2[::-1].index(word_tok)
@@ -370,7 +374,7 @@ def ld(s1, s2):  # Levenshtein Distance word level
     else:
       len1 = len(s1)
       len2 = len(s2)
-    print(len1, len2)
+    # print(len1, len2)
     addition = len(s2) - len2
     removal = len(s1) - len1
     word_list_removal = []
@@ -383,7 +387,13 @@ def ld(s1, s2):  # Levenshtein Distance word level
       word_list_removal = []
     else:
       word_list_removal = s1[-removal:]
-
+    
+    if len(s1)==0 and len(s2)==0:
+      return 0 + len(word_list_addition) + len(word_list_removal), [], []
+    elif len(s1)==0:
+      return 0 + len(word_list_addition) + len(word_list_removal), word_list_addition, s2 
+    elif len(s2)==0:
+      return 0 + len(word_list_addition) + len(word_list_removal), s1, word_list_removal 
     lt = [[0 for i2 in range(len2)] for i1 in range(len1)]  # lt - levenshtein_table
     lt[0] = list(range(len2))
     i = 0
@@ -442,7 +452,57 @@ def ld(s1, s2):  # Levenshtein Distance word level
     return lt[-1][-1] + len(word_list_addition) + len(word_list_removal), add, remove
     # return lt[-1][-1]+len(word_list_addition_final) + len(word_list_removal_final), add_final, remove_final
 
-    
+def find_basic_diff(s1,s2):
+  for i in range(len(s1)):
+    s1[i] = re.sub(r'[^\w\s]', '', s1[i])
+  for i in range(len(s2)):
+    s2[i] = re.sub(r'[^\w\s]', '', s2[i])
+  uniques1=set(s1)
+  uniques2=set(s2)
+  uniq = uniques1.union(uniques2)
+  my_dict_1 = {}
+  for i in s1:
+    if i in my_dict_1:
+      my_dict_1[i]=my_dict_1[i]+1
+    else:
+      my_dict_1[i]=1
+  my_dict_2 = {}
+  for i in s2:
+    if i in my_dict_2:
+      my_dict_2[i]=my_dict_2[i]+1
+    else:
+      my_dict_2[i]=1
+  diff = 0
+  remove = []
+  add = []
+  # print(list(uniq))
+  # print(my_dict_1)
+  # print(my_dict_2)
+  for i in list(uniq):
+    # print(add,remove)
+
+    if i in my_dict_1:
+      if i not in my_dict_2:
+        diff+=my_dict_1[i]
+        for j in range(my_dict_1[i]):
+          remove.append(i)
+    if i in my_dict_2:
+      if i not in my_dict_1:
+        diff+=my_dict_2[i]
+        for j in range(my_dict_2[i]):
+          add.append(i)
+    if i in my_dict_1:
+      if i in my_dict_2:
+        if my_dict_1[i]>my_dict_2[i]:
+          diff += my_dict_1[i]-my_dict_2[i]
+          for j in range(my_dict_1[i]-my_dict_2[i]):
+            remove.append(i)
+        else:
+          diff += my_dict_2[i]-my_dict_1[i]
+          for j in range(my_dict_2[i]-my_dict_1[i]):
+            add.append(i)
+  return diff, add, remove    
+
 tokenizer_difficulty, model_difficulty = load_bert_model_difficulty()
 params = get_pretrained_tfidf_vectorizer()
 tokenizer_country, model_country = load_bert_country_model()
