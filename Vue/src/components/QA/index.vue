@@ -278,7 +278,7 @@ export default {
           this.qa.country_representation =
             response.data["country_representation"];
           for (let i = 0; i < response.data["current_over_countries"].length; i++) {
-            this.highlight_words[response.data["current_over_countries"][i]] = "yellow";
+            this.highlight_words[response.data["current_over_countries"][i]] = "red";
           }
           console.log(this.highlight_words)
           console.log(response);
@@ -290,7 +290,7 @@ export default {
         }).then((response) => {
           this.qa.pronunciation = response.data["message"];
           for (let i = 0; i < response.data["message"].length; i++) {
-            this.highlight_words[response.data["message"][i]['Word']] = "red";
+            this.highlight_words[response.data["message"][i]['Word']] = "yellow";
           }
           console.log(this.highlight_words)
           console.log(response);
@@ -416,7 +416,7 @@ export default {
         this.qa.country_representation =
           response.data["country_representation"];
         for (let i = 0; i < response.data["current_over_countries"].length; i++) {
-            this.highlight_words[response.data["current_over_countries"][i]] = "yellow";
+            this.highlight_words[response.data["current_over_countries"][i]] = "red";
         }
         console.log(this.highlight_words)
       });
@@ -427,7 +427,7 @@ export default {
       }).then((response) => {
          this.qa.pronunciation = response.data["message"];
           for (let i = 0; i < response.data["message"].length; i++) {
-            this.highlight_words[response.data["message"][i]['Word']] = "red";
+            this.highlight_words[response.data["message"][i]['Word']] = "yellow";
           }
       });
     }, 1000),
@@ -466,7 +466,7 @@ export default {
         this.qa.country_representation =
           response.data["country_representation"];
         for (let i = 0; i < response.data["current_over_countries"].length; i++) {
-            this.highlight_words[response.data["current_over_countries"][i]] = "yellow";
+            this.highlight_words[response.data["current_over_countries"][i]] = "red";
         }
         console.log(this.highlight_words)
       });
