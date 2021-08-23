@@ -4,7 +4,7 @@ Developers: Jason Liu and Damian Rene
 
 <template>
   <div>
-    <v-menu bottom rounded offset-y min-width="125">
+    <v-menu bottom rounded offset-y min-width="180">
       <template v-slot:activator="{ on: onMenu }">
         <v-tooltip bottom>
           <template v-slot:activator="{ on: onTooltip, attrs }">
@@ -23,8 +23,6 @@ Developers: Jason Liu and Damian Rene
           <div class="mx-auto text-center">
             <h3 class="pa-2">{{ user ? user.displayName : "Guest" }}</h3>
             <v-divider class="my-1"></v-divider>
-            <v-btn depressed rounded text href="/about"> About </v-btn>
-            <v-divider class="my-1"></v-divider>
             <v-btn depressed rounded text href="/tutorial"> Tutorial </v-btn>
             <v-divider class="my-1"></v-divider>
             <v-btn
@@ -37,9 +35,10 @@ Developers: Jason Liu and Damian Rene
               GitHub
             </v-btn>
             <v-divider class="my-1"></v-divider>
-            <v-btn depressed rounded text @click.native="logout">
+            <v-btn v-if="user" depressed rounded text @click.native="logout">
               Logout
             </v-btn>
+            <v-btn v-else depressed rounded text href="/login"> Login </v-btn>
             <div v-if="user">
               <v-divider class="my-1"></v-divider>
               <v-btn depressed rounded text color="red" @click="popup = true">

@@ -16,6 +16,7 @@ Developers: Jason Liu
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           icon
+          class="mr-1"
           v-bind="attrs"
           v-on="on"
           @click="$vuetify.theme.dark = !$vuetify.theme.dark"
@@ -37,7 +38,7 @@ Developers: Jason Liu
 
 <script>
 import WorkspaceBtns from "./WorkspaceBtns";
-import Profile from "./Profile";
+import Profile from "@/components/Profile";
 import Tabs from "./Tabs";
 
 export default {
