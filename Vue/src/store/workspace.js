@@ -16,7 +16,9 @@ export function defaultQA() {
 		subgenre: '',
 		top_guess_buzzer: '',
 		uid:'',
-		pronunciation: []
+		pronunciation: [],
+		buzz_word_this:'',
+		highlight_words : {},
 	};
 }
 

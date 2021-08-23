@@ -161,6 +161,7 @@ def add_to_db(q_id, date_incoming, date_outgoing, ret_value, word_list, question
         state_pronunciation[q_id]= []
     # print(set(word_list))
     # print(set(state_pronunciation[q_id]))
+    list_B = []
     if set(word_list)!= set(state_pronunciation[q_id]):   
         set_A = set(word_list)
         set_B = set(state_pronunciation[q_id])
@@ -178,7 +179,7 @@ def add_to_db(q_id, date_incoming, date_outgoing, ret_value, word_list, question
                                     
                                     })
         state_pronunciation[q_id] = word_list
-
+    return list_B
 @pronunciation.route('/get_pronunciation', methods=["POST"])
 def getpronuncation():
     """
@@ -209,9 +210,10 @@ def getpronuncation():
     print("----TIME (s) : /pronunciation/get_pronunciation---", end - start)
     date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
     date_outgoing.replace(', 00',', 24')
+    list_of_words_to_remove = []
     if len(word_list)>0:
-        add_to_db(q_id, date_incoming, date_outgoing, ret_value, word_list, question, ans)
-    return jsonify({"message": ret_value})
+        list_of_words_to_remove = add_to_db(q_id, date_incoming, date_outgoing, ret_value, word_list, question, ans)
+    return jsonify({"message": ret_value, "list_of_words_to_remove":list_of_words_to_remove})
 
 
 # def getpronunciation():
