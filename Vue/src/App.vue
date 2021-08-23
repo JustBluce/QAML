@@ -5,7 +5,9 @@
       <nav-bar />
     </div>
 
-    <v-main><router-view /></v-main>
+    <v-main>
+      <router-view />
+    </v-main>
   </v-app>
 </template>
 
@@ -19,7 +21,7 @@ export default {
   },
   data() {
     return {
-      showBar: ["Login", "Register", "About"],
+      showBar: ["Login", "Register", "About", "Tutorial"],
     };
   },
 };
