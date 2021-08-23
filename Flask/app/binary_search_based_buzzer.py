@@ -89,12 +89,13 @@ def get_actual_guess_with_index(question, max=12):
     vectorizer, Matrix, ans = params[0], params[1], params[2]
     answer = []
     repre = vectorizer.transform(question)
+    repre_1 = repre.todense()
     matrix = Matrix.dot(repre.T).T
     indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
     for i in range(len(question)):
         idx = indices[i]
         answer.append([(ans[j], matrix[i, j]) for j in idx])
-    return answer[0][0][0:], indices[0][0]
+    return answer[0][0][0:], indices[0][0], repre_1
 
 def check_drop_in_confidence(question, actual_confidence, max=50, ind = -1):
     """
@@ -141,7 +142,9 @@ def get_importance_of_each_sentence(question):
     ]
     
     """
-    actual_answer, index_of_answer = get_actual_guess_with_index(question = [question])
+    actual_answer, index_of_answer, repre_1 = get_actual_guess_with_index(question = [question])
+    print(repre_1, len(repre_1))
+    hightlight_words = sorted(repre_1[0], reverse=True)
     actual_confidence = actual_answer[1]
     temp_sentence_array = break_into_sentences(question)
     highest_confidence = -10
@@ -242,7 +245,7 @@ def buzz_full_question():
         question = request.form.get("text")
         date_incoming = request.form.get("date")
         ans = request.form.get("answer_text")
-        q_id = request.form.get("id")
+        q_id = request.form.get("qid")
     ans = ans.strip()
     if(question.strip()==""):
         return jsonify({"buzz": "", "buzz_word": "", "flag": False, "top_guess" : "", "importance": [{"sentence":"-", "importance":-1}] })

@@ -45,6 +45,17 @@ Developers: Jason Liu and Damian Rene
             >
               Continue
             </v-btn>
+            <div>
+
+
+            </div>
+        
+            <v-btn
+              color="primary"
+              @click="go_back"
+            >
+              Go Back
+            </v-btn>
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
@@ -84,5 +95,10 @@ export default {
       ],
     };
   },
+  methods: {
+    go_back(){
+      this.$router.go(-1);
+  }
+  }
 };
 </script>
