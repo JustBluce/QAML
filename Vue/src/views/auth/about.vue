@@ -3,15 +3,13 @@ Developers: Jason Liu
 -->
 
 <template>
-  <v-container fluid style="height: calc(100vh - 64px); overflow: auto">
-    <particles-bg :color="$vuetify.theme.currentTheme.primary" type="cobweb" />
-
-    <v-card class="mx-auto" width="80%">
+  <v-container fluid style="height: calc(100vh - 64px); overflow: auto;">
+    <v-card class="mt-4 mx-auto rounded-xl" width="80%">
       <v-card-text class="text-h4 text-center font-weight-bold">
         Adversarial Trivia Question Writing Interface
       </v-card-text>
     </v-card>
-    <v-card class="pa-4 ma-16 mr-auto" width="60%" elevation="6">
+    <v-card class="pa-4 ma-16 mr-auto rounded-xl" width="60%" elevation="6">
       <v-card-title>Cybernetic question writing</v-card-title>
       <v-card-text class="text-body-1">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -23,7 +21,7 @@ Developers: Jason Liu
         mollit anim id est laborum.
       </v-card-text>
     </v-card>
-    <v-card class="pa-4 ma-16 ml-auto" width="60%" elevation="6">
+    <v-card class="pa-4 ma-16 ml-auto rounded-xl" width="60%" elevation="6">
       <v-card-title>AI-enhanced gameplay</v-card-title>
       <v-card-text class="text-body-1">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -35,7 +33,7 @@ Developers: Jason Liu
         mollit anim id est laborum.
       </v-card-text>
     </v-card>
-    <v-card class="pa-4 ma-16 mr-auto" width="60%" elevation="6">
+    <v-card class="pa-4 ma-16 mr-auto rounded-xl" width="60%" elevation="6">
       <v-card-title>Meet the team</v-card-title>
       <v-card-text class="text-body-1">
         <strong>Developers:</strong>
@@ -48,12 +46,7 @@ Developers: Jason Liu
 </template>
 
 <script>
-import { ParticlesBg } from "particles-bg-vue";
-
 export default {
   name: "About",
-  components: {
-    ParticlesBg,
-  },
 };
 </script>
