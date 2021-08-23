@@ -95,20 +95,22 @@ def store_in_db (q_id, date_incoming, date_outgoing, question, ans):
 
 def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_of_top_guesses_strings):
     ans = ans.replace(" ","_")
+    isRelevant =  False
     if q_id not in machine_guess:
         machine_guess[q_id]=[]
         state_machine_guess[q_id]={
                                     "ans_pos": -1, 
                                     "current_guesses": array_of_top_guesses_strings
                                     }
+        isRelevant = False
         if ans in array_of_top_guesses_strings:
             state_machine_guess[q_id]["ans_pos"] = array_of_top_guesses_strings.index(ans)
-        
+            isRelevant = True
         machine_guess[q_id].append({
                                     "edit_history":
                                     {
                                         "change_in_position": "First Entry",
-                                        "isRelevant": False,
+                                        "isRelevant": isRelevant,
                                     },
                                     "Timestamp_frontend":date_incoming, 
                                     "Timestamp_backend": date_outgoing, 
@@ -119,7 +121,10 @@ def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_o
                                     
                                 })
     else:
+        # print(array_of_top_guesses_strings.index(ans))
         if ans in array_of_top_guesses_strings:
+            isRelevant =  False
+            # print("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
             if(state_machine_guess[q_id]["ans_pos"] != array_of_top_guesses_strings.index(ans)):
                 prev_pos = state_machine_guess[q_id]["ans_pos"]
                 
@@ -127,11 +132,12 @@ def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_o
                 string_new = ""
                 if prev_pos == -1:
                     string_new = string_new + "The machine did not guess previously"
+                    isRelevant =  True
                 elif(prev_pos < state_machine_guess[q_id]["ans_pos"]) :
-                    string_new = string_new + "The previous position was " + str(prev_pos) + "and the new position is " + str(state_machine_guess[q_id]["ans_pos"])
+                    string_new = string_new + "The previous position was " + str(prev_pos) + " and the new position is " + str(state_machine_guess[q_id]["ans_pos"])
                     isRelevant =  True
                 else:
-                    string_new = string_new + "The previous position was " + str(prev_pos) + "and the new position is " + str(state_machine_guess[q_id]["ans_pos"])
+                    string_new = string_new + "The previous position was " + str(prev_pos) + " and the new position is " + str(state_machine_guess[q_id]["ans_pos"])
                     isRelevant =  False
                 machine_guess[q_id].append({
                                             "edit_history":
@@ -264,12 +270,42 @@ def insert():
     # print(q_id)
     big_dict = {
         "q_id": q_id,
-        "data":{}
+        "data":{},
+        "points":0
     }
     small_dict = {
         "q_id": q_id,
-        "data":{}
+        "data":{},
+        "points":0
     }
+    points = 0
+    if q_id in state_machine_guess:
+        if ans in state_machine_guess[q_id]["current_guesses"]:
+            pos_ans = state_machine_guess[q_id]["current_guesses"].index(ans)
+            if pos_ans == 0:
+                points +=0
+            elif pos_ans == 1:
+                points +=5
+            elif pos_ans == 2:
+                points +=10
+        else:
+            points += 20
+    
+    if q_id in difficulty:
+        if len(difficulty[q_id])>0:
+            diff_level = difficulty[q_id][-1]["difficulty"]
+            if diff_level=="Hard":
+                points+=10
+    if q_id in country_represent_json:
+        if len(country_represent_json[q_id])>0:
+            under_countries = country_represent_json[q_id][-1]["current_under_countries"]
+            points+=len(under_countries)*10
+    if q_id in similarity:
+        if len(similarity[q_id])>0:
+            similar_top_3 = similarity[q_id][-1]["edit_history"]["isSimilar"]
+            if not similar_top_3:
+                points+=10
+
     counter_guess = 0
     counter_pron = 0
     counter_country  = 0
@@ -286,40 +322,47 @@ def insert():
         small_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][0]
         small_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][0]
         small_dict["data"][i]["Relevant"] = "First Time Stamp"
-        if q_id in machine_guess:
+        if q_id in machine_guess and len(machine_guess[q_id])!=0:
             if i == machine_guess[q_id][counter_guess]["Timestamp_frontend"]:
                 small_dict["data"][i]["machine_guess"] = machine_guess[q_id][counter_guess]
                 counter_guess+=1
-        if q_id in similarity:
+        if q_id in similarity and len(similarity[q_id])!=0:
             if counter_guess in similarity[q_id]:
                 if i == similarity[q_id][counter_guess]["Timestamp_frontend"]:
                     small_dict["data"][i]["similarity"] = similarity[q_id][counter_sim]
                     counter_sim+=1
-        if q_id in buzzer:
+        if q_id in buzzer and len(buzzer[q_id])!=0:
             if i == buzzer[q_id][counter_buzz]["Timestamp_frontend"]:        
                 small_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
                 counter_buzz+=1
-        if q_id in difficulty:
+        if q_id in difficulty and len(difficulty[q_id])!=0:
             if i == difficulty[q_id][counter_difficulty]["Timestamp_frontend"]:
                 small_dict["data"][i]["difficulty"] = difficulty[q_id][counter_difficulty]
                 counter_difficulty+=1
-        if q_id in country_represent_json:  
+        if q_id in country_represent_json and len(country_represent_json[q_id])!=0:  
             if i == country_represent_json[q_id][counter_country]["Timestamp_frontend"]:
                 small_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
                 counter_country+=1
-        if q_id in pronunciation_dict:
+        if q_id in pronunciation_dict and len(pronunciation_dict[q_id])!=0:
             if i == pronunciation_dict[q_id][counter_pron]["Timestamp_frontend"]:
                 small_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]    
                 counter_pron+=1
         
 
-
+        curr_value = questions_all_time_stamps[q_id][0].split()
         for j in range(1, len(time_stamps[q_id])):
             i = time_stamps[q_id][j]
-            diff_val = ld(questions_all_time_stamps[q_id][j-1].split(),questions_all_time_stamps[q_id][j].split())
+            
+            try:
+                diff_val, add, remove = ld(curr_value ,questions_all_time_stamps[q_id][j].split())
+            except Exception:
+                diff_val, add, remove = find_basic_diff(curr_value ,questions_all_time_stamps[q_id][j].split())
+                
             if diff_val>5:
                 Relevant = "{} words need to be added, deleted or replaced between diff".format(diff_val)
                 isRelevant = True
+                curr_value = questions_all_time_stamps[q_id][j].split()
+                
             else:
                 Relevant = "Not a big enough difference between strings"
                 isRelevant = False
@@ -327,7 +370,8 @@ def insert():
             big_dict["data"][i] = {}
             big_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][j]
             big_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][j]
-            
+            big_dict["data"][i]["add"] = add
+            big_dict["data"][i]["remove"] = remove
             small_dict["data"][i] = {}
             small_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][j]
             small_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][j]
@@ -377,7 +421,7 @@ def insert():
                     big_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]   
                     Flag_String = Flag_String + "Pronunciation;" 
                     counter_pron+=1
-            big_dict["data"][i]["Relevant"] = Relevant + ":::" + Flag_String
+            big_dict["data"][i]["Relevant"] = Relevant + "  " + Flag_String
             if flag==0:
                 if not isRelevant:
                     big_dict["data"].pop(i)
@@ -425,8 +469,9 @@ def insert():
     #     print(json.dumps(pronunciation_dict[q_id], indent = 7))
     # if q_id in country_represent_json:
     #     print(json.dumps(country_represent_json[q_id], indent = 7))
-    qa_table = metadata.tables["qa"]
-    db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
+    # qa_table = metadata.tables["QA"]
+    # db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
     end=time.time()
     print("----TIME (s) : /func/submit [SUBMIT]---",end-start)
-    return "submitted"
+    print(points)
+    return jsonify({"status":"submitted", "points":points})
