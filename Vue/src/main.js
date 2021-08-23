@@ -38,6 +38,7 @@ const firebaseConfig = {
 	appId: '1:668025043214:web:f49afb9f95c5c906907f5f',
 	measurementId: 'G-8JMB36KVE8'
 };
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 //firebase.analytics();
@@ -47,10 +48,17 @@ db.settings({ timestampsInSnapshots: true });
 
 /* firebase.auth().onAuthStateChanged((user) => {
 	store.dispatch('fetchUser', user);
-	if(user.emailVerified = true){
+	
+	
+	
+	if(user.emailVerified ){
 		store.commit('SET_VERIFIED', true);
 		console.log("EMAIL IS VERIFIED:" + store.state.user.verified)
 	}
+	else{
+		store.commit('SET_VERIFIED', false);
+	}
+});
 }); */
 
 /**

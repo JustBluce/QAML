@@ -142,7 +142,7 @@ def classify(list_of_words):
     for i in range(len(predictions)):
         if predictions[i] == 1:
             ans.append({"Word":list_of_words[indices_of_new_list_of_words[i]]})
-            word_list.append(list_of_words[indices_of_new_list_of_words[i]])
+            word_list.append(new_list_of_words[i])
     
     return ans, word_list
     
@@ -177,7 +177,7 @@ def add_to_db(q_id, date_incoming, date_outgoing, ret_value, word_list, question
                                     "word_2_pronounce":ret_value,
                                     
                                     })
-    state_pronunciation[q_id] = word_list
+        state_pronunciation[q_id] = word_list
 
 @pronunciation.route('/get_pronunciation', methods=["POST"])
 def getpronuncation():

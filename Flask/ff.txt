@@ -1,0 +1,7 @@
+-- title of the project
+Leveraging Natural Language Processing to Improve Training for Peer-to-Peer Counseling
+
+-- project description (a few sentences)
+Peer-to-peer therapeutic services, such as 7Cups.com, provide online psychological support services where clients (known as members) with a variety of mental health problems participating in text-based chats with volunteer counselors (known as listeners). Millions of people participate in online support sessions every month, yet there have been
+yet there have been no systematic evaluations of what volunteers do that most helps support-seekers, and how to best train volunteers to offer the most effective support. Students who are interested in the project will participate in research activities, including (1) developing methods to automatically measure the use of micro-skills and styles, (2) conducting correlational studies to identify how the use of various micro-skills by volunteers predicts changes in the session satisfaction and men
+mental health of the clients whom they are supporting, and (3) developing a computer-supported training environment to teach volunteers to use these skills and evaluating the training outcomes in a randomized controlled trial.
