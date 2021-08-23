@@ -166,9 +166,11 @@ def load_bert_model_difficulty():
     Bert model and tokenizer of difficulty of questions
 
     """
+   
     model_difficulty = DistilBertForSequenceClassification.from_pretrained(
         './model/difficulty_models/DistilBERT_full_question')
     tokenizer_difficulty = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
+
     return tokenizer_difficulty, model_difficulty
 
 
@@ -304,9 +306,96 @@ def load_pron_model_pronunciation():
     )
     return tokenizer_pronunciation, model_pronunciation
 
+# def ld(s1, s2):  # Levenshtein Distance word level
+#     len1 = len(s1)+1
+#     len2 = len(s2)+1
+#     lt = [[0 for i2 in range(len2)] for i1 in range(len1)]  # lt - levenshtein_table
+#     lt[0] = list(range(len2))
+#     i = 0
+#     for l in lt:
+#         l[0] = i
+#         i += 1
+#     for i1 in range(1, len1):
+#         for i2 in range(1, len2):
+#             if s1[i1-1] == s2[i2-1]:
+#                 v = 0
+#             else:
+#                 v = 1
+#             lt[i1][i2] = min(lt[i1][i2-1]+1, lt[i1-1][i2]+1, lt[i1-1][i2-1]+v)
+#     return lt[-1][-1]
+
+
+def merge_stop_words(s1):
+  s1_new = []
+  i = 0
+  while i < len(s1):
+      # print(i,s1)
+      t1 = s1[i]
+
+      if s1[i] in stop_words:
+        temp1 = i
+        for j in range(temp1+1, len(s1)):
+          if s1[j] in stop_words:
+            t1 = t1+" "+s1[j]
+            i = j
+          else:
+            i = j-1
+            break
+      
+      s1_new.append(t1)
+      i = i+1
+      # print(t1, i)
+  return s1_new
+
 def ld(s1, s2):  # Levenshtein Distance word level
-    len1 = len(s1)+1
-    len2 = len(s2)+1
+    stop_words = set(stopwords.words('english'))
+    for i in range(len(s1)):
+        s1[i] = re.sub(r'[^\w\s]', '', s1[i])
+    for i in range(len(s2)):
+        s2[i] = re.sub(r'[^\w\s]', '', s2[i])
+    # s1 = merge_stop_words(s1)
+    # s2 = merge_stop_words(s2)
+    # reverse_1 = [i for i in reversed(s1) if not i.lower() in stop_words]
+    # reverse_2 = [i for i in reversed(s2) if not i.lower() in stop_words]
+    reverse_1 = [i for i in reversed(s1)]
+    reverse_2 = [i for i in reversed(s2)]
+    word_tok = ""
+    # print(s1,s2)
+    for i in reverse_1:
+      for j in reverse_2: 
+        if i == j:
+          word_tok = j
+          break
+      if (word_tok != ""):
+        break
+    # print(word_tok)
+    if (word_tok != ""):
+      len1 = len(s1) + 1 - 1 - s1[::-1].index(word_tok)
+      len2 = len(s2) + 1 - 1 - s2[::-1].index(word_tok)
+      
+    else:
+      len1 = len(s1)
+      len2 = len(s2)
+    # print(len1, len2)
+    addition = len(s2) - len2
+    removal = len(s1) - len1
+    word_list_removal = []
+    word_list_addition = []
+    if addition == 0:
+      word_list_addition = []
+    else:
+      word_list_addition = s2[-addition:]
+    if removal == 0:
+      word_list_removal = []
+    else:
+      word_list_removal = s1[-removal:]
+    
+    if len(s1)==0 and len(s2)==0:
+      return 0 + len(word_list_addition) + len(word_list_removal), [], []
+    elif len(s1)==0:
+      return 0 + len(word_list_addition) + len(word_list_removal), word_list_addition, s2 
+    elif len(s2)==0:
+      return 0 + len(word_list_addition) + len(word_list_removal), s1, word_list_removal 
     lt = [[0 for i2 in range(len2)] for i1 in range(len1)]  # lt - levenshtein_table
     lt[0] = list(range(len2))
     i = 0
@@ -320,7 +409,101 @@ def ld(s1, s2):  # Levenshtein Distance word level
             else:
                 v = 1
             lt[i1][i2] = min(lt[i1][i2-1]+1, lt[i1-1][i2]+1, lt[i1-1][i2-1]+v)
-    return lt[-1][-1]
+    
+    i = len(lt)-1
+    j = len(lt[0])-1
+    remove = []
+    add = []
+    while i!=-1 and j!=-1:
+ 
+      if s1[i] == s2[j]:
+        i-=1
+        j-=1
+      else:
+        if lt[i-1][j]<=lt[i-1][j-1] and lt[i-1][j] <= lt[i][j-1]:
+          remove.append(s1[i])
+          i-=1
+        elif lt[i][j-1]<=lt[i-1][j-1] and lt[i][j-1] <= lt[i-1][j]:
+          add.append(s2[j])
+          j-=1
+        else:
+          remove.append(s1[i])
+          i-=1
+          add.append(s2[j])
+          j-=1
+    while (j!=-1):
+      add.append(s2[j])
+      j-=1
+    while(i!=-1):
+      remove.append(s1[i])
+      i-=1
+    add = [i for i in reversed(add)] + word_list_addition
+    remove = [i for i in reversed(remove)] + word_list_removal
+    remove_final = []
+    add_final = []
+    for i in remove:
+      remove_final = remove_final + i.split()
+    for i in add:
+      add_final = add_final + i.split()
+    word_list_addition_final = []
+    for i in word_list_addition:
+      word_list_addition_final = word_list_addition_final + i.split()
+    word_list_removal_final = []
+    for i in word_list_removal:
+      word_list_removal_final = word_list_removal_final + i.split()
+    return lt[-1][-1] + len(word_list_addition) + len(word_list_removal), add, remove
+    # return lt[-1][-1]+len(word_list_addition_final) + len(word_list_removal_final), add_final, remove_final
+
+def find_basic_diff(s1,s2):
+  for i in range(len(s1)):
+    s1[i] = re.sub(r'[^\w\s]', '', s1[i])
+  for i in range(len(s2)):
+    s2[i] = re.sub(r'[^\w\s]', '', s2[i])
+  uniques1=set(s1)
+  uniques2=set(s2)
+  uniq = uniques1.union(uniques2)
+  my_dict_1 = {}
+  for i in s1:
+    if i in my_dict_1:
+      my_dict_1[i]=my_dict_1[i]+1
+    else:
+      my_dict_1[i]=1
+  my_dict_2 = {}
+  for i in s2:
+    if i in my_dict_2:
+      my_dict_2[i]=my_dict_2[i]+1
+    else:
+      my_dict_2[i]=1
+  diff = 0
+  remove = []
+  add = []
+  # print(list(uniq))
+  # print(my_dict_1)
+  # print(my_dict_2)
+  for i in list(uniq):
+    # print(add,remove)
+
+    if i in my_dict_1:
+      if i not in my_dict_2:
+        diff+=my_dict_1[i]
+        for j in range(my_dict_1[i]):
+          remove.append(i)
+    if i in my_dict_2:
+      if i not in my_dict_1:
+        diff+=my_dict_2[i]
+        for j in range(my_dict_2[i]):
+          add.append(i)
+    if i in my_dict_1:
+      if i in my_dict_2:
+        if my_dict_1[i]>my_dict_2[i]:
+          diff += my_dict_1[i]-my_dict_2[i]
+          for j in range(my_dict_1[i]-my_dict_2[i]):
+            remove.append(i)
+        else:
+          diff += my_dict_2[i]-my_dict_1[i]
+          for j in range(my_dict_2[i]-my_dict_1[i]):
+            add.append(i)
+  return diff, add, remove    
 
 tokenizer_difficulty, model_difficulty = load_bert_model_difficulty()
 params = get_pretrained_tfidf_vectorizer()
@@ -329,20 +512,131 @@ pron_vectorizer, pron_regression, pron_word_freq = get_pronunciation_models()
 # tokenizer_pronunciation, model_pronunciation = load_pron_model_pronunciation()
 
 sub_genres = {
-            'Philosophy': [['Norse', 354], ['Other', 345], ['Philosophy', 5], ['European', 3], ['American', 2], ['Religion/Mythology', 1]],
-            'History' : [['American', 3514], ['World', 3103], ['European', 3100], ['British', 685], ['Classical', 607], ['Ancient', 345], ['Other', 541], ['Classic', 105], ['Norse', 48], ['Geography', 2], ['Religion/Mythology', 1]],
-            'Literature': [[ 'American', 3463], ['European', 3194], ['British', 2052], ['World', 1934], ['Europe', 421],  ['Other', 629], ['Classical', 249], ['Classic', 58], ['Norse', 40], ['Language Arts', 19], ['Religion/Mythology', 1], ['Pop Culture', 1], ['Art', 1]],
-            'Mythology': [[ 'Norse', 365], ['Religion/Mythology', 15], ['American', 6], ['Greco-Roman', 2], ['Earth Science', 1], ['Japanese', 1], ['Music', 1]],
-            'Current Events' : [['None', 362]],
-            'Religion': [['Norse', 318], ['Religion/Mythology', 6], ['Other', 377], ['American', 3], ['East Asian', 2], ['Ancient', 1], ['World', 1]],
-            'Trash' : [['Pop Culture', 349], ['Norse', 313], ['Other', 545], ['American', 5], ['World', 1], ['Movies', 1], ['Classic', 1]],
-            'Social Science': [['Religion/Mythology', 1017], ['Philosophy', 540], ['Geography', 480], ['None', 322], ['Psychology', 203], ['Economics', 172], ['Anthropology', 154], ['Norse', 100],  ['Other', 77], ['World', 1], ['Language Arts', 1], ['American', 1], ['European', 1]],
-            'Science': [['Biology', 2727], ['Physics', 2413], ['Chemistry', 2281], ['Math', 1268], ['Other', 1523], ['Computer Science', 297], ['Astronomy', 204], ['Earth Science', 157], ['Norse', 71], ['Religion/Mythology', 1], ['Psychology', 1], ['Pop Culture', 1], ['World', 1]],
-            'Fine Arts': [['Visual', 1980], ['Auditory', 1233], ['Other', 1400], ['Music', 1039], ['Audiovisual', 769], ['Art', 587], ['Norse', 7], ['American', 2]],
-            'Geography': [['Norse', 238], ['Other', 287], ['Geography', 15], ['World', 3], ['American', 1]]
-
-        }
-genres = ['Philosophy', 'History', 'Literature', 'Mythology', 'Current Events', 'Religion', 'Trash', 'Social Science', 'Science', 'Fine Arts', 'Geography']
+    "Philosophy": [
+        ["Norse", 354],
+        ["Other", 345],
+        ["Philosophy", 5],
+        ["European", 3],
+        ["American", 2],
+        ["Religion/Mythology", 1],
+    ],
+    "History": [
+        ["American", 3514],
+        ["World", 3103],
+        ["European", 3100],
+        ["British", 685],
+        ["Classical", 607],
+        ["Ancient", 345],
+        ["Other", 541],
+        ["Classic", 105],
+        ["Norse", 48],
+        ["Geography", 2],
+        ["Religion/Mythology", 1],
+    ],
+    "Literature": [
+        ["American", 3463],
+        ["European", 3194],
+        ["British", 2052],
+        ["World", 1934],
+        ["Europe", 421],
+        ["Other", 629],
+        ["Classical", 249],
+        ["Classic", 58],
+        ["Norse", 40],
+        ["Language Arts", 19],
+        ["Religion/Mythology", 1],
+        ["Pop Culture", 1],
+        ["Art", 1],
+    ],
+    "Mythology": [
+        ["Norse", 365],
+        ["Religion/Mythology", 15],
+        ["American", 6],
+        ["Greco-Roman", 2],
+        ["Earth Science", 1],
+        ["Japanese", 1],
+        ["Music", 1],
+    ],
+    "Current Events": [["None", 362]],
+    "Religion": [
+        ["Norse", 318],
+        ["Religion/Mythology", 6],
+        ["Other", 377],
+        ["American", 3],
+        ["East Asian", 2],
+        ["Ancient", 1],
+        ["World", 1],
+    ],
+    "Trash": [
+        ["Pop Culture", 349],
+        ["Norse", 313],
+        ["Other", 545],
+        ["American", 5],
+        ["World", 1],
+        ["Movies", 1],
+        ["Classic", 1],
+    ],
+    "Social Science": [
+        ["Religion/Mythology", 1017],
+        ["Philosophy", 540],
+        ["Geography", 480],
+        ["None", 322],
+        ["Psychology", 203],
+        ["Economics", 172],
+        ["Anthropology", 154],
+        ["Norse", 100],
+        ["Other", 77],
+        ["World", 1],
+        ["Language Arts", 1],
+        ["American", 1],
+        ["European", 1],
+    ],
+    "Science": [
+        ["Biology", 2727],
+        ["Physics", 2413],
+        ["Chemistry", 2281],
+        ["Math", 1268],
+        ["Other", 1523],
+        ["Computer Science", 297],
+        ["Astronomy", 204],
+        ["Earth Science", 157],
+        ["Norse", 71],
+        ["Religion/Mythology", 1],
+        ["Psychology", 1],
+        ["Pop Culture", 1],
+        ["World", 1],
+    ],
+    "Fine Arts": [
+        ["Visual", 1980],
+        ["Auditory", 1233],
+        ["Other", 1400],
+        ["Music", 1039],
+        ["Audiovisual", 769],
+        ["Art", 587],
+        ["Norse", 7],
+        ["American", 2],
+    ],
+    "Geography": [
+        ["Norse", 238],
+        ["Other", 287],
+        ["Geography", 15],
+        ["World", 3],
+        ["American", 1],
+    ],
+}
+genres = [
+    "Philosophy",
+    "History",
+    "Literature",
+    "Mythology",
+    "Current Events",
+    "Religion",
+    "Trash",
+    "Social Science",
+    "Science",
+    "Fine Arts",
+    "Geography",
+]
 
 
 # Lets make the dictionaries global
@@ -367,5 +661,5 @@ general_edit_history = {}
 buzzer = {}
 state_buzzer = {}
 # Raj: Might synchronize using locks
-# This is when I will access using the following method: 
+# This is when I will access using the following method:
 modules_responsible = {}

@@ -34,8 +34,10 @@ Developers: Damian Rene and Jason Liu
         ></v-text-field>
       </v-form>
 
-      
-      <router-link class="ma-auto pa-8 background justify-center" :to="{name: 'Password-Reset' }">
+      <router-link
+        class="ma-auto pa-8 background justify-center"
+        :to="{ name: 'Password-Reset' }"
+      >
         Forgot Password?
       </router-link>
 
@@ -65,6 +67,7 @@ Developers: Damian Rene and Jason Liu
           <v-icon class="mr-2" size="20">mdi-account-circle</v-icon>
           Guest login
         </v-btn>
+        
       </v-card-actions>
     </v-card>
   </v-container>
@@ -84,6 +87,7 @@ export default {
       email: "",
       password: "",
       showPassword: false,
+      user: null,
       emailRules: [
         (v) => !!v || "E-mail is required",
         //(v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
@@ -95,6 +99,7 @@ export default {
     };
   },
   methods: {
+    
     emailLogin() {
       if (this.$refs.form.validate()) {
         firebase
@@ -118,10 +123,57 @@ export default {
           // this.qa.uid = user.uid
           console.log(this.qa.uid)
           this.$router.push("/dashboard");
-          
+          this.documents();
         })
         .catch((err) => {
           alert("Oops. " + err.message);
+        });
+    },
+    documents() {
+      this.user = firebase.auth().currentUser;
+
+      const db = firebase.firestore();
+      const docs = db.collection("users");
+      let document_exists = false;
+      let lastUser = 0;
+      //console.log(this.user.email)
+
+      db.collection("users")
+        .where("email", "==", this.user.email)
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            if (doc.exists) {
+              console.log("Document already exsists. Easy for me. thanks");
+              console.log(doc.data().email);
+              document_exists = true;
+            }
+          });
+          if (!document_exists) {
+            console.log("Document does not exsist... Creating one.");
+            db.collection("users")
+              .orderBy("timestamp", "desc")
+              .limit(1)
+              .get()
+              .then((snapshot) => {
+                snapshot.docs.forEach((doc) => {
+                  lastUser = doc.data().User_ID + 1;
+                  console.log("USER: " + doc.data().User_ID);
+                  console.log(lastUser);
+                  //document titles correlate to User UID
+                  db.collection("users").doc(this.user.uid).set({
+                    User_ID: lastUser,
+                    displayName: this.user.displayName,
+                    email: this.user.email,
+                    signInMethod: "Google",
+                    CreatedTimestamp: firebase.firestore.Timestamp.now(),
+                  });
+                });
+              })
+              .catch((err) => {
+                alert("Oops. " + err.message);
+              });
+          }
         });
     },
     guestLogin() {
@@ -132,13 +184,6 @@ export default {
           this.$router.push("/dashboard");
         });
     },
-  },
-  created() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.$router.push("/dashboard");
-      }
-    });
   },
 };
 </script>

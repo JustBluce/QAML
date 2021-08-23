@@ -98,6 +98,20 @@ export const constantRoutes = [
 		]
 	},
 
+	{
+		path: '/workspaces',
+		component: Layout,
+		redirect: '/workspaces',
+		children: [
+			{
+				path: '',
+				name: 'Workspaces',
+				component: () => import('@/views/workspaces/index'),
+				meta: { title: 'Workspaces', icon: 'table', requiresAuth: true }
+			}
+		]
+	},
+
 	// 404 page must be placed at the end !!!
 	{ path: '*', redirect: '/404', hidden: true }
 ];
