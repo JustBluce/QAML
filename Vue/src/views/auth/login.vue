@@ -192,7 +192,8 @@ export default {
 
 <style>
 .canvas {
-  position: absolute;
+  position: fixed;
   left: 0;
 }
+
 </style>

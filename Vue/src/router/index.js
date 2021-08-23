@@ -5,10 +5,10 @@ import firebase from 'firebase';
 /* Layout */
 import Layout from '@/layout';
 import Login from '@/views/auth/login.vue';
-import About from '@/views/auth/about.vue';
-import Tutorial from '@/views/auth/tutorial.vue';
 import Register from '@/views/auth/register.vue';
 import PReset from '@/views/auth/PReset.vue';
+import About from '@/views/about';
+import Tutorial from '@/views/tutorial';
 import store from '@/store/index.js';
 
 Vue.use(Router);
