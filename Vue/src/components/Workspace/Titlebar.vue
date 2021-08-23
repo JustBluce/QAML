@@ -70,6 +70,7 @@ Developers: Jason Liu
           <v-switch
             v-model="switches[widget_type]"
             :label="widget_type"
+            :color="widget_type"
             @change="toggleSwitch(widget_type)"
             inset
             class="my-1"
