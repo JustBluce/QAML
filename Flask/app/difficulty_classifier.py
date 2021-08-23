@@ -42,7 +42,7 @@ def classify():
         question = request.form.get("text")
         ans = request.form.get("answer_text")
         date_incoming = request.form.get("date")
-        q_id = request.form.get("id")
+        q_id = request.form.get("qid")
     start = time.time()
     inputs = tokenizer_difficulty(question, return_tensors="pt")
     outputs = model_difficulty(**inputs)
