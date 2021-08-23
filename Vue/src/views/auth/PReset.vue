@@ -43,7 +43,7 @@ import firebase from "firebase";
 import { ParticlesBg } from "particles-bg-vue";
 
 export default {
-  name: "Login",
+  name: "PReset",
   components: {
     ParticlesBg,
   },
