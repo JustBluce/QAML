@@ -1,3 +1,7 @@
+<!--
+Developers: Jason Liu
+-->
+
 <template>
   <v-card class="ma-2" style="border-radius: 16px" elevation="4">
     <v-card-title class="background">
@@ -42,33 +46,31 @@
       >
         Open
       </v-btn>
+      <v-btn
+        color="primary"
+        style="width: 75px"
+        text
+        outlined
+        @click="confirmReset"
+      >
+        Reset
+      </v-btn>
       <v-spacer></v-spacer>
-      <v-btn icon fab small elevation="2" @click="confirm">
+      <v-btn icon fab small elevation="2" @click="confirmDelete">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-card-actions>
 
-    <v-dialog v-model="popup" max-width="500">
+    <v-dialog v-model="popup.show" max-width="500">
       <v-card>
-        <v-card-title class="text-h5">
-          Confirm workspace deletion
-        </v-card-title>
-        <v-card-text>
-          Are you sure you want to delete <strong>{{ workspace.title }}</strong
-          >?
-        </v-card-text>
+        <v-card-title class="text-h5">{{ popup.title }}</v-card-title>
+        <v-card-text v-html="popup.text"></v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="popup = false">
+          <v-btn color="green darken-1" text @click="popup.show = false">
             Cancel
           </v-btn>
-          <v-btn
-            color="red"
-            text
-            @click="$store.commit('deleteWorkspace', workspace.id)"
-          >
-            Delete
-          </v-btn>
+          <v-btn color="red" text @click="popup.action">{{ popup.type }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -83,7 +85,12 @@ export default {
   },
   data() {
     return {
-      popup: false,
+      popup: {
+        show: false,
+        title: "",
+        text: "",
+        action: null,
+      },
     };
   },
   computed: {
@@ -92,11 +99,40 @@ export default {
     },
   },
   methods: {
-    confirm() {
+    confirmDelete() {
       if (this.workspace.qa.text || this.workspace.qa.answer_text) {
-        this.popup = true;
+        let self = this;
+        this.popup = {
+          show: true,
+          type: "Delete",
+          title: "Confirm workspace deletion",
+          text: `Are you sure you want to delete <strong>${self.workspace.title}</strong>?`,
+          action: function () {
+            self.$store.commit("deleteWorkspace", self.workspace.id);
+            self.popup.show = false;
+          },
+        };
       } else {
         this.$store.commit("deleteWorkspace", this.workspace.id);
+      }
+    },
+    confirmReset() {
+      if (this.workspace.qa.text || this.workspace.qa.answer_text) {
+        let self = this;
+        this.popup = {
+          show: true,
+          type: "Reset",
+          title: "Confirm workspace reset",
+          text: `Are you sure you want to reset <strong>${self.workspace.title}</strong> (including question, answer, and genre)?`,
+          action: function () {
+            self.workspace.qa.genre = "";
+            self.workspace.qa.text = "";
+            self.workspace.qa.answer_text = "";
+            self.popup.show = false;
+          },
+        };
+      } else {
+        this.workspace.qa.genre = "";
       }
     },
   },
