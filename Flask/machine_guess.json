@@ -1,1 +1,68 @@
-{"0": [{"edit_history": {"change_in_position": "First Entry", "isRelevant": false}, "Timestamp_frontend": "08/14/2021, 23:58:17", "Timestamp_backend": "08/14/2021, 23:58:18", "guesses": [{"guess": "Jawaharlal_Nehru", "score": "0.143"}, {"guess": "Indian_Rebellion_of_1857", "score": "0.141"}, {"guess": "A._P._J._Abdul_Kalam", "score": "0.127"}, {"guess": "E._M._Forster", "score": "0.109"}, {"guess": "Dynasty", "score": "0.107"}], "ans_pos": -1, "prev_pos": -1}]}
+{
+  "0": [
+    {
+      "edit_history": {
+        "change_in_position": "First Entry",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "08/23/2021, 10:12:58",
+      "Timestamp_backend": "08/23/2021, 10:13:02",
+      "guesses": [
+        {
+          "guess": "Evangelista_Torricelli",
+          "score": "0.187"
+        },
+        {
+          "guess": "Bakelite",
+          "score": "0.187"
+        },
+        {
+          "guess": "Karl_Benz",
+          "score": "0.186"
+        },
+        {
+          "guess": "Beulah_Louise_Henry",
+          "score": "0.149"
+        },
+        {
+          "guess": "Diesel_engine",
+          "score": "0.145"
+        }
+      ],
+      "ans_pos": -1,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "The machine did not guess previously",
+        "isRelevant": true
+      },
+      "Timestamp_frontend": "08/23/2021, 10:13:05",
+      "Timestamp_backend": "08/23/2021, 10:13:05",
+      "guesses": [
+        {
+          "guess": "Albert_Einstein",
+          "score": "0.229"
+        },
+        {
+          "guess": "Solar_energy",
+          "score": "0.183"
+        },
+        {
+          "guess": "Evangelista_Torricelli",
+          "score": "0.128"
+        },
+        {
+          "guess": "Bakelite",
+          "score": "0.128"
+        },
+        {
+          "guess": "Karl_Benz",
+          "score": "0.128"
+        }
+      ],
+      "ans_pos": 0,
+      "prev_pos": -1
+    }
+  ]
+}
