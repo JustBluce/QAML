@@ -9,7 +9,7 @@ Developers: Jason Liu and Damian Rene
         <v-tooltip bottom>
           <template v-slot:activator="{ on: onTooltip, attrs }">
             <v-btn icon v-bind="attrs" v-on="{ ...onMenu, ...onTooltip }">
-              <v-avatar size="36px" v-if="user && user.photoURL">
+              <v-avatar size="36px" v-if="email && user.photoURL">
                 <img v-if="user.photoURL" :src="user.photoURL" />
               </v-avatar>
               <v-icon size="36px" v-else>mdi-account-circle</v-icon>
@@ -21,9 +21,12 @@ Developers: Jason Liu and Damian Rene
       <v-card>
         <v-list-item-content class="justify-center">
           <div class="mx-auto text-center">
-            <h3 class="pa-2">{{ user ? user.displayName : "Guest" }}</h3>
+            <h3 v-if="user" class="pa-2">
+              {{ email ? user.displayName : "Guest" }}
+            </h3>
+            <h3 v-else class="pa-2">Not signed in</h3>
             <v-divider class="my-1"></v-divider>
-            <v-btn depressed rounded text href="/tutorial"> Tutorial </v-btn>
+            <v-btn depressed rounded text @click="$router.push('Tutorial').catch(()=>{})"> Tutorial </v-btn>
             <v-divider class="my-1"></v-divider>
             <v-btn
               depressed
@@ -35,11 +38,11 @@ Developers: Jason Liu and Damian Rene
               GitHub
             </v-btn>
             <v-divider class="my-1"></v-divider>
-            <v-btn v-if="user" depressed rounded text @click.native="logout">
+            <v-btn v-if="user" depressed rounded text @click="logout">
               Logout
             </v-btn>
-            <v-btn v-else depressed rounded text href="/login"> Login </v-btn>
-            <div v-if="user">
+            <v-btn v-else depressed rounded text href="/login">Login </v-btn>
+            <div v-if="email">
               <v-divider class="my-1"></v-divider>
               <v-btn depressed rounded text color="red" @click="popup = true">
                 Delete Account
@@ -79,21 +82,24 @@ export default {
   data() {
     return {
       user: null,
+      email: false,
       document: null,
       popup: false,
     };
   },
   created() {
     firebase.auth().onAuthStateChanged((user) => {
-      if (user.email) {
+      if (user) {
         this.user = user;
+        if (user.email) {
+          this.email = true;
+        }
       }
     });
   },
   methods: {
-    logout(e) {
-      this.$router.push({ name: "Login" });
-      e.stopPropagation();
+    logout() {
+      this.$router.push("Login");
       firebase.auth().signOut();
       //this.$store.dispatch("fetchUser", null);
     },
