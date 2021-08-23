@@ -13,19 +13,19 @@ Developers: Jason Liu
         </v-btn>
       </v-card-title>
       <v-divider></v-divider>
-      <v-expansion-panels accordion>
-        <v-expansion-panel
-          v-for="(result, index) in results.content"
-          :key="index"
-        >
-          <v-expansion-panel-header>
-            {{ result.title }}
-          </v-expansion-panel-header>
-          <v-expansion-panel-content class="ps-5">
-            {{ result.body }}
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
+      <v-list three-line :expand="true">
+        <template v-for="(result, index) in results.content">
+          <div :key="index">
+            <v-divider v-if="index > 0"></v-divider>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>{{ result.title }}</v-list-item-title>
+                <v-list-item-subtitle>{{ result.body }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </div>
+        </template>
+      </v-list>
     </v-card>
   </v-dialog>
 </template>

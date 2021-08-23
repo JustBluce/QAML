@@ -11,9 +11,14 @@ Developers: Jason Liu
   >
     <v-card-title class="handle" style="cursor: grab">
       {{ widget.title }}
-      <v-spacer></v-spacer>
+      <v-progress-linear
+        class="mt-2"
+        :color="widget.type"
+        rounded
+        value="100"
+        height="4"
+      ></v-progress-linear>
     </v-card-title>
-    <v-divider></v-divider>
     <v-card-text>
       <component :is="widget.type" :workspace_id="workspace_id" />
     </v-card-text>

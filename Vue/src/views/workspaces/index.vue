@@ -1,3 +1,7 @@
+<!--
+Developers: Jason Liu
+-->
+
 <template>
   <div>
     <Taskbar title="Workspace Manager" />
@@ -13,7 +17,7 @@
 
     <v-container class="workspaceContainer">
       <p v-show="filteredWorkspaces.length == 0" class="py-4 text-center">
-        No workspaces
+        No workspaces found
       </p>
       <transition-group
         type="transition"
