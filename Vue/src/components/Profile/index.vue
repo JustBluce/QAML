@@ -27,6 +27,17 @@ Developers: Jason Liu and Damian Rene
             <h3 v-else class="pa-2">Not signed in</h3>
             <v-divider class="my-1"></v-divider>
             <v-btn
+              v-if="navbar"
+              :disabled="user == null"
+              depressed
+              rounded
+              text
+              @click="$router.push('dashboard').catch(() => {})"
+            >
+              Dashboard
+            </v-btn>
+            <v-btn
+              v-else
               depressed
               rounded
               text
@@ -93,6 +104,9 @@ import firebase from "firebase";
 
 export default {
   name: "Profile",
+  props: {
+    navbar: Boolean,
+  },
   data() {
     return {
       user: null,
