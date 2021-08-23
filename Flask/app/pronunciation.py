@@ -142,7 +142,7 @@ def classify(list_of_words):
     for i in range(len(predictions)):
         if predictions[i] == 1:
             ans.append({"Word":list_of_words[indices_of_new_list_of_words[i]]})
-            word_list.append(list_of_words[indices_of_new_list_of_words[i]])
+            word_list.append(new_list_of_words[i])
     
     return ans, word_list
     
