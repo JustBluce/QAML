@@ -264,12 +264,42 @@ def insert():
     # print(q_id)
     big_dict = {
         "q_id": q_id,
-        "data":{}
+        "data":{},
+        "points":0
     }
     small_dict = {
         "q_id": q_id,
-        "data":{}
+        "data":{},
+        "points":0
     }
+    points = 0
+    if q_id in state_machine_guess:
+        if ans in state_machine_guess[q_id]["current_guesses"]:
+            pos_ans = state_machine_guess[q_id]["current_guesses"].index(ans)
+            if pos_ans == 0:
+                points +=0
+            elif pos_ans == 1:
+                points +=5
+            elif pos_ans == 2:
+                points +=10
+        else:
+            points += 20
+    
+    if q_id in difficulty:
+        if len(difficulty[q_id])>0:
+            diff_level = difficulty[q_id][-1]["difficulty"]
+            if diff_level=="Hard":
+                points+=10
+    if q_id in country_represent_json:
+        if len(country_represent_json[q_id])>0:
+            under_countries = country_represent_json[q_id][-1]["current_under_countries"]
+            points+=len(under_countries)*10
+    if q_id in similarity:
+        if len(similarity[q_id])>0:
+            similar_top_3 = similarity[q_id][-1]["edit_history"]["isSimilar"]
+            if not similar_top_3:
+                points+=10
+
     counter_guess = 0
     counter_pron = 0
     counter_country  = 0
@@ -286,28 +316,28 @@ def insert():
         small_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][0]
         small_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][0]
         small_dict["data"][i]["Relevant"] = "First Time Stamp"
-        if q_id in machine_guess:
+        if q_id in machine_guess and len(machine_guess[q_id])!=0:
             if i == machine_guess[q_id][counter_guess]["Timestamp_frontend"]:
                 small_dict["data"][i]["machine_guess"] = machine_guess[q_id][counter_guess]
                 counter_guess+=1
-        if q_id in similarity:
+        if q_id in similarity and len(similarity[q_id])!=0:
             if counter_guess in similarity[q_id]:
                 if i == similarity[q_id][counter_guess]["Timestamp_frontend"]:
                     small_dict["data"][i]["similarity"] = similarity[q_id][counter_sim]
                     counter_sim+=1
-        if q_id in buzzer:
+        if q_id in buzzer and len(buzzer[q_id])!=0:
             if i == buzzer[q_id][counter_buzz]["Timestamp_frontend"]:        
                 small_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
                 counter_buzz+=1
-        if q_id in difficulty:
+        if q_id in difficulty and len(difficulty[q_id])!=0:
             if i == difficulty[q_id][counter_difficulty]["Timestamp_frontend"]:
                 small_dict["data"][i]["difficulty"] = difficulty[q_id][counter_difficulty]
                 counter_difficulty+=1
-        if q_id in country_represent_json:  
+        if q_id in country_represent_json and len(country_represent_json[q_id])!=0:  
             if i == country_represent_json[q_id][counter_country]["Timestamp_frontend"]:
                 small_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
                 counter_country+=1
-        if q_id in pronunciation_dict:
+        if q_id in pronunciation_dict and len(pronunciation_dict[q_id])!=0:
             if i == pronunciation_dict[q_id][counter_pron]["Timestamp_frontend"]:
                 small_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]    
                 counter_pron+=1
@@ -433,8 +463,9 @@ def insert():
     #     print(json.dumps(pronunciation_dict[q_id], indent = 7))
     # if q_id in country_represent_json:
     #     print(json.dumps(country_represent_json[q_id], indent = 7))
-    qa_table = metadata.tables["qa"]
-    db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
+    # qa_table = metadata.tables["QA"]
+    # db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
     end=time.time()
     print("----TIME (s) : /func/submit [SUBMIT]---",end-start)
-    return "submitted"
+    print(points)
+    return jsonify({"status":"submitted", "points":points})
