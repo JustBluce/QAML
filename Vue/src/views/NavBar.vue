@@ -39,7 +39,7 @@ Developers: Damian Rene and Jason Liu
       <span v-else>Dark mode</span>
     </v-tooltip>
 
-    <Profile />
+    <Profile :navbar="true"/>
   </v-app-bar>
 </template>
 
