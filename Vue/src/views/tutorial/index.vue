@@ -23,15 +23,11 @@ Developers: Jason Liu and Damian Rene
             :key="group.step"
             :step="group.step"
           >
-            <v-card class="ma-2 py-8 mb-12 rounded-xl" elevation="4">
-              <v-carousel
-                height="800"
-                hide-delimiter-background
-                show-arrows-on-hover
-              >
+            <v-card class="ma-2 mb-8 py-8 rounded-xl" elevation="4">
+              <v-carousel class="rounded-0" height="50vh" show-arrows-on-hover>
                 <v-carousel-item v-for="(el, i) in group.els" :key="i">
                   <v-img
-                    height="800"
+                    height="50vh"
                     contain
                     :src="require(`@/assets/tutorial_images/${el}.jpg`)"
                   ></v-img>
@@ -77,7 +73,7 @@ export default {
           ],
         },
         {
-          name: "Workspace management",
+          name: "Workspaces",
           step: 3,
           els: ["Workspace title", "Workspace settings", "Workspace options"],
         },

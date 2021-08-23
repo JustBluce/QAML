@@ -41,9 +41,9 @@ Developers: Jason Liu and Damian Rene
               depressed
               rounded
               text
-              @click="$router.push('tutorial').catch(() => {})"
+              @click="$router.push('about').catch(() => {})"
             >
-              Tutorial
+              About
             </v-btn>
             <v-divider class="my-1"></v-divider>
             <v-btn
