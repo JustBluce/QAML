@@ -145,6 +145,8 @@ export default {
       points: 0,
       textarea: {},
       interval: null,
+      highlightInterval:null,
+      qid:"",
       
       
     };
@@ -166,10 +168,10 @@ export default {
         "gi"
       );
       return this.qa.text
-        // .replace(/&/g, "&amp;")
-        // .replace(/</g, "&lt;")
-        // .replace(/>/g, "&gt;")
-        // .replace(/\n$/g, "\n\n")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\n$/g, "\n\n")
         .replace(
           highlight_regex,
           (word) =>
@@ -186,8 +188,18 @@ export default {
   created: function () {
     this.interval = setInterval(
       function () {
+        this.qid = this.id + new Date().toLocaleString("en-US", {
+            hour12: false,
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          })
         this.qa.highlight_words = {};
         let formData = new FormData();
+        
         // console.log(this.qa.text.lastIndexOf("🔔") > 0);
         // while (this.qa.text.lastIndexOf("🔔") > 0) {
         //   this.qa.text =
@@ -212,6 +224,7 @@ export default {
           })
         );
         formData.append("id", this.id);
+        formData.append("qid", this.qid);
         // this.qa.genre = this.selected_genre
         // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
         //         {
@@ -375,6 +388,7 @@ export default {
         })
       );
       formData.append("id", this.id);
+      formData.append("qid", this.qid);
       this.axios({
         
         url: "http://127.0.0.1:5000/func/act",
@@ -482,6 +496,7 @@ export default {
         })
       );
       formData.append("id", this.id);
+      formData.append("qid", this.qid);
       // this.axios({
       //   url: "http://127.0.0.1:5000/over_present/highlight",
       //   method: "POST",
@@ -533,6 +548,7 @@ export default {
           })
         );
         formData.append("id", this.id);
+        formData.append("qid", this.qid);
         this.axios({
           url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
           method: "POST",
@@ -628,6 +644,7 @@ export default {
         })
       );
       formData.append("id", this.id);
+      formData.append("qid", this.qid);
       this.axios({
         url: "http://127.0.0.1:5000/genre_classifier/classify",
         method: "POST",

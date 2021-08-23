@@ -179,7 +179,7 @@ def act():
         question = request.form.get("text")
         ans = request.form.get("answer_text")
         date_incoming = request.form.get("date")
-        q_id = request.form.get("id")
+        q_id = request.form.get("qid")
     if q_id not in time_stamps:
         time_stamps[q_id]=[]
         questions_all_time_stamps[q_id] = []
@@ -246,6 +246,12 @@ def timeup():
 #     country_representation, countries = country_present1(question)
 #     highlight=highlight_json(countries)
 #     return jsonify({"country_representation": country_representation, "Highlight": highlight})
+class Question_json(db.Model):
+    __tablename__ = 'Question_json'
+    q_id = db.Column(db.String, primary_key=True)
+    data = db.Column(db.JSON)
+    points = db.Column(db.Integer)
+    UID = db.Column(db.String)
 
 @func.route("/insert", methods=["POST"])
 def insert():
@@ -263,7 +269,8 @@ def insert():
     if request.method == "POST":
         question = request.form.get("text")
         ans = request.form.get("answer_text")
-        q_id = request.form.get("id")
+        q_id = request.form.get("qid")
+        u_id = request.form.get("id")
     # print(question, ans)
     # answer = guess(question=[question])
     # print(q_id)
@@ -431,6 +438,14 @@ def insert():
         json.dump(small_dict, outfile)
     with open('test_post_hoc.json', 'w') as outfile:
         json.dump(big_dict, outfile)
+        try:
+            me = Question_json(q_id=q_id, data=big_dict, UID=u_id, points=points)
+            db.session.add(me)
+            db.session.commit()
+            message_json = "Successfully insert a new question_json record of the edit history of question"
+        except:
+            message_json = "Error insert a new question_json record of the edit history of question"
+
     with open('machine_guess.json', 'w') as outfile:
         json.dump(machine_guess, outfile)
     with open('pronunciation_dict.json', 'w') as outfile:

@@ -232,7 +232,7 @@ def country_present():
         question = request.form.get("text")
         ans = request.form.get("answer_text")
         date_incoming = request.form.get("date")
-        q_id = request.form.get("id")
+        q_id = request.form.get("qid")
         if q_id not in current_under_countries:
             current_over_countries[q_id] = []
             current_under_countries[q_id] = []
