@@ -247,6 +247,12 @@ def timeup():
 #     country_representation, countries = country_present1(question)
 #     highlight=highlight_json(countries)
 #     return jsonify({"country_representation": country_representation, "Highlight": highlight})
+class Question_json(db.Model):
+    __tablename__ = 'Question_json'
+    q_id = db.Column(db.String, primary_key=True)
+    data = db.Column(db.JSON)
+    points = db.Column(db.Integer)
+    UID = db.Column(db.String)
 
 @func.route("/insert", methods=["POST"])
 def insert():
@@ -432,6 +438,14 @@ def insert():
         json.dump(small_dict, outfile)
     with open('test_post_hoc.json', 'w') as outfile:
         json.dump(big_dict, outfile)
+        try:
+            me = Question_json(q_id=q_id, data=big_dict, UID=1, points=12)
+            db.session.add(me)
+            db.session.commit()
+            message_json = "Successfully insert a new question_json record of the edit history of question"
+        except:
+            message_json = "Error insert a new question_json record of the edit history of question"
+
     with open('machine_guess.json', 'w') as outfile:
         json.dump(machine_guess, outfile)
     with open('pronunciation_dict.json', 'w') as outfile:
