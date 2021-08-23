@@ -125,6 +125,7 @@ export default {
       rules: [(value) => !!value || "Required."],
       showChart: false,
       Question_id: -1,
+      points: 0,
       textarea: {},
       interval: null,
       highlight_words : {}
@@ -180,15 +181,15 @@ export default {
     this.interval = setInterval(
       function () {
         let formData = new FormData();
-        console.log(this.qa.text.lastIndexOf("🔔") > 0);
-        while (this.qa.text.lastIndexOf("🔔") > 0) {
-          this.qa.text =
-            this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
-            this.qa.text.substr(
-              this.qa.text.lastIndexOf("🔔") + "🔔".length,
-              this.qa.text.length
-            );
-        }
+        // console.log(this.qa.text.lastIndexOf("🔔") > 0);
+        // while (this.qa.text.lastIndexOf("🔔") > 0) {
+        //   this.qa.text =
+        //     this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+        //     this.qa.text.substr(
+        //       this.qa.text.lastIndexOf("🔔") + "🔔".length,
+        //       this.qa.text.length
+        //     );
+        // }
         formData.append("text", this.qa.text);
         formData.append("answer_text", this.qa.answer_text);
         formData.append(
@@ -218,21 +219,22 @@ export default {
           data: formData,
         }).then((response) => {
           this.qa.answer = response.data["guess"];
-          console.log(response);
+          // console.log(response);
         });
         this.axios({
           url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
           method: "POST",
           data: formData,
         }).then((response) => {
-          while (this.qa.text.lastIndexOf("🔔") > 0) {
-            this.qa.text =
-              this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
-              this.qa.text.substr(
-                this.qa.text.lastIndexOf("🔔") + "🔔".length,
-                this.qa.text.length
-              );
-          }
+          // while (this.qa.text.lastIndexOf("🔔") > 0) {
+          //   this.qa.text =
+          //     this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+          //     this.qa.text.substr(
+          //       this.qa.text.lastIndexOf("🔔") + "🔔".length,
+          //       this.qa.text.length
+          //     );
+        // }
+          
           this.qa.binary_search_based_buzzer = response.data["buzz"];
           this.qa.importance = response.data["importance"];
           this.highlight = response.data["buzz_word"];
@@ -241,20 +243,21 @@ export default {
             this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
             response.data["flag"]
           ) {
-            this.qa.text =
-              this.qa.text.substr(
-                0,
-                this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10
-              ) +
-              "🔔" +
-              this.qa.text.substr(
-                this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
-                this.qa.text.length
-              );
+            this.highlight_words[response.data["buzzer_last_word"]] = "green";
+            // this.qa.text =
+            //   this.qa.text.substr(
+            //     0,
+            //     this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10
+            //   ) +
+            //   "🔔" +
+            //   this.qa.text.substr(
+            //     this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
+            //     this.qa.text.length
+            //   );
           }
-          console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]));
-          console.log(this.qa.text.indexOf(response.data["buzz_word"]));
-          console.log(response);
+          // console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]));
+          // console.log(this.qa.text.indexOf(response.data["buzz_word"]));
+          // console.log(response);
         });
         this.axios({
           url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
@@ -268,7 +271,7 @@ export default {
           //   );
           // }
           this.qa.top5_similar_questions = response.data["similar_question"];
-          console.log(response);
+          // console.log(response);
         });
         this.axios({
           url: "http://127.0.0.1:5000/country_represent/country_present",
@@ -280,8 +283,8 @@ export default {
           for (let i = 0; i < response.data["current_over_countries"].length; i++) {
             this.highlight_words[response.data["current_over_countries"][i]] = "yellow";
           }
-          console.log(this.highlight_words)
-          console.log(response);
+          // console.log(this.highlight_words)
+          // console.log(response);
         });
         this.axios({
           url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
@@ -292,8 +295,8 @@ export default {
           for (let i = 0; i < response.data["message"].length; i++) {
             this.highlight_words[response.data["message"][i]['Word']] = "red";
           }
-          console.log(this.highlight_words)
-          console.log(response);
+          // console.log(this.highlight_words)
+          // console.log(response);
         });
       }.bind(this),
       15000
@@ -311,7 +314,7 @@ export default {
         .auth()
         .currentUser.sendEmailVerification()
         .then(() => {
-          console.log("Sent Verification to: " + currentUser.email);
+          // console.log("Sent Verification to: " + currentUser.email);
           // Email verification sent!
           // ...
         });
@@ -319,26 +322,26 @@ export default {
     keep_looping: _.debounce(function () {
       clearInterval(this.interval);
       let formData = new FormData();
-      console.log(
-        new Date().toLocaleString("en-US", {
-          hour12: false,
-          month: "2-digit",
-          day: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        })
-      );
+      // console.log(
+      //   new Date().toLocaleString("en-US", {
+      //     hour12: false,
+      //     month: "2-digit",
+      //     day: "2-digit",
+      //     year: "numeric",
+      //     hour: "2-digit",
+      //     minute: "2-digit",
+      //     second: "2-digit",
+      //   })
+      // );
       // console.log(new Date().toString())
-      while (this.qa.text.lastIndexOf("🔔") > 0) {
-        this.qa.text =
-          this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
-          this.qa.text.substr(
-            this.qa.text.lastIndexOf("🔔") + "🔔".length,
-            this.qa.text.length
-          );
-      }
+      // while (this.qa.text.lastIndexOf("🔔") > 0) {
+      //   this.qa.text =
+      //     this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+      //     this.qa.text.substr(
+      //       this.qa.text.lastIndexOf("🔔") + "🔔".length,
+      //       this.qa.text.length
+      //     );
+      // }
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
       formData.append(
@@ -360,39 +363,43 @@ export default {
         data: formData,
       }).then((response) => {
         this.qa.answer = response.data["guess"];
-        console.log(response);
+        // console.log(response);
       });
       this.axios({
         url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
         method: "POST",
         data: formData,
       }).then((response) => {
-        while (this.qa.text.lastIndexOf("🔔") > 0) {
-          this.qa.text =
-            this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
-            this.qa.text.substr(
-              this.qa.text.lastIndexOf("🔔") + "🔔".length,
-              this.qa.text.length
-            );
-        }
+        // while (this.qa.text.lastIndexOf("🔔") > 0) {
+        //   this.qa.text =
+        //     this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+        //     this.qa.text.substr(
+        //       this.qa.text.lastIndexOf("🔔") + "🔔".length,
+        //       this.qa.text.length
+        //     );
+        // }
+        
         this.qa.binary_search_based_buzzer = response.data["buzz"];
         this.qa.importance = response.data["importance"];
-        this.highlight = response.data["buzz_word"];
+        // this.highlight = response.data["buzz_word"];
+        
+        
         this.qa.top_guess_buzzer = response.data["top_guess"];
         if (
           this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
           response.data["flag"]
         ) {
-          this.qa.text =
-            this.qa.text.substr(
-              0,
-              this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10
-            ) +
-            "🔔" +
-            this.qa.text.substr(
-              this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
-              this.qa.text.length
-            );
+          this.highlight_words[response.data["buzzer_last_word"]] = "green";
+          // this.qa.text =
+          //   this.qa.text.substr(
+          //     0,
+          //     this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10
+          //   ) +
+          //   "🔔" +
+          //   this.qa.text.substr(
+          //     this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
+          //     this.qa.text.length
+          //   );
         }
       });
       this.axios({
@@ -418,7 +425,7 @@ export default {
         for (let i = 0; i < response.data["current_over_countries"].length; i++) {
             this.highlight_words[response.data["current_over_countries"][i]] = "yellow";
         }
-        console.log(this.highlight_words)
+        // console.log(this.highlight_words)
       });
       this.axios({
         url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
@@ -468,19 +475,19 @@ export default {
         for (let i = 0; i < response.data["current_over_countries"].length; i++) {
             this.highlight_words[response.data["current_over_countries"][i]] = "yellow";
         }
-        console.log(this.highlight_words)
+        // console.log(this.highlight_words)
       });
     }, 1000),
     searchData() {
       //clearInterval(this.interval);
-      while (this.qa.text.lastIndexOf("🔔") > 0) {
-        this.qa.text =
-          this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
-          this.qa.text.substr(
-            this.qa.text.lastIndexOf("🔔") + "🔔".length,
-            this.qa.text.length
-          );
-      }
+      // while (this.qa.text.lastIndexOf("🔔") > 0) {
+      //   this.qa.text =
+      //     this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+      //     this.qa.text.substr(
+      //       this.qa.text.lastIndexOf("🔔") + "🔔".length,
+      //       this.qa.text.length
+      //     );
+      // }
       this.user = firebase.auth().currentUser;
       if (this.user.emailVerified) {
         let formData = new FormData();
@@ -535,31 +542,32 @@ export default {
                     body: "Please make sure Question and Answer boxes are filled and Question Genre is selected.",
                   });
                 } else {
-                  console.log("1");
+                  // console.log("1");
                   window.setTimeout(() => {
                     this.axios({
                       url: "http://127.0.0.1:5000/func/insert",
                       method: "POST",
                       data: formData,
                     }).then((response) => {
-                      console.log("HERE IS PUSH");
-                      console.log("Inside this .axios");
+                      // console.log("HERE IS PUSH");
+                      this.points = response.data["points"];
+                      console.log(this.points)
                       // this.$router.push({ name: 'Dashboard' });
                     });
                     this.addResult({
                       title: "Saved",
-                      body: "Your question is now added to the database.",
+                      body: "Your question is now added to the database. Number of points are:" + this.points,
                     });
-                    console.log("2");
+                    // console.log("2");
                   }, 5000);
                 }
               } else {
                 this.addResult({
                   title: "Not saved",
                   body: "Your question was not difficult enough for the computer. Please try again.",
-                });
+                }); 
               }
-              // this.qa.top5_similar_questions = response.data["similar_question"];
+              // this.qa.top5_similar_questions = response.data["similar_question"]; 
             });
           }
         });
@@ -595,11 +603,11 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
-        console.log(response.data["subgenre"][this.qa.genre]);
+        // console.log(response.data["subgenre"][this.qa.genre]);
         this.qa.subgenre = response.data["subgenre"][this.qa.genre];
         if (this.qa.subgenre != "") {
           let header = [["Subgenre", "Count"]];
-          console.log(header.concat(this.qa.subgenre));
+          // console.log(header.concat(this.qa.subgenre));
           this.chartData = header.concat(this.qa.subgenre);
         }
       });
@@ -624,7 +632,7 @@ export default {
         let textarea = this.$refs.textarea;
         backdrop.style.height = textarea.$el.offsetHeight - 10 + "px";
         backdrop.style.width = textarea.$el.offsetWidth + "px";
-        console.log(document.getElementsByTagName("textarea"));
+        // console.log(document.getElementsByTagName("textarea"));
         backdrop.scrollTop =
           document.getElementsByTagName("textarea")[0].scrollTop;
       }.bind(this),
