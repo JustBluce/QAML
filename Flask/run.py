@@ -2,6 +2,9 @@ from flask import Flask
 from app import app
 
 
+
+
+
 @app.after_request
 def cors(environ):
     environ.headers['Access-Control-Allow-Origin'] = '*'

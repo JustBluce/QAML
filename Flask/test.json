@@ -1,1 +1,5 @@
+<<<<<<< .merge_file_a31020
 {"q_id": "0", "data": {"08/23/2021, 07:44:21": {"Question": "Takemitsu China India Japan", "Answer": "India", "Relevant": "First Time Stamp"}, "08/23/2021, 07:44:23": {"Question": "Takemitsu China India Japan", "Answer": "India"}}, "points": 0}
+=======
+{"q_id": "0", "data": {"08/14/2021, 23:58:17": {"Question": "india", "Answer": "india", "machine_guess": {"edit_history": {"change_in_position": "First Entry", "isRelevant": false}, "Timestamp_frontend": "08/14/2021, 23:58:17", "Timestamp_backend": "08/14/2021, 23:58:18", "guesses": [{"guess": "Jawaharlal_Nehru", "score": "0.143"}, {"guess": "Indian_Rebellion_of_1857", "score": "0.141"}, {"guess": "A._P._J._Abdul_Kalam", "score": "0.127"}, {"guess": "E._M._Forster", "score": "0.109"}, {"guess": "Dynasty", "score": "0.107"}], "ans_pos": -1, "prev_pos": -1}}}}
+>>>>>>> .merge_file_a19424

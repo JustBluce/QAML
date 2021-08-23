@@ -1,35 +1,64 @@
 <template>
-  <v-menu bottom rounded offset-y min-width="125">
-    <template v-slot:activator="{ on }">
-      <v-btn icon v-on="on">
-        <v-avatar size="36px" v-if="user && user.photoURL">
-          <img v-if="user.photoURL" :src="user.photoURL" />
-        </v-avatar>
-        <v-icon size="36px" v-else>mdi-account-circle</v-icon>
-      </v-btn>
-    </template>
-    <v-card>
-      <v-list-item-content class="justify-center">
-        <div class="mx-auto text-center">
-          <h3 class="pa-2">{{ user ? user.displayName : "Guest" }}</h3>
-          <v-divider class="my-1"></v-divider>
-          <v-btn depressed rounded text href="/about"> About </v-btn>
-          <v-divider class="my-1"></v-divider>
-          <v-btn
-            depressed
-            rounded
-            text
-            target="_blank"
-            href="https://github.com/JustBluce/TryoutProject"
-          >
-            GitHub
+  <div>
+    <v-menu bottom rounded offset-y min-width="125">
+      <template v-slot:activator="{ on }">
+        <v-btn icon v-on="on">
+          <v-avatar size="36px" v-if="user && user.photoURL">
+            <img v-if="user.photoURL" :src="user.photoURL" />
+          </v-avatar>
+          <v-icon size="36px" v-else>mdi-account-circle</v-icon>
+        </v-btn>
+      </template>
+      <v-card>
+        <v-list-item-content class="justify-center">
+          <div class="mx-auto text-center">
+            <h3 class="pa-2">{{ user ? user.displayName : "Guest" }}</h3>
+            <v-divider class="my-1"></v-divider>
+            <v-btn depressed rounded text href="/about"> About </v-btn>
+            <v-divider class="my-1"></v-divider>
+            <v-btn
+              depressed
+              rounded
+              text
+              target="_blank"
+              href="https://github.com/JustBluce/TryoutProject"
+            >
+              GitHub
+            </v-btn>
+            <v-divider class="my-1"></v-divider>
+            <v-btn depressed rounded text @click.native="logout">
+              Logout
+            </v-btn>
+            <div v-if="user">
+              <v-divider class="my-1"></v-divider>
+              <v-btn depressed rounded text color="red" @click="popup = true">
+                Delete Account
+              </v-btn>
+            </div>
+          </div>
+        </v-list-item-content>
+      </v-card>
+    </v-menu>
+
+    <v-dialog v-model="popup" persistent max-width="500">
+      <v-card>
+        <v-card-title class="text-h5"> Account deletion </v-card-title>
+        <v-card-text
+          >Are you sure you want to delete your account? This will erase all of
+          your data and progress PERMANENTLY.</v-card-text
+        >
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="popup = false">
+            Cancel
           </v-btn>
-          <v-divider class="my-1"></v-divider>
-          <v-btn depressed rounded text @click.native="logout"> Logout </v-btn>
-        </div>
-      </v-list-item-content>
-    </v-card>
-  </v-menu>
+          <v-btn color="red" text @click="deleteAccount">
+            Delete Account
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
@@ -40,6 +69,8 @@ export default {
   data() {
     return {
       user: null,
+      document: null,
+      popup: false,
     };
   },
   created() {
@@ -54,7 +85,37 @@ export default {
       this.$router.push({ name: "Login" });
       e.stopPropagation();
       firebase.auth().signOut();
-      this.$store.dispatch("fetchUser", null);
+      //this.$store.dispatch("fetchUser", null);
+    },
+    deleteAccount() {
+      const db = firebase.firestore();
+      this.user = firebase.auth().currentUser;
+      
+       
+      db.collection("users")
+        .where("email", "==", this.user.email)
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            this.document = doc
+              const data = doc.data()
+              
+              console.log(data)
+            
+              console.log("Deleting documents and erasing all data. Goodbye.")
+              
+              
+            
+          })
+        })
+        const docs = this.document
+        db.collection("users").docs.delete().then(() => {
+          console.log("document deleted")
+        })
+
+          
+
+
     },
   },
 };
