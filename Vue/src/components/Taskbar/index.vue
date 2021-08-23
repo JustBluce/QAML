@@ -8,11 +8,25 @@ Developers: Jason Liu
 
     <v-spacer></v-spacer>
 
-    <WorkspaceMenu v-if="qa" />
+    <WorkspaceBtns v-if="qa" />
 
-    <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
-      <v-icon>mdi-brightness-6</v-icon>
-    </v-btn>
+    <v-divider v-if="qa" class="mx-2" vertical></v-divider>
+
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          icon
+          class="mr-1"
+          v-bind="attrs"
+          v-on="on"
+          @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+        >
+          <v-icon>mdi-brightness-6</v-icon>
+        </v-btn>
+      </template>
+      <span v-if="$vuetify.theme.dark">Light mode</span>
+      <span v-else>Dark mode</span>
+    </v-tooltip>
 
     <Profile />
 
@@ -23,8 +37,8 @@ Developers: Jason Liu
 </template>
 
 <script>
-import WorkspaceMenu from "./WorkspaceMenu";
-import Profile from "./Profile";
+import WorkspaceBtns from "./WorkspaceBtns";
+import Profile from "@/components/Profile";
 import Tabs from "./Tabs";
 
 export default {
@@ -37,7 +51,7 @@ export default {
     },
   },
   components: {
-    WorkspaceMenu,
+    WorkspaceBtns,
     Profile,
     Tabs,
   },
