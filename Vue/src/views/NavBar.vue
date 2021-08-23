@@ -1,5 +1,5 @@
 <!--
-Developers: Damian Rene
+Developers: Damian Rene and Jason Liu
 --> 
  
 <template>
@@ -9,14 +9,6 @@ Developers: Damian Rene
     </v-toolbar-title>
 
     <v-spacer></v-spacer>
-
-    <v-btn
-      icon
-      class="mr-2"
-      @click="$vuetify.theme.dark = !$vuetify.theme.dark"
-    >
-      <v-icon>mdi-brightness-6</v-icon>
-    </v-btn>
 
     <v-toolbar-items>
       <v-btn
@@ -29,16 +21,30 @@ Developers: Damian Rene
         <v-icon class="mr-1">{{ item.icon }}</v-icon>
         {{ item.title }}
       </v-btn>
-      <!-- <v-btn v-show="!user" @click="logOut" min-width="125">
-        <v-icon class="mr-1">mdi-logout-variant</v-icon>
-        Logout
-      </v-btn> -->
     </v-toolbar-items>
+
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          icon
+          class="ml-2 mr-1"
+          v-bind="attrs"
+          v-on="on"
+          @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+        >
+          <v-icon>mdi-brightness-6</v-icon>
+        </v-btn>
+      </template>
+      <span v-if="$vuetify.theme.dark">Light mode</span>
+      <span v-else>Dark mode</span>
+    </v-tooltip>
+
+    <Profile />
   </v-app-bar>
 </template>
 
 <script>
-import firebase from "firebase";
+import Profile from "@/components/Profile";
 
 export default {
   data() {
@@ -46,14 +52,9 @@ export default {
       user: null,
     };
   },
-  /*
-updated() {
-    firebase.auth().onAuthStateChanged(user => {
-        this.user = user;
-    });
-    
-},
-*/
+  components: {
+    Profile
+  },
   computed: {
     items() {
       let menuItems = [
@@ -79,14 +80,6 @@ updated() {
         },
       ];
       return menuItems;
-    },
-  },
-  methods: {
-    logOut(e) {
-      this.$router.push({ name: "Login" });
-      e.stopPropagation();
-      firebase.auth().signOut();
-      this.$store.dispatch("fetchUser", null);
     },
   },
 };

@@ -4,7 +4,9 @@ Developers: Jason Liu and Damian Rene
 
 <template>
   <v-container>
-    <v-stepper v-model="step">
+    <particles-bg :color="$vuetify.theme.currentTheme.primary" type="cobweb" />
+
+    <v-stepper class="mt-8" v-model="step">
       <v-stepper-header>
         <v-stepper-step :complete="step > 1" step="1">
           Name of step 1
@@ -63,12 +65,17 @@ Developers: Jason Liu and Damian Rene
 </template>
 
 <script>
+import { ParticlesBg } from "particles-bg-vue";
+
 export default {
   name: "Tutorial",
+  components: {
+    ParticlesBg,
+  },
   data() {
     return {
       step: 1,
-    }
-  }
+    };
+  },
 };
 </script>

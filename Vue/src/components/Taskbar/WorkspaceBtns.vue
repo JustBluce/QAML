@@ -8,7 +8,7 @@ Developers: Jason Liu
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="green"
-          class="mx-1"
+          class="mr-1"
           icon
           v-bind="attrs"
           v-on="on"
@@ -24,7 +24,7 @@ Developers: Jason Liu
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="primary"
-          class="mx-1"
+          class="mr-1"
           icon
           v-bind="attrs"
           v-on="on"
@@ -40,7 +40,7 @@ Developers: Jason Liu
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="red"
-          class="mx-1"
+          class="mr-1"
           icon
           v-bind="attrs"
           v-on="on"

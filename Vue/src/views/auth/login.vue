@@ -180,6 +180,13 @@ export default {
         });
     },
   },
+  created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$router.push("/dashboard");
+      }
+    });
+  },
 };
 </script>
 
