@@ -124,7 +124,6 @@ def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_o
         # print(array_of_top_guesses_strings.index(ans))
         if ans in array_of_top_guesses_strings:
             isRelevant =  False
-            # print("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
             if(state_machine_guess[q_id]["ans_pos"] != array_of_top_guesses_strings.index(ans)):
                 prev_pos = state_machine_guess[q_id]["ans_pos"]
                 
@@ -465,12 +464,8 @@ def insert():
     if q_id in similarity:
         similarity.pop(q_id)
         state_similarity.pop(q_id)
-    # if q_id in pronunciation_dict:
-    #     print(json.dumps(pronunciation_dict[q_id], indent = 7))
-    # if q_id in country_represent_json:
-    #     print(json.dumps(country_represent_json[q_id], indent = 7))
-    # qa_table = metadata.tables["QA"]
-    # db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
+    small_dict["points"] = points
+    big_dict["points"] = points
     end=time.time()
     print("----TIME (s) : /func/submit [SUBMIT]---",end-start)
     print(points)
