@@ -19,6 +19,21 @@ Developers: Jason Liu
           class="mr-1"
           v-bind="attrs"
           v-on="on"
+          @click="$router.push('tutorial').catch(() => {})"
+        >
+          <v-icon>mdi-school-outline</v-icon>
+        </v-btn>
+      </template>
+      <span>Tutorial</span>
+    </v-tooltip>
+
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          icon
+          class="mr-1"
+          v-bind="attrs"
+          v-on="on"
           @click="$vuetify.theme.dark = !$vuetify.theme.dark"
         >
           <v-icon>mdi-brightness-6</v-icon>
