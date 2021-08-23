@@ -1,3 +1,7 @@
+<!--
+Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
+-->
+
 <template>
   <v-container fluid class="background" style="flex-shrink: 1">
     <v-card class="mb-3">
@@ -13,11 +17,23 @@
               dense
             ></v-select>
             <v-spacer></v-spacer>
-            <v-btn icon color="primary" @click="showChart = !showChart">
-              <v-icon>
-                {{ showChart ? "mdi-chevron-up" : "mdi-chart-pie" }}
-              </v-icon>
-            </v-btn>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  color="primary"
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="showChart = !showChart"
+                >
+                  <v-icon>
+                    {{ showChart ? "mdi-chevron-up" : "mdi-chart-pie" }}
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span v-if="showChart">Close genre chart</span>
+              <span v-else>Show genre chart</span>
+            </v-tooltip>
           </v-card-actions>
           <v-expand-transition>
             <div v-show="showChart">
@@ -60,7 +76,7 @@
 
     <v-dialog v-model="popup" persistent max-width="500">
       <v-card>
-        <v-card-title class="text-h5"> Verify Email Address </v-card-title>
+        <v-card-title class="text-h5"> Verify email address </v-card-title>
         <v-card-text
           >To ensure the security of our service we ask that you verify your
           email address. An email should have been sent to you when you created
@@ -129,7 +145,8 @@ export default {
       points: 0,
       textarea: {},
       interval: null,
-      highlight_words : {}
+      highlight_words : {},
+      
     };
   },
   computed: {
@@ -140,51 +157,19 @@ export default {
       return this.workspace.qa;
     },
     highlight() {
-      // return {
-      //   "🔔BUZZ": "yellow",
-      //   "highlight me": "primary",
-      //   Chávez: "yellow",
-      //   Takemitsu: "yellow",
-        
-  
-      // };
-      return this.highlight_words;
-      
-      // return {
-      //   "🔔BUZZ": "yellow",
-      //   "highlight me": "primary",
-      //   mask: "yellow",
-      //   highlight: "yellow",
-      //   red: "red",
-      //   orange: "orange",
-      //   yellow: "yellow",
-      //   green: "green",
-      //   blue: "blue",
-      //   purple: "purple",
-      // };
+      return this.highlight_words
     },
-    highligh_setter(term,color) {
-      // return {
-      //   "🔔BUZZ": "yellow",
-      //   "highlight me": "primary",
-      //   Chávez: "yellow",
-      //   Takemitsu: "yellow",
-        
-  
-      // };
-      this.highlight_words[term]=color;
-      return ;
-    },
+
     highlight_text() {
       let highlight_regex = new RegExp(
         Object.keys(this.highlight).join("|"),
         "gi"
       );
       return this.qa.text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/\n$/g, "\n\n")
+        // .replace(/&/g, "&amp;")
+        // .replace(/</g, "&lt;")
+        // .replace(/>/g, "&gt;")
+        // .replace(/\n$/g, "\n\n")
         .replace(
           highlight_regex,
           (word) =>
@@ -199,12 +184,6 @@ export default {
     },
   },
   created: function () {
-    
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.user = user;
-      }
-    });
     this.interval = setInterval(
       function () {
         this.highlight_words = {};
@@ -265,13 +244,18 @@ export default {
           
           this.qa.binary_search_based_buzzer = response.data["buzz"];
           this.qa.importance = response.data["importance"];
-          this.highlight = response.data["buzz_word"];
+          // this.highlight = response.data["buzz_word"];
           this.qa.top_guess_buzzer = response.data["top_guess"];
           if (
             this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
             response.data["flag"]
           ) {
-            this.highlight_words[response.data["buzzer_last_word"]] = "blue";
+            if(this.qa.buzz_word_this in this.highlight_words)
+            {
+              delete this.highlight_words(this.qa.buzz_word_this);
+            }
+            this.qa.buzz_word_this = response.data["buzzer_last_word"];
+            this.highlight_words[response.data["buzzer_last_word"]] = "orange";
             // this.qa.text =
             //   this.qa.text.substr(
             //     0,
@@ -321,8 +305,11 @@ export default {
           data: formData,
         }).then((response) => {
           this.qa.pronunciation = response.data["message"];
+          for (let i = 0; i < response.data["list_of_words_to_remove"]; i++) {
+            delete this.highlight_words(response.data["list_of_words_to_remove"][i]);
+          }
           for (let i = 0; i < response.data["message"].length; i++) {
-            this.highlight_words[response.data["message"][i]['Word']] = "yellow";
+            this.highlight_words[response.data["message"][i]['Word']] = "cyan";
           }
           // console.log(this.highlight_words)
           // console.log(response);
@@ -333,7 +320,6 @@ export default {
   },
   methods: {
     sendverification() {
-      this.user = firebase.auth().currentUser;
       this.popup = false;
       alert(
         "Verification email sent! Please check the email connected to this account."
@@ -422,7 +408,12 @@ export default {
           this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
           response.data["flag"]
         ) {
-          this.highlight_words[response.data["buzzer_last_word"]] = "blue";
+          if(this.qa.buzz_word_this in this.highlight_words)
+            {
+              delete this.highlight_words(this.qa.buzz_word_this);
+            }
+          this.qa.buzz_word_this = response.data["buzzer_last_word"];
+          this.highlight_words[response.data["buzzer_last_word"]] = "orange";
           // this.qa.text =
           //   this.qa.text.substr(
           //     0,
@@ -466,8 +457,11 @@ export default {
         data: formData,
       }).then((response) => {
          this.qa.pronunciation = response.data["message"];
+         for (let i = 0; i < response.data["list_of_words_to_remove"]; i++) {
+            delete this.highlight_words(response.data["list_of_words_to_remove"][i]);
+          }
           for (let i = 0; i < response.data["message"].length; i++) {
-            this.highlight_words[response.data["message"][i]['Word']] = "yellow";
+            this.highlight_words[response.data["message"][i]['Word']] = "cyan";
           }
       });
     }, 1000),
@@ -605,6 +599,8 @@ export default {
             });
           }
         });
+      } else {
+        this.popup = true;
       }
       // this.axios({
       //   url: "http://127.0.0.1:5000/func/country_people",
@@ -667,9 +663,8 @@ export default {
         let textarea = this.$refs.textarea;
         backdrop.style.height = textarea.$el.offsetHeight - 10 + "px";
         backdrop.style.width = textarea.$el.offsetWidth + "px";
-        // console.log(document.getElementsByTagName("textarea"));
         backdrop.scrollTop =
-          document.getElementsByTagName("textarea")[0].scrollTop;
+          textarea.$el.getElementsByTagName("textarea")[0].scrollTop;
       }.bind(this),
       10
     );
