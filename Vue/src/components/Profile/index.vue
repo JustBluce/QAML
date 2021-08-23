@@ -26,7 +26,14 @@ Developers: Jason Liu and Damian Rene
             </h3>
             <h3 v-else class="pa-2">Not signed in</h3>
             <v-divider class="my-1"></v-divider>
-            <v-btn depressed rounded text @click="$router.push('Tutorial').catch(()=>{})"> Tutorial </v-btn>
+            <v-btn
+              depressed
+              rounded
+              text
+              @click="$router.push('tutorial').catch(() => {})"
+            >
+              Tutorial
+            </v-btn>
             <v-divider class="my-1"></v-divider>
             <v-btn
               depressed
@@ -41,7 +48,14 @@ Developers: Jason Liu and Damian Rene
             <v-btn v-if="user" depressed rounded text @click="logout">
               Logout
             </v-btn>
-            <v-btn v-else depressed rounded text href="/login">Login </v-btn>
+            <v-btn
+              v-else
+              depressed
+              rounded
+              text
+              @click="$router.push('login').catch(() => {})"
+              >Login
+            </v-btn>
             <div v-if="email">
               <v-divider class="my-1"></v-divider>
               <v-btn depressed rounded text color="red" @click="popup = true">
@@ -99,7 +113,7 @@ export default {
   },
   methods: {
     logout() {
-      this.$router.push("Login");
+      this.$router.push("login").catch(() => {});
       firebase.auth().signOut();
       //this.$store.dispatch("fetchUser", null);
     },
