@@ -124,7 +124,7 @@ def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_o
         # print(array_of_top_guesses_strings.index(ans))
         if ans in array_of_top_guesses_strings:
             isRelevant =  False
-            print("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+            # print("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
             if(state_machine_guess[q_id]["ans_pos"] != array_of_top_guesses_strings.index(ans)):
                 prev_pos = state_machine_guess[q_id]["ans_pos"]
                 
@@ -397,11 +397,8 @@ def insert():
                     flag = 1
                     if buzzer[q_id][counter_buzz]["is_relevant"]:
                         big_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
-<<<<<<< .merge_file_a16756
                         Flag_String = Flag_String + "Buzzer;"
                     small_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
-=======
->>>>>>> .merge_file_a28636
                     counter_buzz+=1
             if q_id in difficulty and counter_difficulty < len(difficulty[q_id]):
                 if i == difficulty[q_id][counter_difficulty]["Timestamp_frontend"]:
