@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"0": [{"edit_history": {"change_in_position": "First Entry", "isRelevant": false}, "Timestamp_frontend": "08/23/2021, 08:20:09", "Timestamp_backend": "08/23/2021, 08:20:10", "guesses": [{"guess": "Spratly_Islands", "score": "0.108"}, {"guess": "Jawaharlal_Nehru", "score": "0.074"}, {"guess": "Zhou_Enlai", "score": "0.069"}, {"guess": "Tea", "score": "0.063"}, {"guess": "Zen", "score": "0.06"}], "ans_pos": -1, "prev_pos": -1}]}
+=======
+{"0": [{"edit_history": {"change_in_position": "First Entry", "isRelevant": false}, "Timestamp_frontend": "08/14/2021, 23:58:17", "Timestamp_backend": "08/14/2021, 23:58:18", "guesses": [{"guess": "Jawaharlal_Nehru", "score": "0.143"}, {"guess": "Indian_Rebellion_of_1857", "score": "0.141"}, {"guess": "A._P._J._Abdul_Kalam", "score": "0.127"}, {"guess": "E._M._Forster", "score": "0.109"}, {"guess": "Dynasty", "score": "0.107"}], "ans_pos": -1, "prev_pos": -1}]}
+>>>>>>> origin
