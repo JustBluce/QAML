@@ -17,11 +17,11 @@ const store = new Vuex.Store({
 		workspace_selected: initial_workspaces[0].tab_id,
 		widget_types: [
 			'Timer',
+			'Buzzer',
+			'MachineGuesses',
 			'Pronunciation',
 			'CountryRepresentation',
-			'SimilarQuestions',
-			'Buzzer',
-			'MachineGuesses'
+			'SimilarQuestions'
 		],
 		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ],
 		results: {
