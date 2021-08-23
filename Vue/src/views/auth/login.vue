@@ -123,11 +123,7 @@ export default {
           // this.qa.uid = user.uid
           console.log(this.qa.uid)
           this.$router.push("/dashboard");
-<<<<<<< .merge_file_a10728
-          
-=======
           this.documents();
->>>>>>> .merge_file_a05412
         })
         .catch((err) => {
           alert("Oops. " + err.message);
