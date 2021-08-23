@@ -4,19 +4,17 @@ Developers: Atith Gandhi and Jason Liu
 
 <template>
   <div>
-    
-    <Highlighter
-      highlightClassName="highlight"
-      :searchWords="keywords"
-      :autoEscape="true"
-      :textToHighlight="binary_search_based_buzzer"
-    />
-    <v-textarea
-      readonly
-      class="container"
-      rows="1"
-      v-model="buzz_guess"
-    ></v-textarea>
+    <v-card class="background mb-4 pa-2">
+      <Highlighter
+        highlightClassName="highlight"
+        :searchWords="keywords"
+        :autoEscape="true"
+        :textToHighlight="binary_search_based_buzzer"
+      />
+    </v-card>
+    <v-card class="background mb-4 pa-2">
+      {{ buzz_guess }}
+    </v-card>
     <v-data-table
       :headers="headers"
       :items="importance"
@@ -24,7 +22,6 @@ Developers: Atith Gandhi and Jason Liu
       class="elevation-2"
     >
     </v-data-table>
-    
   </div>
 </template>
 
@@ -59,12 +56,9 @@ export default {
       return this.qa.importance;
     },
     buzz_guess() {
-      if(this.qa.top_guess_buzzer==="")
-      {
-        return "The buzzer does not buzz"
-      }
-      else
-      {
+      if (this.qa.top_guess_buzzer === "") {
+        return "The buzzer does not buzz";
+      } else {
         return "The buzzer guess is: " + this.qa.top_guess_buzzer;
       }
     },

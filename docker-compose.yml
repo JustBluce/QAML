@@ -1,0 +1,20 @@
+# check your version: https://docs.docker.com/compose/compose-file/
+version: "3.9"
+
+services:
+# first container
+    backend:
+        # look for dockerfile and build the container
+        build: ./Flask
+        container_name:  "backend"
+        #  expose port on the container, only to other containers
+        ports:
+            - "5000:5000"
+            
+
+    frontend:
+            build: .
+            container_name:  "frontend"
+            ports:
+                - "8080:9528"
+            
