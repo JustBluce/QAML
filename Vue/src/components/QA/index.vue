@@ -82,6 +82,10 @@
 <script>
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
+<<<<<<< .merge_file_a24932
+=======
+
+>>>>>>> .merge_file_a31636
 export default {
   name: "QA",
   props: {
@@ -125,10 +129,15 @@ export default {
       rules: [(value) => !!value || "Required."],
       showChart: false,
       Question_id: -1,
+<<<<<<< .merge_file_a24932
       points: 0,
       textarea: {},
       interval: null,
       highlight_words : {}
+=======
+      textarea: {},
+      interval: null,
+>>>>>>> .merge_file_a31636
     };
   },
   computed: {
@@ -139,6 +148,7 @@ export default {
       return this.workspace.qa;
     },
     highlight() {
+<<<<<<< .merge_file_a24932
       // return {
       //   "🔔BUZZ": "yellow",
       //   "highlight me": "primary",
@@ -148,6 +158,20 @@ export default {
   
       // };
       return this.highlight_words;
+=======
+      return {
+        "🔔BUZZ": "yellow",
+        "highlight me": "primary",
+        mask: "yellow",
+        highlight: "yellow",
+        red: "red",
+        orange: "orange",
+        yellow: "yellow",
+        green: "green",
+        blue: "blue",
+        purple: "purple",
+      };
+>>>>>>> .merge_file_a31636
     },
     highlight_text() {
       let highlight_regex = new RegExp(
@@ -178,6 +202,7 @@ export default {
         this.user = user;
       }
     });
+<<<<<<< .merge_file_a24932
     this.interval = setInterval(
       function () {
         let formData = new FormData();
@@ -190,6 +215,21 @@ export default {
         //       this.qa.text.length
         //     );
         // }
+=======
+
+    this.interval = setInterval(
+      function () {
+        let formData = new FormData();
+        console.log(this.qa.text.lastIndexOf("🔔") > 0);
+        while (this.qa.text.lastIndexOf("🔔") > 0) {
+          this.qa.text =
+            this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+            this.qa.text.substr(
+              this.qa.text.lastIndexOf("🔔") + "🔔".length,
+              this.qa.text.length
+            );
+        }
+>>>>>>> .merge_file_a31636
         formData.append("text", this.qa.text);
         formData.append("answer_text", this.qa.answer_text);
         formData.append(
@@ -219,13 +259,18 @@ export default {
           data: formData,
         }).then((response) => {
           this.qa.answer = response.data["guess"];
+<<<<<<< .merge_file_a24932
           // console.log(response);
+=======
+          console.log(response);
+>>>>>>> .merge_file_a31636
         });
         this.axios({
           url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
           method: "POST",
           data: formData,
         }).then((response) => {
+<<<<<<< .merge_file_a24932
           // while (this.qa.text.lastIndexOf("🔔") > 0) {
           //   this.qa.text =
           //     this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
@@ -235,6 +280,16 @@ export default {
           //     );
         // }
           
+=======
+          while (this.qa.text.lastIndexOf("🔔") > 0) {
+            this.qa.text =
+              this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+              this.qa.text.substr(
+                this.qa.text.lastIndexOf("🔔") + "🔔".length,
+                this.qa.text.length
+              );
+          }
+>>>>>>> .merge_file_a31636
           this.qa.binary_search_based_buzzer = response.data["buzz"];
           this.qa.importance = response.data["importance"];
           this.highlight = response.data["buzz_word"];
@@ -243,6 +298,7 @@ export default {
             this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
             response.data["flag"]
           ) {
+<<<<<<< .merge_file_a24932
             this.highlight_words[response.data["buzzer_last_word"]] = "green";
             // this.qa.text =
             //   this.qa.text.substr(
@@ -258,6 +314,23 @@ export default {
           // console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]));
           // console.log(this.qa.text.indexOf(response.data["buzz_word"]));
           // console.log(response);
+=======
+            this.qa.text =
+              this.qa.text.substr(
+                0,
+                this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10
+              ) +
+              "🔔" +
+              this.qa.text.substr(
+                this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
+                this.qa.text.length
+              );
+          }
+          console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]));
+          console.log(this.qa.text.indexOf(response.data["buzz_word"]));
+
+          console.log(response);
+>>>>>>> .merge_file_a31636
         });
         this.axios({
           url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
@@ -271,7 +344,11 @@ export default {
           //   );
           // }
           this.qa.top5_similar_questions = response.data["similar_question"];
+<<<<<<< .merge_file_a24932
           // console.log(response);
+=======
+          console.log(response);
+>>>>>>> .merge_file_a31636
         });
         this.axios({
           url: "http://127.0.0.1:5000/country_represent/country_present",
@@ -280,11 +357,15 @@ export default {
         }).then((response) => {
           this.qa.country_representation =
             response.data["country_representation"];
+<<<<<<< .merge_file_a24932
           for (let i = 0; i < response.data["current_over_countries"].length; i++) {
             this.highlight_words[response.data["current_over_countries"][i]] = "yellow";
           }
           // console.log(this.highlight_words)
           // console.log(response);
+=======
+          console.log(response);
+>>>>>>> .merge_file_a31636
         });
         this.axios({
           url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
@@ -292,16 +373,24 @@ export default {
           data: formData,
         }).then((response) => {
           this.qa.pronunciation = response.data["message"];
+<<<<<<< .merge_file_a24932
           for (let i = 0; i < response.data["message"].length; i++) {
             this.highlight_words[response.data["message"][i]['Word']] = "red";
           }
           // console.log(this.highlight_words)
           // console.log(response);
+=======
+          console.log(response);
+>>>>>>> .merge_file_a31636
         });
       }.bind(this),
       15000
     );
   },
+<<<<<<< .merge_file_a24932
+=======
+
+>>>>>>> .merge_file_a31636
   methods: {
     sendverification() {
       this.user = firebase.auth().currentUser;
@@ -314,11 +403,16 @@ export default {
         .auth()
         .currentUser.sendEmailVerification()
         .then(() => {
+<<<<<<< .merge_file_a24932
           // console.log("Sent Verification to: " + currentUser.email);
+=======
+          console.log("Sent Verification to: " + currentUser.email);
+>>>>>>> .merge_file_a31636
           // Email verification sent!
           // ...
         });
     },
+<<<<<<< .merge_file_a24932
     keep_looping: _.debounce(function () {
       clearInterval(this.interval);
       let formData = new FormData();
@@ -342,6 +436,32 @@ export default {
       //       this.qa.text.length
       //     );
       // }
+=======
+
+    keep_looping: _.debounce(function () {
+      clearInterval(this.interval);
+      let formData = new FormData();
+      console.log(
+        new Date().toLocaleString("en-US", {
+          hour12: false,
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
+      // console.log(new Date().toString())
+      while (this.qa.text.lastIndexOf("🔔") > 0) {
+        this.qa.text =
+          this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+          this.qa.text.substr(
+            this.qa.text.lastIndexOf("🔔") + "🔔".length,
+            this.qa.text.length
+          );
+      }
+>>>>>>> .merge_file_a31636
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
       formData.append(
@@ -370,6 +490,7 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
+<<<<<<< .merge_file_a24932
         // while (this.qa.text.lastIndexOf("🔔") > 0) {
         //   this.qa.text =
         //     this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
@@ -379,6 +500,16 @@ export default {
         //     );
         // }
         
+=======
+        while (this.qa.text.lastIndexOf("🔔") > 0) {
+          this.qa.text =
+            this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+            this.qa.text.substr(
+              this.qa.text.lastIndexOf("🔔") + "🔔".length,
+              this.qa.text.length
+            );
+        }
+>>>>>>> .merge_file_a31636
         this.qa.binary_search_based_buzzer = response.data["buzz"];
         this.qa.importance = response.data["importance"];
         // this.highlight = response.data["buzz_word"];
@@ -389,6 +520,7 @@ export default {
           this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
           response.data["flag"]
         ) {
+<<<<<<< .merge_file_a24932
           this.highlight_words[response.data["buzzer_last_word"]] = "green";
           // this.qa.text =
           //   this.qa.text.substr(
@@ -400,6 +532,18 @@ export default {
           //     this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
           //     this.qa.text.length
           //   );
+=======
+          this.qa.text =
+            this.qa.text.substr(
+              0,
+              this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10
+            ) +
+            "🔔" +
+            this.qa.text.substr(
+              this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
+              this.qa.text.length
+            );
+>>>>>>> .merge_file_a31636
         }
       });
       this.axios({
@@ -480,6 +624,7 @@ export default {
     }, 1000),
     searchData() {
       //clearInterval(this.interval);
+<<<<<<< .merge_file_a24932
       // while (this.qa.text.lastIndexOf("🔔") > 0) {
       //   this.qa.text =
       //     this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
@@ -488,6 +633,16 @@ export default {
       //       this.qa.text.length
       //     );
       // }
+=======
+      while (this.qa.text.lastIndexOf("🔔") > 0) {
+        this.qa.text =
+          this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+          this.qa.text.substr(
+            this.qa.text.lastIndexOf("🔔") + "🔔".length,
+            this.qa.text.length
+          );
+      }
+>>>>>>> .merge_file_a31636
       this.user = firebase.auth().currentUser;
       if (this.user.emailVerified) {
         let formData = new FormData();
@@ -519,6 +674,10 @@ export default {
           } else {
             this.axios({
               url: "http://127.0.0.1:5000/difficulty_classifier/classify",
+<<<<<<< .merge_file_a24932
+=======
+
+>>>>>>> .merge_file_a31636
               method: "POST",
               data: formData,
             }).then((response) => {
@@ -542,7 +701,11 @@ export default {
                     body: "Please make sure Question and Answer boxes are filled and Question Genre is selected.",
                   });
                 } else {
+<<<<<<< .merge_file_a24932
                   // console.log("1");
+=======
+                  console.log("1");
+>>>>>>> .merge_file_a31636
                   window.setTimeout(() => {
                     this.axios({
                       url: "http://127.0.0.1:5000/func/insert",
@@ -558,7 +721,11 @@ export default {
                       title: "Saved",
                       body: "Your question is now added to the database. Number of points are:" + this.points,
                     });
+<<<<<<< .merge_file_a24932
                     // console.log("2");
+=======
+                    console.log("2");
+>>>>>>> .merge_file_a31636
                   }, 5000);
                 }
               } else {
@@ -567,7 +734,11 @@ export default {
                   body: "Your question was not difficult enough for the computer. Please try again.",
                 }); 
               }
+<<<<<<< .merge_file_a24932
               // this.qa.top5_similar_questions = response.data["similar_question"]; 
+=======
+              // this.qa.top5_similar_questions = response.data["similar_question"];
+>>>>>>> .merge_file_a31636
             });
           }
         });
@@ -619,6 +790,7 @@ export default {
   mounted() {
     let formData = new FormData();
     formData.append("Timestamp", "2021-08-02 19:57:42");
+<<<<<<< .merge_file_a24932
     // this.axios({
     //   url: "http://127.0.0.1:5000/question/Question_id",
     //   method: "POST",
@@ -626,13 +798,27 @@ export default {
     //   this.Question_id = response.data["Question_id"];
     //   console.log(response);
     // });
+=======
+    this.axios({
+      url: "http://127.0.0.1:5000/question/Question_id",
+      method: "POST",
+    }).then((response) => {
+      this.Question_id = response.data["Question_id"];
+      console.log(response);
+    });
+
+>>>>>>> .merge_file_a31636
     this.highlightInterval = setInterval(
       function () {
         let backdrop = this.$refs.backdrop;
         let textarea = this.$refs.textarea;
         backdrop.style.height = textarea.$el.offsetHeight - 10 + "px";
         backdrop.style.width = textarea.$el.offsetWidth + "px";
+<<<<<<< .merge_file_a24932
         // console.log(document.getElementsByTagName("textarea"));
+=======
+        console.log(document.getElementsByTagName("textarea"));
+>>>>>>> .merge_file_a31636
         backdrop.scrollTop =
           document.getElementsByTagName("textarea")[0].scrollTop;
       }.bind(this),
@@ -650,17 +836,29 @@ export default {
 .highlight-textarea textarea {
   z-index: 2;
 }
+<<<<<<< .merge_file_a24932
+=======
+
+>>>>>>> .merge_file_a31636
 .highlight {
   color: transparent;
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+<<<<<<< .merge_file_a24932
+=======
+
+>>>>>>> .merge_file_a31636
 mark {
   display: inline-block;
   border-radius: 5px;
   color: transparent;
   opacity: 0.8;
 }
+<<<<<<< .merge_file_a24932
+=======
+
+>>>>>>> .merge_file_a31636
 .backdrop {
   position: absolute;
   margin-top: 10px;
@@ -670,4 +868,8 @@ mark {
   z-index: 1;
   overflow: auto;
 }
+<<<<<<< .merge_file_a24932
 </style>
+=======
+</style>
+>>>>>>> .merge_file_a31636
