@@ -149,6 +149,7 @@ export default {
   
       // };
       return this.highlight_words;
+      
       // return {
       //   "🔔BUZZ": "yellow",
       //   "highlight me": "primary",
@@ -161,6 +162,18 @@ export default {
       //   blue: "blue",
       //   purple: "purple",
       // };
+    },
+    highligh_setter(term,color) {
+      // return {
+      //   "🔔BUZZ": "yellow",
+      //   "highlight me": "primary",
+      //   Chávez: "yellow",
+      //   Takemitsu: "yellow",
+        
+  
+      // };
+      this.highlight_words[term]=color;
+      return ;
     },
     highlight_text() {
       let highlight_regex = new RegExp(
@@ -186,6 +199,7 @@ export default {
     },
   },
   created: function () {
+    
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.user = user;
@@ -193,6 +207,7 @@ export default {
     });
     this.interval = setInterval(
       function () {
+        this.highlight_words = {};
         let formData = new FormData();
         // console.log(this.qa.text.lastIndexOf("🔔") > 0);
         // while (this.qa.text.lastIndexOf("🔔") > 0) {
@@ -256,7 +271,7 @@ export default {
             this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
             response.data["flag"]
           ) {
-            this.highlight_words[response.data["buzzer_last_word"]] = "green";
+            this.highlight_words[response.data["buzzer_last_word"]] = "blue";
             // this.qa.text =
             //   this.qa.text.substr(
             //     0,
@@ -294,7 +309,8 @@ export default {
           this.qa.country_representation =
             response.data["country_representation"];
           for (let i = 0; i < response.data["current_over_countries"].length; i++) {
-            this.highlight_words[response.data["current_over_countries"][i]] = "yellow";
+            
+            this.highlight_words[response.data["current_over_countries"][i]] = "red";
           }
           // console.log(this.highlight_words)
           // console.log(response);
@@ -306,7 +322,7 @@ export default {
         }).then((response) => {
           this.qa.pronunciation = response.data["message"];
           for (let i = 0; i < response.data["message"].length; i++) {
-            this.highlight_words[response.data["message"][i]['Word']] = "red";
+            this.highlight_words[response.data["message"][i]['Word']] = "yellow";
           }
           // console.log(this.highlight_words)
           // console.log(response);
@@ -333,7 +349,10 @@ export default {
         });
     },
     keep_looping: _.debounce(function () {
+      // this.highlight_words = {}
+      console.log(this.highlight_words)
       clearInterval(this.interval);
+      
       let formData = new FormData();
       // console.log(
       //   new Date().toLocaleString("en-US", {
@@ -371,6 +390,7 @@ export default {
       );
       formData.append("id", this.id);
       this.axios({
+        
         url: "http://127.0.0.1:5000/func/act",
         method: "POST",
         data: formData,
@@ -402,7 +422,7 @@ export default {
           this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
           response.data["flag"]
         ) {
-          this.highlight_words[response.data["buzzer_last_word"]] = "green";
+          this.highlight_words[response.data["buzzer_last_word"]] = "blue";
           // this.qa.text =
           //   this.qa.text.substr(
           //     0,
@@ -436,7 +456,7 @@ export default {
         this.qa.country_representation =
           response.data["country_representation"];
         for (let i = 0; i < response.data["current_over_countries"].length; i++) {
-            this.highlight_words[response.data["current_over_countries"][i]] = "yellow";
+            this.highlight_words[response.data["current_over_countries"][i]] = "red";
         }
         // console.log(this.highlight_words)
       });
@@ -447,7 +467,7 @@ export default {
       }).then((response) => {
          this.qa.pronunciation = response.data["message"];
           for (let i = 0; i < response.data["message"].length; i++) {
-            this.highlight_words[response.data["message"][i]['Word']] = "red";
+            this.highlight_words[response.data["message"][i]['Word']] = "yellow";
           }
       });
     }, 1000),
@@ -486,7 +506,7 @@ export default {
         this.qa.country_representation =
           response.data["country_representation"];
         for (let i = 0; i < response.data["current_over_countries"].length; i++) {
-            this.highlight_words[response.data["current_over_countries"][i]] = "yellow";
+            this.highlight_words[response.data["current_over_countries"][i]] = "red";
         }
         // console.log(this.highlight_words)
       });

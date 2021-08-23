@@ -71,6 +71,6 @@ export default {
 
 <style scoped>
 .highlight {
-  background-color: #fffab8;
+  background-color: #d61616;
 }
 </style>
