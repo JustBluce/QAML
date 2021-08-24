@@ -3,7 +3,7 @@ Developers: Jason Liu
 -->
 
 <template>
-  <v-toolbar style="flex-grow: 0; z-index: 1" dense>
+  <v-toolbar style="flex-grow: 0; z-index: 1">
     <v-btn
       icon
       large
@@ -87,7 +87,12 @@ Developers: Jason Liu
       </v-list>
     </v-menu>
 
-    <v-btn icon large class="ml-1" @mouseup="$store.commit('minimizeWorkspace', id)">
+    <v-btn
+      icon
+      large
+      class="ml-1"
+      @mouseup="$store.commit('minimizeWorkspace', id)"
+    >
       <v-icon>mdi-window-minimize</v-icon>
     </v-btn>
 
