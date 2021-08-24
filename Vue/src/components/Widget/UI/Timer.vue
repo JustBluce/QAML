@@ -1,24 +1,52 @@
 <!--
-Developers:
-Jason Liu
-  - Created the Timer
-Cai Zefan
-  - Make the timer set with 1 hour when first accessed
+Developers: Jason Liu
 -->
 
 <template>
   <div>
     <v-switch
-      class="my-2"
-      hide-details
+      class="mt-2 mb-3"
       v-model="game_mode"
+      hide-details
       :label="`Game mode ${game_mode ? 'on' : 'off'}`"
     ></v-switch>
 
+    <v-menu
+      ref="menu"
+      v-model="menu"
+      :disabled="game_mode"
+      :close-on-content-click="false"
+      transition="scale-transition"
+      offset-y
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-text-field
+          v-model="menu_time"
+          label="Select time"
+          prepend-icon="mdi-clock-time-four-outline"
+          :disabled="game_mode"
+          readonly
+          v-bind="attrs"
+          v-on="on"
+        ></v-text-field>
+      </template>
+      <v-time-picker
+        v-if="menu"
+        v-model="menu_time"
+        format="24hr"
+        color="primary"
+        full-width
+        use-seconds
+        scrollable
+        @input="setTime"
+      ></v-time-picker>
+    </v-menu>
+
     <vue-countdown :time="time" v-slot="{ hours, minutes, seconds }" @end="end">
       <h2 class="text-h2 font-weight-regular text-center">
-        {{ hours }} : {{ String(minutes).padStart(2, "0") }} :
-        {{ String(seconds).padStart(2, "0") }}
+        {{ hours }}<span class="px-2">:</span
+        >{{ String(minutes).padStart(2, "0") }}<span class="px-2">:</span
+        >{{ String(seconds).padStart(2, "0") }}
       </h2>
     </vue-countdown>
 
@@ -52,6 +80,8 @@ export default {
   data() {
     return {
       time: 5 * 60 * 1000,
+      menu: false,
+      menu_time: null,
       dialog: false,
     };
   },
@@ -78,9 +108,10 @@ export default {
         console.log(response);
       });
     },
-  },
-  mounted() {
-    console.log(this.time);
+    setTime() {
+      let times = this.menu_time.split(":");
+      this.time = (+times[0] * 60 * 60 + +times[1] * 60 + +times[2]) * 1000;
+    },
   },
 };
 </script>
