@@ -657,16 +657,26 @@ export default {
     addResult(result) {
       this.$store.commit("addResult", result);
     },
-  },
-  mounted() {
+    after_click_submit_button() {
+    const user = firebase.auth().currentUser;
     let formData = new FormData();
-    formData.append("Timestamp", "2021-08-02 19:57:42");
+    formData.append("username", user.displayName);
+    formData.append("email", user.email);
+    formData.append("UID", user.uid);
     this.axios({
-      url: "http://127.0.0.1:5000/question/Question_id",
+      url: "http://127.0.0.1:5000/test1/json",
       method: "POST",
     }).then((response) => {
       this.Question_id = response.data["Question_id"];
       console.log(response);
+    });
+    }
+  },
+  mounted() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user.email) {
+        this.user = user;
+      }
     });
 
     this.highlightInterval = setInterval(
