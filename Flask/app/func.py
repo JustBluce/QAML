@@ -281,7 +281,7 @@ def insert():
         question = request.form.get("text")
         ans = request.form.get("answer_text")
         q_id = request.form.get("qid")
-        u_id = request.form.get("id")
+        user_id = request.form.get("user_id")
         genre_1 = request.form.get("genre")
         date_incoming = request.form.get("date")
         
@@ -455,7 +455,7 @@ def insert():
     with open('test_post_hoc.json', 'w') as outfile:
         json.dump(big_dict, outfile)
         try:
-            me = Question_json(q_id=q_id, data=big_dict, UID=u_id, points=points)
+            me = Question_json(q_id=q_id, data=big_dict, UID=user_id, points=points)
             db.session.add(me)
             db.session.commit()
             message_json = "Successfully insert a new question_json record of the edit history of question"
@@ -463,7 +463,7 @@ def insert():
             message_json = "Error insert a new question_json record of the edit history of question"
 
         try:
-            me = Question(Question_id=q_id, Question=question, Timestamp_frontend=date_incoming, Answer=ans, UserId=u_id, Timestamp_backend=date_incoming , Point=points, Genre=genre_1)
+            me = Question(Question_id=q_id, Question=question, Timestamp_frontend=date_incoming, Answer=ans, UserId=user_id, Timestamp_backend=date_incoming , Point=points, Genre=genre_1)
             db.session.add(me)
             db.session.commit()
             message_json = "Successfully insert a new question_json record of the edit history of question"
