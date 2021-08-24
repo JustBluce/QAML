@@ -10,6 +10,7 @@ Developers: Jason Liu
           color="green"
           class="mr-1"
           icon
+          large
           v-bind="attrs"
           v-on="on"
           @click="createWorkspace"
@@ -26,6 +27,7 @@ Developers: Jason Liu
           color="primary"
           class="mr-1"
           icon
+          large
           v-bind="attrs"
           v-on="on"
           @click="show = true"
@@ -42,6 +44,7 @@ Developers: Jason Liu
           color="red"
           class="mr-1"
           icon
+          large
           v-bind="attrs"
           v-on="on"
           @click="closeWorkspaces"
@@ -55,7 +58,7 @@ Developers: Jason Liu
     <v-dialog v-model="show" width="400">
       <v-card height="600">
         <v-card-title>
-          Load workspaces
+          Open workspaces
           <v-spacer></v-spacer>
           <v-btn icon @click="show = false">
             <v-icon color="red">mdi-close</v-icon>

@@ -15,10 +15,10 @@ Developers: Jason Liu and Damian Rene
         <v-tooltip bottom>
           <template v-slot:activator="{ on: onTooltip, attrs }">
             <v-btn icon v-bind="attrs" v-on="{ ...onMenu, ...onTooltip }">
-              <v-avatar size="36px" v-if="email && user.photoURL">
+              <v-avatar size="44px" v-if="email && user.photoURL">
                 <img v-if="user.photoURL" :src="user.photoURL" />
               </v-avatar>
-              <v-icon size="36px" v-else>mdi-account-circle</v-icon>
+              <v-icon size="44px" v-else>mdi-account-circle</v-icon>
             </v-btn>
           </template>
           <span>User profile</span>
