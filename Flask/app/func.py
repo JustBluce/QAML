@@ -271,18 +271,22 @@ def insert():
         ans = request.form.get("answer_text")
         q_id = request.form.get("qid")
         u_id = request.form.get("id")
+        genre_1 = request.form.get("genre")
+        
     # print(question, ans)
     # answer = guess(question=[question])
     # print(q_id)
     big_dict = {
         "q_id": q_id,
         "data":{},
-        "points":0
+        "points":0,
+        "genre": genre_1,
     }
     small_dict = {
         "q_id": q_id,
         "data":{},
-        "points":0
+        "points":0,
+        "genre": genre_1,
     }
     points = 0
     if q_id in state_machine_guess:
