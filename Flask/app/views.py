@@ -4,6 +4,7 @@ sys.path.insert(0, './app')
 from app import app, Database
 from Database.users import users
 from Database.test1 import test1
+from Database.genres import genres
 from .log import log
 from .func import func
 # from .question import question
@@ -20,6 +21,8 @@ from .pronunciation import pronunciation
 
 app.register_blueprint(test1, url_prefix='/test1')
 app.register_blueprint(users, url_prefix='/users')
+app.register_blueprint(genres, url_prefix='/genres')
+
 app.register_blueprint(log, url_prefix='/log')
 app.register_blueprint(func, url_prefix='/func')
 
