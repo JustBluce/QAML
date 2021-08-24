@@ -146,7 +146,7 @@ export default {
       ],
       rules: [(value) => !!value || "Required."],
       showChart: false,
-      showGenreChart: true,
+      showGenreChart: false,
       Question_id: -1,
       points: 0,
       textarea: {},
@@ -156,7 +156,9 @@ export default {
       genreChartData: [
         ["Genre", "Count"],
         ["None", 1],
-      ]
+      ],
+      user_id: ""
+      
       
     };
   },
@@ -195,9 +197,11 @@ export default {
     },
   },
   created: function () {
+    this.user_id = firebase.auth().currentUser.uid;
+    // console.log(this.user_id)
     this.interval = setInterval(
       function () {
-        this.qid = this.id + new Date().toLocaleString("en-US", {
+        this.qid = this.user_id + new Date().toLocaleString("en-US", {
             hour12: false,
             month: "2-digit",
             day: "2-digit",
@@ -282,7 +286,7 @@ export default {
                 delete this.qa.highlight_words[response.data["remove_highlight"][i]];
               }
             for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-                this.qa.highlight_words[response.data["hightlight_words"][i]] = "yellow";
+                this.qa.highlight_words[response.data["hightlight_words"][i]] = "";
               }
             
             // this.qa.text =
@@ -448,7 +452,7 @@ export default {
                 delete this.qa.highlight_words[response.data["remove_highlight"][i]];
               }
           for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-                this.qa.highlight_words[response.data["hightlight_words"][i]] = "yellow";
+                this.qa.highlight_words[response.data["hightlight_words"][i]] = "";
             }
           // this.qa.text =
           //   this.qa.text.substr(
@@ -569,9 +573,29 @@ export default {
             second: "2-digit",
           })
         );
-        formData.append("id", this.id);
+        formData.append("user_id", this.user_id);
         formData.append("qid", this.qid);
         formData.append("genre",this.qa.genre);
+
+        this.axios({
+            url: "http://127.0.0.1:5000/genre_classifier/genre_data",
+            method: "POST",
+            data: formData,
+        }).then((response) => {
+            let genre_data = response.data["genre_data"];
+            console.log(genre_data)
+            this.showGenreChart = true
+            if (genre_data.length != 0) {
+              let header = [["Genre", "Count"]];
+              for (let i = 0; i < genre_data.length; i++) {
+                header.push(genre_data[i]);;
+              }
+              // console.log(header.concat(this.qa.subgenre));
+              this.genreChartData = header;
+              console.log(this.genreChartData)
+            }
+            console.log(this.highlight_words)
+        });
         this.axios({
           url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
           method: "POST",
@@ -697,22 +721,7 @@ export default {
       console.log(response);
     });
 
-    this.axios({
-        url: "http://127.0.0.1:5000/genre_classifier/genre_data",
-        method: "POST",
-        data: formData,
-    }).then((response) => {
-        genre_data = response.data["genre_data"];
-        if (genre_data.length != 0) {
-          let header = [["Subgenre", "Count"]];
-          for (let i = 0; i < genre_data.length; i++) {
-            header.concat(genre_data[i]);;
-          }
-          // console.log(header.concat(this.qa.subgenre));
-          this.genreChartData = header;
-        }
-        // console.log(this.highlight_words)
-    });
+    
     this.highlightInterval = setInterval(
       function () {
         let backdrop = this.$refs.backdrop;

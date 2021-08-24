@@ -43,22 +43,22 @@ def buzz(question, ans, min_index=5):
     # check if buzzer ever goes above threshold
     index_of_bin_search = len(temp_word_array)
     
-    if(len(temp_word_array)<10):
+    if(len(temp_word_array)<15):
         return "The string is too short", "", False, "", -1, -1
-    if(len(temp_word_array)<20):
+    if(len(temp_word_array)<30):
         question_sentence = question
         temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=1)
         if (temp_var[0][1] < threshold_buzz):
             return "The string does not cross the threshold", "", False, "", -1, -1
     # print(temp_word_array)
     max_index = index_of_bin_search - 1
-    max_index = int(max_index/10)*10
+    max_index = int(max_index/15)*15
     # print(max_index,temp_word_array)
     # while max_index >= min_index:
     set_flag = 0
     first_question_sentence = ''
     first_index_of_bin_search = -1
-    for i in range(10, max_index+1, 10):
+    for i in range(15, max_index+1, 15):
         # print(i, max_index)
         index_of_bin_search = i
         question_sentence = " ".join(temp_word_array[:index_of_bin_search])
@@ -104,8 +104,9 @@ def get_actual_guess_with_index(question, max=12):
     tfidf_matrix = repre.todense()
     feature_index = tfidf_matrix[0,:].nonzero()[1]
     tfidf_scores = zip([feature_names[i] for i in feature_index], [tfidf_matrix[0, x] for x in feature_index])
+    # print(tfidf_scores)
     foodict = {k: v for k, v in dict(tfidf_scores).items() if k not in break_into_words(question[0])}
-    # print(foodict, text)
+    # print(foodict)
     sort_orders = sorted(foodict.items(), key=lambda x: x[1], reverse=True)[:4]
 
     matrix = Matrix.dot(repre.T).T
@@ -113,7 +114,7 @@ def get_actual_guess_with_index(question, max=12):
     for i in range(len(question)):
         idx = indices[i]
         answer.append([(ans[j], matrix[i, j]) for j in idx])
-    return answer[0][0][0:], indices[0][0], [k[0] for k in sort_orders]
+    return answer[0][0][0:], indices[0][0], [k[0].upper() for k in sort_orders]
 
 def check_drop_in_confidence(question, actual_confidence, max=50, ind = -1):
     """
@@ -165,7 +166,7 @@ def get_importance_of_each_sentence(question):
     actual_answer, index_of_answer, hightlight_words  = get_actual_guess_with_index(question = [question])
     # print(np.shape(repre_1), len(repre_1[0][0]))
     # hightlight_words = sorted(repre_1[0], reverse=True)
-    print(hightlight_words)
+    # print(hightlight_words)
     actual_confidence = actual_answer[1]
     temp_sentence_array = break_into_sentences(question)
     highest_confidence = -10
