@@ -269,6 +269,13 @@ export default {
             }
             this.qa.buzz_word_this = response.data["buzzer_last_word"];
             this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
+            for (let i = 0; i < response.data["remove_highlight"].length; i++) {
+                delete this.qa.highlight_words[response.data["remove_highlight"][i]];
+              }
+            for (let i = 0; i < response.data["hightlight_words"].length; i++) {
+                this.qa.highlight_words[response.data["hightlight_words"][i]] = "yellow";
+              }
+            
             // this.qa.text =
             //   this.qa.text.substr(
             //     0,
@@ -318,7 +325,7 @@ export default {
           data: formData,
         }).then((response) => {
           this.qa.pronunciation = response.data["message"];
-          for (let i = 0; i < response.data["list_of_words_to_remove"]; i++) {
+          for (let i = 0; i < response.data["list_of_words_to_remove"].length; i++) {
             delete this.qa.highlight_words[response.data["list_of_words_to_remove"][i]];
           }
           for (let i = 0; i < response.data["message"].length; i++) {
@@ -428,6 +435,12 @@ export default {
             }
           this.qa.buzz_word_this = response.data["buzzer_last_word"];
           this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
+          for (let i = 0; i < response.data["remove_highlight"].length; i++) {
+                delete this.qa.highlight_words[response.data["remove_highlight"][i]];
+              }
+          for (let i = 0; i < response.data["hightlight_words"].length; i++) {
+                this.qa.highlight_words[response.data["hightlight_words"][i]] = "yellow";
+            }
           // this.qa.text =
           //   this.qa.text.substr(
           //     0,
@@ -471,7 +484,7 @@ export default {
         data: formData,
       }).then((response) => {
          this.qa.pronunciation = response.data["message"];
-         for (let i = 0; i < response.data["list_of_words_to_remove"]; i++) {
+         for (let i = 0; i < response.data["list_of_words_to_remove"].length; i++) {
             delete this.qa.highlight_words[response.data["list_of_words_to_remove"][i]];
           }
           for (let i = 0; i < response.data["message"].length; i++) {
@@ -549,6 +562,7 @@ export default {
         );
         formData.append("id", this.id);
         formData.append("qid", this.qid);
+        formData.append("genre",this.qa.genre);
         this.axios({
           url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
           method: "POST",
