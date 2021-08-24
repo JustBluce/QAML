@@ -52,11 +52,13 @@ def classify():
 def genre_data():
     if request.method == "POST":
         question = request.form.get("text")
-        u_id = request.form.get("id")
+        u_id = request.form.get("user_id")
+
+    print(u_id)
     start = time.time()
     if u_id is None:
         u_id = '0'
-    sql="SELECT Genre, count(*) from QA.Question  where UserId LIKE " + str(u_id)  + " group by Genre"
+    sql="SELECT Genre, count(*) from QA.Question  where UserId LIKE " + u_id  + " group by Genre"
     result_sql = db.session.execute(sql)
     result_sql = result_sql.fetchall()
     
