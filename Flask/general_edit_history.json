@@ -1,19 +1,19 @@
 {
-  "0": {
-    "question_id": "0",
-    "entries": [
-      {
-        "question": "Who is the inventor of the phototelectric ",
-        "answer": "Albert_Einstein",
-        "Timestamp_frontend": "08/23/2021, 10:12:58",
-        "Timestamp_backend": "08/23/2021, 10:13:02"
-      },
-      {
-        "question": "Who is the inventor of the photoelectric effect?",
-        "answer": "Albert_Einstein",
-        "Timestamp_frontend": "08/23/2021, 10:13:05",
-        "Timestamp_backend": "08/23/2021, 10:13:05"
-      }
-    ]
-  }
+	"0": {
+		"question_id": "0",
+		"entries": [
+			{
+				"question": "",
+				"answer": "",
+				"Timestamp_frontend": "08/23/2021, 08:41:47",
+				"Timestamp_backend": "08/23/2021, 08:41:50"
+			},
+			{
+				"question": "China India Japan Takemitsu South Korea ",
+				"answer": "India",
+				"Timestamp_frontend": "08/23/2021, 08:42:53",
+				"Timestamp_backend": "08/23/2021, 08:42:54"
+			}
+		]
+	}
 }
