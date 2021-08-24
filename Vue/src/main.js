@@ -30,15 +30,28 @@ import Vuelidate from 'vuelidate';
 window._ = require('lodash');
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyAXEuo-gAHpxQ9YxmdDhDK978I4ZDXMPK4',
-	authDomain: 'test-login-90a1d.firebaseapp.com',
-	projectId: 'test-login-90a1d',
-	storageBucket: 'test-login-90a1d.appspot.com',
-	messagingSenderId: '199458901110',
-	appId: '1:199458901110:web:fc95dd5a9a3ff7c1b36357'
+	apiKey: 'AIzaSyBeQWRzGbIiVnHijn_eZrBRbbsuT3N5D0s',
+	authDomain: 'question-writing-interface.firebaseapp.com',
+	projectId: 'question-writing-interface',
+	storageBucket: 'question-writing-interface.appspot.com',
+	messagingSenderId: '668025043214',
+	appId: '1:668025043214:web:f49afb9f95c5c906907f5f',
+	measurementId: 'G-8JMB36KVE8'
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+//firebase.analytics();
+
+var db = firebase.firestore();
+db.settings({ timestampsInSnapshots: true });
+
+/* firebase.auth().onAuthStateChanged((user) => {
+	store.dispatch('fetchUser', user);
+	if(user.emailVerified = true){
+		store.commit('SET_VERIFIED', true);
+		console.log("EMAIL IS VERIFIED:" + store.state.user.verified)
+	}
+}); */
 
 /**
  * If you don't want to use mock-server
@@ -66,24 +79,3 @@ new Vue({
 	store,
 	render: (h) => h(App)
 });
-
-firebase
-	.auth()
-	.setPersistence(firebase.auth.Auth.Persistence.local)
-	.then(() => {
-		// Existing and future Auth states are now persisted in the current
-		// session only. Closing the window would clear any existing state even
-		// if a user forgets to sign out.
-		// ...
-		// New sign-in will be persisted with session persistence.
-		var provider = new firebase.auth.GoogleAuthProvider();
-		// In memory persistence will be applied to the signed in Google user
-		// even though the persistence was set to 'none' and a page redirect
-		// occurred.
-		return firebase.auth().signInWithRedirect(provider);
-	})
-	.catch((error) => {
-		// Handle Errors here.
-		var errorCode = error.code;
-		var errorMessage = error.message;
-	});

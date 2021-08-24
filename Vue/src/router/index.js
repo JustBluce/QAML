@@ -1,13 +1,16 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
-Vue.use(Router);
+import firebase from 'firebase';
 
 /* Layout */
 import Layout from '@/layout';
 import Login from '@/views/auth/login.vue';
 import About from '@/views/auth/about.vue';
-import Email_Login from '@/views/auth/email_login.vue';
+import Register from '@/views/auth/register.vue';
+import PReset from '@/views/auth/PReset.vue';
+import store from '@/store/index.js';
+
+Vue.use(Router);
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -38,29 +41,27 @@ export const constantRoutes = [
 		path: '/login',
 		name: 'Login',
 		component: Login,
-		hidden: true,
-		meta: {
-			guest: true
-		}
+		hidden: true
+	},
+
+	{
+		path: '/register',
+		name: 'Register',
+		component: Register,
+		hidden: true
 	},
 	{
-		path: '/email-login',
-		name: 'Email-Login',
-		component: Email_Login,
-		hidden: true,
-		meta: {
-			guest: true
-		}
+		path: '/password-reset',
+		name: 'Password-Reset',
+		component: PReset,
+		hidden: true
 	},
 
 	{
 		path: '/about',
 		name: 'About',
 		component: About,
-		hidden: true,
-		meta: {
-			guest: true
-		}
+		hidden: true
 	},
 
 	{
@@ -78,7 +79,7 @@ export const constantRoutes = [
 				path: 'dashboard',
 				name: 'Dashboard',
 				component: () => import('@/views/dashboard/index'),
-				meta: { title: 'Dashboard', icon: 'user', auth: true }
+				meta: { title: 'Dashboard', icon: 'user', requiresAuth: true }
 			}
 		]
 	},
@@ -92,12 +93,10 @@ export const constantRoutes = [
 				path: '',
 				name: 'QA',
 				component: () => import('@/views/QA/index'),
-				meta: { title: 'QA', icon: 'form' }
+				meta: { title: 'QA', icon: 'form', requiresAuth: true }
 			}
 		]
 	},
-
-	// tableRouter,
 
 	// 404 page must be placed at the end !!!
 	{ path: '*', redirect: '/404', hidden: true }
@@ -118,5 +117,19 @@ export function resetRouter() {
 	const newRouter = createRouter();
 	router.matcher = newRouter.matcher; // reset router
 }
+
+router.beforeEach((to, from, next) => {
+	if (to.matched.some((record) => record.meta.requiresAuth)) {
+		firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				next();
+			} else {
+				next('/login');
+			}
+		});
+	} else {
+		next();
+	}
+});
 
 export default router;

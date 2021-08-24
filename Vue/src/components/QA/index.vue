@@ -26,9 +26,16 @@
             </div>
           </v-expand-transition>
         </v-card>
+
+        <div class="backdrop" ref="backdrop">
+          <div class="highlight" v-html="highlight_text">
+            <!-- cloned text with <mark> tags here -->
+          </div>
+        </div>
         <v-textarea
+          ref="textarea"
           background-color="background"
-          class="my-4"
+          class="highlight-textarea my-4"
           rows="10"
           label="Question"
           solo
@@ -51,7 +58,7 @@
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
 
-        <v-card class="background mt-4 pa-2">
+        <!-- <v-card class="background mt-4 pa-2">
           <div
             v-html="qa.highlight_text"
             background-color="background"
@@ -60,15 +67,15 @@
             solo
             hide-details="auto"
           ></div>
-        </v-card>
+        </v-card> -->
       </v-container>
     </v-card>
   </v-container>
 </template>
 
 <script>
-import HighlightableInput from "vue-highlightable-input";
 import { GChart } from "vue-google-charts";
+import firebase from "firebase";
 
 export default {
   name: "QA",
@@ -76,11 +83,11 @@ export default {
     id: Number,
   },
   components: {
-    HighlightableInput,
     GChart,
   },
   data() {
     return {
+      user: null,
       genres: [
         "Philosophy",
         "History",
@@ -98,10 +105,12 @@ export default {
         ["Subgenre", "Count"],
         ["None", 1],
       ],
-      highlight: "🔔BUZZ",
       rules: [(value) => !!value || "Required."],
       showChart: false,
       Question_id: -1,
+      textarea: {},
+      UID: '',
+      timestamp: ''
     };
   },
   computed: {
@@ -111,6 +120,21 @@ export default {
     qa() {
       return this.workspace.qa;
     },
+    highlight() {
+      return [
+        { text: "🔔BUZZ", class: "yellow" },
+        { text: "highlight me", class: "primary" },
+      ];
+    },
+    highlight_text() {
+      let text = this.qa.text;
+      this.highlight.forEach((highlight) => {
+        text = text
+          .split(`${highlight.text}`)
+          .join(`<mark class="${highlight.class}">${highlight.text}</mark>`);
+      });
+      return text.replace(/\n$/g, "\n\n");
+    },
     options() {
       return {
         width: Math.max(1024, this.workspace.style.width) / 3 - 50,
@@ -119,8 +143,8 @@ export default {
     },
   },
 
-  created: function () {
-    setInterval(
+  created() {
+    this.interval = setInterval(
       function () {
         let formData = new FormData();
         console.log(this.qa.text.lastIndexOf("🔔") > 0);
@@ -217,6 +241,7 @@ export default {
   methods: {
     keep_looping: _.debounce(function () {
       let formData = new FormData();
+      console.log("Looping");
       console.log(this.qa.text.lastIndexOf("🔔") > 0);
       while (this.qa.text.lastIndexOf("🔔") > 0) {
         this.qa.text =
@@ -308,7 +333,7 @@ export default {
       let formData = new FormData();
       formData.append("text", this.qa.text);
       formData.append("answer_text", this.qa.answer_text);
-      this.axios({
+      /** this.axios({
         url: "http://127.0.0.1:5000/over_present/highlight",
         method: "POST",
         data: formData,
@@ -317,7 +342,7 @@ export default {
         // this.qa.importance = response.data["importance"];
         // this.highlight = response.data["buzz_word"];
         console.log(response);
-      });
+      }); **/
       this.axios({
         url: "http://127.0.0.1:5000/country_represent/country_present",
         method: "POST",
@@ -412,15 +437,78 @@ export default {
     },
   },
   mounted() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user.email) {
+        this.user = user;
+      }
+    });
+    const user = firebase.auth().currentUser;
+
+    const today = new Date();
+    const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    const dateTime = date +' '+ time;
+    this.timestamp = dateTime;
+
+    // console.log(this.timestamp)
+    // console.log(user.displayName)
+    // console.log(user.email)
+    // console.log(user.uid)
     let formData = new FormData();
-    formData.append("Timestamp", "2021-08-02 19:57:42");
+    formData.append("Timestamp", this.timestamp);
+    formData.append("username", user.displayName);
+    formData.append("email", user.email);
+    formData.append("UID", user.uid);
     this.axios({
-      url: "http://127.0.0.1:5000/question/Question_id",
+      url: "http://127.0.0.1:5000/test1/json",
       method: "POST",
     }).then((response) => {
       this.Question_id = response.data["Question_id"];
       console.log(response);
     });
+
+    this.styleInterval = setInterval(
+      function () {
+        let backdrop = this.$refs.backdrop;
+        let textarea = this.$refs.textarea;
+        backdrop.style.height = textarea.$el.offsetHeight - 10 + "px";
+        backdrop.style.width = textarea.$el.offsetWidth + "px";
+        backdrop.scrollTop =
+          document.getElementsByTagName("textarea")[0].scrollTop;
+      }.bind(this),
+      10
+    );
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
+    clearInterval(this.styleInterval);
   },
 };
 </script>
+
+<style>
+.highlight-textarea textarea {
+  z-index: 2;
+}
+
+.highlight {
+  color: transparent;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+mark {
+  border-radius: 3px;
+  color: transparent;
+}
+
+.backdrop {
+  position: absolute;
+  margin-top: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+  line-height: 1.75rem;
+  z-index: 1;
+  overflow: auto;
+}
+</style>

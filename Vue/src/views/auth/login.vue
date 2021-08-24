@@ -10,7 +10,7 @@ Developers: Damian Rene and Jason Liu
       class="ma-auto pa-8 background justify-center"
       style="border-radius: 16px"
       elevation="16"
-      max-width="600"
+      min-width="600"
     >
       <v-card-title class="text-h3 justify-center">Login</v-card-title>
 
@@ -30,10 +30,16 @@ Developers: Damian Rene and Jason Liu
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :type="showPassword ? 'text' : 'password'"
           @click:append="showPassword = !showPassword"
+          @keydown.enter="emailLogin"
         ></v-text-field>
       </v-form>
 
-      <v-card-actions class="justify-center">
+      
+      <router-link class="ma-auto pa-8 background justify-center" :to="{name: 'Password-Reset' }">
+        Forgot Password?
+      </router-link>
+
+      <v-card-actions class="justify-center pb-4">
         <v-btn class="primary" @click="emailLogin">
           <v-img
             class="mr-2"
@@ -43,6 +49,9 @@ Developers: Damian Rene and Jason Liu
           ></v-img>
           Email login
         </v-btn>
+      </v-card-actions>
+      <v-divider></v-divider>
+      <v-card-actions class="justify-center pa-4">
         <v-btn class="red" @click="socialLogin">
           <v-img
             class="mr-2"
@@ -77,11 +86,11 @@ export default {
       showPassword: false,
       emailRules: [
         (v) => !!v || "E-mail is required",
-        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+        //(v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
       passwordRules: [
         (v) => !!v || "Password is required",
-        (v) => v.length >= 8 || "Min 8 characters",
+        // (v) => v.length >= 8 || "Min 8 characters",
       ],
     };
   },
@@ -104,16 +113,28 @@ export default {
       firebase
         .auth()
         .signInWithPopup(provider)
-        .then((result) => {
-          this.$router.replace("Dashboard");
+        .then(() => {
+          this.$router.push("/dashboard");
         })
         .catch((err) => {
           alert("Oops. " + err.message);
         });
     },
     guestLogin() {
-      this.$router.push("/dashboard");
+      firebase
+        .auth()
+        .signInAnonymously()
+        .then(() => {
+          this.$router.push("/dashboard");
+        });
     },
+  },
+  created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$router.push("/dashboard");
+      }
+    });
   },
 };
 </script>
@@ -121,7 +142,6 @@ export default {
 <style>
 .canvas {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  left: 0;
 }
 </style>

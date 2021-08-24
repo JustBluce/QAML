@@ -1,0 +1,78 @@
+<!--
+Developers: Jason Liu and Cai Zefan
+-->
+
+<template>
+  <div>
+    <Taskbar title="QA Interface" :qa="true" />
+    <v-container fluid class="workspaces-container">
+      <transition-group type="transition" name="workspaces">
+        <Workspace
+          v-for="workspace_id in workspace_stack"
+          :key="workspace_id"
+          :id="workspace_id"
+        />
+      </transition-group>
+    </v-container>
+  </div>
+</template>
+
+<script>
+import draggable from "vuedraggable";
+import Taskbar from "@/components/Taskbar";
+import Workspace from "@/components/Workspace";
+
+export default {
+  name: "QA",
+  components: {
+    Taskbar,
+    Workspace,
+    draggable,
+  },
+  data() {
+    return {
+      drag: false,
+    };
+  },
+  computed: {
+    workspace_stack() {
+      return this.$store.state.workspace_stack;
+    },
+  },
+};
+</script>
+
+<style>
+.workspaces-container {
+  position: relative;
+  overflow: hidden;
+  height: calc(100vh - 112px);
+}
+
+.workspaces-enter-active,
+.workspaces-leave-active {
+  position: relative;
+  height: 100%;
+  z-index: 1000;
+}
+
+.workspaces-enter {
+  transform: translate(0, -100vh);
+}
+
+.workspaces-enter-active {
+  transition: all 0.3s ease;
+}
+
+.workspaces-leave-to {
+  transform: translate(0, -200vh);
+}
+
+.workspaces-leave-active {
+  transition: all 0.5s ease;
+}
+
+.ghost {
+  opacity: 0.3;
+}
+</style>
