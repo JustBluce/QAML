@@ -39,6 +39,7 @@ def buzz(question, ans, min_index=5):
 
     """
     answer = []
+    # start = time.time()
     temp_word_array = question.split(' ')
     # check if buzzer ever goes above threshold
     index_of_bin_search = len(temp_word_array)
@@ -50,6 +51,7 @@ def buzz(question, ans, min_index=5):
         temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=1)
         if (temp_var[0][1] < threshold_buzz):
             return "The string does not cross the threshold", "", False, "", -1, -1
+    
     # print(temp_word_array)
     max_index = index_of_bin_search - 1
     max_index = int(max_index/15)*15
@@ -72,9 +74,9 @@ def buzz(question, ans, min_index=5):
                 first_question_sentence = question_sentence
                 first_index_of_bin_search = index_of_bin_search
 
-
         elif(i == max_index):
             return "Buzzer does not cross the threshold", "", False, "", -1, -1
+        
     if(set_flag == 2):
         question_sentence = first_question_sentence
         index_of_bin_search = first_index_of_bin_search
@@ -95,12 +97,15 @@ def get_actual_guess_with_index(question, max=12):
     indices[0][0]: The index of the top guess in the corpus.
 
     """
+    start = time.time()
     vectorizer, Matrix, ans = params[0], params[1], params[2]
     answer = []
     repre = vectorizer.transform(question)
     # print()
     
-    feature_names = vectorizer.get_feature_names()
+    
+    feature_names = params[3]
+    
     tfidf_matrix = repre.todense()
     feature_index = tfidf_matrix[0,:].nonzero()[1]
     tfidf_scores = zip([feature_names[i] for i in feature_index], [tfidf_matrix[0, x] for x in feature_index])
@@ -108,12 +113,13 @@ def get_actual_guess_with_index(question, max=12):
     foodict = {k: v for k, v in dict(tfidf_scores).items() if k not in break_into_words(question[0])}
     # print(foodict)
     sort_orders = sorted(foodict.items(), key=lambda x: x[1], reverse=True)[:4]
-
     matrix = Matrix.dot(repre.T).T
     indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
     for i in range(len(question)):
         idx = indices[i]
         answer.append([(ans[j], matrix[i, j]) for j in idx])
+    # end = time.time()
+    # print("__________________TEST____________________",end-start)
     return answer[0][0][0:], indices[0][0], [k[0].upper() for k in sort_orders]
 
 def check_drop_in_confidence(question, actual_confidence, max=50, ind = -1):
@@ -301,4 +307,4 @@ def buzz_full_question():
     prev_highlight[q_id] = hightlight_words
     print("----TIME (s) : /binary_search_based_buzzer/get_importance_sentence---", end - start)
     
-    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word, "hightlight_words":hightlight_words, "remove_highlight":temp_highlight})
+    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word, "hightlight_words":hightlight_words + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words], "remove_highlight":temp_highlight})

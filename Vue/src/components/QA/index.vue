@@ -147,7 +147,7 @@ export default {
       interval: null,
       highlightInterval:null,
       qid:"",
-      user_id,
+      user_id:"",
       
       
     };
@@ -276,7 +276,7 @@ export default {
                 delete this.qa.highlight_words[response.data["remove_highlight"][i]];
               }
             for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-                this.qa.highlight_words[response.data["hightlight_words"][i]] = "";
+                this.qa.highlight_words[response.data["hightlight_words"][i]] = "yellow";
               }
             
             // this.qa.text =
@@ -442,7 +442,7 @@ export default {
                 delete this.qa.highlight_words[response.data["remove_highlight"][i]];
               }
           for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-                this.qa.highlight_words[response.data["hightlight_words"][i]] = "";
+                this.qa.highlight_words[response.data["hightlight_words"][i]] = "yellow";
             }
           // this.qa.text =
           //   this.qa.text.substr(
@@ -682,14 +682,14 @@ export default {
   },
   mounted() {
     let formData = new FormData();
-    formData.append("Timestamp", "2021-08-02 19:57:42");
-    this.axios({
-      url: "http://127.0.0.1:5000/question/Question_id",
-      method: "POST",
-    }).then((response) => {
-      this.Question_id = response.data["Question_id"];
-      console.log(response);
-    });
+    // formData.append("Timestamp", "2021-08-02 19:57:42");
+    // this.axios({
+    //   url: "http://127.0.0.1:5000/question/Question_id",
+    //   method: "POST",
+    // }).then((response) => {
+    //   this.Question_id = response.data["Question_id"];
+    //   console.log(response);
+    // });
 
     this.highlightInterval = setInterval(
       function () {
@@ -720,7 +720,7 @@ export default {
   word-wrap: break-word;
 }
 mark {
-  display: inline-block;
+  /* display: inline-block; */
   border-radius: 5px;
   color: transparent;
   opacity: 0.8;
@@ -728,7 +728,7 @@ mark {
 .backdrop {
   position: absolute;
   margin-top: 10px;
-  padding-left: 12px;
+  padding-left: 13px;
   padding-right: 12px;
   line-height: 1.75rem;
   z-index: 1;
