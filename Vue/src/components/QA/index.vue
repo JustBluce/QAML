@@ -435,27 +435,9 @@ export default {
     addResult(result) {
       this.$store.commit("addResult", result);
     },
-  },
-  mounted() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user.email) {
-        this.user = user;
-      }
-    });
+    after_click_submit_button() {
     const user = firebase.auth().currentUser;
-
-    const today = new Date();
-    const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    const dateTime = date +' '+ time;
-    this.timestamp = dateTime;
-
-    // console.log(this.timestamp)
-    // console.log(user.displayName)
-    // console.log(user.email)
-    // console.log(user.uid)
     let formData = new FormData();
-    formData.append("Timestamp", this.timestamp);
     formData.append("username", user.displayName);
     formData.append("email", user.email);
     formData.append("UID", user.uid);
@@ -465,6 +447,14 @@ export default {
     }).then((response) => {
       this.Question_id = response.data["Question_id"];
       console.log(response);
+    });
+    }
+  },
+  mounted() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user.email) {
+        this.user = user;
+      }
     });
 
     this.styleInterval = setInterval(
