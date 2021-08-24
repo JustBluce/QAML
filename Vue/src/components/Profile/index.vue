@@ -4,7 +4,13 @@ Developers: Jason Liu and Damian Rene
 
 <template>
   <div>
-    <v-menu bottom rounded offset-y min-width="180">
+    <v-menu
+      bottom
+      rounded
+      transition="fade-transition"
+      offset-y
+      min-width="180"
+    >
       <template v-slot:activator="{ on: onMenu }">
         <v-tooltip bottom>
           <template v-slot:activator="{ on: onTooltip, attrs }">
