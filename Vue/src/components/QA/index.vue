@@ -71,6 +71,11 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
         <v-btn color="primary" @click="searchData">
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
+
+        <div v-show="showGenreChart">
+          <v-divider></v-divider>
+          <GChart type="PieChart" :options="options" :data="genreChartData" />
+        </div>
       </v-container>
     </v-card>
 
@@ -141,13 +146,18 @@ export default {
       ],
       rules: [(value) => !!value || "Required."],
       showChart: false,
+      showGenreChart: false,
       Question_id: -1,
       points: 0,
       textarea: {},
       interval: null,
       highlightInterval:null,
       qid:"",
-      user_id:"",
+      genreChartData: [
+        ["Genre", "Count"],
+        ["None", 1],
+      ],
+      user_id: ""
       
       
     };
@@ -566,6 +576,26 @@ export default {
         formData.append("user_id", this.user_id);
         formData.append("qid", this.qid);
         formData.append("genre",this.qa.genre);
+
+        this.axios({
+            url: "http://127.0.0.1:5000/genre_classifier/genre_data",
+            method: "POST",
+            data: formData,
+        }).then((response) => {
+            let genre_data = response.data["genre_data"];
+            console.log(genre_data)
+            this.showGenreChart = true
+            if (genre_data.length != 0) {
+              let header = [["Genre", "Count"]];
+              for (let i = 0; i < genre_data.length; i++) {
+                header.push(genre_data[i]);;
+              }
+              // console.log(header.concat(this.qa.subgenre));
+              this.genreChartData = header;
+              console.log(this.genreChartData)
+            }
+            console.log(this.highlight_words)
+        });
         this.axios({
           url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
           method: "POST",
@@ -691,6 +721,7 @@ export default {
     //   console.log(response);
     // });
 
+    
     this.highlightInterval = setInterval(
       function () {
         let backdrop = this.$refs.backdrop;
