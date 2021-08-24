@@ -5,7 +5,7 @@ Developers: Jason Liu
 <template>
   <div>
     <v-switch
-      class="mt-2 mb-3"
+      class="my-1"
       v-model="game_mode"
       hide-details
       :label="`Game mode ${game_mode ? 'on' : 'off'}`"
