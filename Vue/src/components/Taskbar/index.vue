@@ -3,7 +3,7 @@ Developers: Jason Liu
 -->
 
 <template>
-  <v-toolbar style="z-index: 1000" elevation="4">
+  <v-toolbar style="height: 100px; z-index: 1000" elevation="4">
     <v-toolbar-title>{{ title }}</v-toolbar-title>
 
     <v-spacer></v-spacer>
@@ -16,6 +16,7 @@ Developers: Jason Liu
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           icon
+          large
           class="mr-1"
           v-bind="attrs"
           v-on="on"
@@ -31,6 +32,7 @@ Developers: Jason Liu
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           icon
+          large
           class="mr-1"
           v-bind="attrs"
           v-on="on"

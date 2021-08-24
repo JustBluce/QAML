@@ -46,7 +46,7 @@ export default {
 .workspaces-container {
   position: relative;
   overflow: hidden;
-  height: calc(100vh - 112px);
+  height: calc(100vh - 100px);
 }
 
 .workspaces-enter-active,
