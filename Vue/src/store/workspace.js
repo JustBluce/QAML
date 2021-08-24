@@ -15,6 +15,7 @@ export function defaultQA() {
 		genre: '',
 		subgenre: '',
 		top_guess_buzzer: '',
+		uid: '',
 		pronunciation: []
 	};
 }
@@ -27,36 +28,36 @@ export function widgetTemplate(type) {
 			type: 'Timer',
 			container: 'left'
 		},
-		Pronunciation: {
+		MachineGuesses: {
 			id: 1,
+			title: 'Machine guesses',
+			type: 'MachineGuesses',
+			container: 'left'
+		},
+		SimilarQuestions: {
+			id: 2,
+			title: 'Similar questions',
+			type: 'SimilarQuestions',
+			container: 'left'
+		},
+		Buzzer: {
+			id: 3,
+			title: 'Buzzer',
+			type: 'Buzzer',
+			container: 'right'
+		},
+		Pronunciation: {
+			id: 4,
 			title: 'Pronunciation difficulty',
 			type: 'Pronunciation',
 			container: 'right'
 		},
 		CountryRepresentation: {
-			id: 2,
+			id: 5,
 			title: 'Country representation',
 			type: 'CountryRepresentation',
 			container: 'right'
-		},
-		SimilarQuestions: {
-			id: 3,
-			title: 'Similar questions',
-			type: 'SimilarQuestions',
-			container: 'right'
-		},
-		Buzzer: {
-			id: 4,
-			title: 'Buzzer',
-			type: 'Buzzer',
-			container: 'left'
-		},
-		MachineGuesses: {
-			id: 5,
-			title: 'Machine guesses',
-			type: 'MachineGuesses',
-			container: 'left'
-		},
+		}
 	};
 	return widget_templates[type];
 }
@@ -70,11 +71,11 @@ export function defaultWorkspace(id) {
 		qa: defaultQA(),
 		widgets: [
 			widgetTemplate('Timer'),
-			widgetTemplate('Pronunciation'),
-			widgetTemplate('CountryRepresentation'),
 			widgetTemplate('SimilarQuestions'),
+			widgetTemplate('MachineGuesses'),
 			widgetTemplate('Buzzer'),
-			widgetTemplate('MachineGuesses')
+			widgetTemplate('Pronunciation'),
+			widgetTemplate('CountryRepresentation')
 		],
 		style: {
 			left: 0,

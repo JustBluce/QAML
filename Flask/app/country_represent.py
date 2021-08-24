@@ -181,15 +181,20 @@ answer = []
 
 
 
-def insert_into_db(q_id, date_incoming, date_outgoing, question, ans, edit_message):
+def insert_into_db(q_id, date_incoming, date_outgoing, question, ans, edit_message, added_under_represented_countries, removed_over_represented_countries, added_over_represented_countries):
     ans = ans.replace(" ","_")
     if q_id not in country_represent_json:
         country_represent_json[q_id]=[]
         
-    added_change_in_over_represented_countries = list(set(current_over_countries)-set(prev_over_countries))
-    change_in_over_represented_countries = list(set(current_over_countries)-set(prev_over_countries))
+    # added_change_in_over_represented_countries = list(set(current_over_countries)-set(prev_over_countries))
+    # change_in_over_represented_countries = list(set(current_over_countries)-set(prev_over_countries))
     country_represent_json[q_id].append({
-                            
+                                "edit_history":
+                                            {
+                                                "added_under_represented_countries": added_under_represented_countries,
+                                                "removed_over_represented_countries": removed_over_represented_countries,
+                                                "added_over_represented_countries" : added_over_represented_countries
+                                            },
                                 "Timestamp_frontend":date_incoming, 
                                 "Timestamp_backend": date_outgoing,
                                 "edit_message" : edit_message,
@@ -252,10 +257,11 @@ def country_present():
     removed_over_represented_countries = []
     added_under_represented_countries = []
     for i in range(len(over_countries)):
-        if over_countries[i].lower() in question.lower() and over_countries[i].lower() not in prev_over_countries[q_id]: 
+        if over_countries[i].lower() in question.lower():
             current_over_countries[q_id].append(over_countries[i].lower())
-            added_over_represented_countries.append(over_countries[i].lower())
-            insert_db_flag = 1
+            if over_countries[i].lower() not in prev_over_countries[q_id]: 
+                added_over_represented_countries.append(over_countries[i].lower())
+                insert_db_flag = 1
         elif over_countries[i].lower() not in question.lower() and over_countries[i].lower() in prev_over_countries[q_id]: 
             insert_db_flag = 1
             removed_over_represented_countries.append(over_countries[i].lower())
@@ -294,11 +300,12 @@ def country_present():
             edit_message = edit_message + 'The over-represented countries "' + ' '.join(removed_over_represented_countries) + '" was removed by the user. '
         if(len(added_over_represented_countries) != 0):
             edit_message = edit_message + 'The over-represented countries "' + ' '.join(added_over_represented_countries) + '" was added by the user.'
-        insert_into_db(q_id, date_incoming, date_outgoing, question, ans, edit_message)
+        insert_into_db(q_id, date_incoming, date_outgoing, question, ans, edit_message, added_under_represented_countries, removed_over_represented_countries, added_over_represented_countries)
         # print(country_represent_json)
     end = time.time()
+    print(current_over_countries[q_id])
     print("----TIME (s): /country_represent/country_present---", end - start)
-    return jsonify({"country_representation": answer, "country": countries})
+    return jsonify({"country_representation": answer, "country": countries, "current_over_countries" : current_over_countries[q_id]})
 
 # def country_present1(question):
 # <<<------DEPRECIATED------>>>

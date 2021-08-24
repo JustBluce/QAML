@@ -7,14 +7,20 @@ Cai Zefan
 -->
 
 <template>
-  <div class="timer">
-    <div class="timer">
-      <div id="hours">{{ hours }}</div>
-      :
-      <div id="minutes">{{ minutes }}</div>
-      :
-      <div id="seconds">{{ seconds }}</div>
-    </div>
+  <div>
+    <v-switch
+      class="my-2"
+      hide-details
+      v-model="game_mode"
+      :label="`Game mode ${game_mode ? 'on' : 'off'}`"
+    ></v-switch>
+
+    <vue-countdown :time="time" v-slot="{ hours, minutes, seconds }" @end="end">
+      <h2 class="text-h2 font-weight-regular text-center">
+        {{ hours }} : {{ String(minutes).padStart(2, "0") }} :
+        {{ String(seconds).padStart(2, "0") }}
+      </h2>
+    </vue-countdown>
 
     <v-dialog v-model="dialog" width="500">
       <v-card>
@@ -33,19 +39,19 @@ Cai Zefan
 </template>
 
 <script>
+import VueCountdown from "@chenfengyuan/vue-countdown";
+
 export default {
   name: "Timer",
   props: {
     workspace_id: Number,
   },
+  components: {
+    VueCountdown,
+  },
   data() {
     return {
-      hours: "0",
-      minutes: "05",
-      seconds: "00",
-      end: new Date(new Date().getTime() + 5 * 60 * 1000),
-      timer: null,
-      time: 20,
+      time: 5 * 60 * 1000,
       dialog: false,
     };
   },
@@ -53,91 +59,28 @@ export default {
     workspace() {
       return this.$store.getters.workspace(this.workspace_id);
     },
+    game_mode: {
+      get() {
+        return this.$store.state.game_mode;
+      },
+      set(value) {
+        this.$store.state.game_mode = value;
+      },
+    },
   },
   methods: {
-    validate() {
-      let hours = parseInt(this.hours);
-      let minutes = parseInt(this.minutes);
-      let seconds = parseInt(this.seconds);
-      if (seconds < 0) {
-        seconds = 0;
-      }
-      if (seconds > 59) {
-        minutes += Math.floor(seconds / 60);
-        seconds = seconds % 60;
-      }
-      if (minutes < 0) {
-        minutes = 0;
-      }
-      if (minutes > 59) {
-        hours += Math.floor(minutes / 60);
-        minutes = minutes % 60;
-      }
-      if (hours < 0) {
-        hours = 0;
-      }
-      this.hours = String(hours);
-      this.minutes = String(minutes).padStart(2, "0");
-      this.seconds = String(seconds).padStart(2, "0");
-    },
-    // countdown() {
-    //   this.time--;
-    //   if (this.time == 0) {
-    //     clearInterval(this.timer);
-    //   }
-    // },
-    display(time) {
-      this.hours = String(Math.floor(time / 3600));
-      this.minutes = String(Math.floor(time / 60 - 60 * this.hours)).padStart(
-        2,
-        "0"
-      );
-      this.seconds = String(
-        Math.floor(time - 3600 * this.hours - 60 * this.minutes)
-      ).padStart(2, "0");
-    },
-    update() {
-      let diff = (this.end - Date.now()) / 1000;
-      this.display(diff);
-      if (diff <= 0) {
-        this.dialog = true;
-        this.axios({
-          url: "http://127.0.0.1:5000/func/timeup",
-          method: "GET",
-        }).then((response) => {
-          console.log(response);
-        });
-        clearInterval(this.timer);
-        this.display(0);
-      }
+    end() {
+      this.dialog = true;
+      this.axios({
+        url: "http://127.0.0.1:5000/func/timeup",
+        method: "GET",
+      }).then((response) => {
+        console.log(response);
+      });
     },
   },
   mounted() {
-    this.timer = setInterval(this.update, 1000);
+    console.log(this.time);
   },
-  // beforeDestroy() {
-  //   clearInterval(this.timer);
-  // },
 };
 </script>
-
-<style scoped>
-.timer {
-  display: flex;
-  flex-direction: row;
-  font-size: 64px;
-  line-height: 64px;
-}
-
-#hours,
-#minutes,
-#seconds {
-  border: none;
-  border-radius: 8px;
-  width: 85px;
-  padding-left: 5px;
-  padding-right: 5px;
-  text-align: right;
-  outline: none;
-}
-</style>

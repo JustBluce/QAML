@@ -30,7 +30,6 @@ for uid in uids:
     #print(('UID: %s')%user.uid)
     #print(('CREATION: %d' )% user.user_metadata.creation_timestamp)
     #print(('PROVIDER: %s' )% user.display_name)
-
     if(user.display_name == None):
          guests.append(user.uid)
          

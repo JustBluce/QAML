@@ -81,7 +81,7 @@ def store_in_db (q_id, date_incoming, date_outgoing, question, ans):
             ]
         }   
     else:
-        if(minDistance(general_edit_history[q_id]["entries"][-1]["question"].split(), question.split())) > len(question.split())*0.1:
+        if(minDistance(general_edit_history[q_id]["entries"][-1]["question"].split(), question.split())) > 5:
             general_edit_history[q_id]["entries"].append(
                 {
                     "question": question,
@@ -91,7 +91,7 @@ def store_in_db (q_id, date_incoming, date_outgoing, question, ans):
                 }
             )
         
-    print(general_edit_history[q_id])
+    # print(general_edit_history[q_id])
 
 def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_of_top_guesses_strings):
     ans = ans.replace(" ","_")
@@ -124,7 +124,7 @@ def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_o
         # print(array_of_top_guesses_strings.index(ans))
         if ans in array_of_top_guesses_strings:
             isRelevant =  False
-            print("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+            # print("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
             if(state_machine_guess[q_id]["ans_pos"] != array_of_top_guesses_strings.index(ans)):
                 prev_pos = state_machine_guess[q_id]["ans_pos"]
                 
@@ -270,8 +270,42 @@ def insert():
     # print(q_id)
     big_dict = {
         "q_id": q_id,
-        "data":{}
+        "data":{},
+        "points":0
     }
+    small_dict = {
+        "q_id": q_id,
+        "data":{},
+        "points":0
+    }
+    points = 0
+    if q_id in state_machine_guess:
+        if ans in state_machine_guess[q_id]["current_guesses"]:
+            pos_ans = state_machine_guess[q_id]["current_guesses"].index(ans)
+            if pos_ans == 0:
+                points +=0
+            elif pos_ans == 1:
+                points +=5
+            elif pos_ans == 2:
+                points +=10
+        else:
+            points += 20
+    
+    if q_id in difficulty:
+        if len(difficulty[q_id])>0:
+            diff_level = difficulty[q_id][-1]["difficulty"]
+            if diff_level=="Hard":
+                points+=10
+    if q_id in country_represent_json:
+        if len(country_represent_json[q_id])>0:
+            under_countries = country_represent_json[q_id][-1]["current_under_countries"]
+            points+=len(under_countries)*10
+    if q_id in similarity:
+        if len(similarity[q_id])>0:
+            similar_top_3 = similarity[q_id][-1]["edit_history"]["isSimilar"]
+            if not similar_top_3:
+                points+=10
+
     counter_guess = 0
     counter_pron = 0
     counter_country  = 0
@@ -279,56 +313,133 @@ def insert():
     counter_buzz = 0
     counter_sim = 0
     if q_id in time_stamps:
-        for j in range(len(time_stamps[q_id])):
+        i = time_stamps[q_id][0]
+        big_dict["data"][i] = {}
+        big_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][0]
+        big_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][0]
+        big_dict["data"][i]["Relevant"] = "First Time Stamp"
+        small_dict["data"][i] = {}
+        small_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][0]
+        small_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][0]
+        small_dict["data"][i]["Relevant"] = "First Time Stamp"
+        if q_id in machine_guess and len(machine_guess[q_id])!=0:
+            if i == machine_guess[q_id][counter_guess]["Timestamp_frontend"]:
+                small_dict["data"][i]["machine_guess"] = machine_guess[q_id][counter_guess]
+                counter_guess+=1
+        if q_id in similarity and len(similarity[q_id])!=0:
+            if counter_guess in similarity[q_id]:
+                if i == similarity[q_id][counter_guess]["Timestamp_frontend"]:
+                    small_dict["data"][i]["similarity"] = similarity[q_id][counter_sim]
+                    counter_sim+=1
+        if q_id in buzzer and len(buzzer[q_id])!=0:
+            if i == buzzer[q_id][counter_buzz]["Timestamp_frontend"]:        
+                small_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
+                counter_buzz+=1
+        if q_id in difficulty and len(difficulty[q_id])!=0:
+            if i == difficulty[q_id][counter_difficulty]["Timestamp_frontend"]:
+                small_dict["data"][i]["difficulty"] = difficulty[q_id][counter_difficulty]
+                counter_difficulty+=1
+        if q_id in country_represent_json and len(country_represent_json[q_id])!=0:  
+            if i == country_represent_json[q_id][counter_country]["Timestamp_frontend"]:
+                small_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
+                counter_country+=1
+        if q_id in pronunciation_dict and len(pronunciation_dict[q_id])!=0:
+            if i == pronunciation_dict[q_id][counter_pron]["Timestamp_frontend"]:
+                small_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]    
+                counter_pron+=1
+        
+
+        curr_value = questions_all_time_stamps[q_id][0].split()
+        for j in range(1, len(time_stamps[q_id])):
             i = time_stamps[q_id][j]
+            
+            try:
+                diff_val, add, remove = ld(curr_value ,questions_all_time_stamps[q_id][j].split())
+            except Exception:
+                diff_val, add, remove = find_basic_diff(curr_value ,questions_all_time_stamps[q_id][j].split())
+                
+            if diff_val>5:
+                Relevant = "{} words need to be added, deleted or replaced between diff".format(diff_val)
+                isRelevant = True
+                curr_value = questions_all_time_stamps[q_id][j].split()
+                
+            else:
+                Relevant = "Not a big enough difference between strings"
+                isRelevant = False
+            
             big_dict["data"][i] = {}
             big_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][j]
             big_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][j]
+            big_dict["data"][i]["add"] = add
+            big_dict["data"][i]["remove"] = remove
+            small_dict["data"][i] = {}
+            small_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][j]
+            small_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][j]
+            # small_dict["data"][i]["Relevant"] = Relevant
             flag = 0
+            Flag_String = ""
             if q_id in machine_guess and counter_guess < len(machine_guess[q_id]):
                 if i == machine_guess[q_id][counter_guess]["Timestamp_frontend"]:
                     flag = 1
+                    small_dict["data"][i]["machine_guess"] = machine_guess[q_id][counter_guess]
                     big_dict["data"][i]["machine_guess"] = machine_guess[q_id][counter_guess]
+                    Flag_String = Flag_String + "Machine Guess;"
                     counter_guess+=1
             if q_id in similarity and counter_sim < len(similarity[q_id]):
                 if i == similarity[q_id][counter_guess]["Timestamp_frontend"]:
                     flag = 1
+                    small_dict["data"][i]["similarity"] = similarity[q_id][counter_sim]
                     big_dict["data"][i]["similarity"] = similarity[q_id][counter_sim]
+                    Flag_String = Flag_String + "Similarity;" 
                     counter_sim+=1
             if q_id in buzzer and counter_buzz < len(buzzer[q_id]):
                 if i == buzzer[q_id][counter_buzz]["Timestamp_frontend"]:
                     flag = 1
                     if buzzer[q_id][counter_buzz]["is_relevant"]:
                         big_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
+                        Flag_String = Flag_String + "Buzzer;"
+                    small_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
                     counter_buzz+=1
             if q_id in difficulty and counter_difficulty < len(difficulty[q_id]):
                 if i == difficulty[q_id][counter_difficulty]["Timestamp_frontend"]:
                     flag = 1
+                    small_dict["data"][i]["difficulty"] = difficulty[q_id][counter_difficulty]
                     big_dict["data"][i]["difficulty"] = difficulty[q_id][counter_difficulty]
+                    Flag_String = Flag_String + "Difficulty;"
                     counter_difficulty+=1
             if q_id in country_represent_json and counter_country < len(country_represent_json[q_id]):
                 if i == country_represent_json[q_id][counter_country]["Timestamp_frontend"]:
                     flag = 1
+                    small_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
                     big_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
+                    Flag_String = Flag_String + "Country_Represent;"
                     counter_country+=1
             if q_id in pronunciation_dict and counter_pron < len(pronunciation_dict[q_id]):
                 if i == pronunciation_dict[q_id][counter_pron]["Timestamp_frontend"]:
                     flag = 1
-                    big_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]    
+                    small_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]    
+                    big_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]   
+                    Flag_String = Flag_String + "Pronunciation;" 
                     counter_pron+=1
+            big_dict["data"][i]["Relevant"] = Relevant + "  " + Flag_String
             if flag==0:
-                big_dict["data"].pop(i)
+                if not isRelevant:
+                    big_dict["data"].pop(i)
             
                 
-    print(json.dumps(big_dict, indent = 10))
+    # print(json.dumps(big_dict, indent = 10))
     with open('test.json', 'w') as outfile:
-        json.dump(big_dict, outfile, indent=2)
+        json.dump(small_dict, outfile)
+    with open('test_post_hoc.json', 'w') as outfile:
+        json.dump(big_dict, outfile)
     with open('machine_guess.json', 'w') as outfile:
         json.dump(machine_guess, outfile, indent=2)
     with open('pronunciation_dict.json', 'w') as outfile:
         json.dump(pronunciation_dict, outfile, indent=2)
     with open('country_represent_json.json', 'w') as outfile:
-        json.dump(country_represent_json, outfile, indent=2)
+        json.dump(country_represent_json, outfile)
+    with open('difficulty.json', 'w') as outfile:
+        json.dump(difficulty, outfile)
     with open('buzzer.json', 'w') as outfile:
         json.dump(buzzer, outfile, indent=2)
     with open('similarity.json', 'w') as outfile:
@@ -358,8 +469,9 @@ def insert():
     #     print(json.dumps(pronunciation_dict[q_id], indent = 7))
     # if q_id in country_represent_json:
     #     print(json.dumps(country_represent_json[q_id], indent = 7))
-    qa_table = metadata.tables["qa"]
-    db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
+    # qa_table = metadata.tables["QA"]
+    # db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
     end=time.time()
     print("----TIME (s) : /func/submit [SUBMIT]---",end-start)
-    return "submitted"
+    print(points)
+    return jsonify({"status":"submitted", "points":points})
