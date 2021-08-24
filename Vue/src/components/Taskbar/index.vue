@@ -3,8 +3,11 @@ Developers: Jason Liu
 -->
 
 <template>
-  <v-toolbar style="height: 100px; z-index: 1000" elevation="4">
-    <v-toolbar-title>{{ title }}</v-toolbar-title>
+  <v-toolbar
+    :style="{ height: qa ? '100px' : '', 'z-index': 1000 }"
+    elevation="4"
+  >
+    <v-toolbar-title style="font-size: 24px">{{ title }}</v-toolbar-title>
 
     <v-spacer></v-spacer>
 
