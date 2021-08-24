@@ -147,6 +147,7 @@ export default {
       interval: null,
       highlightInterval:null,
       qid:"",
+      user_id,
       
       
     };
@@ -186,9 +187,11 @@ export default {
     },
   },
   created: function () {
+    this.user_id = firebase.auth().currentUser.uid;
+    // console.log(this.user_id)
     this.interval = setInterval(
       function () {
-        this.qid = this.id + new Date().toLocaleString("en-US", {
+        this.qid = this.user_id + new Date().toLocaleString("en-US", {
             hour12: false,
             month: "2-digit",
             day: "2-digit",
@@ -273,7 +276,7 @@ export default {
                 delete this.qa.highlight_words[response.data["remove_highlight"][i]];
               }
             for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-                this.qa.highlight_words[response.data["hightlight_words"][i]] = "yellow";
+                this.qa.highlight_words[response.data["hightlight_words"][i]] = "";
               }
             
             // this.qa.text =
@@ -439,7 +442,7 @@ export default {
                 delete this.qa.highlight_words[response.data["remove_highlight"][i]];
               }
           for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-                this.qa.highlight_words[response.data["hightlight_words"][i]] = "yellow";
+                this.qa.highlight_words[response.data["hightlight_words"][i]] = "";
             }
           // this.qa.text =
           //   this.qa.text.substr(
@@ -560,7 +563,7 @@ export default {
             second: "2-digit",
           })
         );
-        formData.append("id", this.id);
+        formData.append("user_id", this.user_id);
         formData.append("qid", this.qid);
         formData.append("genre",this.qa.genre);
         this.axios({
