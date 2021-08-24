@@ -254,6 +254,7 @@ def buzz_full_question():
     print("----TIME (s) : /binary_search_based_buzzer/buzz_full_question---", end - start)
  
     start = time.time()
+    buzzer_last_word =""
     if(flag):
         importance_sentence, sentence_string, sentence_number = get_importance_of_each_sentence(buzzer_string)
         buzzer_last_word=buzzer_string[-10:]
@@ -268,4 +269,4 @@ def buzz_full_question():
     end = time.time()
     print("----TIME (s) : /binary_search_based_buzzer/get_importance_sentence---", end - start)
     
-    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence})
+    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word})

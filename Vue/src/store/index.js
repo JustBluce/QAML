@@ -17,12 +17,13 @@ const store = new Vuex.Store({
 		workspace_selected: initial_workspaces[0].tab_id,
 		widget_types: [
 			'Timer',
-			'Buzzer',
+			'SimilarQuestions',
 			'MachineGuesses',
+			'Buzzer',
 			'Pronunciation',
-			'CountryRepresentation',
-			'SimilarQuestions'
+			'CountryRepresentation'
 		],
+		game_mode: false,
 		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ],
 		results: {
 			dialog: false,
