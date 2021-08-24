@@ -71,6 +71,11 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
         <v-btn color="primary" @click="searchData">
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
+
+        <div v-show="showGenreChart">
+          <v-divider></v-divider>
+          <GChart type="PieChart" :options="options" :data="genreChartData" />
+        </div>
       </v-container>
     </v-card>
 
@@ -141,13 +146,17 @@ export default {
       ],
       rules: [(value) => !!value || "Required."],
       showChart: false,
+      showGenreChart: true,
       Question_id: -1,
       points: 0,
       textarea: {},
       interval: null,
       highlightInterval:null,
       qid:"",
-      
+      genreChartData: [
+        ["Genre", "Count"],
+        ["None", 1],
+      ]
       
     };
   },
@@ -688,6 +697,22 @@ export default {
       console.log(response);
     });
 
+    this.axios({
+        url: "http://127.0.0.1:5000/genre_classifier/genre_data",
+        method: "POST",
+        data: formData,
+    }).then((response) => {
+        genre_data = response.data["genre_data"];
+        if (genre_data.length != 0) {
+          let header = [["Subgenre", "Count"]];
+          for (let i = 0; i < genre_data.length; i++) {
+            header.concat(genre_data[i]);;
+          }
+          // console.log(header.concat(this.qa.subgenre));
+          this.genreChartData = header;
+        }
+        // console.log(this.highlight_words)
+    });
     this.highlightInterval = setInterval(
       function () {
         let backdrop = this.$refs.backdrop;
