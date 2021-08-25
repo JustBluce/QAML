@@ -47,8 +47,8 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           <div class="highlight" v-html="highlight_text"></div>
         </div>
         <v-textarea
-          background-color="background"
           ref="textarea"
+          background-color="background"
           class="highlight-textarea my-4"
           rows="10"
           label="Question"
@@ -314,7 +314,7 @@ export default {
                 delete this.qa.highlight_words[response.data["remove_highlight"][i]];
               }
             for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-                this.qa.highlight_words[response.data["hightlight_words"][i]] = "";
+                this.qa.highlight_words[response.data["hightlight_words"][i]] = "yellow";
               }
             
             // this.qa.text =
@@ -482,7 +482,7 @@ export default {
                 delete this.qa.highlight_words[response.data["remove_highlight"][i]];
               }
           for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-                this.qa.highlight_words[response.data["hightlight_words"][i]] = "";
+                this.qa.highlight_words[response.data["hightlight_words"][i]] = "yellow";
             }
           // this.qa.text =
           //   this.qa.text.substr(
@@ -734,6 +734,7 @@ export default {
       );
       formData.append("id", this.id);
       formData.append("qid", this.qid);
+      formData.append("user_id", this.user_id);
       this.axios({
         url: "http://127.0.0.1:5000/genre_classifier/classify",
         method: "POST",
@@ -754,14 +755,14 @@ export default {
   },
   mounted() {
     let formData = new FormData();
-    formData.append("Timestamp", "2021-08-02 19:57:42");
-    this.axios({
-      url: "http://127.0.0.1:5000/question/Question_id",
-      method: "POST",
-    }).then((response) => {
-      this.Question_id = response.data["Question_id"];
-      console.log(response);
-    });
+    // formData.append("Timestamp", "2021-08-02 19:57:42");
+    // this.axios({
+    //   url: "http://127.0.0.1:5000/question/Question_id",
+    //   method: "POST",
+    // }).then((response) => {
+    //   this.Question_id = response.data["Question_id"];
+    //   console.log(response);
+    // });
 
     
     this.highlightInterval = setInterval(
@@ -796,15 +797,15 @@ export default {
   padding-top: 1.25em
   }
 mark {
-  display: inline-block;
-  border-radius: 5px;
+  /* display: inline-block; */
+  /* border-radius: 5px; */
   color: transparent;
   opacity: 0.8;
 }
 .backdrop {
   position: absolute;
   margin-top: 10px;
-  padding-left: 12px;
+  padding-left: 13px;
   padding-right: 12px;
   line-height: 1.75rem;
   z-index: 1;

@@ -27,6 +27,7 @@ Developers: Damian Rene and Jason Liu
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           icon
+          large
           class="ml-2 mr-1"
           v-bind="attrs"
           v-on="on"

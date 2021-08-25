@@ -30,7 +30,13 @@ Developers: Jason Liu
 
     <v-spacer></v-spacer>
 
-    <v-menu offset-y rounded :close-on-content-click="false">
+    
+    <v-menu
+      transition="fade-transition"
+      offset-y
+      rounded
+      :close-on-content-click="false"
+    >
       <template v-slot:activator="{ on: onMenu }">
         <v-tooltip bottom>
           <template v-slot:activator="{ on: onTooltip, attrs }">
