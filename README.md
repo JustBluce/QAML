@@ -4,7 +4,7 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/JustBluce/TryoutProject?color=lightgreen&style=for-the-badge)
 ![GitHub contributors](https://img.shields.io/github/contributors/JustBluce/TryoutProject?color=lightgreen&style=for-the-badge)
 
-QAML (*/ˈkæməl/*, **Q**uestion-writing **A**ided by **M**achine **L**earning) is an interface for adversarial question-writing enhanced by the QA [dataset](https://s3-us-west-2.amazonaws.com/pinafore-us-west-2/qanta-jmlr-datasets/qanta.train.2018.04.18.json).
+QAML (*/ˈkæməl/*, **Q**uestion-writing **A**ided by **M**achine **L**earning) is an interface for adversarial question-writing enhanced by the [QANTA QA dataset](https://s3-us-west-2.amazonaws.com/pinafore-us-west-2/qanta-jmlr-datasets/qanta.train.2018.04.18.json).
 
 Front end: Vue.js
 
