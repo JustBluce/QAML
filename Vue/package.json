@@ -16,6 +16,7 @@
     "test:ci": "npm run lint && npm run test:unit"
   },
   "dependencies": {
+    "@chenfengyuan/vue-countdown": "^1.1.5",
     "@mdi/font": "^5.9.55",
     "axios": "^0.21.1",
     "babel-plugin-transform-remove-strict-mode": "0.0.2",

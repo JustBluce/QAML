@@ -23,6 +23,7 @@ const store = new Vuex.Store({
 			'CountryRepresentation',
 			'SimilarQuestions'
 		],
+		game_mode: false,
 		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ],
 		results: {
 			dialog: false,
