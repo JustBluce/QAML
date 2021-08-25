@@ -11,6 +11,11 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	state: {
+		/* user: {
+			loggedIn: false,
+			verified: false,
+			data: null
+		}, */
 		workspaces: initial_workspaces,
 		workspace_stack: initial_workspaces.map((workspace) => workspace.id),
 		workspace_index: initial_workspaces.length,
@@ -36,6 +41,16 @@ const store = new Vuex.Store({
 		//user
 	},
 	mutations: {
+		/* SET_LOGGED_IN(state, value) {
+			state.user.loggedIn = value;
+		},
+		SET_USER(state, data) {
+			state.user.data = data;
+		},
+		SET_VERIFIED(state, value){
+			state.user.verified = value;
+		}, */
+
 		createWorkspace(state, title) {
 			let newWorkspace = defaultWorkspace(state.workspace_index);
 			if (title) {

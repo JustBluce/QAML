@@ -79,7 +79,9 @@ def get_pretrained_tfidf_vectorizer():
     vectorizer = params["tfidf_vectorizer"]
     Matrix = params["tfidf_matrix"]
     ans = params["i_to_ans"]
-    return vectorizer, Matrix, ans
+    feature_names = vectorizer.get_feature_names()
+    return vectorizer, Matrix, ans, feature_names
+
 
 
 def get_pronunciation_models():
@@ -107,7 +109,7 @@ def get_pronunciation_models():
     return pron_vectorizer, pron_regression, pron_word_freq
 
 
-def guess_top_n(question, params, max=12, n=3):
+def guess_top_n(question, params, max=5, n=3):
     """
     Parameters
     ----------
@@ -121,6 +123,7 @@ def guess_top_n(question, params, max=12, n=3):
     answer[0][0:n]: Retrieves the top n guesses from the tf-idf model in the following format: tuple ("name_of_wikipedia_document", confidence_score)
 
     """
+    # start=time.time()
     vectorizer, Matrix, ans = params[0], params[1], params[2]
     answer = []
     repre = vectorizer.transform(question)
@@ -128,6 +131,8 @@ def guess_top_n(question, params, max=12, n=3):
     indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
     for i in range(len(question)):
         answer.append([(ans[j], matrix[i, j]) for j in indices[i]])
+    # end = time.time()
+    # print("__________________TEST____________________",end-start)
     return answer[0][0:n]
 
 

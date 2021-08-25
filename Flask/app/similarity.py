@@ -116,7 +116,7 @@ def retrieve_similar_question():
     if request.method == "POST":
         question = request.form.get("text")
         ans = request.form.get("answer_text")
-        q_id = request.form.get("id")
+        q_id = request.form.get("qid")
         date_incoming = request.form.get("date")
     start =time.time()
     questions.append(question)

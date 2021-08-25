@@ -13,7 +13,24 @@ Developers: Jason Liu
 
     <WorkspaceBtns v-if="qa" />
 
-    <v-divider v-if="qa" class="mx-2" vertical></v-divider>
+    <v-divider v-if="qa" class="my-1" vertical></v-divider>
+
+        <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          icon
+          large
+          class="mr-1"
+          v-bind="attrs"
+          v-on="on"
+          @click="$router.push('tutorial').catch(() => {})"
+        >
+          <v-icon>mdi-school-outline</v-icon>
+        </v-btn>
+      </template>
+      <span>Tutorial</span>
+    </v-tooltip>
+
 
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
