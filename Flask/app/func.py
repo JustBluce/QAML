@@ -461,6 +461,8 @@ def insert():
             message_json = "Successfully insert a new question_json record of the edit history of question"
         except:
             message_json = "Error insert a new question_json record of the edit history of question"
+            print(message_json)
+            db.session.rollback()
 
         try:
             me = Question(Question_id=q_id, Question=question, Timestamp_frontend=date_incoming, Answer=ans, UserId=user_id, Timestamp_backend=date_incoming , Point=points, Genre=genre_1)
@@ -469,6 +471,8 @@ def insert():
             message_json = "Successfully insert a new question_json record of the edit history of question"
         except:
             message_json = "Error insert a new question_json record of the edit history of question"
+            print(message_json)
+            db.session.rollback()
 
     with open('machine_guess.json', 'w') as outfile:
         json.dump(machine_guess, outfile)
