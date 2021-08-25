@@ -5,16 +5,52 @@ Jason Liu
 Cai Zefan
   - Make the timer set with 1 hour when first accessed
 -->
-
 <template>
-  <div class="timer">
-    <div class="timer">
-      <div id="hours">{{ hours }}</div>
-      :
-      <div id="minutes">{{ minutes }}</div>
-      :
-      <div id="seconds">{{ seconds }}</div>
-    </div>
+  <div>
+    <v-switch
+      class="my-1"
+      hide-details
+      v-model="game_mode"
+      :label="`Game mode ${game_mode ? 'on' : 'off'}`"
+    ></v-switch>
+    <v-menu
+      ref="menu"
+      v-model="menu"
+      :disabled="game_mode"
+      :close-on-content-click="false"
+      transition="scale-transition"
+      offset-y
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-text-field
+          v-model="menu_time"
+          label="Select time"
+          prepend-icon="mdi-clock-time-four-outline"
+          :disabled="game_mode"
+          readonly
+          v-bind="attrs"
+          v-on="on"
+        ></v-text-field>
+      </template>
+      <v-time-picker
+        v-if="menu"
+        v-model="menu_time"
+        format="24hr"
+        color="primary"
+        full-width
+        use-seconds
+        scrollable
+        @input="setTime"
+      ></v-time-picker>
+    </v-menu>
+
+    <vue-countdown :time="time" v-slot="{ hours, minutes, seconds }" @end="end">
+      <h2 class="text-h2 font-weight-regular text-center">
+        {{ hours }}<span class="px-2">:</span
+        >{{ String(minutes).padStart(2, "0") }}<span class="px-2">:</span
+        >{{ String(seconds).padStart(2, "0") }}
+      </h2>
+    </vue-countdown>
 
     <v-dialog v-model="dialog" width="500">
       <v-card>
@@ -33,19 +69,21 @@ Cai Zefan
 </template>
 
 <script>
+import VueCountdown from "@chenfengyuan/vue-countdown";
+
 export default {
   name: "Timer",
   props: {
     workspace_id: Number,
   },
+  components: {
+    VueCountdown,
+  },
   data() {
     return {
-      hours: "0",
-      minutes: "05",
-      seconds: "00",
-      end: new Date(new Date().getTime() + 5 * 60 * 1000),
-      timer: null,
-      time: 20,
+      time: 5 * 60 * 1000,
+      menu: false,
+      menu_time: null,
       dialog: false,
     };
   },
@@ -53,67 +91,30 @@ export default {
     workspace() {
       return this.$store.getters.workspace(this.workspace_id);
     },
+    game_mode: {
+      get() {
+        return this.$store.state.game_mode;
+      },
+      set(value) {
+        this.$store.state.game_mode = value;
+      },
+    },
   },
   methods: {
-    validate() {
-      let hours = parseInt(this.hours);
-      let minutes = parseInt(this.minutes);
-      let seconds = parseInt(this.seconds);
-      if (seconds < 0) {
-        seconds = 0;
-      }
-      if (seconds > 59) {
-        minutes += Math.floor(seconds / 60);
-        seconds = seconds % 60;
-      }
-      if (minutes < 0) {
-        minutes = 0;
-      }
-      if (minutes > 59) {
-        hours += Math.floor(minutes / 60);
-        minutes = minutes % 60;
-      }
-      if (hours < 0) {
-        hours = 0;
-      }
-      this.hours = String(hours);
-      this.minutes = String(minutes).padStart(2, "0");
-      this.seconds = String(seconds).padStart(2, "0");
+    end() {
+      this.dialog = true;
+      this.axios({
+        url: "http://127.0.0.1:5000/func/timeup",
+        method: "GET",
+      }).then((response) => {
+        console.log(response);
+      });
     },
-    // countdown() {
-    //   this.time--;
-    //   if (this.time == 0) {
-    //     clearInterval(this.timer);
-    //   }
-    // },
-    display(time) {
-      this.hours = String(Math.floor(time / 3600));
-      this.minutes = String(Math.floor(time / 60 - 60 * this.hours)).padStart(
-        2,
-        "0"
-      );
-      this.seconds = String(
-        Math.floor(time - 3600 * this.hours - 60 * this.minutes)
-      ).padStart(2, "0");
+  
+  setTime() {
+      let times = this.menu_time.split(":");
+      this.time = (+times[0] * 60 * 60 + +times[1] * 60 + +times[2]) * 1000;
     },
-    update() {
-      let diff = (this.end - Date.now()) / 1000;
-      this.display(diff);
-      if (diff <= 0) {
-        this.dialog = true;
-        this.axios({
-          url: "http://127.0.0.1:5000/func/timeup",
-          method: "GET",
-        }).then((response) => {
-          console.log(response);
-        });
-        clearInterval(this.timer);
-        this.display(0);
-      }
-    },
-  },
-  mounted() {
-    this.timer = setInterval(this.update, 1000);
   },
   // beforeDestroy() {
   //   clearInterval(this.timer);

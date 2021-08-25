@@ -9,10 +9,10 @@ Developers: Jason Liu
     elevation="4"
     min-width="300"
   >
-    <v-card-title class="handle" style="cursor: grab">
+    <v-card-title class="handle py-2" style="cursor: grab">
       {{ widget.title }}
       <v-progress-linear
-        class="mt-2"
+        class="my-1"
         :color="widget.type"
         rounded
         value="100"

@@ -46,13 +46,13 @@ export function widgetTemplate(type) {
 			id: 3,
 			title: 'Similar questions',
 			type: 'SimilarQuestions',
-			container: 'right'
+			container: 'left'
 		},
 		Buzzer: {
 			id: 4,
 			title: 'Buzzer',
 			type: 'Buzzer',
-			container: 'left'
+			container: 'right'
 		},
 		MachineGuesses: {
 			id: 5,
