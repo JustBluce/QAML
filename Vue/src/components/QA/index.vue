@@ -73,10 +73,14 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
 
-        <div v-show="showGenreChart">
-          <v-divider></v-divider>
-          <GChart type="PieChart" :options="options" :data="genreChartData" />
-        </div>
+        <v-card class="my-4" color="background">
+          <h3 class="mb-2">{{ this.user_displayName }}'s genre distribution</h3>
+
+          <div v-show="showGenreChart">
+            <v-divider></v-divider>
+            <GChart type="PieChart" :options="options" :data="genreChartData" />
+          </div>
+        </v-card>
       </v-container>
     </v-card>
 
@@ -159,6 +163,7 @@ export default {
         ["None", 1],
       ],
       user_id: "",
+      user_displayName: "",
     };
   },
   computed: {
@@ -196,6 +201,7 @@ export default {
   },
   created: function () {
     this.user_id = firebase.auth().currentUser.uid;
+    this.user_displayName = firebase.auth().currentUser.displayName;
     // console.log(this.user_id)
     this.interval = setInterval(
       function () {
@@ -236,7 +242,7 @@ export default {
             second: "2-digit",
           })
         );
-        formData.append("id", this.id);
+        formData.append("id", this.user_id);
         formData.append("qid", this.qid);
         // this.qa.genre = this.selected_genre
         // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
@@ -302,6 +308,10 @@ export default {
             //     this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
             //     this.qa.text.length
             //   );
+          } else {
+            if (this.qa.buzz_word_this in this.qa.highlight_words) {
+              delete this.qa.highlight_words[this.qa.buzz_word_this];
+            }
           }
           // console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]));
           // console.log(this.qa.text.indexOf(response.data["buzz_word"]));
@@ -422,7 +432,7 @@ export default {
           second: "2-digit",
         })
       );
-      formData.append("id", this.id);
+      formData.append("id", this.user_id);
       formData.append("qid", this.qid);
       this.axios({
         url: "http://127.0.0.1:5000/func/act",
@@ -479,6 +489,10 @@ export default {
           //     this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
           //     this.qa.text.length
           //   );
+        } else {
+          if (this.qa.buzz_word_this in this.qa.highlight_words) {
+            delete this.qa.highlight_words[this.qa.buzz_word_this];
+          }
         }
       });
       this.axios({
@@ -547,7 +561,7 @@ export default {
           second: "2-digit",
         })
       );
-      formData.append("id", this.id);
+      formData.append("id", this.user_id);
       formData.append("qid", this.qid);
       // this.axios({
       //   url: "http://127.0.0.1:5000/over_present/highlight",
@@ -723,8 +737,9 @@ export default {
           second: "2-digit",
         })
       );
-      formData.append("id", this.id);
+      formData.append("id", this.user_id);
       formData.append("qid", this.qid);
+      formData.append("user_id", this.user_id);
       this.axios({
         url: "http://127.0.0.1:5000/genre_classifier/classify",
         method: "POST",

@@ -304,7 +304,7 @@ def buzz_full_question():
     if q_id in prev_highlight:
         temp_highlight = list(set(prev_highlight[q_id]) - set(hightlight_words)) 
         temp_highlight = [x for x in temp_highlight if x not in stop_words]
-    prev_highlight[q_id] = hightlight_words
+    prev_highlight[q_id] = hightlight_words + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words]
     print("----TIME (s) : /binary_search_based_buzzer/get_importance_sentence---", end - start)
     
     return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word, "hightlight_words":hightlight_words + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words], "remove_highlight":temp_highlight})

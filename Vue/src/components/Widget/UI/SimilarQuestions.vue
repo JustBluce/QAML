@@ -18,7 +18,7 @@ Developers: Atith Gandhi, Raj Shah and Jason Liu
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <span :style="{ color: $vuetify.theme.currentTheme.primary }">{{
-            item.text
+           "Question: " + item.text 
           }}</span>
         </td>
       </template>
