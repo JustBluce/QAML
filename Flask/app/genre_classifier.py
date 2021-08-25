@@ -48,3 +48,31 @@ def classify():
     # return jsonify({"genre": genres[genre_index[0]], "subgenre": subgenre})
     return jsonify({ "subgenre": sub_genres})
     
+@genre_classifier.route("/genre_data", methods=["POST"])
+def genre_data():
+    if request.method == "POST":
+        question = request.form.get("text")
+        u_id = request.form.get("user_id")
+
+    print(u_id)
+    start = time.time()
+    if u_id is None:
+        u_id = '0'
+    sql="SELECT Genre, count(*) from QA.Question  where UserId LIKE " + u_id  + " group by Genre"
+    result_sql = db.session.execute(sql)
+    result_sql = result_sql.fetchall()
+    
+    result=[]
+    for instance in result_sql:
+        
+        temp = []
+        temp.append(instance[0])
+        temp.append(instance[1])
+        result.append(temp)
+
+    print(result)
+    end = time.time()
+    print("----TIME (s) : /genre_classifier/genre_data [genre]---",end - start)
+    return jsonify({ "genre_data": result})
+    
+    

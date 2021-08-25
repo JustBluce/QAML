@@ -2,7 +2,7 @@
  * Developers: Jason Liu
  */
 
-export function defaultQA() {
+ export function defaultQA() {
 	return {
 		text: '',
 		answer: [],
@@ -15,11 +15,12 @@ export function defaultQA() {
 		genre: '',
 		subgenre: '',
 		top_guess_buzzer: '',
-		uid: '',
-		pronunciation: []
+		uid:'',
+		pronunciation: [],
+		buzz_word_this:'',
+		highlight_words : {},
 	};
 }
-
 export function widgetTemplate(type) {
 	let widget_templates = {
 		Timer: {

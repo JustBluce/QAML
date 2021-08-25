@@ -11,7 +11,16 @@ from import_libraries import *
 from util import * # Imports the tf-idf vectorizer used in qanta
 
 binary_search_based_buzzer = Blueprint('binary_search_based_buzzer', __name__)
-
+prev_highlight = {}
+def get_tfidf_for_words(text, tfidf):
+    feature_names = tfidf.get_feature_names()
+    tfidf_matrix= tfidf.transform(text).todense()
+    feature_index = tfidf_matrix[0,:].nonzero()[1]
+    tfidf_scores = zip([feature_names[i] for i in feature_index], [tfidf_matrix[0, x] for x in feature_index])
+    foodict = {k: v for k, v in dict(tfidf_scores).items() if k in break_into_words(text[0])}
+    # print(foodict, text)
+    sort_orders = sorted(foodict.items(), key=lambda x: x[1], reverse=True)[:4]
+    return sort_orders
 
 def buzz(question, ans, min_index=5):
     """
@@ -30,26 +39,28 @@ def buzz(question, ans, min_index=5):
 
     """
     answer = []
+    # start = time.time()
     temp_word_array = question.split(' ')
     # check if buzzer ever goes above threshold
     index_of_bin_search = len(temp_word_array)
     
-    if(len(temp_word_array)<10):
+    if(len(temp_word_array)<15):
         return "The string is too short", "", False, "", -1, -1
-    if(len(temp_word_array)<20):
+    if(len(temp_word_array)<30):
         question_sentence = question
         temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=1)
         if (temp_var[0][1] < threshold_buzz):
             return "The string does not cross the threshold", "", False, "", -1, -1
+    
     # print(temp_word_array)
     max_index = index_of_bin_search - 1
-    max_index = int(max_index/10)*10
+    max_index = int(max_index/15)*15
     # print(max_index,temp_word_array)
     # while max_index >= min_index:
     set_flag = 0
     first_question_sentence = ''
     first_index_of_bin_search = -1
-    for i in range(10, max_index+1, 10):
+    for i in range(15, max_index+1, 15):
         # print(i, max_index)
         index_of_bin_search = i
         question_sentence = " ".join(temp_word_array[:index_of_bin_search])
@@ -63,9 +74,9 @@ def buzz(question, ans, min_index=5):
                 first_question_sentence = question_sentence
                 first_index_of_bin_search = index_of_bin_search
 
-
         elif(i == max_index):
             return "Buzzer does not cross the threshold", "", False, "", -1, -1
+        
     if(set_flag == 2):
         question_sentence = first_question_sentence
         index_of_bin_search = first_index_of_bin_search
@@ -86,15 +97,30 @@ def get_actual_guess_with_index(question, max=12):
     indices[0][0]: The index of the top guess in the corpus.
 
     """
+    start = time.time()
     vectorizer, Matrix, ans = params[0], params[1], params[2]
     answer = []
     repre = vectorizer.transform(question)
+    # print()
+    
+    
+    feature_names = params[3]
+    
+    tfidf_matrix = repre.todense()
+    feature_index = tfidf_matrix[0,:].nonzero()[1]
+    tfidf_scores = zip([feature_names[i] for i in feature_index], [tfidf_matrix[0, x] for x in feature_index])
+    # print(tfidf_scores)
+    foodict = {k: v for k, v in dict(tfidf_scores).items() if k not in break_into_words(question[0])}
+    # print(foodict)
+    sort_orders = sorted(foodict.items(), key=lambda x: x[1], reverse=True)[:4]
     matrix = Matrix.dot(repre.T).T
     indices = (-matrix).toarray().argsort(axis=1)[:, 0:max]
     for i in range(len(question)):
         idx = indices[i]
         answer.append([(ans[j], matrix[i, j]) for j in idx])
-    return answer[0][0][0:], indices[0][0]
+    # end = time.time()
+    # print("__________________TEST____________________",end-start)
+    return answer[0][0][0:], indices[0][0], [k[0].upper() for k in sort_orders]
 
 def check_drop_in_confidence(question, actual_confidence, max=50, ind = -1):
     """
@@ -124,6 +150,8 @@ def check_drop_in_confidence(question, actual_confidence, max=50, ind = -1):
             return answer[0][i][1]
     return actual_confidence
 
+
+
 def get_importance_of_each_sentence(question):
     """
     Parameters
@@ -141,7 +169,10 @@ def get_importance_of_each_sentence(question):
     ]
     
     """
-    actual_answer, index_of_answer = get_actual_guess_with_index(question = [question])
+    actual_answer, index_of_answer, hightlight_words  = get_actual_guess_with_index(question = [question])
+    # print(np.shape(repre_1), len(repre_1[0][0]))
+    # hightlight_words = sorted(repre_1[0], reverse=True)
+    # print(hightlight_words)
     actual_confidence = actual_answer[1]
     temp_sentence_array = break_into_sentences(question)
     highest_confidence = -10
@@ -163,7 +194,7 @@ def get_importance_of_each_sentence(question):
     for i in range(len(array_of_importances)):
         a = break_into_words(temp_sentence_array[i])
         most_important.append({"sentence":a[0] + " ... " + a[-1], "importance":round(array_of_importances[i],3)})
-    return most_important, temp_sentence_array[highest_confidence_sentence], highest_confidence_sentence+1
+    return most_important, temp_sentence_array[highest_confidence_sentence], highest_confidence_sentence+1, hightlight_words
 
 def insert_into_db(q_id, date_incoming, date_outgoing, question, ans, buzzer_string, buzzer_sentence_number, buzzer_word_number, most_important_sentence_number, most_important_sentence, if_ans_found):
     ans = ans.replace(" ","_")
@@ -242,7 +273,7 @@ def buzz_full_question():
         question = request.form.get("text")
         date_incoming = request.form.get("date")
         ans = request.form.get("answer_text")
-        q_id = request.form.get("id")
+        q_id = request.form.get("qid")
     ans = ans.strip()
     if(question.strip()==""):
         return jsonify({"buzz": "", "buzz_word": "", "flag": False, "top_guess" : "", "importance": [{"sentence":"-", "importance":-1}] })
@@ -255,8 +286,9 @@ def buzz_full_question():
  
     start = time.time()
     buzzer_last_word =""
+    hightlight_words = []
     if(flag):
-        importance_sentence, sentence_string, sentence_number = get_importance_of_each_sentence(buzzer_string)
+        importance_sentence, sentence_string, sentence_number, hightlight_words = get_importance_of_each_sentence(buzzer_string)
         buzzer_last_word=buzzer_string[-10:]
         buzz_word.append(buzzer_last_word)
         date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
@@ -265,8 +297,14 @@ def buzz_full_question():
         buzzer_string = buzzer_string + ' 🔔BUZZ '
     else:
 
-        importance_sentence, sentence_string, sentence_number = get_importance_of_each_sentence(question)
+        importance_sentence, sentence_string, sentence_number, hightlight_words = get_importance_of_each_sentence(question)
     end = time.time()
+    temp_highlight = []
+    stop_words = set(stopwords.words('english'))
+    if q_id in prev_highlight:
+        temp_highlight = list(set(prev_highlight[q_id]) - set(hightlight_words)) 
+        temp_highlight = [x for x in temp_highlight if x not in stop_words]
+    prev_highlight[q_id] = hightlight_words
     print("----TIME (s) : /binary_search_based_buzzer/get_importance_sentence---", end - start)
     
-    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word})
+    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word, "hightlight_words":hightlight_words + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words], "remove_highlight":temp_highlight})

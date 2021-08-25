@@ -124,7 +124,6 @@ def add_to_db(q_id, date_incoming, date_outgoing, answer, question, ans, array_o
         # print(array_of_top_guesses_strings.index(ans))
         if ans in array_of_top_guesses_strings:
             isRelevant =  False
-            # print("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
             if(state_machine_guess[q_id]["ans_pos"] != array_of_top_guesses_strings.index(ans)):
                 prev_pos = state_machine_guess[q_id]["ans_pos"]
                 
@@ -180,7 +179,7 @@ def act():
         question = request.form.get("text")
         ans = request.form.get("answer_text")
         date_incoming = request.form.get("date")
-        q_id = request.form.get("id")
+        q_id = request.form.get("qid")
     if q_id not in time_stamps:
         time_stamps[q_id]=[]
         questions_all_time_stamps[q_id] = []
@@ -247,6 +246,23 @@ def timeup():
 #     country_representation, countries = country_present1(question)
 #     highlight=highlight_json(countries)
 #     return jsonify({"country_representation": country_representation, "Highlight": highlight})
+class Question_json(db.Model):
+    __tablename__ = 'Question_json'
+    q_id = db.Column(db.String, primary_key=True)
+    data = db.Column(db.JSON)
+    points = db.Column(db.Integer)
+    UID = db.Column(db.String)
+
+class Question(db.Model):
+    __tablename__ = 'Question'
+    Question_id = db.Column(db.String, primary_key=True)
+    Question = db.Column(db.String)
+    Timestamp_frontend = db.Column(db.DateTime, primary_key=True)
+    Answer = db.Column(db.String)
+    UserId = db.Column(db.String)
+    Timestamp_backend = db.Column(db.DateTime)
+    Point = db.Column(db.Integer)
+    Genre = db.Column(db.String)
 
 @func.route("/insert", methods=["POST"])
 def insert():
@@ -264,19 +280,25 @@ def insert():
     if request.method == "POST":
         question = request.form.get("text")
         ans = request.form.get("answer_text")
-        q_id = request.form.get("id")
+        q_id = request.form.get("qid")
+        user_id = request.form.get("user_id")
+        genre_1 = request.form.get("genre")
+        date_incoming = request.form.get("date")
+        
     # print(question, ans)
     # answer = guess(question=[question])
     # print(q_id)
     big_dict = {
         "q_id": q_id,
         "data":{},
-        "points":0
+        "points":0,
+        "genre": genre_1,
     }
     small_dict = {
         "q_id": q_id,
         "data":{},
-        "points":0
+        "points":0,
+        "genre": genre_1,
     }
     points = 0
     if q_id in state_machine_guess:
@@ -432,6 +454,22 @@ def insert():
         json.dump(small_dict, outfile)
     with open('test_post_hoc.json', 'w') as outfile:
         json.dump(big_dict, outfile)
+        try:
+            me = Question_json(q_id=q_id, data=big_dict, UID=user_id, points=points)
+            db.session.add(me)
+            db.session.commit()
+            message_json = "Successfully insert a new question_json record of the edit history of question"
+        except:
+            message_json = "Error insert a new question_json record of the edit history of question"
+
+        try:
+            me = Question(Question_id=q_id, Question=question, Timestamp_frontend=date_incoming, Answer=ans, UserId=user_id, Timestamp_backend=date_incoming , Point=points, Genre=genre_1)
+            db.session.add(me)
+            db.session.commit()
+            message_json = "Successfully insert a new question_json record of the edit history of question"
+        except:
+            message_json = "Error insert a new question_json record of the edit history of question"
+
     with open('machine_guess.json', 'w') as outfile:
         json.dump(machine_guess, outfile, indent=2)
     with open('pronunciation_dict.json', 'w') as outfile:
@@ -465,12 +503,8 @@ def insert():
     if q_id in similarity:
         similarity.pop(q_id)
         state_similarity.pop(q_id)
-    # if q_id in pronunciation_dict:
-    #     print(json.dumps(pronunciation_dict[q_id], indent = 7))
-    # if q_id in country_represent_json:
-    #     print(json.dumps(country_represent_json[q_id], indent = 7))
-    # qa_table = metadata.tables["QA"]
-    # db.session.execute(qa_table.insert().values(Question=question, Answer=ans))
+    small_dict["points"] = points
+    big_dict["points"] = points
     end=time.time()
     print("----TIME (s) : /func/submit [SUBMIT]---",end-start)
     print(points)
