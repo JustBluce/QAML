@@ -232,7 +232,7 @@ def country_present():
         question = request.form.get("text")
         ans = request.form.get("answer_text")
         date_incoming = request.form.get("date")
-        q_id = request.form.get("id")
+        q_id = request.form.get("qid")
         if q_id not in current_under_countries:
             current_over_countries[q_id] = []
             current_under_countries[q_id] = []
@@ -303,9 +303,9 @@ def country_present():
         insert_into_db(q_id, date_incoming, date_outgoing, question, ans, edit_message, added_under_represented_countries, removed_over_represented_countries, added_over_represented_countries)
         # print(country_represent_json)
     end = time.time()
-    print(current_over_countries[q_id])
+    # print(current_over_countries[q_id])
     print("----TIME (s): /country_represent/country_present---", end - start)
-    return jsonify({"country_representation": answer, "country": countries, "current_over_countries" : current_over_countries[q_id]})
+    return jsonify({"country_representation": answer, "country": countries, "current_over_countries" : [" " + x for x in current_over_countries[q_id]] + [" " + x.capitalize() for x in current_over_countries[q_id]]})
 
 # def country_present1(question):
 # <<<------DEPRECIATED------>>>

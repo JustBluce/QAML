@@ -29,6 +29,7 @@ Developers: Jason Liu
           icon
           large
           v-bind="attrs"
+          large
           v-on="on"
           @click="show = true"
         >
@@ -89,6 +90,7 @@ Developers: Jason Liu
               <v-list-item-action>
                 <v-btn
                   icon
+                  large
                   outlined
                   color="green"
                   @click="$store.commit('addWorkspace', item.id)"

@@ -1,16 +1,14 @@
 <!--
 Developers: Jason Liu
 -->
-
 <template>
   <div>
     <v-switch
       class="my-1"
-      v-model="game_mode"
       hide-details
+      v-model="game_mode"
       :label="`Game mode ${game_mode ? 'on' : 'off'}`"
     ></v-switch>
-
     <v-menu
       ref="menu"
       v-model="menu"

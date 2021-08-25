@@ -47,8 +47,8 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           <div class="highlight" v-html="highlight_text"></div>
         </div>
         <v-textarea
-          background-color="background"
           ref="textarea"
+          background-color="background"
           class="highlight-textarea my-4"
           rows="10"
           label="Question"
@@ -72,6 +72,11 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
         <v-btn color="primary" @click="searchData">
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
+
+        <div v-show="showGenreChart">
+          <v-divider></v-divider>
+          <GChart type="PieChart" :options="options" :data="genreChartData" />
+        </div>
       </v-container>
     </v-card>
 
@@ -142,11 +147,18 @@ export default {
       ],
       rules: [(value) => !!value || "Required."],
       showChart: false,
+      showGenreChart: false,
       Question_id: -1,
       points: 0,
       textarea: {},
       interval: null,
-      highlight_words: {},
+      highlightInterval: null,
+      qid: "",
+      genreChartData: [
+        ["Genre", "Count"],
+        ["None", 1],
+      ],
+      user_id: "",
     };
   },
   computed: {
@@ -157,27 +169,9 @@ export default {
       return this.workspace.qa;
     },
     highlight() {
-      // return {
-      //   "🔔BUZZ": "yellow",
-      //   "highlight me": "primary",
-      //   Chávez: "yellow",
-      //   Takemitsu: "yellow",
-
-      // };
-      return this.highlight_words;
-      // return {
-      //   "🔔BUZZ": "yellow",
-      //   "highlight me": "primary",
-      //   mask: "yellow",
-      //   highlight: "yellow",
-      //   red: "red",
-      //   orange: "orange",
-      //   yellow: "yellow",
-      //   green: "green",
-      //   blue: "blue",
-      //   purple: "purple",
-      // };
+      return this.qa.highlight_words;
     },
+
     highlight_text() {
       let highlight_regex = new RegExp(
         Object.keys(this.highlight).join("|"),
@@ -190,8 +184,7 @@ export default {
         .replace(/\n$/g, "\n\n")
         .replace(
           highlight_regex,
-          (word) =>
-            `<mark class="${this.highlight[word.toLowerCase()]}">${word}</mark>`
+          (word) => `<mark class="${this.highlight[word]}">${word}</mark>`
         );
     },
     options() {
@@ -202,9 +195,24 @@ export default {
     },
   },
   created: function () {
+    this.user_id = firebase.auth().currentUser.uid;
+    // console.log(this.user_id)
     this.interval = setInterval(
       function () {
+        this.qid =
+          this.user_id +
+          new Date().toLocaleString("en-US", {
+            hour12: false,
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          });
+        this.qa.highlight_words = {};
         let formData = new FormData();
+
         // console.log(this.qa.text.lastIndexOf("🔔") > 0);
         // while (this.qa.text.lastIndexOf("🔔") > 0) {
         //   this.qa.text =
@@ -229,6 +237,7 @@ export default {
           })
         );
         formData.append("id", this.id);
+        formData.append("qid", this.qid);
         // this.qa.genre = this.selected_genre
         // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
         //         {
@@ -261,13 +270,28 @@ export default {
 
           this.qa.binary_search_based_buzzer = response.data["buzz"];
           this.qa.importance = response.data["importance"];
-          this.highlight = response.data["buzz_word"];
+          // this.highlight = response.data["buzz_word"];
           this.qa.top_guess_buzzer = response.data["top_guess"];
           if (
             this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
             response.data["flag"]
           ) {
-            this.highlight_words[response.data["buzzer_last_word"]] = "green";
+            if (this.qa.buzz_word_this in this.qa.highlight_words) {
+              delete this.qa.highlight_words[this.qa.buzz_word_this];
+            }
+            this.qa.buzz_word_this = response.data["buzzer_last_word"];
+            this.qa.highlight_words[response.data["buzzer_last_word"]] =
+              "orange";
+            for (let i = 0; i < response.data["remove_highlight"].length; i++) {
+              delete this.qa.highlight_words[
+                response.data["remove_highlight"][i]
+              ];
+            }
+            for (let i = 0; i < response.data["hightlight_words"].length; i++) {
+              this.qa.highlight_words[response.data["hightlight_words"][i]] =
+                "yellow";
+            }
+
             // this.qa.text =
             //   this.qa.text.substr(
             //     0,
@@ -309,8 +333,9 @@ export default {
             i < response.data["current_over_countries"].length;
             i++
           ) {
-            this.highlight_words[response.data["current_over_countries"][i]] =
-              "yellow";
+            this.qa.highlight_words[
+              response.data["current_over_countries"][i]
+            ] = "purple";
           }
           // console.log(this.highlight_words)
           // console.log(response);
@@ -321,8 +346,18 @@ export default {
           data: formData,
         }).then((response) => {
           this.qa.pronunciation = response.data["message"];
+          for (
+            let i = 0;
+            i < response.data["list_of_words_to_remove"].length;
+            i++
+          ) {
+            delete this.qa.highlight_words[
+              response.data["list_of_words_to_remove"][i]
+            ];
+          }
           for (let i = 0; i < response.data["message"].length; i++) {
-            this.highlight_words[response.data["message"][i]["Word"]] = "red";
+            this.qa.highlight_words[response.data["message"][i]["Word"]] =
+              "cyan";
           }
           // console.log(this.highlight_words)
           // console.log(response);
@@ -348,7 +383,10 @@ export default {
         });
     },
     keep_looping: _.debounce(function () {
+      // this.highlight_words = {}
+      console.log(this.qa.highlight_words);
       clearInterval(this.interval);
+
       let formData = new FormData();
       // console.log(
       //   new Date().toLocaleString("en-US", {
@@ -385,6 +423,7 @@ export default {
         })
       );
       formData.append("id", this.id);
+      formData.append("qid", this.qid);
       this.axios({
         url: "http://127.0.0.1:5000/func/act",
         method: "POST",
@@ -416,7 +455,20 @@ export default {
           this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
           response.data["flag"]
         ) {
-          this.highlight_words[response.data["buzzer_last_word"]] = "green";
+          if (this.qa.buzz_word_this in this.qa.highlight_words) {
+            delete this.qa.highlight_words[this.qa.buzz_word_this];
+          }
+          this.qa.buzz_word_this = response.data["buzzer_last_word"];
+          this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
+          for (let i = 0; i < response.data["remove_highlight"].length; i++) {
+            delete this.qa.highlight_words[
+              response.data["remove_highlight"][i]
+            ];
+          }
+          for (let i = 0; i < response.data["hightlight_words"].length; i++) {
+            this.qa.highlight_words[response.data["hightlight_words"][i]] =
+              "yellow";
+          }
           // this.qa.text =
           //   this.qa.text.substr(
           //     0,
@@ -454,8 +506,8 @@ export default {
           i < response.data["current_over_countries"].length;
           i++
         ) {
-          this.highlight_words[response.data["current_over_countries"][i]] =
-            "yellow";
+          this.qa.highlight_words[response.data["current_over_countries"][i]] =
+            "purple";
         }
         // console.log(this.highlight_words)
       });
@@ -465,8 +517,17 @@ export default {
         data: formData,
       }).then((response) => {
         this.qa.pronunciation = response.data["message"];
+        for (
+          let i = 0;
+          i < response.data["list_of_words_to_remove"].length;
+          i++
+        ) {
+          delete this.qa.highlight_words[
+            response.data["list_of_words_to_remove"][i]
+          ];
+        }
         for (let i = 0; i < response.data["message"].length; i++) {
-          this.highlight_words[response.data["message"][i]["Word"]] = "red";
+          this.qa.highlight_words[response.data["message"][i]["Word"]] = "cyan";
         }
       });
     }, 1000),
@@ -487,6 +548,7 @@ export default {
         })
       );
       formData.append("id", this.id);
+      formData.append("qid", this.qid);
       // this.axios({
       //   url: "http://127.0.0.1:5000/over_present/highlight",
       //   method: "POST",
@@ -509,8 +571,8 @@ export default {
           i < response.data["current_over_countries"].length;
           i++
         ) {
-          this.highlight_words[response.data["current_over_countries"][i]] =
-            "yellow";
+          this.qa.highlight_words[response.data["current_over_countries"][i]] =
+            "purple";
         }
         // console.log(this.highlight_words)
       });
@@ -542,7 +604,29 @@ export default {
             second: "2-digit",
           })
         );
-        formData.append("id", this.id);
+        formData.append("user_id", this.user_id);
+        formData.append("qid", this.qid);
+        formData.append("genre", this.qa.genre);
+
+        this.axios({
+          url: "http://127.0.0.1:5000/genre_classifier/genre_data",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          let genre_data = response.data["genre_data"];
+          console.log(genre_data);
+          this.showGenreChart = true;
+          if (genre_data.length != 0) {
+            let header = [["Genre", "Count"]];
+            for (let i = 0; i < genre_data.length; i++) {
+              header.push(genre_data[i]);
+            }
+            // console.log(header.concat(this.qa.subgenre));
+            this.genreChartData = header;
+            console.log(this.genreChartData);
+          }
+          console.log(this.highlight_words);
+        });
         this.axios({
           url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
           method: "POST",
@@ -640,6 +724,7 @@ export default {
         })
       );
       formData.append("id", this.id);
+      formData.append("qid", this.qid);
       this.axios({
         url: "http://127.0.0.1:5000/genre_classifier/classify",
         method: "POST",
@@ -658,19 +743,19 @@ export default {
       this.$store.commit("addResult", result);
     },
     after_click_submit_button() {
-    const user = firebase.auth().currentUser;
-    let formData = new FormData();
-    formData.append("username", user.displayName);
-    formData.append("email", user.email);
-    formData.append("UID", user.uid);
-    this.axios({
-      url: "http://127.0.0.1:5000/test1/json",
-      method: "POST",
-    }).then((response) => {
-      this.Question_id = response.data["Question_id"];
-      console.log(response);
-    });
-    }
+      const user = firebase.auth().currentUser;
+      let formData = new FormData();
+      formData.append("username", user.displayName);
+      formData.append("email", user.email);
+      formData.append("UID", user.uid);
+      this.axios({
+        url: "http://127.0.0.1:5000/test1/json",
+        method: "POST",
+      }).then((response) => {
+        this.Question_id = response.data["Question_id"];
+        console.log(response);
+      });
+    },
   },
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
@@ -708,15 +793,15 @@ export default {
   word-wrap: break-word;
 }
 mark {
-  display: inline-block;
-  border-radius: 5px;
+  /* display: inline-block; */
+  /* border-radius: 5px; */
   color: transparent;
   opacity: 0.8;
 }
 .backdrop {
   position: absolute;
   margin-top: 10px;
-  padding-left: 12px;
+  padding-left: 13px;
   padding-right: 12px;
   line-height: 1.75rem;
   z-index: 1;

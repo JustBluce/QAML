@@ -72,6 +72,10 @@ export default {
 
 <style scoped>
 .highlight {
-  background-color: #fffab8;
+  background-color: #ee9a00;
+  opacity: 0.8;
+  color: black;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 </style>
