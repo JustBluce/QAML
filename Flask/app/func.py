@@ -312,7 +312,8 @@ def insert():
                 points +=10
         else:
             points += 20
-    
+    else:
+        points += 20
     if q_id in difficulty:
         if len(difficulty[q_id])>0:
             diff_level = difficulty[q_id][-1]["difficulty"]
@@ -327,6 +328,8 @@ def insert():
             similar_top_3 = similarity[q_id][-1]["edit_history"]["isSimilar"]
             if not similar_top_3:
                 points+=10
+    else:
+        points+=10
 
     counter_guess = 0
     counter_pron = 0
@@ -400,49 +403,52 @@ def insert():
             # small_dict["data"][i]["Relevant"] = Relevant
             flag = 0
             Flag_String = ""
-            if q_id in machine_guess and counter_guess < len(machine_guess[q_id]):
-                if i == machine_guess[q_id][counter_guess]["Timestamp_frontend"]:
-                    flag = 1
-                    small_dict["data"][i]["machine_guess"] = machine_guess[q_id][counter_guess]
-                    big_dict["data"][i]["machine_guess"] = machine_guess[q_id][counter_guess]
-                    Flag_String = Flag_String + "Machine Guess;"
-                    counter_guess+=1
-            if q_id in similarity and counter_sim < len(similarity[q_id]):
-                if i == similarity[q_id][counter_guess]["Timestamp_frontend"]:
-                    flag = 1
-                    small_dict["data"][i]["similarity"] = similarity[q_id][counter_sim]
-                    big_dict["data"][i]["similarity"] = similarity[q_id][counter_sim]
-                    Flag_String = Flag_String + "Similarity;" 
-                    counter_sim+=1
-            if q_id in buzzer and counter_buzz < len(buzzer[q_id]):
-                if i == buzzer[q_id][counter_buzz]["Timestamp_frontend"]:
-                    flag = 1
-                    if buzzer[q_id][counter_buzz]["is_relevant"]:
-                        big_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
-                        Flag_String = Flag_String + "Buzzer;"
-                    small_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
-                    counter_buzz+=1
-            if q_id in difficulty and counter_difficulty < len(difficulty[q_id]):
-                if i == difficulty[q_id][counter_difficulty]["Timestamp_frontend"]:
-                    flag = 1
-                    small_dict["data"][i]["difficulty"] = difficulty[q_id][counter_difficulty]
-                    big_dict["data"][i]["difficulty"] = difficulty[q_id][counter_difficulty]
-                    Flag_String = Flag_String + "Difficulty;"
-                    counter_difficulty+=1
-            if q_id in country_represent_json and counter_country < len(country_represent_json[q_id]):
-                if i == country_represent_json[q_id][counter_country]["Timestamp_frontend"]:
-                    flag = 1
-                    small_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
-                    big_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
-                    Flag_String = Flag_String + "Country_Represent;"
-                    counter_country+=1
-            if q_id in pronunciation_dict and counter_pron < len(pronunciation_dict[q_id]):
-                if i == pronunciation_dict[q_id][counter_pron]["Timestamp_frontend"]:
-                    flag = 1
-                    small_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]    
-                    big_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]   
-                    Flag_String = Flag_String + "Pronunciation;" 
-                    counter_pron+=1
+            try:
+                if q_id in machine_guess and counter_guess < len(machine_guess[q_id]):
+                    if i == machine_guess[q_id][counter_guess]["Timestamp_frontend"]:
+                        flag = 1
+                        small_dict["data"][i]["machine_guess"] = machine_guess[q_id][counter_guess]
+                        big_dict["data"][i]["machine_guess"] = machine_guess[q_id][counter_guess]
+                        Flag_String = Flag_String + "Machine Guess;"
+                        counter_guess+=1
+                if q_id in similarity and counter_sim < len(similarity[q_id]):
+                    if i == similarity[q_id][counter_guess]["Timestamp_frontend"]:
+                        flag = 1
+                        small_dict["data"][i]["similarity"] = similarity[q_id][counter_sim]
+                        big_dict["data"][i]["similarity"] = similarity[q_id][counter_sim]
+                        Flag_String = Flag_String + "Similarity;" 
+                        counter_sim+=1
+                if q_id in buzzer and counter_buzz < len(buzzer[q_id]):
+                    if i == buzzer[q_id][counter_buzz]["Timestamp_frontend"]:
+                        flag = 1
+                        if buzzer[q_id][counter_buzz]["is_relevant"]:
+                            big_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
+                            Flag_String = Flag_String + "Buzzer;"
+                        small_dict["data"][i]["buzzer"] = buzzer[q_id][counter_buzz]
+                        counter_buzz+=1
+                if q_id in difficulty and counter_difficulty < len(difficulty[q_id]):
+                    if i == difficulty[q_id][counter_difficulty]["Timestamp_frontend"]:
+                        flag = 1
+                        small_dict["data"][i]["difficulty"] = difficulty[q_id][counter_difficulty]
+                        big_dict["data"][i]["difficulty"] = difficulty[q_id][counter_difficulty]
+                        Flag_String = Flag_String + "Difficulty;"
+                        counter_difficulty+=1
+                if q_id in country_represent_json and counter_country < len(country_represent_json[q_id]):
+                    if i == country_represent_json[q_id][counter_country]["Timestamp_frontend"]:
+                        flag = 1
+                        small_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
+                        big_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
+                        Flag_String = Flag_String + "Country_Represent;"
+                        counter_country+=1
+                if q_id in pronunciation_dict and counter_pron < len(pronunciation_dict[q_id]):
+                    if i == pronunciation_dict[q_id][counter_pron]["Timestamp_frontend"]:
+                        flag = 1
+                        small_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]    
+                        big_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]   
+                        Flag_String = Flag_String + "Pronunciation;" 
+                        counter_pron+=1
+            except:
+                message = "List index out of range"
             big_dict["data"][i]["Relevant"] = Relevant + "  " + Flag_String
             if flag==0:
                 if not isRelevant:
