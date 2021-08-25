@@ -4,7 +4,13 @@ Developers: Jason Liu and Damian Rene
 
 <template>
   <div>
-    <v-menu bottom rounded offset-y min-width="180">
+    <v-menu
+      bottom
+      rounded
+      transition="fade-transition"
+      offset-y
+      min-width="180"
+    >
       <template v-slot:activator="{ on: onMenu }">
         <v-tooltip bottom>
           <template v-slot:activator="{ on: onTooltip, attrs }">
@@ -30,9 +36,9 @@ Developers: Jason Liu and Damian Rene
               depressed
               rounded
               text
-              @click="$router.push('tutorial').catch(() => {})"
+              @click="$router.push('about').catch(() => {})"
             >
-              Tutorial
+              About
             </v-btn>
             <v-divider class="my-1"></v-divider>
             <v-btn

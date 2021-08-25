@@ -752,7 +752,7 @@ export default {
 }
 mark {
   /* display: inline-block; */
-  border-radius: 5px;
+  /* border-radius: 5px; */
   color: transparent;
   opacity: 0.8;
 }
