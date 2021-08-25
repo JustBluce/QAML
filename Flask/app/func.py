@@ -460,7 +460,7 @@ def insert():
             db.session.commit()
             message_json = "Successfully insert a new question_json record of the edit history of question"
         except:
-            message_json = "Error insert a new question_json record of the edit history of question"
+            message_json = "Error insert a new question_json record of the edit history of question_json"
             print(message_json)
             db.session.rollback()
 
