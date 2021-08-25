@@ -244,7 +244,7 @@ export default {
             second: "2-digit",
           })
         );
-        formData.append("id", this.id);
+        formData.append("id", this.user_id);
         formData.append("qid", this.qid);
         // this.qa.genre = this.selected_genre
         // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
@@ -421,7 +421,7 @@ export default {
           second: "2-digit",
         })
       );
-      formData.append("id", this.id);
+      formData.append("id", this.user_id);
       formData.append("qid", this.qid);
       this.axios({
         
@@ -541,7 +541,7 @@ export default {
           second: "2-digit",
         })
       );
-      formData.append("id", this.id);
+      formData.append("id", this.user_id);
       formData.append("qid", this.qid);
       // this.axios({
       //   url: "http://127.0.0.1:5000/over_present/highlight",
@@ -710,7 +710,7 @@ export default {
           second: "2-digit",
         })
       );
-      formData.append("id", this.id);
+      formData.append("id", this.user_id);
       formData.append("qid", this.qid);
       formData.append("user_id", this.user_id);
       this.axios({
