@@ -29,7 +29,6 @@ Developers: Jason Liu
           icon
           large
           v-bind="attrs"
-          large
           v-on="on"
           @click="show = true"
         >
