@@ -47,8 +47,8 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           <div class="highlight" v-html="highlight_text"></div>
         </div>
         <v-textarea
-          background-color="background"
           ref="textarea"
+          background-color="background"
           class="highlight-textarea my-4"
           rows="10"
           label="Question"
