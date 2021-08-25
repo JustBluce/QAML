@@ -4,9 +4,7 @@ Developers: Damian Rene and Jason Liu
  
 <template>
   <v-app-bar app>
-    <v-toolbar-title>
-      Adversarial Trivia Question Writing Interface
-    </v-toolbar-title>
+    <v-toolbar-title style="font-size: 24px"> QAML </v-toolbar-title>
 
     <v-spacer></v-spacer>
 
