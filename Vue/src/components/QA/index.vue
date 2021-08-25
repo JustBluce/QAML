@@ -692,6 +692,7 @@ export default {
       );
       formData.append("id", this.id);
       formData.append("qid", this.qid);
+      formData.append("user_id", this.user_id);
       this.axios({
         url: "http://127.0.0.1:5000/genre_classifier/classify",
         method: "POST",
