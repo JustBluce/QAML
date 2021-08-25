@@ -54,7 +54,7 @@ def genre_data():
         question = request.form.get("text")
         u_id = request.form.get("user_id")
 
-    print(u_id)
+    # print(u_id)
     start = time.time()
     if u_id is None:
         u_id = '0'
