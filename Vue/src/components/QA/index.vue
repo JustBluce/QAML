@@ -309,7 +309,7 @@ export default {
               delete this.qa.highlight_words[this.qa.buzz_word_this];
             }
             this.qa.buzz_word_this = response.data["buzzer_last_word"];
-            this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
+            // this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
             for (let i = 0; i < response.data["remove_highlight"].length; i++) {
                 delete this.qa.highlight_words[response.data["remove_highlight"][i]];
               }
@@ -477,7 +477,7 @@ export default {
               delete this.qa.highlight_words[this.qa.buzz_word_this];
             }
           this.qa.buzz_word_this = response.data["buzzer_last_word"];
-          this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
+          // this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
           for (let i = 0; i < response.data["remove_highlight"].length; i++) {
                 delete this.qa.highlight_words[response.data["remove_highlight"][i]];
               }
@@ -617,7 +617,7 @@ export default {
         }).then((response) => {
           if (response.data["similar_question"][0]) {
             this.addResult({
-              title: "A highly similar question detected",
+              title: "A highly similar question detected. Please try to change the context of the question",
               body: response.data["similar_question"][1][0]["text"],
             });
           } else {
@@ -763,8 +763,29 @@ export default {
     //   this.Question_id = response.data["Question_id"];
     //   console.log(response);
     // });
-
-    
+        if(this.user_id != ""){
+          this.axios({
+              url: "http://127.0.0.1:5000/genre_classifier/genre_data",
+              method: "POST",
+              data: formData,
+          }).then((response) => {
+            
+                let genre_data = response.data["genre_data"];
+                console.log(genre_data)
+                this.showGenreChart = true
+                if (genre_data.length != 0) {
+                  let header = [["Genre", "Count"]];
+                  for (let i = 0; i < genre_data.length; i++) {
+                    header.push(genre_data[i]);;
+                  }
+                  // console.log(header.concat(this.qa.subgenre));
+                  this.genreChartData = header;
+                  console.log(this.genreChartData)
+                }
+                console.log(this.highlight_words)
+              
+          });
+        }
     this.highlightInterval = setInterval(
       function () {
         let backdrop = this.$refs.backdrop;
