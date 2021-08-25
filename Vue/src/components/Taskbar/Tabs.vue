@@ -8,6 +8,7 @@ Developers: Jason Liu
     ref="tabs"
     background-color="background"
     show-arrows
+    height="26"
   >
     <v-tab v-show="false"></v-tab>
     <draggable class="ma-0 row" v-model="workspaces">
