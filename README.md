@@ -22,13 +22,14 @@ Database: MySQL
 - Download the following [model.pickle](https://drive.google.com/file/d/1k1akEuLpW02tfZ-ApValJwlcxJji-riO/view?usp=sharing) Unzip it and place it in TryoutProject\Flask\model folder.
 - Download the following [BERT_genre_classifier](https://drive.google.com/drive/folders/1lqVosgCPhRVH4A2m3bIaPdo5Ghggl9pQ?usp=sharing) Unzip it and place it in TryoutProject\Flask\model\genre_classifier_models\BERT_genre_classifier folder.
 - Download the following [Science_Genre_classifier](https://drive.google.com/drive/folders/15cGe--BEXq3wnhEfV1dQSaDJ4P5jocjw?usp=sharing) Unzip it and place it in TryoutProject\Flask\model\genre_classifier_models\Science_Genre_classifier
+- 
 
 ### Vue.js ( 2.6.14 )
 
 Try:
 
 ```
-npm install vue
+npm install 
 npm install -g @vue/cli
 npm install -g vue@2.6.14
 
