@@ -50,12 +50,12 @@ If Conda:
 - `conda create --name QAML python=3.9`
 - `conda activate QAML`
 - `cd Flask`
-- `python -m spacy download en_core_web_sm`
+- `python3 -m spacy download en_core_web_sm`
 - `pip3 install -r requirements.txt`
 
 If no Conda: 
 - `cd Flask`
-- `python -m spacy download en_core_web_sm`
+- `python3 -m spacy download en_core_web_sm`
 - `pip3 install -r requirements.txt`
 
 
