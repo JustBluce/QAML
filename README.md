@@ -43,12 +43,22 @@ If this does not work check out the guide below to try and install another way.
 
 ### Python Packages
 
-We recomend that use a seperate Conda envorinment or pipenv environment for installing packages, however this is only a recommendation. We do however require it. 
+We recomend that use a seperate Conda envorinment or pipenv environment for installing packages, however this is only a recommendation. 
 
+If Conda:
 - To install conda visit [this](https://www.anaconda.com/products/individual) link. 
+- `conda create --name QAML python=3.9`
+- `conda activate QAML`
 - `cd Flask`
 - `python -m spacy download en_core_web_sm`
 - `pip3 install -r requirements.txt`
+
+If no Conda: 
+- `cd Flask`
+- `python -m spacy download en_core_web_sm`
+- `pip3 install -r requirements.txt`
+
+
 
 
 ## Running the Code
@@ -59,9 +69,7 @@ Run the below commands in the terminal for running the code:
 
 1. Navigate to the root directory
 2. `cd Flask `
-3. Download pre-trained **BERT_full_question** model from [here](https://drive.google.com/drive/folders/18dGwaxI7kx4Yx7gTMTiCbUv2YLxzNPmZ?usp=sharing) and move it to model/difficulty_models/ folder
-4. If the model/difficulty_models/ does not exsist feel free to add the proper folders
-5. ` python run.py`
+5. `python run.py`
 
 ### Run the Vue Framework (Front End)
 
@@ -70,9 +78,9 @@ Run the below commands in the terminal for running the code:
 8. `npm install`
 9. `npm run dev`
 
-## Examples
 
-(Coming soon)
+
+
 
 ## Setup Error
 
