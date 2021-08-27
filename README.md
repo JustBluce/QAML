@@ -18,32 +18,6 @@ Database: MySQL
 
 ## Preparations
 
-### MySQL
-
-- Make sure that there is a mysql database installed in your computer.
-  - currently used version is 8.0.21
-- If mysql hasn't been installed in your devoce, please install mysql in your computer with the [following guide](https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/) choose the one for your operating system.
-
-  - Or visit https://dev.mysql.com/downloads/mysql/ and download proper mysql
-  - REMEMBER your password (will be used later)
-
-- Set up your database
-  - open terminal
-
-```
-mysql -u root -p
-CREATE DATABASE questions;
-USE questions;
-create table QA (id int auto_increment primary key, Question varchar(10000) null, Answer varchar(255) null);
-create table user_inf (User varchar(255) null, Password varchar(255) null);
-```
-
-- Edit the following file: `Flask/config.py` to use your mysql settings, change 'YOURPASSWORD' to the password you set up earlier
-
-```
-mysql+pymysql://root:YOURPASSWORD@localhost:3306/QA?charset=utf8
-```
-
 ### Model Files
 - Download the following [model.pickle](https://drive.google.com/file/d/1k1akEuLpW02tfZ-ApValJwlcxJji-riO/view?usp=sharing) Unzip it and place it in TryoutProject\Flask\model folder.
 - Download the following [BERT_genre_classifier](https://drive.google.com/drive/folders/1lqVosgCPhRVH4A2m3bIaPdo5Ghggl9pQ?usp=sharing) Unzip it and place it in TryoutProject\Flask\model\genre_classifier_models\BERT_genre_classifier folder.
