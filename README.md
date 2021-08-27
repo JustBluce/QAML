@@ -18,11 +18,16 @@ Database: MySQL
 
 ## Preparations
 
+1. Clone the Repo
+2. cd into the repo in your terminal
+
 ### Model Files
-- Download the following [model.pickle](https://drive.google.com/file/d/1k1akEuLpW02tfZ-ApValJwlcxJji-riO/view?usp=sharing) Unzip it and place it in TryoutProject\Flask\model folder.
-- Download the following [BERT_genre_classifier](https://drive.google.com/drive/folders/1lqVosgCPhRVH4A2m3bIaPdo5Ghggl9pQ?usp=sharing) Unzip it and place it in TryoutProject\Flask\model\genre_classifier_models\BERT_genre_classifier folder.
-- Download the following [Science_Genre_classifier](https://drive.google.com/drive/folders/15cGe--BEXq3wnhEfV1dQSaDJ4P5jocjw?usp=sharing) Unzip it and place it in TryoutProject\Flask\model\genre_classifier_models\Science_Genre_classifier
-- 
+- Download the following [model.pickle](https://drive.google.com/file/d/1k1akEuLpW02tfZ-ApValJwlcxJji-riO/view?usp=sharing) Unzip it and place it in `QAML\Flask\model folder.
+- Download the following [difficulty_classifier](https://drive.google.com/drive/folders/1-Le-JF5e9fPPnZT3VuukxHSNnnqqGPu4?usp=sharing) Unzip it and place it in `QAML\Flask\model\difficulty_models`
+- Download the following and place ALL of them in `QAML\Flask\model\pronunciation_models\`
+-   [Pronunciation Regression.pickle](https://drive.google.com/file/d/16fb-dRHVRxK0JgUW8cT6zOSepIaikbEL/view?usp=sharing)
+-   [Pronunciation_tf-idf.pickle](https://drive.google.com/file/d/16fb-dRHVRxK0JgUW8cT6zOSepIaikbEL/view?usp=sharing)
+-   [word_freq.pickle](https://drive.google.com/file/d/1PzZMWm_jcJdz22TDvKI5MbBr9RBJKgLa/view?usp=sharing)
 
 ### Vue.js ( 2.6.14 )
 
