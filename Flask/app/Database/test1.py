@@ -1,7 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
 import json
-import os
-import re
 from app import db
 
 test1 = Blueprint('test1', __name__)
