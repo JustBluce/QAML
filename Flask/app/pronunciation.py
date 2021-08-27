@@ -213,6 +213,10 @@ def getpronuncation():
     list_of_words_to_remove = []
     if len(word_list)>0:
         list_of_words_to_remove = add_to_db(q_id, date_incoming, date_outgoing, ret_value, word_list, question, ans)
+    else:
+        if q_id in state_pronunciation:
+            list_of_words_to_remove = state_pronunciation[q_id]
+
     return jsonify({"message": ret_value, "list_of_words_to_remove":list_of_words_to_remove})
 
 

@@ -362,11 +362,13 @@ export default {
           data: formData,
         }).then((response) => {
           this.qa.pronunciation = response.data["message"];
+          // console.log( response.data["list_of_words_to_remove"]);
           for (
             let i = 0;
             i < response.data["list_of_words_to_remove"].length;
             i++
           ) {
+            
             delete this.qa.highlight_words[
               response.data["list_of_words_to_remove"][i]
             ];
