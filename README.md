@@ -31,13 +31,10 @@ Database: MySQL
 
 ### Vue.js ( 2.6.14 )
 
-Try:
-
 ```
 npm install 
 npm install -g @vue/cli
 npm install -g vue@2.6.14
-
 ```
 
 If this does not work check out the guide below to try and install another way.
@@ -46,8 +43,9 @@ If this does not work check out the guide below to try and install another way.
 
 ### Python Packages
 
-We recomend that use a seperate Conda envorinment or pipenv environment for installing packages, however this is only a recommendation.
+We recomend that use a seperate Conda envorinment or pipenv environment for installing packages, however this is only a recommendation. We do however require it. 
 
+- To install conda visit [this](https://www.anaconda.com/products/individual) link. 
 - `cd Flask`
 - `python -m spacy download en_core_web_sm`
 - `pip3 install -r requirements.txt`
