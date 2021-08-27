@@ -68,7 +68,7 @@ If no Conda:
 
 1. Navigate to the root directory
 2. `cd Flask `
-5. `python run.py`
+5. `python3 run.py`
 
 ### Run the Vue Framework (Front End)
 
