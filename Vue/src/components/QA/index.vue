@@ -57,6 +57,7 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           hide-details="auto"
           @keydown="keep_looping"
         ></v-textarea>
+
         <v-textarea
           background-color="background"
           class="my-4"
@@ -157,8 +158,8 @@ export default {
       points: 0,
       textarea: {},
       interval: null,
-      highlightInterval:null,
-      qid:"",
+      highlightInterval: null,
+      qid: "",
       genreChartData: [
         ["Genre", "Count"],
         ["None", 1],
@@ -177,7 +178,7 @@ export default {
       return this.workspace.qa;
     },
     highlight() {
-      return this.qa.highlight_words
+      return this.qa.highlight_words;
     },
 
     highlight_text() {
@@ -192,8 +193,7 @@ export default {
         .replace(/\n$/g, "\n\n")
         .replace(
           highlight_regex,
-          (word) =>
-            `<mark class="${this.highlight[word]}">${word}</mark>`
+          (word) => `<mark class="${this.highlight[word]}">${word}</mark>`
         );
     },
     options() {
@@ -209,7 +209,9 @@ export default {
     // console.log(this.user_id)
     this.interval = setInterval(
       function () {
-        this.qid = this.user_id + new Date().toLocaleString("en-US", {
+        this.qid =
+          this.user_id +
+          new Date().toLocaleString("en-US", {
             hour12: false,
             month: "2-digit",
             day: "2-digit",
@@ -217,10 +219,10 @@ export default {
             hour: "2-digit",
             minute: "2-digit",
             second: "2-digit",
-          })
+          });
         this.qa.highlight_words = {};
         let formData = new FormData();
-        
+
         // console.log(this.qa.text.lastIndexOf("🔔") > 0);
         // while (this.qa.text.lastIndexOf("🔔") > 0) {
         //   this.qa.text =
@@ -274,8 +276,8 @@ export default {
           //       this.qa.text.lastIndexOf("🔔") + "🔔".length,
           //       this.qa.text.length
           //     );
-        // }
-          
+          // }
+
           this.qa.binary_search_based_buzzer = response.data["buzz"];
           this.qa.importance = response.data["importance"];
           // this.highlight = response.data["buzz_word"];
@@ -284,19 +286,22 @@ export default {
             this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
             response.data["flag"]
           ) {
-            if(this.qa.buzz_word_this in this.qa.highlight_words)
-            {
+            if (this.qa.buzz_word_this in this.qa.highlight_words) {
               delete this.qa.highlight_words[this.qa.buzz_word_this];
             }
             this.qa.buzz_word_this = response.data["buzzer_last_word"];
-            this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
+            this.qa.highlight_words[response.data["buzzer_last_word"]] =
+              "orange";
             for (let i = 0; i < response.data["remove_highlight"].length; i++) {
-                delete this.qa.highlight_words[response.data["remove_highlight"][i]];
-              }
+              delete this.qa.highlight_words[
+                response.data["remove_highlight"][i]
+              ];
+            }
             for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-                this.qa.highlight_words[response.data["hightlight_words"][i]] = "yellow";
-              }
-            
+              this.qa.highlight_words[response.data["hightlight_words"][i]] =
+                "yellow";
+            }
+
             // this.qa.text =
             //   this.qa.text.substr(
             //     0,
@@ -339,9 +344,14 @@ export default {
         }).then((response) => {
           this.qa.country_representation =
             response.data["country_representation"];
-          for (let i = 0; i < response.data["current_over_countries"].length; i++) {
-            
-            this.qa.highlight_words[response.data["current_over_countries"][i]] = "purple";
+          for (
+            let i = 0;
+            i < response.data["current_over_countries"].length;
+            i++
+          ) {
+            this.qa.highlight_words[
+              response.data["current_over_countries"][i]
+            ] = "purple";
           }
           // console.log(this.highlight_words)
           // console.log(response);
@@ -352,11 +362,18 @@ export default {
           data: formData,
         }).then((response) => {
           this.qa.pronunciation = response.data["message"];
-          for (let i = 0; i < response.data["list_of_words_to_remove"].length; i++) {
-            delete this.qa.highlight_words[response.data["list_of_words_to_remove"][i]];
+          for (
+            let i = 0;
+            i < response.data["list_of_words_to_remove"].length;
+            i++
+          ) {
+            delete this.qa.highlight_words[
+              response.data["list_of_words_to_remove"][i]
+            ];
           }
           for (let i = 0; i < response.data["message"].length; i++) {
-            this.qa.highlight_words[response.data["message"][i]['Word']] = "cyan";
+            this.qa.highlight_words[response.data["message"][i]["Word"]] =
+              "cyan";
           }
           // console.log(this.highlight_words)
           // console.log(response);
@@ -383,9 +400,9 @@ export default {
     },
     keep_looping: _.debounce(function () {
       // this.highlight_words = {}
-      console.log(this.qa.highlight_words)
+      console.log(this.qa.highlight_words);
       clearInterval(this.interval);
-      
+
       let formData = new FormData();
       // console.log(
       //   new Date().toLocaleString("en-US", {
@@ -424,7 +441,6 @@ export default {
       formData.append("id", this.user_id);
       formData.append("qid", this.qid);
       this.axios({
-        
         url: "http://127.0.0.1:5000/func/act",
         method: "POST",
         data: formData,
@@ -445,29 +461,30 @@ export default {
         //       this.qa.text.length
         //     );
         // }
-        
+
         this.qa.binary_search_based_buzzer = response.data["buzz"];
         this.qa.importance = response.data["importance"];
         // this.highlight = response.data["buzz_word"];
-        
-        
+
         this.qa.top_guess_buzzer = response.data["top_guess"];
         if (
           this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
           response.data["flag"]
         ) {
-          if(this.qa.buzz_word_this in this.qa.highlight_words)
-            {
-              delete this.qa.highlight_words[this.qa.buzz_word_this];
-            }
+          if (this.qa.buzz_word_this in this.qa.highlight_words) {
+            delete this.qa.highlight_words[this.qa.buzz_word_this];
+          }
           this.qa.buzz_word_this = response.data["buzzer_last_word"];
           this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
           for (let i = 0; i < response.data["remove_highlight"].length; i++) {
-                delete this.qa.highlight_words[response.data["remove_highlight"][i]];
-              }
+            delete this.qa.highlight_words[
+              response.data["remove_highlight"][i]
+            ];
+          }
           for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-                this.qa.highlight_words[response.data["hightlight_words"][i]] = "yellow";
-            }
+            this.qa.highlight_words[response.data["hightlight_words"][i]] =
+              "yellow";
+          }
           // this.qa.text =
           //   this.qa.text.substr(
           //     0,
@@ -506,8 +523,13 @@ export default {
       }).then((response) => {
         this.qa.country_representation =
           response.data["country_representation"];
-        for (let i = 0; i < response.data["current_over_countries"].length; i++) {
-            this.qa.highlight_words[response.data["current_over_countries"][i]] = "purple";
+        for (
+          let i = 0;
+          i < response.data["current_over_countries"].length;
+          i++
+        ) {
+          this.qa.highlight_words[response.data["current_over_countries"][i]] =
+            "purple";
         }
         // console.log(this.highlight_words)
       });
@@ -516,13 +538,19 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
-         this.qa.pronunciation = response.data["message"];
-         for (let i = 0; i < response.data["list_of_words_to_remove"].length; i++) {
-            delete this.qa.highlight_words[response.data["list_of_words_to_remove"][i]];
-          }
-          for (let i = 0; i < response.data["message"].length; i++) {
-            this.qa.highlight_words[response.data["message"][i]['Word']] = "cyan";
-          }
+        this.qa.pronunciation = response.data["message"];
+        for (
+          let i = 0;
+          i < response.data["list_of_words_to_remove"].length;
+          i++
+        ) {
+          delete this.qa.highlight_words[
+            response.data["list_of_words_to_remove"][i]
+          ];
+        }
+        for (let i = 0; i < response.data["message"].length; i++) {
+          this.qa.highlight_words[response.data["message"][i]["Word"]] = "cyan";
+        }
       });
     }, 1000),
     update_representation: _.debounce(function () {
@@ -560,8 +588,13 @@ export default {
       }).then((response) => {
         this.qa.country_representation =
           response.data["country_representation"];
-        for (let i = 0; i < response.data["current_over_countries"].length; i++) {
-            this.qa.highlight_words[response.data["current_over_countries"][i]] = "purple";
+        for (
+          let i = 0;
+          i < response.data["current_over_countries"].length;
+          i++
+        ) {
+          this.qa.highlight_words[response.data["current_over_countries"][i]] =
+            "purple";
         }
         // console.log(this.highlight_words)
       });
@@ -595,26 +628,26 @@ export default {
         );
         formData.append("user_id", this.user_id);
         formData.append("qid", this.qid);
-        formData.append("genre",this.qa.genre);
+        formData.append("genre", this.qa.genre);
 
         this.axios({
-            url: "http://127.0.0.1:5000/genre_classifier/genre_data",
-            method: "POST",
-            data: formData,
+          url: "http://127.0.0.1:5000/genre_classifier/genre_data",
+          method: "POST",
+          data: formData,
         }).then((response) => {
-            let genre_data = response.data["genre_data"];
-            console.log(genre_data)
-            this.showGenreChart = true
-            if (genre_data.length != 0) {
-              let header = [["Genre", "Count"]];
-              for (let i = 0; i < genre_data.length; i++) {
-                header.push(genre_data[i]);;
-              }
-              // console.log(header.concat(this.qa.subgenre));
-              this.genreChartData = header;
-              console.log(this.genreChartData)
+          let genre_data = response.data["genre_data"];
+          console.log(genre_data);
+          this.showGenreChart = true;
+          if (genre_data.length != 0) {
+            let header = [["Genre", "Count"]];
+            for (let i = 0; i < genre_data.length; i++) {
+              header.push(genre_data[i]);
             }
-            console.log(this.highlight_words)
+            // console.log(header.concat(this.qa.subgenre));
+            this.genreChartData = header;
+            console.log(this.genreChartData);
+          }
+          console.log(this.highlight_words);
         });
         this.axios({
           url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
@@ -661,14 +694,16 @@ export default {
                     }).then((response) => {
                       // console.log("HERE IS PUSH");
                       this.points = response.data["points"];
-                      console.log(this.points)
+                      console.log(this.points);
                       // this.$router.push({ name: 'Dashboard' });
                       this.addResult({
-                      title: "Saved",
-                      body: "Your question is now added to the database. Number of points are:" + this.points,
+                        title: "Saved",
+                        body:
+                          "Your question is now added to the database. Number of points are:" +
+                          this.points,
+                      });
                     });
-                    });
-                    
+
                     // console.log("2");
                   }, 5000);
                 }
@@ -676,9 +711,9 @@ export default {
                 this.addResult({
                   title: "Not saved",
                   body: "Your question was not difficult enough for the computer. Please try again.",
-                }); 
+                });
               }
-              // this.qa.top5_similar_questions = response.data["similar_question"]; 
+              // this.qa.top5_similar_questions = response.data["similar_question"];
             });
           }
         });
@@ -730,19 +765,28 @@ export default {
     addResult(result) {
       this.$store.commit("addResult", result);
     },
+    after_click_submit_button() {
+      const user = firebase.auth().currentUser;
+      let formData = new FormData();
+      formData.append("username", user.displayName);
+      formData.append("email", user.email);
+      formData.append("UID", user.uid);
+      this.axios({
+        url: "http://127.0.0.1:5000/test1/json",
+        method: "POST",
+      }).then((response) => {
+        this.Question_id = response.data["Question_id"];
+        console.log(response);
+      });
+    },
   },
   mounted() {
-    let formData = new FormData();
-    // formData.append("Timestamp", "2021-08-02 19:57:42");
-    // this.axios({
-    //   url: "http://127.0.0.1:5000/question/Question_id",
-    //   method: "POST",
-    // }).then((response) => {
-    //   this.Question_id = response.data["Question_id"];
-    //   console.log(response);
-    // });
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user.email) {
+        this.user = user;
+      }
+    });
 
-    
     this.highlightInterval = setInterval(
       function () {
         let backdrop = this.$refs.backdrop;
