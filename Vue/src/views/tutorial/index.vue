@@ -23,7 +23,7 @@ Developers: Jason Liu and Damian Rene
             :key="group.step"
             :step="group.step"
           >
-             <v-card class="ma-2 rounded-xl" elevation="4">
+            <v-card class="ma-2 rounded-xl" elevation="4">
               <v-carousel height="50vh" show-arrows-on-hover>
                 <v-carousel-item v-for="(el, i) in group.els" :key="i">
                   <v-img
@@ -34,19 +34,6 @@ Developers: Jason Liu and Damian Rene
                 </v-carousel-item>
               </v-carousel>
             </v-card>
-
-
-            <!-- <v-btn
-              color="primary"
-              @click="step = step == groups.length ? 1 : step + 1"
-            >
-              Continue
-            </v-btn>
-            <div> -->
-
-
-            <!-- </div> -->
-        
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>

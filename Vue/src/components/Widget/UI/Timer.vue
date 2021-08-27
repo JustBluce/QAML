@@ -1,9 +1,5 @@
 <!--
-Developers:
-Jason Liu
-  - Created the Timer
-Cai Zefan
-  - Make the timer set with 1 hour when first accessed
+Developers: Jason Liu
 -->
 <template>
   <div>
@@ -110,35 +106,10 @@ export default {
         console.log(response);
       });
     },
-  
-  setTime() {
+    setTime() {
       let times = this.menu_time.split(":");
       this.time = (+times[0] * 60 * 60 + +times[1] * 60 + +times[2]) * 1000;
     },
   },
-  // beforeDestroy() {
-  //   clearInterval(this.timer);
-  // },
 };
 </script>
-
-<style scoped>
-.timer {
-  display: flex;
-  flex-direction: row;
-  font-size: 64px;
-  line-height: 64px;
-}
-
-#hours,
-#minutes,
-#seconds {
-  border: none;
-  border-radius: 8px;
-  width: 85px;
-  padding-left: 5px;
-  padding-right: 5px;
-  text-align: right;
-  outline: none;
-}
-</style>

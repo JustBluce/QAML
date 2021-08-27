@@ -74,15 +74,13 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
         </v-btn>
 
         <v-card class="my-4" color="background">
-          <h3 class="mb-2">
-            {{this.user_displayName}}'s genre distribution
-          </h3>
-        
-        <div v-show="showGenreChart">
-          <v-divider></v-divider>
-          <GChart type="PieChart" :options="options" :data="genreChartData" />
-        </div>
-      </v-card>
+          <h3 class="mb-2">{{ this.user_displayName }}'s genre distribution</h3>
+
+          <div v-show="showGenreChart">
+            <v-divider></v-divider>
+            <GChart type="PieChart" :options="options" :data="genreChartData" />
+          </div>
+        </v-card>
       </v-container>
     </v-card>
 
@@ -165,9 +163,7 @@ export default {
         ["None", 1],
       ],
       user_id: "",
-      user_displayName:"",
-      
-      
+      user_displayName: "",
     };
   },
   computed: {
@@ -312,13 +308,11 @@ export default {
             //     this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
             //     this.qa.text.length
             //   );
-          }
-          else{
-          if(this.qa.buzz_word_this in this.qa.highlight_words)
-            {
+          } else {
+            if (this.qa.buzz_word_this in this.qa.highlight_words) {
               delete this.qa.highlight_words[this.qa.buzz_word_this];
             }
-        }
+          }
           // console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]));
           // console.log(this.qa.text.indexOf(response.data["buzz_word"]));
           // console.log(response);
@@ -497,12 +491,10 @@ export default {
           //     this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
           //     this.qa.text.length
           //   );
-        }
-        else{
-          if(this.qa.buzz_word_this in this.qa.highlight_words)
-            {
-              delete this.qa.highlight_words[this.qa.buzz_word_this];
-            }
+        } else {
+          if (this.qa.buzz_word_this in this.qa.highlight_words) {
+            delete this.qa.highlight_words[this.qa.buzz_word_this];
+          }
         }
       });
       this.axios({

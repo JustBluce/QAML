@@ -19,6 +19,7 @@ Developers: Atith Gandhi and Jason Liu
       :headers="headers"
       :items="importance"
       hide-default-footer
+      dense
       class="elevation-2"
     >
     </v-data-table>
