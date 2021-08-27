@@ -63,7 +63,6 @@ If no Conda:
 
 ## Running the Code
 
-Run the below commands in the terminal for running the code:
 
 ### Run the Flask App (Back End)
 
