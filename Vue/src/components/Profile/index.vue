@@ -15,10 +15,10 @@ Developers: Jason Liu and Damian Rene
         <v-tooltip bottom>
           <template v-slot:activator="{ on: onTooltip, attrs }">
             <v-btn icon v-bind="attrs" v-on="{ ...onMenu, ...onTooltip }">
-              <v-avatar size="36px" v-if="email && user.photoURL">
+              <v-avatar size="44px" v-if="email && user.photoURL">
                 <img v-if="user.photoURL" :src="user.photoURL" />
               </v-avatar>
-              <v-icon size="36px" v-else>mdi-account-circle</v-icon>
+              <v-icon size="44px" v-else>mdi-account-circle</v-icon>
             </v-btn>
           </template>
           <span>User profile</span>
@@ -33,6 +33,17 @@ Developers: Jason Liu and Damian Rene
             <h3 v-else class="pa-2">Not signed in</h3>
             <v-divider class="my-1"></v-divider>
             <v-btn
+              v-if="navbar"
+              :disabled="user == null"
+              depressed
+              rounded
+              text
+              @click="$router.push('dashboard').catch(() => {})"
+            >
+              Dashboard
+            </v-btn>
+            <v-btn
+              v-else
               depressed
               rounded
               text
@@ -99,6 +110,9 @@ import firebase from "firebase";
 
 export default {
   name: "Profile",
+  props: {
+    navbar: Boolean,
+  },
   data() {
     return {
       user: null,

@@ -4,9 +4,7 @@ Developers: Damian Rene and Jason Liu
  
 <template>
   <v-app-bar app>
-    <v-toolbar-title>
-      Adversarial Trivia Question Writing Interface
-    </v-toolbar-title>
+    <v-toolbar-title style="font-size: 24px"> QAML </v-toolbar-title>
 
     <v-spacer></v-spacer>
 
@@ -40,7 +38,7 @@ Developers: Damian Rene and Jason Liu
       <span v-else>Dark mode</span>
     </v-tooltip>
 
-    <Profile />
+    <Profile :navbar="true" />
   </v-app-bar>
 </template>
 
@@ -48,13 +46,8 @@ Developers: Damian Rene and Jason Liu
 import Profile from "@/components/Profile";
 
 export default {
-  data() {
-    return {
-      user: null,
-    };
-  },
   components: {
-    Profile
+    Profile,
   },
   computed: {
     items() {
@@ -85,13 +78,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.toolbar {
-  background: #50759e;
-}
-
-.nav-button-icon {
-  margin-right: 5px;
-}
-</style>
