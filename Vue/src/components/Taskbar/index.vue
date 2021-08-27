@@ -4,8 +4,8 @@ Developers: Jason Liu
 
 <template>
   <v-toolbar
-    :style="{ height: qa ? '90px' : '', 'z-index': 100 }"
-    elevation="2"
+    :style="{ height: qa ? '100px' : '', 'z-index': 1000 }"
+    elevation="4"
   >
     <v-toolbar-title style="font-size: 24px">{{ title }}</v-toolbar-title>
 
@@ -13,14 +13,14 @@ Developers: Jason Liu
 
     <WorkspaceBtns v-if="qa" />
 
-    <v-divider v-if="qa" class="my-1" vertical></v-divider>
+    <v-divider v-if="qa" class="mx-1" vertical></v-divider>
 
-        <v-tooltip bottom>
+    <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           icon
           large
-          class="mr-1"
+          class="mx-1"
           v-bind="attrs"
           v-on="on"
           @click="$router.push('tutorial').catch(() => {})"
@@ -30,7 +30,6 @@ Developers: Jason Liu
       </template>
       <span>Tutorial</span>
     </v-tooltip>
-
 
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">

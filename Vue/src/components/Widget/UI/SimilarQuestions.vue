@@ -12,6 +12,7 @@ Developers: Atith Gandhi, Raj Shah and Jason Liu
       show-expand
       hide-default-header
       hide-default-footer
+      dense
       class="elevation-2 background"
     >
       <template v-slot:expanded-item="{ headers, item }">

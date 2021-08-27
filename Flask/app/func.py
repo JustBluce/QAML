@@ -481,19 +481,19 @@ def insert():
             db.session.rollback()
 
     with open('machine_guess.json', 'w') as outfile:
-        json.dump(machine_guess, outfile)
+        json.dump(machine_guess, outfile, indent=2)
     with open('pronunciation_dict.json', 'w') as outfile:
-        json.dump(pronunciation_dict, outfile)
+        json.dump(pronunciation_dict, outfile, indent=2)
     with open('country_represent_json.json', 'w') as outfile:
         json.dump(country_represent_json, outfile)
     with open('difficulty.json', 'w') as outfile:
         json.dump(difficulty, outfile)
     with open('buzzer.json', 'w') as outfile:
-        json.dump(buzzer, outfile)
+        json.dump(buzzer, outfile, indent=2)
     with open('similarity.json', 'w') as outfile:
-        json.dump(similarity, outfile)
+        json.dump(similarity, outfile, indent=2)
     with open('general_edit_history.json', 'w') as outfile:
-        json.dump(general_edit_history, outfile)
+        json.dump(general_edit_history, outfile, indent=2)
     if q_id in machine_guess:
         machine_guess.pop(q_id)
         state_machine_guess.pop(q_id)

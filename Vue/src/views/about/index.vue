@@ -5,11 +5,12 @@ Developers: Jason Liu
 <template>
   <v-container fluid style="height: calc(100vh - 64px); overflow: auto">
     <v-container>
-      <v-card class="pa-4 mt-4 mx-auto rounded-xl" width="60%">
-        <div class="text-h4 text-center font-weight-bold">
-          Adversarial Trivia Question Writing Interface
-        </div>
-      </v-card>
+      <div class="text-h4 text-center font-weight-bold">QAML</div>
+      <div class="text-body-1 text-center font-italic">/ˈkæməl/</div>
+      <div class="text-h6 text-center mt-2">
+        <span>Q</span>uestion-writing <span>A</span>ided by <span>M</span>achine
+        <span>L</span>earning
+      </div>
       <v-card class="pa-4 ma-16 mr-auto rounded-xl" width="60%" elevation="6">
         <v-card-title>Cybernetic question writing</v-card-title>
         <v-card-text class="text-body-1">
@@ -52,3 +53,10 @@ export default {
   name: "About",
 };
 </script>
+
+<style scoped>
+span {
+  color: var(--v-primary-base);
+  font-weight: bold;
+}
+</style>

@@ -70,8 +70,7 @@ export default {
       search: "",
       headers: [
         { text: "Name", value: "Name", width: "30%" },
-        { text: "Score", value: "Score", width: "30%" },
-        { text: "LastLogin", value: "LastLogin", width: "40%" },
+        { text: "Score", value: "Score", width: "30%" }
       ],
       leaderboard: [],
     };
