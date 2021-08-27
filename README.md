@@ -45,6 +45,8 @@ If this does not work check out the guide below to try and install another way.
 
 We recomend that use a seperate Conda envorinment or pipenv environment for installing packages, however this is only a recommendation. 
 
+(2.5 Gb needed)
+
 If Conda:
 - To install conda visit [this](https://www.anaconda.com/products/individual) link. 
 - `conda create --name QAML python=3.9`
