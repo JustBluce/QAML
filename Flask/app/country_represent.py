@@ -246,7 +246,6 @@ def country_present():
     # print(ans)
     # if ans == "":
     #     return jsonify({"country_representation": "", "country": ""})
-    page = wikipedia.page("\""+ans+"\"")
     prev_over_countries[q_id] = current_over_countries[q_id]
     prev_under_countries[q_id] = current_under_countries[q_id]
     current_over_countries[q_id] = []
@@ -256,52 +255,57 @@ def country_present():
     added_over_represented_countries = []
     removed_over_represented_countries = []
     added_under_represented_countries = []
-    for i in range(len(over_countries)):
-        if over_countries[i].lower() in question.lower():
-            current_over_countries[q_id].append(over_countries[i].lower())
-            if over_countries[i].lower() not in prev_over_countries[q_id]: 
-                added_over_represented_countries.append(over_countries[i].lower())
+    try :
+        page = wikipedia.page("\""+ans+"\"")
+        
+        for i in range(len(over_countries)):
+            if over_countries[i].lower() in question.lower():
+                current_over_countries[q_id].append(over_countries[i].lower())
+                if over_countries[i].lower() not in prev_over_countries[q_id]: 
+                    added_over_represented_countries.append(over_countries[i].lower())
+                    insert_db_flag = 1
+            elif over_countries[i].lower() not in question.lower() and over_countries[i].lower() in prev_over_countries[q_id]: 
                 insert_db_flag = 1
-        elif over_countries[i].lower() not in question.lower() and over_countries[i].lower() in prev_over_countries[q_id]: 
-            insert_db_flag = 1
-            removed_over_represented_countries.append(over_countries[i].lower())
-           
-    
-    current_under_countries[q_id] = []
-    for i in range(len(under_countries)):
-        # b = " ".join(x for x in i)
-        if under_countries[i].lower() in question.lower(): 
+                removed_over_represented_countries.append(over_countries[i].lower())
             
-            if under_countries[i].lower() in suggested_countries[q_id]:
-                insert_db_flag = 1
-                added_under_represented_countries.append(under_countries[i].lower())
-            
-            current_under_countries[q_id].append(under_countries[i].lower())
+        
+        current_under_countries[q_id] = []
+        for i in range(len(under_countries)):
+            # b = " ".join(x for x in i)
+            if under_countries[i].lower() in question.lower(): 
+                
+                if under_countries[i].lower() in suggested_countries[q_id]:
+                    insert_db_flag = 1
+                    added_under_represented_countries.append(under_countries[i].lower())
+                
+                current_under_countries[q_id].append(under_countries[i].lower())
 
-        if under_countries[i].lower() not in question.lower() and under_countries[i].lower() in page.content.lower():
-            idx = page.content.lower().find(under_countries[i].lower())
-            sub_part = page.content[max(idx-200, 0) : min(idx + 200, len(page.content) - 1)]
-            cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]), sub_part ])
- 
-    message = Sort(cosine_sim_ques_country)
-
-    answer = []
-    suggested_countries[q_id] = []
-    for i in message[:5]:
-        answer.append({"answer": i[0], "Score":i[1], "text": i[2]})
-        suggested_countries[q_id].append(i[0])
+            if under_countries[i].lower() not in question.lower() and under_countries[i].lower() in page.content.lower():
+                idx = page.content.lower().find(under_countries[i].lower())
+                sub_part = page.content[max(idx-300, 0) : min(idx + 300, len(page.content) - 1)]
+                cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]), sub_part ])
     
-    if insert_db_flag == 1:
-        date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-        edit_message = ''
-        if(len(added_under_represented_countries) != 0):
-            edit_message = edit_message  + 'The under-represented countries "' + ' '.join(added_under_represented_countries) + '" was added on the basis of suggestion. '
-        if(len(removed_over_represented_countries) != 0):
-            edit_message = edit_message + 'The over-represented countries "' + ' '.join(removed_over_represented_countries) + '" was removed by the user. '
-        if(len(added_over_represented_countries) != 0):
-            edit_message = edit_message + 'The over-represented countries "' + ' '.join(added_over_represented_countries) + '" was added by the user.'
-        insert_into_db(q_id, date_incoming, date_outgoing, question, ans, edit_message, added_under_represented_countries, removed_over_represented_countries, added_over_represented_countries)
-        # print(country_represent_json)
+        message = Sort(cosine_sim_ques_country)
+
+        answer = []
+        suggested_countries[q_id] = []
+        for i in message[:5]:
+            answer.append({"answer": i[0], "Score":i[1], "text": i[2]})
+            suggested_countries[q_id].append(i[0])
+        
+        if insert_db_flag == 1:
+            date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+            edit_message = ''
+            if(len(added_under_represented_countries) != 0):
+                edit_message = edit_message  + 'The under-represented countries "' + ' '.join(added_under_represented_countries) + '" was added on the basis of suggestion. '
+            if(len(removed_over_represented_countries) != 0):
+                edit_message = edit_message + 'The over-represented countries "' + ' '.join(removed_over_represented_countries) + '" was removed by the user. '
+            if(len(added_over_represented_countries) != 0):
+                edit_message = edit_message + 'The over-represented countries "' + ' '.join(added_over_represented_countries) + '" was added by the user.'
+            insert_into_db(q_id, date_incoming, date_outgoing, question, ans, edit_message, added_under_represented_countries, removed_over_represented_countries, added_over_represented_countries)
+            # print(country_represent_json)
+    except: 
+        message = "Couldn't find a related wikipedia article"
     end = time.time()
     # print(current_over_countries[q_id])
     print("----TIME (s): /country_represent/country_present---", end - start)
