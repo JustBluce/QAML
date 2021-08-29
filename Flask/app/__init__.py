@@ -4,7 +4,7 @@ from sqlalchemy import MetaData
 
 app = Flask(__name__)
 app.config.from_object("config")
-
+app.config['SQLALCHEMY_POOL_TIMEOUT'] = 1800
 db = SQLAlchemy(app)
 metadata = MetaData(app.config["SQLALCHEMY_DATABASE_URI"])
 metadata.reflect()
