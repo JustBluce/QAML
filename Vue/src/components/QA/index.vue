@@ -542,6 +542,9 @@ export default {
             response.data["list_of_words_to_remove"][i]
           ];
         }
+        console.log("_________________")
+        console.log(response.data["list_of_words_to_remove"])
+        console.log("_________________")
         for (let i = 0; i < response.data["message"].length; i++) {
           this.qa.highlight_words[response.data["message"][i]["Word"]] = "cyan";
         }
