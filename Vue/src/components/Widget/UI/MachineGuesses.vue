@@ -8,6 +8,7 @@ Developers: Atith Gandhi and Jason Liu
       :headers="headers"
       :items="answer"
       hide-default-footer
+      dense
       class="elevation-2"
     >
     </v-data-table>

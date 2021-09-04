@@ -1,0 +1,164 @@
+{
+    "q_id": "aQZ29SmTmNNNl8h0PzFJrNew7ms2",
+    "data": {
+        "08/20/2021, 09:17:01": {
+            "Question": "This man was inspired by the work of Toru Takemitsu",
+            "Answer": "Aaron_Copland",
+            "Relevant": "First Time Stamp"
+        },
+        "08/20/2021, 09:17:36": {
+            "Question": "This man was inspired by the work of Toru Takemitsu while staying in Japan and conducted the premiere of ",
+            "Answer": "Aaron_Copland",
+            "add": [
+                "Japan",
+                "and",
+                "conducted",
+                "the",
+                "premiere",
+                "of"
+            ],
+            "remove": [
+                "Japan."
+            ],
+            "Relevant": "7 words need to be added, deleted or replaced between diff  "
+        },
+        "08/20/2021, 09:18:41": {
+            "Question": "This man was inspired by the work of Toru Takemitsu while staying in Japan and conducted the premiere of Takemitsus Dorian Horizon. This man formed a friendship with ",
+            "Answer": "Aaron_Copland",
+            "add": [
+                "This",
+                "man",
+                "formed",
+                "a",
+                "friendship",
+                "with"
+            ],
+            "remove": [],
+            "Relevant": "6 words need to be added, deleted or replaced between diff  "
+        },
+        "08/20/2021, 09:19:17": {
+            "Question": "This man was inspired by the work of Toru Takemitsu while staying in Japan and conducted the premiere of Takemitsus Dorian Horizon. This man formed a friendship with the Mexican Composer Carlos Ch\u00e1vez to whom his second symphony The Short Symphony is dedicated.",
+            "Answer": "Aaron_Copland",
+            "add": [
+                "his",
+                "second",
+                "symphony",
+                "The",
+                "Short",
+                "Symphony",
+                "is",
+                "dedicated."
+            ],
+            "remove": [
+                "he"
+            ],
+            "Relevant": "9 words need to be added, deleted or replaced between diff  "
+        },
+        "08/20/2021, 09:23:59": {
+            "Question": "This man was inspired by the work of Toru Takemitsu while staying in Japan and conducted the premiere of Takemitsu Dorian Horizon. This man formed a friendship with the Mexican Composer Carlos Ch\u00e1vez to whom his second symphony The Short Symphony is dedicated. This man also composed the opera The Tender Land and later composed the orchestral work Connotations. ",
+            "Answer": "Aaron_Copland",
+            "add": [],
+            "remove": [],
+            "machine_guess": {
+                "edit_history": {
+                    "change_in_position": "First Entry",
+                    "isRelevant": false
+                },
+                "Timestamp_frontend": "08/20/2021, 09:23:59",
+                "Timestamp_backend": "08/20/2021, 09:24:00",
+                "guesses": [
+                    {
+                        "guess": "Anton_Bruckner",
+                        "score": "0.132"
+                    },
+                    {
+                        "guess": "Gustav_Mahler",
+                        "score": "0.113"
+                    },
+                    {
+                        "guess": "Carl_Nielsen",
+                        "score": "0.106"
+                    },
+                    {
+                        "guess": "Dmitri_Shostakovich",
+                        "score": "0.106"
+                    },
+                    {
+                        "guess": "Anton\u00edn_Dvo\u0159\u00e1k",
+                        "score": "0.099"
+                    }
+                ],
+                "ans_pos": -1,
+                "prev_pos": -1
+            },
+            "country_represent": {
+                "edit_history": {
+                    "added_under_represented_countries": [],
+                    "removed_over_represented_countries": [],
+                    "added_over_represented_countries": []
+                },
+                "Timestamp_frontend": "08/20/2021, 09:23:59",
+                "Timestamp_backend": "08/20/2021, 09:24:00",
+                "edit_message": "",
+                "current_over_countries": [],
+                "current_under_countries": [
+                    "japan"
+                ],
+                "suggested_countries": []
+            },
+            "pronunciation_dict": {
+                "edit_history": {
+                    "new_words_added_to_pronunciation": [
+                        "Ch\u00e1vez",
+                        "Takemitsus",
+                        "Takemitsu"
+                    ],
+                    "old_words_removed_from_pronunication": []
+                },
+                "Timestamp_frontend": "08/20/2021, 09:23:59",
+                "Timestamp_backend": "08/20/2021, 09:23:59",
+                "word_2_pronounce": [
+                    {
+                        "Word": "Takemitsu"
+                    },
+                    {
+                        "Word": "Takemitsus"
+                    },
+                    {
+                        "Word": "Ch\u00e1vez"
+                    }
+                ]
+            },
+            "Relevant": "Not a big enough difference between strings  Machine Guess;Country_Represent;Pronunciation;"
+        },
+        "08/20/2021, 09:24:05": {
+            "Question": "This man was inspired by the work of Toru Takemitsu while staying in Japan and conducted the premiere of Torus Dorian Horizon. This man formed a friendship with the Mexican Composer Carlos Ch\u00e1vez to whom his second symphony The Short Symphony is dedicated. This man also composed the opera The Tender Land and later composed the orchestral work Connotations. ",
+            "Answer": "Aaron_Copland",
+            "add": [
+                "Torus"
+            ],
+            "remove": [
+                "Takemitsus"
+            ],
+            "pronunciation_dict": {
+                "edit_history": {
+                    "new_words_added_to_pronunciation": [],
+                    "old_words_removed_from_pronunication": [
+                        "Takemitsus"
+                    ]
+                },
+                "Timestamp_frontend": "08/20/2021, 09:24:05",
+                "Timestamp_backend": "08/20/2021, 09:24:05",
+                "word_2_pronounce": [
+                    {
+                        "Word": "Takemitsu"
+                    },
+                    {
+                        "Word": "Ch\u00e1vez"
+                    }
+                ]
+            },
+            "Relevant": "Not a big enough difference between strings  Pronunciation;"
+        }
+    }
+}
