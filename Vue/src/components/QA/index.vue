@@ -71,6 +71,24 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
         <v-btn color="primary" @click="searchData">
           Submit <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
+        
+        <div class="my-4">
+          <vue-blob-json-csv
+            @error="handleError"
+            file-type="json"
+            :file-name="this.qid"
+            :data="[{'Question': this.qa.text, 'Answer': this.qa.answer_text, 'Genre': this.qa.genre}]"
+             class="button is-primary"
+            color="primary"
+          >
+          <v-btn color="primary">
+            Download This Question <v-icon>mdi-cloud-download</v-icon>
+          </v-btn>
+       
+          
+          </vue-blob-json-csv>
+        </div>    
+        
 
       <v-card class="my-4" color="background">
           <h3 class="mb-2">
@@ -106,9 +124,11 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
   </v-container>
 </template>
 
+
 <script>
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
+
 
 export default {
   name: "QA",
@@ -116,7 +136,7 @@ export default {
     id: Number,
   },
   components: {
-    GChart,
+    GChart
   },
   data() {
     return {
@@ -394,6 +414,9 @@ export default {
           // Email verification sent!
           // ...
         });
+    },
+    handleError() {
+      alert("Error in downloading the JSON File. Try it after some time !!!");
     },
     keep_looping: _.debounce(function () {
       // this.highlight_words = {}
@@ -697,7 +720,7 @@ export default {
               } else {
                 this.addResult({
                   title: "Not saved",
-                  body: "Your question was not difficult enough for the computer. Please try again.",
+                  body: "Your question was not difficult enough for the humans. Please try again.",
                 }); 
               }
               // this.qa.top5_similar_questions = response.data["similar_question"]; 
