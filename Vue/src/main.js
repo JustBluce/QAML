@@ -2,6 +2,7 @@ import Vue from 'vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import debounce from 'lodash/debounce';
+import VueBlobJsonCsv from 'vue-blob-json-csv';
 //引入echarts
 import echarts from 'echarts';
 Vue.prototype.$echarts = echarts;
@@ -78,6 +79,7 @@ Vue.use(Vuelidate);
 Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
+Vue.use(VueBlobJsonCsv)
 
 new Vue({
 	el: '#app',
