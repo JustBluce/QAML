@@ -1,5 +1,3 @@
-
-
 from flask import Flask, jsonify, request #Flask imports
 from flask import Blueprint, render_template, redirect #Flask import to re-route requests on server
 from app import db
@@ -17,7 +15,6 @@ def leaderboard():
         temp={}
         temp["Name"]=instance[0]
         temp["Score"]=instance[1]
-        temp["LastLogin"]=instance[2]
         result.append(temp)
 
     return jsonify(result)
