@@ -9,7 +9,7 @@ Developers: Jason Liu
     elevation="4"
     min-width="300"
   >
-    <v-card-title class="handle py-2" style="cursor: grab">
+    <v-card-title class="handle py-2" style="font-size: 18px; cursor: grab">
       {{ widget.title }}
       <v-progress-linear
         class="my-1"

@@ -27,8 +27,8 @@ Developers: Jason Liu
           color="primary"
           class="mr-1"
           icon
-          v-bind="attrs"
           large
+          v-bind="attrs"
           v-on="on"
           @click="show = true"
         >

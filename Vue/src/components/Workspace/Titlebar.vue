@@ -6,7 +6,8 @@ Developers: Jason Liu
   <v-toolbar style="flex-grow: 0; z-index: 1">
     <v-btn
       icon
-      x-large
+      large
+      class="mr-1"
       style="cursor: grab"
       @mousedown="$emit('startDrag', $event)"
     >
@@ -30,7 +31,6 @@ Developers: Jason Liu
 
     <v-spacer></v-spacer>
 
-    
     <v-menu
       transition="fade-transition"
       offset-y
@@ -40,7 +40,7 @@ Developers: Jason Liu
       <template v-slot:activator="{ on: onMenu }">
         <v-tooltip bottom>
           <template v-slot:activator="{ on: onTooltip, attrs }">
-            <v-btn icon v-bind="attrs" v-on="{ ...onMenu, ...onTooltip }">
+            <v-btn icon large v-bind="attrs" v-on="{ ...onMenu, ...onTooltip }">
               <v-icon>mdi-hammer-wrench</v-icon>
             </v-btn>
           </template>
@@ -87,11 +87,16 @@ Developers: Jason Liu
       </v-list>
     </v-menu>
 
-    <v-btn icon @mouseup="$store.commit('minimizeWorkspace', id)">
+    <v-btn
+      icon
+      large
+      class="ml-1"
+      @mouseup="$store.commit('minimizeWorkspace', id)"
+    >
       <v-icon>mdi-window-minimize</v-icon>
     </v-btn>
 
-    <v-btn icon @mouseup="$emit('maximize')">
+    <v-btn icon large class="ml-1" @mouseup="$emit('maximize')">
       <v-icon>mdi-window-maximize</v-icon>
     </v-btn>
   </v-toolbar>

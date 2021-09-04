@@ -28,6 +28,7 @@ Developers: Damien Rene and Jason Liu
     <v-data-table
       hide-default-header
       hide-default-footer
+      dense
       :headers="headers"
       :items="pronunciation"
       class="elevation-2"
