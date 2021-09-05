@@ -1,5 +1,7 @@
 import sys
 
+from flask.helpers import url_for
+
 sys.path.append("..")
 sys.path.insert(0, "./app")
 from app import app, Database
@@ -19,12 +21,16 @@ from .people import people_info
 from .similarity import similar_question
 from .genre_classifier import genre_classifier
 from .pronunciation import pronunciation
+from .key_log import key_log
 
 # from .binary_search_based_buzzer import importance
 
 # app.register_blueprint(test1, url_prefix='/test1')
 # app.register_blueprint(users, url_prefix='/users')
 # app.register_blueprint(genres, url_prefix='/genres')
+
+app.register_blueprint(key_log, url_prefix="/key_log")
+
 
 app.register_blueprint(log, url_prefix="/log")
 app.register_blueprint(func, url_prefix="/func")

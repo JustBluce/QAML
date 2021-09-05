@@ -55,6 +55,7 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           solo
           v-model="qa.text"
           hide-details="auto"
+          v-on:keydown="log_key"
           @keydown="keep_looping"
         ></v-textarea>
 
@@ -68,6 +69,18 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           hide-details="auto"
           @input="update_representation"
         ></v-textarea>
+
+        <div v-if="key_log">
+        <v-textarea
+          background-color="background"
+          class="my-4"
+          rows="1"
+          label="Keypresses"
+          solo
+          hide-details="auto"
+          v-model="key_log"
+        ></v-textarea>
+        </div>
 
         <v-btn color="primary" @click="searchData">
           Submit <v-icon>mdi-cloud-upload</v-icon>
@@ -119,6 +132,8 @@ export default {
   },
   data() {
     return {
+      key_log: '', 
+      key_arr: [],
       popup: false,
       email: "",
       user: null,
@@ -394,10 +409,44 @@ export default {
           // ...
         });
     },
-    keep_looping: _.debounce(function () {
+    log_key:function(Key_Event){
+
+      var currentDate = new Date();
+      var currentKey = Key_Event.key; 
+      //Old Only if you need key code
+      //var key = Key_Event.keyCode || Key_Event.charCode;
+
+      //if( Key_Event.keyCode == 8 ){
+    
+      this.key_arr.push({timestamp: currentDate, key: Key_Event.key});
+      
+      this.key_log += Key_Event.key ;
+    
+      console.log('key ' + currentKey);
+
+      
+      /*
+      formData.append("timestamp", currentDate);
+      formData.append("key",currentKey);
+
+
+      this.axios({
+        url: "http://127.0.0.1:5000/key_log/log_keys",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.answer = response.data["guess"];
+        // console.log(response);
+      });
+*/
+    },
+    
+    keep_looping: _.debounce(function (Key_Event) {
       // this.highlight_words = {}
       console.log(this.qa.highlight_words);
       clearInterval(this.interval);
+
+     
 
       let formData = new FormData();
       // console.log(
@@ -594,6 +643,20 @@ export default {
       });
     }, 1000),
     searchData() {
+
+      let data = new FormData();
+      data.append("keys", this.key_arr);
+      
+
+      this.axios({
+          url: "http://127.0.0.1:5000/key_log/log_keys",
+          method: "POST",
+          data: data,
+        }).then((response) => {
+            console.log("SENT STUFF" + response); 
+        })
+    
+
       //clearInterval(this.interval);
       // while (this.qa.text.lastIndexOf("🔔") > 0) {
       //   this.qa.text =
