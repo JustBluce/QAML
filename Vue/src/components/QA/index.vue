@@ -68,12 +68,17 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           hide-details="auto"
           @input="update_representation"
         ></v-textarea>
-
+        <!-- <div class="text-center"> -->
+        <div class="my-4">
+        <v-row
+        align="center"
+        justify="space-around"
+        >
         <v-btn color="primary" @click="searchData">
-          Submit <v-icon>mdi-cloud-upload</v-icon>
+          Submit  <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
         
-        <div class="my-4">
+        <!-- <div class="my-4"> -->
           <vue-blob-json-csv
             @error="handleError"
             file-type="json"
@@ -83,14 +88,13 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             color="primary"
           >
           <v-btn color="primary">
-            Download This Question <v-icon>mdi-cloud-download</v-icon>
+            Download This Question  <v-icon>mdi-cloud-download</v-icon>
           </v-btn>
-       
-          
           </vue-blob-json-csv>
-        </div>    
         
-
+        <!-- </div> -->
+        </v-row>
+        </div>    
         <v-card class="my-4" color="background">
           <h3 class="mb-2">{{ this.user_displayName }}'s genre distribution</h3>
 
@@ -306,13 +310,14 @@ export default {
               delete this.qa.highlight_words[this.qa.buzz_word_this];
             }
             this.qa.buzz_word_this = response.data["buzzer_last_word"];
-            this.qa.highlight_words[response.data["buzzer_last_word"]] =
-              "orange";
+            
             for (let i = 0; i < response.data["remove_highlight"].length; i++) {
               delete this.qa.highlight_words[
                 response.data["remove_highlight"][i]
               ];
             }
+            this.qa.highlight_words[response.data["buzzer_last_word"]] =
+              "orange";
             for (let i = 0; i < response.data["hightlight_words"].length; i++) {
               this.qa.highlight_words[response.data["hightlight_words"][i]] =
                 "yellow";
@@ -494,7 +499,7 @@ export default {
             delete this.qa.highlight_words[this.qa.buzz_word_this];
           }
           this.qa.buzz_word_this = response.data["buzzer_last_word"];
-          // this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
+          // 
           for (let i = 0; i < response.data["remove_highlight"].length; i++) {
             delete this.qa.highlight_words[
               response.data["remove_highlight"][i]
@@ -504,6 +509,7 @@ export default {
             this.qa.highlight_words[response.data["hightlight_words"][i]] =
               "yellow";
           }
+          this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
           // this.qa.text =
           //   this.qa.text.substr(
           //     0,
