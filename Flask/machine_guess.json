@@ -1,12 +1,12 @@
 {
-  "aQZ29SmTmNNNl8h0PzFJrNew7ms208/27/2021, 15:42:43": [
+  "av9lrUTiZjUTDLRFVD97SQQf1cC209/06/2021, 19:22:37": [
     {
       "edit_history": {
         "change_in_position": "First Entry",
         "isRelevant": false
       },
-      "Timestamp_frontend": "08/27/2021, 15:42:43",
-      "Timestamp_backend": "08/27/2021, 15:42:46",
+      "Timestamp_frontend": "09/06/2021, 19:22:37",
+      "Timestamp_backend": "09/06/2021, 19:22:41",
       "guesses": [
         {
           "guess": "Romanian_language",
@@ -33,14 +33,14 @@
       "prev_pos": -1
     }
   ],
-  "aQZ29SmTmNNNl8h0PzFJrNew7ms208/27/2021, 15:43:43": [
+  "av9lrUTiZjUTDLRFVD97SQQf1cC209/06/2021, 19:22:52": [
     {
       "edit_history": {
         "change_in_position": "First Entry",
         "isRelevant": false
       },
-      "Timestamp_frontend": "08/27/2021, 15:43:43",
-      "Timestamp_backend": "08/27/2021, 15:43:44",
+      "Timestamp_frontend": "09/06/2021, 19:22:52",
+      "Timestamp_backend": "09/06/2021, 19:22:53",
       "guesses": [
         {
           "guess": "Romanian_language",
@@ -67,14 +67,14 @@
       "prev_pos": -1
     }
   ],
-  "aQZ29SmTmNNNl8h0PzFJrNew7ms208/27/2021, 15:44:43": [
+  "av9lrUTiZjUTDLRFVD97SQQf1cC209/06/2021, 19:24:35": [
     {
       "edit_history": {
         "change_in_position": "First Entry",
         "isRelevant": false
       },
-      "Timestamp_frontend": "08/27/2021, 15:44:43",
-      "Timestamp_backend": "08/27/2021, 15:44:44",
+      "Timestamp_frontend": "09/06/2021, 19:24:35",
+      "Timestamp_backend": "09/06/2021, 19:24:36",
       "guesses": [
         {
           "guess": "Romanian_language",
@@ -101,14 +101,14 @@
       "prev_pos": -1
     }
   ],
-  "aQZ29SmTmNNNl8h0PzFJrNew7ms208/27/2021, 15:45:43": [
+  "av9lrUTiZjUTDLRFVD97SQQf1cC209/06/2021, 19:24:50": [
     {
       "edit_history": {
         "change_in_position": "First Entry",
         "isRelevant": false
       },
-      "Timestamp_frontend": "08/27/2021, 15:45:43",
-      "Timestamp_backend": "08/27/2021, 15:45:44",
+      "Timestamp_frontend": "09/06/2021, 19:24:50",
+      "Timestamp_backend": "09/06/2021, 19:24:51",
       "guesses": [
         {
           "guess": "Romanian_language",
@@ -135,14 +135,14 @@
       "prev_pos": -1
     }
   ],
-  "aQZ29SmTmNNNl8h0PzFJrNew7ms208/27/2021, 15:46:43": [
+  "av9lrUTiZjUTDLRFVD97SQQf1cC209/06/2021, 19:25:04": [
     {
       "edit_history": {
         "change_in_position": "First Entry",
         "isRelevant": false
       },
-      "Timestamp_frontend": "08/27/2021, 15:46:43",
-      "Timestamp_backend": "08/27/2021, 15:46:44",
+      "Timestamp_frontend": "09/06/2021, 19:25:04",
+      "Timestamp_backend": "09/06/2021, 19:25:05",
       "guesses": [
         {
           "guess": "Romanian_language",
@@ -169,170 +169,34 @@
       "prev_pos": -1
     }
   ],
-  "aQZ29SmTmNNNl8h0PzFJrNew7ms208/27/2021, 15:47:43": [
+  "": [
     {
       "edit_history": {
         "change_in_position": "First Entry",
         "isRelevant": false
       },
-      "Timestamp_frontend": "08/27/2021, 15:47:43",
-      "Timestamp_backend": "08/27/2021, 15:47:44",
+      "Timestamp_frontend": "09/06/2021, 19:26:58",
+      "Timestamp_backend": "09/06/2021, 19:26:59",
       "guesses": [
         {
-          "guess": "Romanian_language",
-          "score": "0.0"
+          "guess": "Haruki_Murakami",
+          "score": "0.169"
         },
         {
-          "guess": "Dutch_Revolt",
-          "score": "0.0"
+          "guess": "Norwegian_Wood_(This_Bird_Has_Flown)",
+          "score": "0.141"
         },
         {
-          "guess": "C.R.E.A.M.",
-          "score": "0.0"
+          "guess": "The_Wind-Up_Bird_Chronicle",
+          "score": "0.124"
         },
         {
-          "guess": "Talking_Heads",
-          "score": "0.0"
+          "guess": "Ry\u016b_Murakami",
+          "score": "0.054"
         },
         {
-          "guess": "Potter_Stewart",
-          "score": "0.0"
-        }
-      ],
-      "ans_pos": -1,
-      "prev_pos": -1
-    }
-  ],
-  "aQZ29SmTmNNNl8h0PzFJrNew7ms208/27/2021, 15:48:43": [
-    {
-      "edit_history": {
-        "change_in_position": "First Entry",
-        "isRelevant": false
-      },
-      "Timestamp_frontend": "08/27/2021, 15:48:43",
-      "Timestamp_backend": "08/27/2021, 15:48:44",
-      "guesses": [
-        {
-          "guess": "Romanian_language",
-          "score": "0.0"
-        },
-        {
-          "guess": "Dutch_Revolt",
-          "score": "0.0"
-        },
-        {
-          "guess": "C.R.E.A.M.",
-          "score": "0.0"
-        },
-        {
-          "guess": "Talking_Heads",
-          "score": "0.0"
-        },
-        {
-          "guess": "Potter_Stewart",
-          "score": "0.0"
-        }
-      ],
-      "ans_pos": -1,
-      "prev_pos": -1
-    }
-  ],
-  "aQZ29SmTmNNNl8h0PzFJrNew7ms208/27/2021, 15:49:43": [
-    {
-      "edit_history": {
-        "change_in_position": "First Entry",
-        "isRelevant": false
-      },
-      "Timestamp_frontend": "08/27/2021, 15:49:43",
-      "Timestamp_backend": "08/27/2021, 15:49:44",
-      "guesses": [
-        {
-          "guess": "Romanian_language",
-          "score": "0.0"
-        },
-        {
-          "guess": "Dutch_Revolt",
-          "score": "0.0"
-        },
-        {
-          "guess": "C.R.E.A.M.",
-          "score": "0.0"
-        },
-        {
-          "guess": "Talking_Heads",
-          "score": "0.0"
-        },
-        {
-          "guess": "Potter_Stewart",
-          "score": "0.0"
-        }
-      ],
-      "ans_pos": -1,
-      "prev_pos": -1
-    }
-  ],
-  "aQZ29SmTmNNNl8h0PzFJrNew7ms208/27/2021, 15:50:37": [
-    {
-      "edit_history": {
-        "change_in_position": "First Entry",
-        "isRelevant": false
-      },
-      "Timestamp_frontend": "08/27/2021, 15:50:37",
-      "Timestamp_backend": "08/27/2021, 15:50:37",
-      "guesses": [
-        {
-          "guess": "Romanian_language",
-          "score": "0.0"
-        },
-        {
-          "guess": "Dutch_Revolt",
-          "score": "0.0"
-        },
-        {
-          "guess": "C.R.E.A.M.",
-          "score": "0.0"
-        },
-        {
-          "guess": "Talking_Heads",
-          "score": "0.0"
-        },
-        {
-          "guess": "Potter_Stewart",
-          "score": "0.0"
-        }
-      ],
-      "ans_pos": -1,
-      "prev_pos": -1
-    }
-  ],
-  "aQZ29SmTmNNNl8h0PzFJrNew7ms208/27/2021, 15:50:51": [
-    {
-      "edit_history": {
-        "change_in_position": "First Entry",
-        "isRelevant": false
-      },
-      "Timestamp_frontend": "08/27/2021, 15:50:51",
-      "Timestamp_backend": "08/27/2021, 15:50:51",
-      "guesses": [
-        {
-          "guess": "Romanian_language",
-          "score": "0.0"
-        },
-        {
-          "guess": "Dutch_Revolt",
-          "score": "0.0"
-        },
-        {
-          "guess": "C.R.E.A.M.",
-          "score": "0.0"
-        },
-        {
-          "guess": "Talking_Heads",
-          "score": "0.0"
-        },
-        {
-          "guess": "Potter_Stewart",
-          "score": "0.0"
+          "guess": "Woman_in_the_Dunes",
+          "score": "0.052"
         }
       ],
       "ans_pos": -1,
