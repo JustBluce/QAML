@@ -68,11 +68,33 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           hide-details="auto"
           @input="update_representation"
         ></v-textarea>
-
+        <!-- <div class="text-center"> -->
+        <div class="my-4">
+        <v-row
+        align="center"
+        justify="space-around"
+        >
         <v-btn color="primary" @click="searchData">
-          Submit <v-icon>mdi-cloud-upload</v-icon>
+          Submit  <v-icon>mdi-cloud-upload</v-icon>
         </v-btn>
-
+        
+        <!-- <div class="my-4"> -->
+          <vue-blob-json-csv
+            @error="handleError"
+            file-type="json"
+            :file-name="this.workspace.title"
+            :data="[{'Question': this.qa.text, 'Answer': this.qa.answer_text, 'Genre': this.qa.genre}]"
+             class="button is-primary"
+            color="primary"
+          >
+          <v-btn color="primary">
+            Download This Question  <v-icon>mdi-cloud-download</v-icon>
+          </v-btn>
+          </vue-blob-json-csv>
+        
+        <!-- </div> -->
+        </v-row>
+        </div>    
         <v-card class="my-4" color="background">
           <h3 class="mb-2">{{ this.user_displayName }}'s genre distribution</h3>
 
@@ -105,9 +127,11 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
   </v-container>
 </template>
 
+
 <script>
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
+
 
 export default {
   name: "QA",
@@ -115,7 +139,7 @@ export default {
     id: Number,
   },
   components: {
-    GChart,
+    GChart
   },
   data() {
     return {
@@ -286,13 +310,14 @@ export default {
               delete this.qa.highlight_words[this.qa.buzz_word_this];
             }
             this.qa.buzz_word_this = response.data["buzzer_last_word"];
-            this.qa.highlight_words[response.data["buzzer_last_word"]] =
-              "orange";
+            
             for (let i = 0; i < response.data["remove_highlight"].length; i++) {
               delete this.qa.highlight_words[
                 response.data["remove_highlight"][i]
               ];
             }
+            this.qa.highlight_words[response.data["buzzer_last_word"]] =
+              "orange";
             for (let i = 0; i < response.data["hightlight_words"].length; i++) {
               this.qa.highlight_words[response.data["hightlight_words"][i]] =
                 "yellow";
@@ -356,11 +381,13 @@ export default {
           data: formData,
         }).then((response) => {
           this.qa.pronunciation = response.data["message"];
+          // console.log( response.data["list_of_words_to_remove"]);
           for (
             let i = 0;
             i < response.data["list_of_words_to_remove"].length;
             i++
           ) {
+            
             delete this.qa.highlight_words[
               response.data["list_of_words_to_remove"][i]
             ];
@@ -391,6 +418,9 @@ export default {
           // Email verification sent!
           // ...
         });
+    },
+    handleError() {
+      alert("Error in downloading the JSON File. Try it after some time !!!");
     },
     keep_looping: _.debounce(function () {
       // this.highlight_words = {}
@@ -469,7 +499,7 @@ export default {
             delete this.qa.highlight_words[this.qa.buzz_word_this];
           }
           this.qa.buzz_word_this = response.data["buzzer_last_word"];
-          this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
+          // 
           for (let i = 0; i < response.data["remove_highlight"].length; i++) {
             delete this.qa.highlight_words[
               response.data["remove_highlight"][i]
@@ -479,6 +509,7 @@ export default {
             this.qa.highlight_words[response.data["hightlight_words"][i]] =
               "yellow";
           }
+          this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
           // this.qa.text =
           //   this.qa.text.substr(
           //     0,
@@ -540,6 +571,9 @@ export default {
             response.data["list_of_words_to_remove"][i]
           ];
         }
+        console.log("_________________")
+        console.log(response.data["list_of_words_to_remove"])
+        console.log("_________________")
         for (let i = 0; i < response.data["message"].length; i++) {
           this.qa.highlight_words[response.data["message"][i]["Word"]] = "cyan";
         }
@@ -648,7 +682,7 @@ export default {
         }).then((response) => {
           if (response.data["similar_question"][0]) {
             this.addResult({
-              title: "Similar question detected",
+              title: "A highly similar question detected. Please try to change the context of the question",
               body: response.data["similar_question"][1][0]["text"],
             });
           } else {
@@ -702,8 +736,8 @@ export default {
               } else {
                 this.addResult({
                   title: "Not saved",
-                  body: "Your question was not difficult enough for the computer. Please try again.",
-                });
+                  body: "Your question was not difficult enough for the humans. Please try again.",
+                }); 
               }
               // this.qa.top5_similar_questions = response.data["similar_question"];
             });
@@ -773,6 +807,38 @@ export default {
     },
   },
   mounted() {
+    let formData = new FormData();
+    // formData.append("Timestamp", "2021-08-02 19:57:42");
+    // this.axios({
+    //   url: "http://127.0.0.1:5000/question/Question_id",
+    //   method: "POST",
+    // }).then((response) => {
+    //   this.Question_id = response.data["Question_id"];
+    //   console.log(response);
+    // });
+        if(this.user_id != ""){
+          this.axios({
+              url: "http://127.0.0.1:5000/genre_classifier/genre_data",
+              method: "POST",
+              data: formData,
+          }).then((response) => {
+            
+                let genre_data = response.data["genre_data"];
+                console.log(genre_data)
+                this.showGenreChart = true
+                if (genre_data.length != 0) {
+                  let header = [["Genre", "Count"]];
+                  for (let i = 0; i < genre_data.length; i++) {
+                    header.push(genre_data[i]);;
+                  }
+                  // console.log(header.concat(this.qa.subgenre));
+                  this.genreChartData = header;
+                  console.log(this.genreChartData)
+                }
+                console.log(this.highlight_words)
+              
+          });
+        }
     firebase.auth().onAuthStateChanged((user) => {
       if (user.email) {
         this.user = user;
