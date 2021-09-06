@@ -83,13 +83,28 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             color="primary"
           >
           <v-btn color="primary">
-            Download This Question <v-icon>mdi-cloud-download</v-icon>
+            Download Current Question <v-icon>mdi-cloud-download</v-icon>
           </v-btn>
        
           
           </vue-blob-json-csv>
         </div>    
-        
+        <div class="my-4">
+          <vue-blob-json-csv
+            @error="handleError"
+            file-type="json"
+            :file-name="this.user_displayName"
+            :data="this.questions_list"
+             class="button is-primary"
+            color="primary"
+          >
+          <v-btn color="primary">
+            Download All the Questions <v-icon>mdi-cloud-download</v-icon>
+          </v-btn>
+       
+          
+          </vue-blob-json-csv>
+        </div> 
 
         <v-card class="my-4" color="background">
           <h3 class="mb-2">{{ this.user_displayName }}'s genre distribution</h3>
@@ -182,6 +197,7 @@ export default {
         ["Genre", "Count"],
         ["None", 1],
       ],
+      questions_list: [],
       user_id: "",
       user_displayName: "",
     };
@@ -293,7 +309,7 @@ export default {
           //       this.qa.text.length
           //     );
           // }
-
+        
           this.qa.binary_search_based_buzzer = response.data["buzz"];
           this.qa.importance = response.data["importance"];
           // this.highlight = response.data["buzz_word"];
@@ -337,6 +353,7 @@ export default {
           // console.log(this.qa.text.indexOf(response.data["buzz_word"]));
           // console.log(response);
         });
+        
         this.axios({
           url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
           method: "POST",
@@ -653,6 +670,7 @@ export default {
           data: formData,
         }).then((response) => {
           let genre_data = response.data["genre_data"];
+          this.questions_list = response.data["questions_list"];
           console.log(genre_data);
           this.showGenreChart = true;
           if (genre_data.length != 0) {
@@ -815,6 +833,7 @@ export default {
           }).then((response) => {
             
                 let genre_data = response.data["genre_data"];
+                this.questions_list = response.data["questions_list"]
                 console.log(genre_data)
                 this.showGenreChart = true
                 if (genre_data.length != 0) {
