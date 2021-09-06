@@ -12,15 +12,15 @@ Developers: Jason Liu
       <section class="title background">
         <div class="text-h2 font-weight-bold">QAML</div>
         <div class="text-body-1 font-italic">/ˈkæməl/</div>
-        <div class="text-h6 mt-2">
+        <div class="text-h5 mt-2">
           <span>Q</span>uestion-writing <span>A</span>ided by
           <span>M</span>achine <span>L</span>earning
         </div>
       </section>
 
       <section class="primary">
-        <h1>Cybernetic question writing</h1>
-        <div class="text-body-1">
+        <div class="text-h4 font-weight-bold">Cybernetic question writing</div>
+        <div class="text-h5 mt-6">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -45,8 +45,8 @@ Developers: Jason Liu
       </section>
 
       <section class="background">
-        <h1>AI-enhanced gameplay</h1>
-        <div class="text-body-1">
+        <div class="text-h4 font-weight-bold">AI-enhanced gameplay</div>
+        <div class="text-h5 mt-6">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -71,8 +71,8 @@ Developers: Jason Liu
       </section>
 
       <section class="primary">
-        <h1>Meet the team</h1>
-        <div class="text-body-1">
+        <div class="text-h4 font-weight-bold">Meet the team</div>
+        <div class="text-h5 mt-6">
           <strong>Developers:</strong>
           Zefan Cai, Atith Gandhi, Jason Liu, Damian Rene, Raj Shah<br />
           <strong>Mentors:</strong>
@@ -108,9 +108,9 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 400px;
+  min-height: 600px;
   padding: 100px 30vw;
-  padding-top: 200px;
+  padding-top: 250px;
 }
 
 span {
