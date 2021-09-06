@@ -78,6 +78,10 @@ export function defaultWorkspace(id) {
 			widgetTemplate('Pronunciation'),
 			widgetTemplate('CountryRepresentation')
 		],
+		results: {
+			dialog: false,
+			content: []
+		},
 		style: {
 			left: 0,
 			top: 0,

@@ -17,8 +17,10 @@ Developers: Damian Rene and Jason Liu
         ><br />
         Email: <strong>{{ user.email }}</strong
         ><br />
-        Verified: <strong>{{ user.emailVerified }}</strong
-        ><br />
+        Verified:
+        <v-icon v-if="user.emailVerified" color="green">
+          mdi-check-circle </v-icon
+        ><v-icon v-else color="red"> mdi-close-circle </v-icon><br />
         Provider: <strong>{{ user.providerData[0].providerId }}</strong>
       </div>
       <div v-else>Logged in as guest</div>
