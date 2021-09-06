@@ -19,7 +19,7 @@ Database: MySQL
 
 ### Model Files
 
-Please try our new model download script first! If there are any problems, you can revert to isntalling them mannually. 
+Please try our new model download script first! If there are any problems, you can revert to installing them manually. 
 
 With Script: 
 ```
