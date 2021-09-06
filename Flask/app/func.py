@@ -343,6 +343,11 @@ def insert():
         big_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][0]
         big_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][0]
         big_dict["data"][i]["Relevant"] = "First Time Stamp"
+        big_dict["data"][i]["word_list_addition"] = []
+        big_dict["data"][i]["word_list_removal"] = []
+        big_dict["data"][i]["add"] = []
+        big_dict["data"][i]["remove"] = []
+        big_dict["data"][i]["steps"] = []
         small_dict["data"][i] = {}
         small_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][0]
         small_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][0]
@@ -377,9 +382,11 @@ def insert():
         curr_value = questions_all_time_stamps[q_id][0].split()
         for j in range(1, len(time_stamps[q_id])):
             i = time_stamps[q_id][j]
-            
+            word_list_addition = []
+            word_list_removal = [] 
+            steps = []
             try:
-                diff_val, add, remove = ld(curr_value ,questions_all_time_stamps[q_id][j].split())
+                diff_val, add, remove, word_list_addition, word_list_removal, steps = ld(curr_value ,questions_all_time_stamps[q_id][j].split())
             except Exception:
                 diff_val, add, remove = find_basic_diff(curr_value ,questions_all_time_stamps[q_id][j].split())
                 
@@ -389,14 +396,25 @@ def insert():
                 curr_value = questions_all_time_stamps[q_id][j].split()
                 
             else:
-                Relevant = "Not a big enough difference between strings"
-                isRelevant = False
-            
+                if j == len(time_stamps[q_id])-1:
+                    Relevant = "Last Timestamp"
+                    isRelevant = True
+                else:
+                    Relevant = "Not a big enough difference between strings"
+                    isRelevant = False
             big_dict["data"][i] = {}
-            big_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][j]
-            big_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][j]
+            if j == len(time_stamps[q_id])-1:
+                    Relevant = "Last Timestamp"
+                    isRelevant = True
+                    # print(questions_all_time_stamps[q_id])
+                    big_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][j]
+
+            # big_dict["data"][i] = {}
+            big_dict["data"][i]["word_list_addition"] = word_list_addition
+            big_dict["data"][i]["word_list_removal"] = word_list_removal
             big_dict["data"][i]["add"] = add
             big_dict["data"][i]["remove"] = remove
+            big_dict["data"][i]["steps"] = steps
             small_dict["data"][i] = {}
             small_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][j]
             small_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][j]

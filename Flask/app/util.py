@@ -365,6 +365,7 @@ def ld(s1, s2):  # Levenshtein Distance word level
     reverse_1 = [i for i in reversed(s1)]
     reverse_2 = [i for i in reversed(s2)]
     word_tok = ""
+    steps = []
     # print(s1,s2)
     for i in reverse_1:
       for j in reverse_2: 
@@ -375,15 +376,16 @@ def ld(s1, s2):  # Levenshtein Distance word level
         break
     # print(word_tok)
     if (word_tok != ""):
-      len1 = len(s1) + 1 - 1 - s1[::-1].index(word_tok)
-      len2 = len(s2) + 1 - 1 - s2[::-1].index(word_tok)
+      len1 = len(s1) + 2 - 1 - s1[::-1].index(word_tok)
+      len2 = len(s2) + 2 - 1 - s2[::-1].index(word_tok)
       
     else:
-      len1 = len(s1)
-      len2 = len(s2)
+      len1 = len(s1)+1
+      len2 = len(s2)+1
+
     # print(len1, len2)
-    addition = len(s2) - len2
-    removal = len(s1) - len1
+    addition = len(s2) + 1 - len2
+    removal = len(s1) + 1 - len1
     word_list_removal = []
     word_list_addition = []
     if addition == 0:
@@ -394,7 +396,7 @@ def ld(s1, s2):  # Levenshtein Distance word level
       word_list_removal = []
     else:
       word_list_removal = s1[-removal:]
-    
+    # print(word_list_addition, word_list_removal)
     if len(s1)==0 and len(s2)==0:
       return 0 + len(word_list_addition) + len(word_list_removal), [], []
     elif len(s1)==0:
@@ -419,31 +421,49 @@ def ld(s1, s2):  # Levenshtein Distance word level
     j = len(lt[0])-1
     remove = []
     add = []
-    while i!=-1 and j!=-1:
- 
-      if s1[i] == s2[j]:
+    while i!=0 and j!=0:
+      # print("step ----", s1[i-1],s2[j-1], i ,j)
+      if s1[i-1] == s2[j-1]:
         i-=1
         j-=1
       else:
         if lt[i-1][j]<=lt[i-1][j-1] and lt[i-1][j] <= lt[i][j-1]:
-          remove.append(s1[i])
+          remove.append(s1[i-1])
+          # print("removed: ", s1[i-1])
+          steps.append((1,(j-1,j),s1[i-1]))
           i-=1
         elif lt[i][j-1]<=lt[i-1][j-1] and lt[i][j-1] <= lt[i-1][j]:
-          add.append(s2[j])
+          add.append(s2[j-1])
+          # print("added: ", s2[j-1])
+          steps.append((3,j-1,s2[j-1]))
           j-=1
         else:
-          remove.append(s1[i])
+          
+          remove.append(s1[i-1])
+          # print("removed: ", s1[i-1])
+          
+          add.append(s2[j-1])
+          # print("added: ", s2[j-1])
+          steps.append((2,i-1,s1[i-1]))
           i-=1
-          add.append(s2[j])
           j-=1
-    while (j!=-1):
-      add.append(s2[j])
+    while (j!=0):
+      # print("step ----")
+      add.append(s2[j-1])
+      # print("added: ", s2[j-1])
+      steps.append((3,j-1,s2[j-1]))
       j-=1
-    while(i!=-1):
-      remove.append(s1[i])
+    while(i!=0):
+      # print("step ----")
+      remove.append(s1[i-1])
+      # print("removed: ", s1[i-1])
+      steps.append((1,(j-1,j),s1[i-1]))
       i-=1
+    # for x in lt:
+      # print(*x, sep=' ')
     add = [i for i in reversed(add)] + word_list_addition
     remove = [i for i in reversed(remove)] + word_list_removal
+    # print(word_list_addition,word_list_removal)
     remove_final = []
     add_final = []
     for i in remove:
@@ -456,8 +476,25 @@ def ld(s1, s2):  # Levenshtein Distance word level
     word_list_removal_final = []
     for i in word_list_removal:
       word_list_removal_final = word_list_removal_final + i.split()
-    return lt[-1][-1] + len(word_list_addition) + len(word_list_removal), add, remove
+    return lt[-1][-1] + len(word_list_addition) + len(word_list_removal), add, remove, word_list_addition, word_list_removal, steps
     # return lt[-1][-1]+len(word_list_addition_final) + len(word_list_removal_final), add_final, remove_final
+
+
+def recreate(s1, word_list_addition, word_list_removal, steps):
+  len1 = len(s1)- len(word_list_addition)
+  s2 = s1[:len1]
+  # print(s2)
+  for i in steps:
+    if i[0]==1:
+      s2.insert(i[1][1], i[2])
+
+    elif i[0]==2:
+      s2[i[1]] = i[2]
+    elif i[0]==3:
+      if (i[2] != s2.pop(i[1])):
+        print("error i[0] = 3")
+  s2 = s2 + word_list_removal
+  return s2
 
 def find_basic_diff(s1,s2):
   for i in range(len(s1)):

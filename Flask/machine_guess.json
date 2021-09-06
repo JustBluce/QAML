@@ -1,36 +1,37 @@
 {
-  "av9lrUTiZjUTDLRFVD97SQQf1cC209/06/2021, 19:22:37": [
+  "": [
     {
       "edit_history": {
         "change_in_position": "First Entry",
         "isRelevant": false
       },
-      "Timestamp_frontend": "09/06/2021, 19:22:37",
-      "Timestamp_backend": "09/06/2021, 19:22:41",
+      "Timestamp_frontend": "09/05/2021, 21:24:59",
+      "Timestamp_backend": "09/05/2021, 21:25:00",
       "guesses": [
         {
-          "guess": "Romanian_language",
-          "score": "0.0"
+          "guess": "Art_Tatum",
+          "score": "0.278"
         },
         {
-          "guess": "Dutch_Revolt",
-          "score": "0.0"
+          "guess": "Levine",
+          "score": "0.266"
         },
         {
-          "guess": "C.R.E.A.M.",
-          "score": "0.0"
+          "guess": "Stan_Getz",
+          "score": "0.205"
         },
         {
-          "guess": "Talking_Heads",
-          "score": "0.0"
+          "guess": "Lester_Young",
+          "score": "0.18"
         },
         {
-          "guess": "Potter_Stewart",
-          "score": "0.0"
+          "guess": "Earl_Hines",
+          "score": "0.174"
         }
       ],
       "ans_pos": -1,
       "prev_pos": -1
+<<<<<<< HEAD
     }
   ],
   "av9lrUTiZjUTDLRFVD97SQQf1cC209/06/2021, 19:22:52": [
@@ -200,6 +201,39 @@
         }
       ],
       "ans_pos": -1,
+=======
+    },
+    {
+      "edit_history": {
+        "change_in_position": "The machine did not guess previously",
+        "isRelevant": true
+      },
+      "Timestamp_frontend": "09/05/2021, 21:25:08",
+      "Timestamp_backend": "09/05/2021, 21:25:09",
+      "guesses": [
+        {
+          "guess": "Aaron_Copland",
+          "score": "0.265"
+        },
+        {
+          "guess": "Art_Tatum",
+          "score": "0.187"
+        },
+        {
+          "guess": "Levine",
+          "score": "0.154"
+        },
+        {
+          "guess": "Fanfare",
+          "score": "0.114"
+        },
+        {
+          "guess": "Henry_A._Wallace",
+          "score": "0.105"
+        }
+      ],
+      "ans_pos": 0,
+>>>>>>> 0e33880a393a951c031fc74a3f46c96ecb81cdc4
       "prev_pos": -1
     }
   ]
