@@ -24,6 +24,10 @@ const store = new Vuex.Store({
 			'CountryRepresentation'
 		],
 		game_mode: false,
+		genreChartData: [
+			["Genre", "Count"],
+			["None", 1],
+		],
 		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ],
 		results: {
 			dialog: false,
