@@ -1,8 +1,32 @@
 {
-  "av9lrUTiZjUTDLRFVD97SQQf1cC209/06/2021, 19:22:37": [],
-  "av9lrUTiZjUTDLRFVD97SQQf1cC209/06/2021, 19:22:52": [],
-  "av9lrUTiZjUTDLRFVD97SQQf1cC209/06/2021, 19:24:35": [],
-  "av9lrUTiZjUTDLRFVD97SQQf1cC209/06/2021, 19:24:50": [],
-  "av9lrUTiZjUTDLRFVD97SQQf1cC209/06/2021, 19:25:04": [],
-  "": []
+  "": [
+    {
+      "edit_history": {
+        "wasSimilar": false,
+        "isSimilar": true,
+        "change_in_most_similar": "Not Relevant"
+      },
+      "Timestamp_frontend": "09/05/2021, 21:24:57",
+      "Timestamp_backend": "09/05/2021, 21:24:58",
+      "top_3_positions": [
+        "Nina Simone [or Eunice Kathleen Waymon]",
+        "Andre\u0301s Segovia [or Andre\u0301s Segovia Torres, 1st Marquis of Salobren\u0303a]",
+        "Benny Goodman [or Benjamin David Goodman]"
+      ]
+    },
+    {
+      "edit_history": {
+        "wasSimilar": true,
+        "isSimilar": false,
+        "change_in_most_similar": "Not Relevant"
+      },
+      "Timestamp_frontend": "09/05/2021, 21:25:08",
+      "Timestamp_backend": "09/05/2021, 21:25:08",
+      "top_3_positions": [
+        "Nina Simone [or Eunice Kathleen Waymon]",
+        "Andre\u0301s Segovia [or Andre\u0301s Segovia Torres, 1st Marquis of Salobren\u0303a]",
+        "Benny Goodman [or Benjamin David Goodman]"
+      ]
+    }
+  ]
 }
