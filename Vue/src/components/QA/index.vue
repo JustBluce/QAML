@@ -93,6 +93,21 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           </vue-blob-json-csv>
         
         <!-- </div> -->
+        <div class="my-4">
+          <vue-blob-json-csv
+            @error="handleError"
+            file-type="json"
+            :file-name="this.user_displayName"
+            :data="this.questions_list"
+             class="button is-primary"
+            color="primary"
+          >
+          <v-btn color="primary">
+            Download Your Questions  <v-icon>mdi-cloud-download</v-icon>
+          </v-btn>
+          </vue-blob-json-csv>
+        
+        </div>
         </v-row>
         </div>    
         <v-card class="my-4" color="background">
@@ -267,7 +282,7 @@ export default {
             second: "2-digit",
           })
         );
-        formData.append("id", this.user_id);
+        formData.append("user_id", this.user_id);
         formData.append("qid", this.qid);
         // this.qa.genre = this.selected_genre
         // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
@@ -464,7 +479,7 @@ export default {
           second: "2-digit",
         })
       );
-      formData.append("id", this.user_id);
+      formData.append("user_id", this.user_id);
       formData.append("qid", this.qid);
       this.axios({
         url: "http://127.0.0.1:5000/func/act",
@@ -597,7 +612,7 @@ export default {
           second: "2-digit",
         })
       );
-      formData.append("id", this.user_id);
+      formData.append("user_id", this.user_id);
       formData.append("qid", this.qid);
       // this.axios({
       //   url: "http://127.0.0.1:5000/over_present/highlight",
@@ -819,6 +834,26 @@ export default {
     //   this.Question_id = response.data["Question_id"];
     //   console.log(response);
     // });
+      this.user = firebase.auth().currentUser;
+      if (this.user.emailVerified) {
+        let formData = new FormData();
+        formData.append("text", this.qa.text);
+        formData.append("answer_text", this.qa.answer_text);
+        formData.append(
+          "date",
+          new Date().toLocaleString("en-US", {
+            hour12: false,
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          })
+        );
+        formData.append("user_id", this.user_id);
+        formData.append("qid", this.qid);
+        formData.append("genre", this.qa.genre);
         if(this.user_id != ""){
           this.axios({
               url: "http://127.0.0.1:5000/genre_classifier/genre_data",
@@ -843,6 +878,7 @@ export default {
               
           });
         }
+      }
     firebase.auth().onAuthStateChanged((user) => {
       if (user.email) {
         this.user = user;
