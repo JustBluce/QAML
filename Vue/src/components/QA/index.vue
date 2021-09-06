@@ -666,8 +666,7 @@ export default {
         }).then((response) => {
           if (response.data["similar_question"][0]) {
             this.addResult({
-              title:
-                "A highly similar question detected. Please try to change the context of the question",
+              title: "Similar question detected",
               body: response.data["similar_question"][1][0]["text"],
             });
           } else {
@@ -774,7 +773,10 @@ export default {
       });
     },
     addResult(result) {
-      this.$store.commit("addResult", result);
+      this.$store.commit("addResult", {
+        workspace_id: this.id,
+        result: result,
+      });
     },
     after_click_submit_button() {
       const user = firebase.auth().currentUser;

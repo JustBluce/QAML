@@ -24,15 +24,8 @@ const store = new Vuex.Store({
 			'CountryRepresentation'
 		],
 		game_mode: false,
-		genreChartData: [
-			["Genre", "Count"],
-			["None", 1],
-		],
-		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ],
-		results: {
-			dialog: false,
-			content: []
-		}
+		genreChartData: [ [ 'Genre', 'Count' ], [ 'None', 1 ] ],
+		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ]
 	},
 	modules: {
 		app,
@@ -92,13 +85,15 @@ const store = new Vuex.Store({
 			let workspace = getters.workspace(state)(workspace_id);
 			workspace.widgets = workspace.widgets.filter((widget) => widget.type !== type);
 		},
-		addResult(state, result) {
-			state.results.dialog = true;
-			state.results.content.push(result);
+		addResult(state, { workspace_id, result }) {
+			let workspace = getters.workspace(state)(workspace_id);
+			workspace.results.dialog = true;
+			workspace.results.content.push(result);
 		},
-		closeResults(state) {
-			state.results.dialog = false;
-			state.results.content = [];
+		closeResults(state, workspace_id) {
+			let workspace = getters.workspace(state)(workspace_id);
+			workspace.results.dialog = false;
+			workspace.results.content = [];
 		}
 	},
 	getters: {

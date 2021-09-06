@@ -20,12 +20,17 @@ Developers: Jason Liu
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>{{ result.title }}</v-list-item-title>
-                <v-list-item-subtitle>{{ result.body }}</v-list-item-subtitle>
+                <div class="text-body-2 text--secondary">{{ result.body }}</div>
               </v-list-item-content>
             </v-list-item>
           </div>
         </template>
       </v-list>
+      <v-card-actions>
+        <v-btn color="primary" text outlined @click="resetWorkspace">
+          Reset workspace
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
@@ -33,14 +38,25 @@ Developers: Jason Liu
 <script>
 export default {
   name: "Results",
+  props: {
+    id: Number,
+  },
   computed: {
+    workspace() {
+      return this.$store.getters.workspace(this.id);
+    },
     results() {
-      return this.$store.state.results;
+      return this.workspace.results;
     },
   },
   methods: {
     closeResults() {
-      this.$store.commit("closeResults");
+      this.$store.commit("closeResults", this.id);
+    },
+    resetWorkspace() {
+      this.workspace.qa.genre = "";
+      this.workspace.qa.text = "";
+      this.workspace.qa.answer_text = "";
     },
   },
 };
