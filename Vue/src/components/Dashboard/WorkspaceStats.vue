@@ -36,19 +36,6 @@ Developers: Damian Rene and Jason Liu
         <GChart type="PieChart" :options="options" :data="genreChartData" />
       </v-card>
     </v-row>
-
-    <!--<v-card-actions class="pa-4">
-      <v-btn
-        color="primary"
-        style="width: 75px"
-        text
-        outlined
-        @click="confirmReset"
-      >
-        Reset
-      </v-btn>
-      <v-spacer></v-spacer>
-    </v-card-actions> -->
   </v-card>
 </template>
 
