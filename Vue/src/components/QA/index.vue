@@ -252,7 +252,7 @@ export default {
             second: "2-digit",
           })
         );
-        formData.append("id", this.user_id);
+        formData.append("user_id", this.user_id);
         formData.append("qid", this.qid);
         // this.qa.genre = this.selected_genre
         // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
@@ -328,6 +328,7 @@ export default {
           // console.log(this.qa.text.indexOf(response.data["buzz_word"]));
           // console.log(response);
         });
+
         this.axios({
           url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
           method: "POST",
@@ -447,7 +448,7 @@ export default {
           second: "2-digit",
         })
       );
-      formData.append("id", this.user_id);
+      formData.append("user_id", this.user_id);
       formData.append("qid", this.qid);
       this.axios({
         url: "http://127.0.0.1:5000/func/act",
@@ -580,7 +581,7 @@ export default {
           second: "2-digit",
         })
       );
-      formData.append("id", this.user_id);
+      formData.append("user_id", this.user_id);
       formData.append("qid", this.qid);
       // this.axios({
       //   url: "http://127.0.0.1:5000/over_present/highlight",
@@ -647,6 +648,7 @@ export default {
           data: formData,
         }).then((response) => {
           let genre_data = response.data["genre_data"];
+          this.questions_list = response.data["questions_list"];
           console.log(genre_data);
           if (genre_data.length != 0) {
             let header = [["Genre", "Count"]];
@@ -803,26 +805,48 @@ export default {
     //   this.Question_id = response.data["Question_id"];
     //   console.log(response);
     // });
-    if (this.user_id != "") {
-      this.axios({
-        url: "http://127.0.0.1:5000/genre_classifier/genre_data",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        let genre_data = response.data["genre_data"];
-        console.log(genre_data);
-        this.showGenreChart = true;
-        if (genre_data.length != 0) {
-          let header = [["Genre", "Count"]];
-          for (let i = 0; i < genre_data.length; i++) {
-            header.push(genre_data[i]);
+    this.user = firebase.auth().currentUser;
+    if (this.user.emailVerified) {
+      let formData = new FormData();
+      formData.append("text", this.qa.text);
+      formData.append("answer_text", this.qa.answer_text);
+      formData.append(
+        "date",
+        new Date().toLocaleString("en-US", {
+          hour12: false,
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
+      formData.append("user_id", this.user_id);
+      formData.append("qid", this.qid);
+      formData.append("genre", this.qa.genre);
+      if (this.user_id != "") {
+        this.axios({
+          url: "http://127.0.0.1:5000/genre_classifier/genre_data",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          let genre_data = response.data["genre_data"];
+          this.questions_list = response.data["questions_list"];
+          console.log(genre_data);
+          this.showGenreChart = true;
+          if (genre_data.length != 0) {
+            let header = [["Genre", "Count"]];
+            for (let i = 0; i < genre_data.length; i++) {
+              header.push(genre_data[i]);
+            }
+            // console.log(header.concat(this.qa.subgenre));
+            this.genreChartData = header;
+            console.log(this.genreChartData);
           }
-          // console.log(header.concat(this.qa.subgenre));
-          this.genreChartData = header;
-          console.log(this.genreChartData);
-        }
-        console.log(this.highlight_words);
-      });
+          console.log(this.highlight_words);
+        });
+      }
     }
     firebase.auth().onAuthStateChanged((user) => {
       if (user.email) {
