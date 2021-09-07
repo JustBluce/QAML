@@ -75,9 +75,28 @@ def genre_data():
         temp.append(instance[1])
         result.append(temp)
 
+    sql="SELECT Question, Answer, Genre, Point from QA.Question  where UserId LIKE \'" + u_id  + "\' "
+    result_sql = []
+    try:
+        result_sql = db.session.execute(sql)
+        result_sql = result_sql.fetchall()
+        db.session.commit()
+    except:
+        db.session.rollback()
+
+    questions_list=[]
+    for instance in result_sql:
+        
+        temp = {}
+        temp['Question'] = instance[0]
+        temp['Answer'] = instance[1]
+        temp['Genre'] = instance[2]
+        temp['Point'] = instance[3]
+        questions_list.append(temp)
+
     print(result)
     end = time.time()
     print("----TIME (s) : /genre_classifier/genre_data [genre]---",end - start)
-    return jsonify({ "genre_data": result})
+    return jsonify({ "genre_data": result, "questions_list": questions_list})
     
     

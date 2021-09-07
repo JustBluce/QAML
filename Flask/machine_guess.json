@@ -1,67 +1,35 @@
 {
-  "": [
+  "aQZ29SmTmNNNl8h0PzFJrNew7ms209/07/2021, 12:53:52": [
     {
       "edit_history": {
         "change_in_position": "First Entry",
         "isRelevant": false
       },
-      "Timestamp_frontend": "09/05/2021, 21:24:59",
-      "Timestamp_backend": "09/05/2021, 21:25:00",
+      "Timestamp_frontend": "09/07/2021, 13:02:01",
+      "Timestamp_backend": "09/07/2021, 13:02:03",
       "guesses": [
         {
-          "guess": "Art_Tatum",
-          "score": "0.278"
+          "guess": "Clarence_Earl_Gideon",
+          "score": "0.262"
         },
         {
-          "guess": "Levine",
-          "score": "0.266"
-        },
-        {
-          "guess": "Stan_Getz",
+          "guess": "Apollonius_of_Tyana",
           "score": "0.205"
         },
         {
-          "guess": "Lester_Young",
-          "score": "0.18"
+          "guess": "Sher_Shah_Suri",
+          "score": "0.184"
         },
         {
-          "guess": "Earl_Hines",
-          "score": "0.174"
+          "guess": "Masaniello",
+          "score": "0.17"
+        },
+        {
+          "guess": "Brook_Taylor",
+          "score": "0.167"
         }
       ],
       "ans_pos": -1,
-      "prev_pos": -1
-    },
-    {
-      "edit_history": {
-        "change_in_position": "The machine did not guess previously",
-        "isRelevant": true
-      },
-      "Timestamp_frontend": "09/05/2021, 21:25:08",
-      "Timestamp_backend": "09/05/2021, 21:25:09",
-      "guesses": [
-        {
-          "guess": "Aaron_Copland",
-          "score": "0.265"
-        },
-        {
-          "guess": "Art_Tatum",
-          "score": "0.187"
-        },
-        {
-          "guess": "Levine",
-          "score": "0.154"
-        },
-        {
-          "guess": "Fanfare",
-          "score": "0.114"
-        },
-        {
-          "guess": "Henry_A._Wallace",
-          "score": "0.105"
-        }
-      ],
-      "ans_pos": 0,
       "prev_pos": -1
     }
   ]
