@@ -1,1 +1,68 @@
-{}
+{
+  "aQZ29SmTmNNNl8h0PzFJrNew7ms209/07/2021, 12:53:52": [
+    {
+      "edit_history": {
+        "change_in_position": "Buzzer buzzed on the correct answer for the first time",
+        "isRelevant": true
+      },
+      "Timestamp_frontend": "09/07/2021, 13:04:49",
+      "Timestamp_backend": "09/07/2021, 13:04:52",
+      "buzzer_string": "Name this person who was inspired by the Japanese musician Toru Takemitsu. He was also inspired by  the composer Carlos Chavez while staying in Mexico and composed the Fanfare for the common man. He also composed works like Rodeo and Appalachian Spring. He also",
+      "buzzer_sentence_number": 4,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 2,
+      "most_important_sentence": "He was also inspired by  the composer Carlos Chavez while staying in Mexico and composed the Fanfare for the common man.",
+      "if_ans_found": 1,
+      "is_relevant": true,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "09/07/2021, 13:04:59",
+      "Timestamp_backend": "09/07/2021, 13:05:02",
+      "buzzer_string": "Name this person who was inspired by the Japanese musician Toru Takemitsu. He was also inspired by  the composer Carlos Chavez while staying in Mexico and composed the Fanfare for the common man. He also composed works like Rodeo and Appalachian Spring. He also",
+      "buzzer_sentence_number": 4,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 2,
+      "most_important_sentence": "He was also inspired by  the composer Carlos Chavez while staying in Mexico and composed the Fanfare for the common man.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "09/07/2021, 13:05:08",
+      "Timestamp_backend": "09/07/2021, 13:05:12",
+      "buzzer_string": "Name this person who was inspired by the Japanese musician Toru Takemitsu. He was also inspired by  the composer Carlos Chavez while staying in Mexico and composed the Fanfare for the common man. He also composed works like Rodeo and Appalachian Spring. He also",
+      "buzzer_sentence_number": 4,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 2,
+      "most_important_sentence": "He was also inspired by  the composer Carlos Chavez while staying in Mexico and composed the Fanfare for the common man.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "09/07/2021, 13:05:21",
+      "Timestamp_backend": "09/07/2021, 13:05:25",
+      "buzzer_string": "Name this person who was inspired by the Japanese musician Toru Takemitsu. He was also inspired by  the composer Carlos Chavez while staying in Mexico and composed the Fanfare for the common man. He also composed works like Rodeo and Appalachian Spring. He also",
+      "buzzer_sentence_number": 4,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 2,
+      "most_important_sentence": "He was also inspired by  the composer Carlos Chavez while staying in Mexico and composed the Fanfare for the common man.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    }
+  ]
+}

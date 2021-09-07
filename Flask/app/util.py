@@ -355,9 +355,9 @@ def merge_stop_words(s1):
 def ld(s1, s2):  # Levenshtein Distance word level
     stop_words = set(stopwords.words('english'))
     for i in range(len(s1)):
-        s1[i] = re.sub(r'[^\w\s]', '', s1[i])
+        s1[i] = re.sub(r'([^\w\s])', ' '+ r'\1', s1[i])
     for i in range(len(s2)):
-        s2[i] = re.sub(r'[^\w\s]', '', s2[i])
+        s2[i] = re.sub(r'([^\w\s])', ' '+ r'\1', s2[i])
     # s1 = merge_stop_words(s1)
     # s2 = merge_stop_words(s2)
     # reverse_1 = [i for i in reversed(s1) if not i.lower() in stop_words]
