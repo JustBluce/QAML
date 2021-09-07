@@ -303,10 +303,10 @@ export default {
               ];
             }
             this.qa.highlight_words[response.data["buzzer_last_word"]] =
-              "Buzzer";
+              "yellow";
             for (let i = 0; i < response.data["hightlight_words"].length; i++) {
               this.qa.highlight_words[response.data["hightlight_words"][i]] =
-                "Pronunciation";
+                "Buzzer";
             }
 
             // this.qa.text =
@@ -380,7 +380,7 @@ export default {
           }
           for (let i = 0; i < response.data["message"].length; i++) {
             this.qa.highlight_words[response.data["message"][i]["Word"]] =
-              "cyan";
+              "Pronunciation";
           }
           // console.log(this.highlight_words)
           // console.log(response);
@@ -493,9 +493,9 @@ export default {
           }
           for (let i = 0; i < response.data["hightlight_words"].length; i++) {
             this.qa.highlight_words[response.data["hightlight_words"][i]] =
-              "Pronunciation";
+              "Buzzer";
           }
-          this.qa.highlight_words[response.data["buzzer_last_word"]] = "Buzzer";
+          this.qa.highlight_words[response.data["buzzer_last_word"]] = "yellow";
           // this.qa.text =
           //   this.qa.text.substr(
           //     0,
@@ -557,11 +557,11 @@ export default {
             response.data["list_of_words_to_remove"][i]
           ];
         }
-        console.log("_________________");
-        console.log(response.data["list_of_words_to_remove"]);
-        console.log("_________________");
+        // console.log("_________________");
+        // console.log(response.data["list_of_words_to_remove"]);
+        // console.log("_________________");
         for (let i = 0; i < response.data["message"].length; i++) {
-          this.qa.highlight_words[response.data["message"][i]["Word"]] = "cyan";
+          this.qa.highlight_words[response.data["message"][i]["Word"]] = "Pronunciation";
         }
       });
     }, 1000),
