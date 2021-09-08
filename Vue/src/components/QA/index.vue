@@ -55,6 +55,7 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           solo
           v-model="qa.text"
           hide-details="auto"
+           v-on:keydown="log_key"
           @keydown="keep_looping"
         ></v-textarea>
 
@@ -134,6 +135,8 @@ export default {
   },
   data() {
     return {
+       key_log: '', 
+      key_arr: [],
       popup: false,
       email: "",
       user: null,
@@ -407,6 +410,32 @@ export default {
     },
     handleError() {
       alert("Error in downloading the JSON File. Try it after some time !!!");
+    },
+    log_key:function(Key_Event){
+      var currentDate = new Date();
+      var currentKey = Key_Event.key; 
+      //Old Only if you need key code
+      //var key = Key_Event.keyCode || Key_Event.charCode;
+      //if( Key_Event.keyCode == 8 ){
+    
+      this.key_arr.push({timestamp: currentDate, key: Key_Event.key});
+      
+      this.key_log += Key_Event.key ;
+    
+      console.log('key ' + currentKey);
+      
+      /*
+      formData.append("timestamp", currentDate);
+      formData.append("key",currentKey);
+      this.axios({
+        url: "http://127.0.0.1:5000/key_log/log_keys",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.answer = response.data["guess"];
+        // console.log(response);
+      });
+*/
     },
     keep_looping: _.debounce(function () {
       // this.highlight_words = {}
