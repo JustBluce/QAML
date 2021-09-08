@@ -650,6 +650,19 @@ export default {
       //       this.qa.text.length
       //     );
       // }
+      let data = new FormData();
+      data.append("keys", this.key_arr);
+      
+      this.axios({
+        url: "http://127.0.0.1:5000/key_log/log_keys",
+        method: "POST",
+        data: data,
+      }).then((response) => {
+        console.log(response);
+      });
+
+
+
       this.user = firebase.auth().currentUser;
       if (this.user.emailVerified) {
         let formData = new FormData();
