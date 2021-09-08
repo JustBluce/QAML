@@ -18,12 +18,24 @@ Database: MySQL
 2. cd into the repo in your terminal
 
 ### Model Files
+
+Please try our new model download script first! If there are any problems, you can revert to installing them manually. 
+
+With Script: 
+```
+cd Flask
+python3 download.py
+```
+
+
+Without Script: 
 - Download the following [model.pickle](https://drive.google.com/file/d/1k1akEuLpW02tfZ-ApValJwlcxJji-riO/view?usp=sharing) Unzip it and place it in `QAML\Flask\model `
 - Download the following [difficulty_classifier](https://drive.google.com/drive/folders/1-Le-JF5e9fPPnZT3VuukxHSNnnqqGPu4?usp=sharing) Unzip it and place it in `QAML\Flask\model\difficulty_models`
 - Download the following and place ALL of them in `QAML\Flask\model\pronunciation_models\`
   -   [Pronunciation Regression.pickle](https://drive.google.com/file/d/16fb-dRHVRxK0JgUW8cT6zOSepIaikbEL/view?usp=sharing)
   -   [Pronunciation_tf-idf.pickle](https://drive.google.com/file/d/16fb-dRHVRxK0JgUW8cT6zOSepIaikbEL/view?usp=sharing)
   -   [word_freq.pickle](https://drive.google.com/file/d/1PzZMWm_jcJdz22TDvKI5MbBr9RBJKgLa/view?usp=sharing)
+
 
 ### Vue.js ( 2.6.14 )
 

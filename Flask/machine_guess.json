@@ -1,100 +1,32 @@
 {
-  "kvyXZ8ZnY9WnuWzNhUipk28h68G209/05/2021, 22:06:35": [
+  "aQZ29SmTmNNNl8h0PzFJrNew7ms209/07/2021, 12:53:52": [
     {
       "edit_history": {
         "change_in_position": "First Entry",
         "isRelevant": false
       },
-      "Timestamp_frontend": "09/05/2021, 22:06:35",
-      "Timestamp_backend": "09/05/2021, 22:07:10",
+      "Timestamp_frontend": "09/07/2021, 13:02:01",
+      "Timestamp_backend": "09/07/2021, 13:02:03",
       "guesses": [
         {
-          "guess": "Romanian_language",
-          "score": "0.0"
+          "guess": "Clarence_Earl_Gideon",
+          "score": "0.262"
         },
         {
-          "guess": "Dutch_Revolt",
-          "score": "0.0"
+          "guess": "Apollonius_of_Tyana",
+          "score": "0.205"
         },
         {
-          "guess": "C.R.E.A.M.",
-          "score": "0.0"
+          "guess": "Sher_Shah_Suri",
+          "score": "0.184"
         },
         {
-          "guess": "Talking_Heads",
-          "score": "0.0"
+          "guess": "Masaniello",
+          "score": "0.17"
         },
         {
-          "guess": "Potter_Stewart",
-          "score": "0.0"
-        }
-      ],
-      "ans_pos": -1,
-      "prev_pos": -1
-    }
-  ],
-  "kvyXZ8ZnY9WnuWzNhUipk28h68G209/05/2021, 22:06:50": [
-    {
-      "edit_history": {
-        "change_in_position": "First Entry",
-        "isRelevant": false
-      },
-      "Timestamp_frontend": "09/05/2021, 22:06:50",
-      "Timestamp_backend": "09/05/2021, 22:07:10",
-      "guesses": [
-        {
-          "guess": "Romanian_language",
-          "score": "0.0"
-        },
-        {
-          "guess": "Dutch_Revolt",
-          "score": "0.0"
-        },
-        {
-          "guess": "C.R.E.A.M.",
-          "score": "0.0"
-        },
-        {
-          "guess": "Talking_Heads",
-          "score": "0.0"
-        },
-        {
-          "guess": "Potter_Stewart",
-          "score": "0.0"
-        }
-      ],
-      "ans_pos": -1,
-      "prev_pos": -1
-    }
-  ],
-  "kvyXZ8ZnY9WnuWzNhUipk28h68G209/05/2021, 22:06:20": [
-    {
-      "edit_history": {
-        "change_in_position": "First Entry",
-        "isRelevant": false
-      },
-      "Timestamp_frontend": "09/05/2021, 22:06:20",
-      "Timestamp_backend": "09/05/2021, 22:07:10",
-      "guesses": [
-        {
-          "guess": "Romanian_language",
-          "score": "0.0"
-        },
-        {
-          "guess": "Dutch_Revolt",
-          "score": "0.0"
-        },
-        {
-          "guess": "C.R.E.A.M.",
-          "score": "0.0"
-        },
-        {
-          "guess": "Talking_Heads",
-          "score": "0.0"
-        },
-        {
-          "guess": "Potter_Stewart",
-          "score": "0.0"
+          "guess": "Brook_Taylor",
+          "score": "0.167"
         }
       ],
       "ans_pos": -1,
