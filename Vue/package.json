@@ -21,6 +21,7 @@
     "axios": "^0.21.1",
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "core-js": "3.6.5",
+    "cors": "^2.8.5",
     "debounce": "^1.2.1",
     "deepmerge": "^4.2.2",
     "echarts": "^4.9.0",
