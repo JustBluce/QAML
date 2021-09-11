@@ -65,6 +65,14 @@ const store = new Vuex.Store({
 				state.workspace_selected = 0;
 			}
 		},
+		resetWorkspace(state, workspace_id) {
+			let workspace = getters.workspace(state)(workspace_id);
+			let resetWorkspace = defaultWorkspace(0);
+			workspace.qa = resetWorkspace.qa;
+			workspace.widgets = resetWorkspace.widgets;
+			workspace.results = resetWorkspace.results;
+			workspace.style = resetWorkspace.style;
+		},
 		deleteWorkspace(state, workspace_id) {
 			this.commit('closeWorkspace', workspace_id);
 			state.workspaces = state.workspaces.filter((workspace) => workspace.id !== workspace_id);
