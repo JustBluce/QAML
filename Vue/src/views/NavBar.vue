@@ -21,22 +21,19 @@ Developers: Damian Rene and Jason Liu
       </v-btn>
     </v-toolbar-items>
 
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          icon
-          large
-          class="ml-2 mr-1"
-          v-bind="attrs"
-          v-on="on"
-          @click="$vuetify.theme.dark = !$vuetify.theme.dark"
-        >
-          <v-icon>mdi-brightness-6</v-icon>
-        </v-btn>
-      </template>
-      <span v-if="$vuetify.theme.dark">Light mode</span>
-      <span v-else>Dark mode</span>
-    </v-tooltip>
+    <v-btn
+      id="toggleTheme"
+      icon
+      large
+      class="ml-2 mr-1"
+      @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+    >
+      <v-icon>mdi-brightness-6</v-icon>
+      <v-tooltip bottom activator="#toggleTheme">
+        <span v-if="$vuetify.theme.dark">Light mode</span>
+        <span v-else>Dark mode</span>
+      </v-tooltip>
+    </v-btn>
 
     <Profile :navbar="true" />
   </v-app-bar>

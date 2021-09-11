@@ -125,14 +125,12 @@ export default {
           title: "Confirm workspace reset",
           text: `Are you sure you want to reset <strong>${self.workspace.title}</strong> (including question, answer, and genre)?`,
           action: function () {
-            self.workspace.qa.genre = "";
-            self.workspace.qa.text = "";
-            self.workspace.qa.answer_text = "";
+            self.$store.commit("resetWorkspace", self.workspace.id);
             self.popup.show = false;
           },
         };
       } else {
-        this.workspace.qa.genre = "";
+        this.$store.commit("resetWorkspace", this.workspace.id);
       }
     },
   },
