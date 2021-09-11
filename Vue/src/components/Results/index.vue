@@ -54,9 +54,7 @@ export default {
       this.$store.commit("closeResults", this.id);
     },
     resetWorkspace() {
-      this.workspace.qa.genre = "";
-      this.workspace.qa.text = "";
-      this.workspace.qa.answer_text = "";
+      this.$store.commit("resetWorkspace", this.id);
     },
   },
 };
