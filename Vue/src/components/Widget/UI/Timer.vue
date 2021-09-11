@@ -9,36 +9,33 @@ Developers: Jason Liu
       v-model="game_mode"
       :label="`Game mode ${game_mode ? 'on' : 'off'}`"
     ></v-switch>
-    <v-menu
-      ref="menu"
-      v-model="menu"
-      :disabled="game_mode"
-      :close-on-content-click="false"
-      transition="scale-transition"
-      offset-y
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-text-field
+
+    <v-btn id="selectTime" class="my-4" block :disabled="game_mode">
+      <v-icon>mdi-clock-time-four-outline</v-icon>
+      <v-spacer></v-spacer>
+      {{ menu_time ? "Timer: " + menu_time : "Select time" }}
+      <v-spacer></v-spacer>
+      <v-menu
+        ref="menu"
+        v-model="menu"
+        transition="scale-transition"
+        offset-y
+        activator="#selectTime"
+        :disabled="game_mode"
+        :close-on-content-click="false"
+      >
+        <v-time-picker
+          v-if="menu"
           v-model="menu_time"
-          label="Select time"
-          prepend-icon="mdi-clock-time-four-outline"
-          :disabled="game_mode"
-          readonly
-          v-bind="attrs"
-          v-on="on"
-        ></v-text-field>
-      </template>
-      <v-time-picker
-        v-if="menu"
-        v-model="menu_time"
-        format="24hr"
-        color="primary"
-        full-width
-        use-seconds
-        scrollable
-        @input="setTime"
-      ></v-time-picker>
-    </v-menu>
+          format="24hr"
+          color="primary"
+          full-width
+          use-seconds
+          scrollable
+          @input="setTime"
+        ></v-time-picker>
+      </v-menu>
+    </v-btn>
 
     <vue-countdown :time="time" v-slot="{ hours, minutes, seconds }" @end="end">
       <h2 class="text-h2 font-weight-regular text-center">

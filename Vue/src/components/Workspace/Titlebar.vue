@@ -31,61 +31,58 @@ Developers: Jason Liu
 
     <v-spacer></v-spacer>
 
-    <v-menu
-      transition="fade-transition"
-      offset-y
-      rounded
-      :close-on-content-click="false"
-    >
-      <template v-slot:activator="{ on: onMenu }">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on: onTooltip, attrs }">
-            <v-btn icon large v-bind="attrs" v-on="{ ...onMenu, ...onTooltip }">
-              <v-icon>mdi-hammer-wrench</v-icon>
+    <v-btn id="toggleWidgets" icon large>
+      <v-icon>mdi-hammer-wrench</v-icon>
+      <v-tooltip bottom activator="#toggleWidgets">
+        <span>Toggle widgets</span>
+      </v-tooltip>
+      <v-menu
+        transition="fade-transition"
+        offset-y
+        rounded
+        activator="#toggleWidgets"
+        :close-on-content-click="false"
+      >
+        <v-list>
+          <v-list-item>
+            <v-btn
+              color="green"
+              class="mx-auto"
+              style="width: 225px"
+              text
+              outlined
+              @click="toggleAll(true)"
+            >
+              Activate all widgets
             </v-btn>
-          </template>
-          <span>Toggle widgets</span>
-        </v-tooltip>
-      </template>
-      <v-list>
-        <v-list-item>
-          <v-btn
-            color="green"
-            class="mx-auto"
-            style="width: 225px"
-            text
-            outlined
-            @click="toggleAll(true)"
-          >
-            Activate all widgets
-          </v-btn>
-        </v-list-item>
-        <v-list-item>
-          <v-btn
-            color="red"
-            class="mx-auto"
-            style="width: 225px"
-            text
-            outlined
-            @click="toggleAll(false)"
-          >
-            Disable all widgets
-          </v-btn>
-        </v-list-item>
-        <v-list-item v-for="widget_type in widget_types" :key="widget_type">
-          <v-switch
-            v-model="switches[widget_type]"
-            :label="widget_type"
-            :color="widget_type"
-            @change="toggleSwitch(widget_type)"
-            inset
-            class="my-1"
-            hide-details
-          >
-          </v-switch>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+          </v-list-item>
+          <v-list-item>
+            <v-btn
+              color="red"
+              class="mx-auto"
+              style="width: 225px"
+              text
+              outlined
+              @click="toggleAll(false)"
+            >
+              Disable all widgets
+            </v-btn>
+          </v-list-item>
+          <v-list-item v-for="widget_type in widget_types" :key="widget_type">
+            <v-switch
+              v-model="switches[widget_type]"
+              :label="widget_type"
+              :color="widget_type"
+              @change="toggleSwitch(widget_type)"
+              inset
+              class="my-1"
+              hide-details
+            >
+            </v-switch>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-btn>
 
     <v-btn
       icon
