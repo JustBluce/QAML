@@ -17,23 +17,20 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
               dense
             ></v-select>
             <v-spacer></v-spacer>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  color="primary"
-                  v-bind="attrs"
-                  v-on="on"
-                  @click="showChart = !showChart"
-                >
-                  <v-icon>
-                    {{ showChart ? "mdi-chevron-up" : "mdi-chart-pie" }}
-                  </v-icon>
-                </v-btn>
-              </template>
-              <span v-if="showChart">Close genre chart</span>
-              <span v-else>Show genre chart</span>
-            </v-tooltip>
+            <v-btn
+              id="toggleChart"
+              icon
+              color="primary"
+              @click="showChart = !showChart"
+            >
+              <v-icon>
+                {{ showChart ? "mdi-chevron-up" : "mdi-chart-pie" }}
+              </v-icon>
+              <v-tooltip bottom activator="#toggleChart">
+                <span v-if="showChart">Close genre chart</span>
+                <span v-else>Show genre chart</span>
+              </v-tooltip>
+            </v-btn>
           </v-card-actions>
           <v-expand-transition>
             <div v-show="showChart">
@@ -561,7 +558,8 @@ export default {
         // console.log(response.data["list_of_words_to_remove"]);
         // console.log("_________________");
         for (let i = 0; i < response.data["message"].length; i++) {
-          this.qa.highlight_words[response.data["message"][i]["Word"]] = "Pronunciation";
+          this.qa.highlight_words[response.data["message"][i]["Word"]] =
+            "Pronunciation";
         }
       });
     }, 1000),

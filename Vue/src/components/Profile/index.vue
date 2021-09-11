@@ -4,85 +4,82 @@ Developers: Jason Liu and Damian Rene
 
 <template>
   <div>
-    <v-menu
-      bottom
-      rounded
-      transition="fade-transition"
-      offset-y
-      min-width="180"
-    >
-      <template v-slot:activator="{ on: onMenu }">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on: onTooltip, attrs }">
-            <v-btn icon v-bind="attrs" v-on="{ ...onMenu, ...onTooltip }">
-              <v-avatar size="44px" v-if="email && user.photoURL">
-                <img v-if="user.photoURL" :src="user.photoURL" />
-              </v-avatar>
-              <v-icon size="44px" v-else>mdi-account-circle</v-icon>
-            </v-btn>
-          </template>
-          <span>User profile</span>
-        </v-tooltip>
-      </template>
-      <v-card>
-        <v-list-item-content class="justify-center">
-          <div class="mx-auto text-center">
-            <h3 v-if="user" class="pa-2">
-              {{ email ? user.displayName : "Guest" }}
-            </h3>
-            <h3 v-else class="pa-2">Not signed in</h3>
-            <v-divider class="my-1"></v-divider>
-            <v-btn
-              v-if="navbar"
-              :disabled="user == null"
-              depressed
-              rounded
-              text
-              @click="$router.push('dashboard').catch(() => {})"
-            >
-              Dashboard
-            </v-btn>
-            <v-btn
-              v-else
-              depressed
-              rounded
-              text
-              @click="$router.push('about').catch(() => {})"
-            >
-              About
-            </v-btn>
-            <v-divider class="my-1"></v-divider>
-            <v-btn
-              depressed
-              rounded
-              text
-              target="_blank"
-              href="https://github.com/JustBluce/TryoutProject"
-            >
-              GitHub
-            </v-btn>
-            <v-divider class="my-1"></v-divider>
-            <v-btn v-if="user" depressed rounded text @click="logout">
-              Logout
-            </v-btn>
-            <v-btn
-              v-else
-              depressed
-              rounded
-              text
-              @click="$router.push('login').catch(() => {})"
-              >Login
-            </v-btn>
-            <div v-if="email">
+    <v-btn id="profile" icon>
+      <v-avatar size="44px" v-if="email && user.photoURL">
+        <img v-if="user.photoURL" :src="user.photoURL" />
+      </v-avatar>
+      <v-icon size="44px" v-else>mdi-account-circle</v-icon>
+      <v-tooltip bottom activator="#profile">
+        <span>User profile</span>
+      </v-tooltip>
+      <v-menu
+        bottom
+        rounded
+        transition="fade-transition"
+        offset-y
+        min-width="180"
+        activator="#profile"
+      >
+        <v-card>
+          <v-list-item-content class="justify-center">
+            <div class="mx-auto text-center">
+              <h3 v-if="user" class="pa-2">
+                {{ email ? user.displayName : "Guest" }}
+              </h3>
+              <h3 v-else class="pa-2">Not signed in</h3>
               <v-divider class="my-1"></v-divider>
-              <v-btn depressed rounded text color="red" @click="popup = true">
-                Delete Account
+              <v-btn
+                v-if="navbar"
+                :disabled="user == null"
+                depressed
+                rounded
+                text
+                @click="$router.push('dashboard').catch(() => {})"
+              >
+                Dashboard
               </v-btn>
+              <v-btn
+                v-else
+                depressed
+                rounded
+                text
+                @click="$router.push('about').catch(() => {})"
+              >
+                About
+              </v-btn>
+              <v-divider class="my-1"></v-divider>
+              <v-btn
+                depressed
+                rounded
+                text
+                target="_blank"
+                href="https://github.com/JustBluce/TryoutProject"
+              >
+                GitHub
+              </v-btn>
+              <v-divider class="my-1"></v-divider>
+              <v-btn v-if="user" depressed rounded text @click="logout">
+                Logout
+              </v-btn>
+              <v-btn
+                v-else
+                depressed
+                rounded
+                text
+                @click="$router.push('login').catch(() => {})"
+                >Login
+              </v-btn>
+              <div v-if="email">
+                <v-divider class="my-1"></v-divider>
+                <v-btn depressed rounded text color="red" @click="popup = true">
+                  Delete Account
+                </v-btn>
+              </div>
             </div>
-          </div>
-        </v-list-item-content>
-      </v-card>
-    </v-menu>
+          </v-list-item-content>
+        </v-card>
+      </v-menu>
+    </v-btn>
 
     <v-dialog v-model="popup" persistent max-width="500">
       <v-card>

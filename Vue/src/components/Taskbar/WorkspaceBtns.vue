@@ -4,56 +4,47 @@ Developers: Jason Liu
 
 <template>
   <div>
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="green"
-          class="mr-1"
-          icon
-          large
-          v-bind="attrs"
-          v-on="on"
-          @click="createWorkspace"
-        >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </template>
-      <span>Create workspace</span>
-    </v-tooltip>
+    <v-btn
+      id="createWorkspace"
+      color="green"
+      class="mr-1"
+      icon
+      large
+      @click="createWorkspace"
+    >
+      <v-icon>mdi-plus</v-icon>
+      <v-tooltip bottom activator="#createWorkspace">
+        <span>Create workspace</span></v-tooltip
+      >
+    </v-btn>
 
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          class="mr-1"
-          icon
-          large
-          v-bind="attrs"
-          v-on="on"
-          @click="show = true"
-        >
-          <v-icon>mdi-dock-window</v-icon>
-        </v-btn>
-      </template>
-      <span>Open workspaces</span>
-    </v-tooltip>
+    <v-btn
+      id="openWorkspace"
+      color="primary"
+      class="mr-1"
+      icon
+      large
+      @click="show = true"
+    >
+      <v-icon>mdi-dock-window</v-icon>
+      <v-tooltip bottom activator="#openWorkspace">
+        <span>Open workspaces</span>
+      </v-tooltip>
+    </v-btn>
 
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="red"
-          class="mr-1"
-          icon
-          large
-          v-bind="attrs"
-          v-on="on"
-          @click="closeWorkspaces"
-        >
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </template>
-      <span>Close all workspaces</span>
-    </v-tooltip>
+    <v-btn
+      id="closeWorkspaces"
+      color="red"
+      class="mr-1"
+      icon
+      large
+      @click="closeWorkspaces"
+    >
+      <v-icon>mdi-close</v-icon>
+      <v-tooltip bottom activator="#closeWorkspaces">
+        <span>Close all workspaces</span>
+      </v-tooltip>
+    </v-btn>
 
     <v-dialog v-model="show" width="400">
       <v-card height="600">
