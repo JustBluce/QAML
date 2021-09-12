@@ -16,7 +16,7 @@ Developers: Damian Rene and Jason Liu
         min-width="125"
         max-width="125"
       >
-        <v-icon class="mr-1">{{ item.icon }}</v-icon>
+        <v-icon left>{{ item.icon }}</v-icon>
         {{ item.title }}
       </v-btn>
     </v-toolbar-items>

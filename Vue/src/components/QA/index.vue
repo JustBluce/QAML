@@ -68,7 +68,7 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
 
         <v-row class="mx-1" no-gutters>
           <v-btn color="primary" @click="searchData">
-            Submit <v-icon class="ml-1">mdi-cloud-upload</v-icon>
+            Submit <v-icon right>mdi-cloud-upload</v-icon>
           </v-btn>
 
           <v-spacer></v-spacer>
@@ -88,7 +88,7 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             color="primary"
           >
             <v-btn color="primary">
-              Download <v-icon class="ml-1">mdi-cloud-download</v-icon>
+              Download <v-icon right>mdi-cloud-download</v-icon>
             </v-btn>
           </vue-blob-json-csv>
         </v-row>
