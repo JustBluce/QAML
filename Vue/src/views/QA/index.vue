@@ -13,6 +13,21 @@ Developers: Jason Liu and Cai Zefan
           :id="workspace_id"
         />
       </transition-group>
+      <div
+        v-if="workspace_stack.length == 0"
+        style="height: 100%; opacity: 0.7"
+      >
+        <v-row dense align="end" justify="center" style="height: 50%">
+          <v-icon size="400">mdi-tab-plus</v-icon>
+        </v-row>
+        <v-row dense align="start" justify="center" style="height: 50%">
+          <p class="text-h4 text--secondary">
+            Click "<span style="color: var(--v-green-base); font-weight: bold"
+              >+</span
+            >" to create a workspace
+          </p>
+        </v-row>
+      </div>
     </v-container>
   </div>
 </template>

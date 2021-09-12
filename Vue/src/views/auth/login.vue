@@ -64,7 +64,7 @@ Developers: Damian Rene and Jason Liu
           Google login
         </v-btn>
         <v-btn @click="guestLogin">
-          <v-icon class="mr-2" size="20">mdi-account-circle</v-icon>
+          <v-icon left size="20">mdi-account-circle</v-icon>
           Guest login
         </v-btn>
       </v-card-actions>

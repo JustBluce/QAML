@@ -42,7 +42,7 @@ Developers: Damian Rene and Jason Liu
 
       <v-card-actions class="justify-center pb-4">
         <v-btn class="primary" @click="createUser">
-          <v-icon class="mr-2"> mdi-account-plus </v-icon>
+          <v-icon left> mdi-account-plus </v-icon>
           Register
         </v-btn>
       </v-card-actions>
