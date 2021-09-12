@@ -33,7 +33,7 @@ Without Script:
 - Download the following [difficulty_classifier](https://drive.google.com/drive/folders/1-Le-JF5e9fPPnZT3VuukxHSNnnqqGPu4?usp=sharing) Unzip it and place it in `QAML\Flask\model\difficulty_models`
 - Download the following and place ALL of them in `QAML\Flask\model\pronunciation_models\`
   -   [Pronunciation Regression.pickle](https://drive.google.com/file/d/16fb-dRHVRxK0JgUW8cT6zOSepIaikbEL/view?usp=sharing)
-  -   [Pronunciation_tf-idf.pickle](https://drive.google.com/file/d/16fb-dRHVRxK0JgUW8cT6zOSepIaikbEL/view?usp=sharing)
+  -   [Pronunciation_tf-idf.pickle](https://drive.google.com/file/d/1hV9WO4Md5Ht_5HuzKtZu0fswnh--1ean/view)
   -   [word_freq.pickle](https://drive.google.com/file/d/1PzZMWm_jcJdz22TDvKI5MbBr9RBJKgLa/view?usp=sharing)
 
 
