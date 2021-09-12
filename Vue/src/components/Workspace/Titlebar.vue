@@ -31,7 +31,7 @@ Developers: Jason Liu
 
     <v-spacer></v-spacer>
 
-    <v-btn id="toggleWidgets" icon large>
+    <v-btn :id="'toggleWidgets-'+id" icon large>
       <v-icon>mdi-hammer-wrench</v-icon>
       <v-tooltip bottom activator="#toggleWidgets">
         <span>Toggle widgets</span>
@@ -40,7 +40,7 @@ Developers: Jason Liu
         transition="fade-transition"
         offset-y
         rounded
-        activator="#toggleWidgets"
+        :activator="'#toggleWidgets-'+id"
         :close-on-content-click="false"
       >
         <v-list>

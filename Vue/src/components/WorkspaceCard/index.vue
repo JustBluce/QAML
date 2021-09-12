@@ -56,7 +56,23 @@ Developers: Jason Liu
         Reset
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn icon fab small elevation="2" @click="confirmDelete">
+      <vue-blob-json-csv
+        @error="handleError"
+        file-type="json"
+        :file-name="this.workspace.title"
+        :data="[
+          {
+            Genre: this.workspace.qa.genre,
+            Question: this.workspace.qa.text,
+            Answer: this.workspace.qa.answer_text,
+          },
+        ]"
+      >
+        <v-btn icon fab small elevation="2">
+          <v-icon>mdi-cloud-download</v-icon>
+        </v-btn>
+      </vue-blob-json-csv>
+      <v-btn class="ml-2" icon fab small elevation="2" @click="confirmDelete">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-card-actions>
@@ -132,6 +148,9 @@ export default {
       } else {
         this.$store.commit("resetWorkspace", this.workspace.id);
       }
+    },
+    handleError() {
+      alert("Error in downloading the JSON File.");
     },
   },
 };
