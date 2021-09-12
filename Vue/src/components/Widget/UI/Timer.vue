@@ -10,7 +10,12 @@ Developers: Jason Liu
       :label="`Game mode ${game_mode ? 'on' : 'off'}`"
     ></v-switch>
 
-    <v-btn id="selectTime" class="my-4" block :disabled="game_mode">
+    <v-btn
+      :id="'selectTime-' + workspace_id"
+      class="my-4"
+      block
+      :disabled="game_mode"
+    >
       <v-icon>mdi-clock-time-four-outline</v-icon>
       <v-spacer></v-spacer>
       {{ menu_time ? "Timer: " + menu_time : "Select time" }}
@@ -20,7 +25,7 @@ Developers: Jason Liu
         v-model="menu"
         transition="scale-transition"
         offset-y
-        activator="#selectTime"
+        :activator="'#selectTime-' + workspace_id"
         :disabled="game_mode"
         :close-on-content-click="false"
       >

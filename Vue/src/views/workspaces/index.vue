@@ -13,6 +13,19 @@ Developers: Jason Liu
         v-model="search"
         single-line
       ></v-text-field>
+      <v-row class="mx-1 justify-center" no-gutters>
+        <vue-blob-json-csv
+          @error="handleError"
+          file-type="json"
+          file-name="Workspaces_all"
+          :data="getQuestionData()"
+        >
+          <v-btn color="primary">Download all</v-btn>
+        </vue-blob-json-csv>
+        <v-btn class="ml-2" color="red" dark @click="popup = true"
+          >Delete all</v-btn
+        >
+      </v-row>
     </v-container>
 
     <v-container class="workspaceContainer">
@@ -28,12 +41,31 @@ Developers: Jason Liu
         <v-col
           v-for="workspace in filteredWorkspaces"
           :key="workspace.id"
-          :cols="4"
+          cols="6"
         >
           <WorkspaceCard :workspace="workspace" />
         </v-col>
       </transition-group>
     </v-container>
+
+    <v-dialog v-model="popup" max-width="500">
+      <v-card>
+        <v-card-title class="text-h5">Confirm workspace deletion</v-card-title>
+        <v-card-text>
+          Are you sure you want to delete the following workspaces?
+          <li v-for="workspace in filteredWorkspaces" :key="workspace.id">
+            {{ workspace.title }}
+          </li>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="popup = false">
+            Cancel
+          </v-btn>
+          <v-btn color="red" text @click="deleteWorkspaces()">Delete</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -50,6 +82,7 @@ export default {
   data() {
     return {
       search: "",
+      popup: false,
     };
   },
   computed: {
@@ -57,6 +90,29 @@ export default {
       return this.$store.state.workspaces.filter((workspace) =>
         workspace.title.toLowerCase().includes(this.search.toLowerCase())
       );
+    },
+  },
+  methods: {
+    getQuestionData() {
+      let data = [];
+      this.filteredWorkspaces.forEach((workspace) => {
+        data.push({
+          Workspace: workspace.title,
+          Genre: workspace.qa.genre,
+          Question: workspace.qa.text,
+          Answer: workspace.qa.answer_text,
+        });
+      });
+      return data;
+    },
+    handleError() {
+      alert("Error in downloading the JSON File.");
+    },
+    deleteWorkspaces() {
+      this.filteredWorkspaces.forEach((workspace) => {
+        this.$store.commit("deleteWorkspace", workspace.id);
+      });
+      this.popup = false;
     },
   },
 };
