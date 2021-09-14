@@ -9,9 +9,11 @@ key_log = Blueprint('key_log', __name__)
 def log_keys():
 
     data = request.form.get("keys")
-        
-    with open('key_log.json', 'wb') as f:
-        json.dump(data, f, indent=2)
-
+    # print(type(data), data)
+    result = json.loads(data)
+    print(type(result[0]))
+    with open('key_log.json', 'w') as f:
+        json.dump({'array_of_key_presses':result}, f, indent=2)
+    return "Submitted"
 
     
