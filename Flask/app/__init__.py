@@ -2,7 +2,6 @@ from flask import Flask, url_for, request, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from flask_cors import CORS
-import clean_user_db
 
 app = Flask(__name__)
 CORS(app)

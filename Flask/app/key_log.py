@@ -8,12 +8,12 @@ key_log = Blueprint('key_log', __name__)
 @key_log.route("/log_keys", methods=["POST","GET"])
 def log():
 
-    data = request.form.get()
-        
-    with open('key_log.json', 'wb') as f:
-        json.dump(data, f, indent=2)
-    
-    return("sucsess!")
-
+    data = request.form.get("keys")
+    # print(type(data), data)
+    result = json.loads(data)
+    print(type(result[0]))
+    with open('key_log.json', 'w') as f:
+        json.dump({'array_of_key_presses':result}, f, indent=2)
+    return "Submitted"
 
     

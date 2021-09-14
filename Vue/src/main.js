@@ -86,9 +86,6 @@ Vue.use(AudioRecorder)
 Vue.config.productionTip = false;
 Vue.use(VueBlobJsonCsv)
 
-
-
-
 new Vue({
 	el: '#app',
 	vuetify,

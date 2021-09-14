@@ -423,6 +423,8 @@ export default {
       this.key_log += Key_Event.key ;
     
       console.log('key ' + currentKey);
+      console.log(this.key_arr);
+
       
       /*
       formData.append("timestamp", currentDate);
@@ -641,6 +643,23 @@ export default {
       });
     }, 1000),
     searchData() {
+
+      let data_keys = new FormData();
+      var json_string = JSON.stringify(this.key_arr);
+      data_keys.append("keys", json_string);
+      
+
+      this.axios({
+          url: "http://127.0.0.1:5000/key_log/log_keys",
+          method: "POST",
+          data: data_keys,
+          
+        }).then((response) => {
+          
+          console.log("SENT STUFF" + response); 
+        })
+    
+
       //clearInterval(this.interval);
       // while (this.qa.text.lastIndexOf("🔔") > 0) {
       //   this.qa.text =
