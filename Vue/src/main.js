@@ -23,10 +23,13 @@ import router from './router';
 
 import firebase from 'firebase';
 
+
 import '@/icons'; // icon
 import '@/permission'; // permission control
 
 import Vuelidate from 'vuelidate';
+import AudioRecorder from 'vue-audio-recorder'
+
 
 window._ = require('lodash');
 
@@ -77,9 +80,14 @@ if (process.env.NODE_ENV === 'production') {
 Vue.use(ElementUI, { locale });
 Vue.use(Vuelidate);
 Vue.use(VueAxios, axios);
+Vue.use(AudioRecorder)
+
 
 Vue.config.productionTip = false;
 Vue.use(VueBlobJsonCsv)
+
+
+
 
 new Vue({
 	el: '#app',

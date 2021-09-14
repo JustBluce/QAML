@@ -54,7 +54,7 @@ Developers: Damian Rene and Jason Liu
       </v-card-actions>
       <v-divider></v-divider>
       <v-card-actions class="justify-center pa-4">
-        <v-btn class="red" @click="socialLogin">
+        <v-btn class="red"  @click="socialLogin">
           <v-img
             class="mr-2"
             width="20px"
@@ -66,6 +66,10 @@ Developers: Damian Rene and Jason Liu
         <v-btn @click="guestLogin">
           <v-icon class="mr-2" size="20">mdi-account-circle</v-icon>
           Guest login
+        </v-btn>
+         <v-btn @click="documents">
+          <v-icon class="mr-2" size="20">mdi-account-circle</v-icon>
+          documents Button
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -86,7 +90,7 @@ export default {
       email: "",
       password: "",
       showPassword: false,
-      user: null,
+      user: "",
       emailRules: [
         (v) => !!v || "E-mail is required",
         //(v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
@@ -116,25 +120,27 @@ export default {
       firebase
         .auth()
         .signInWithPopup(provider)
-        .then(function (result) {
-          var user_name = result.user;
+        .then( () => {
+          //var user_name = result.user;
           // this.qa.uid = user.uid
-          console.log(this.qa.uid);
+          //console.log(this.qa.uid);
           this.$router.push("/dashboard");
+          this.user = firebase.auth().currentUser;
           this.documents();
+          
         })
         .catch((err) => {
-          alert("Oops. " + err.message);
+          alert("Login Error. " + err.message);
         });
     },
     documents() {
-      this.user = firebase.auth().currentUser;
-
+      
+      
       const db = firebase.firestore();
       const docs = db.collection("users");
       let document_exists = false;
       let lastUser = 0;
-      //console.log(this.user.email)
+      
 
       db.collection("users")
         .where("email", "==", this.user.email)
@@ -142,13 +148,13 @@ export default {
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
             if (doc.exists) {
-              console.log("Document already exsists. Easy for me. thanks");
-              console.log(doc.data().email);
+              console.log("Firebase Document already exsists. Easy for me. thanks");
+              //console.log(doc.data().email);
               document_exists = true;
             }
           });
           if (!document_exists) {
-            console.log("Document does not exsist... Creating one.");
+            console.log("Firebase Document does not exsist... Creating one.");
             db.collection("users")
               .orderBy("timestamp", "desc")
               .limit(1)
@@ -156,8 +162,8 @@ export default {
               .then((snapshot) => {
                 snapshot.docs.forEach((doc) => {
                   lastUser = doc.data().User_ID + 1;
-                  console.log("USER: " + doc.data().User_ID);
-                  console.log(lastUser);
+                  //console.log("USER: " + doc.data().User_ID);
+                  //console.log(lastUser);
                   //document titles correlate to User UID
                   db.collection("users").doc(this.user.uid).set({
                     User_ID: lastUser,
@@ -169,10 +175,11 @@ export default {
                 });
               })
               .catch((err) => {
-                alert("Oops. " + err.message);
+                alert("DOCUMENTS Oops. " + err.message);
               });
           }
         });
+      
     },
     guestLogin() {
       firebase

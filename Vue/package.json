@@ -36,6 +36,7 @@
     "path-to-regexp": "2.4.0",
     "sortablejs": "^1.12.0",
     "vue": "2.6.10",
+    "vue-audio-recorder": "^3.0.1",
     "vue-axios": "^2.1.5",
     "vue-blob-json-csv": "^0.1.7",
     "vue-google-charts": "^0.3.3",
