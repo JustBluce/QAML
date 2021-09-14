@@ -48,7 +48,7 @@ Developers: Jason Liu
       <v-icon>mdi-arrow-top-left-bottom-right</v-icon>
     </v-btn>
 
-    <Results />
+    <Results :id="id"/>
   </v-card>
 </template>
 
