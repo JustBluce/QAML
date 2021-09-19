@@ -86,7 +86,7 @@ export default {
       email: "",
       password: "",
       showPassword: false,
-      user: null,
+      user: "",
       emailRules: [
         (v) => !!v || "E-mail is required",
         //(v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
@@ -111,53 +111,55 @@ export default {
           });
       }
     },
-    socialLogin() {
+     socialLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase
         .auth()
         .signInWithPopup(provider)
-        .then(function (result) {
-          var user_name = result.user;
+        .then( () => {
+          //var user_name = result.user;
           // this.qa.uid = user.uid
-          console.log(this.qa.uid);
+          //console.log(this.qa.uid);
           this.$router.push("/dashboard");
+          this.user = firebase.auth().currentUser;
           this.documents();
+          
         })
         .catch((err) => {
-          alert("Oops. " + err.message);
+          alert("Login Error. " + err.message);
         });
     },
     documents() {
-      this.user = firebase.auth().currentUser;
-
+      
+      
       const db = firebase.firestore();
       const docs = db.collection("users");
       let document_exists = false;
       let lastUser = 0;
-      //console.log(this.user.email)
-
+      
       db.collection("users")
         .where("email", "==", this.user.email)
         .get()
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
             if (doc.exists) {
-              console.log("Document already exsists. Easy for me. thanks");
-              console.log(doc.data().email);
+              console.log("Firebase Document already exsists. Easy for me. thanks");
+              //console.log(doc.data().email);
               document_exists = true;
             }
           });
           if (!document_exists) {
-            console.log("Document does not exsist... Creating one.");
+            console.log("Firebase Document does not exsist... Creating one.");
             db.collection("users")
-              .orderBy("timestamp", "desc")
+              .orderBy("CreatedTimestamp", "desc")
               .limit(1)
               .get()
               .then((snapshot) => {
                 snapshot.docs.forEach((doc) => {
+                  //console.log(doc.data().email)
                   lastUser = doc.data().User_ID + 1;
-                  console.log("USER: " + doc.data().User_ID);
-                  console.log(lastUser);
+                  //console.log("USER: " + doc.data().User_ID);
+                  //console.log(lastUser);
                   //document titles correlate to User UID
                   db.collection("users").doc(this.user.uid).set({
                     User_ID: lastUser,
@@ -169,10 +171,11 @@ export default {
                 });
               })
               .catch((err) => {
-                alert("Oops. " + err.message);
+                alert("DOCUMENTS Oops. " + err.message);
               });
           }
         });
+      
     },
     guestLogin() {
       firebase
