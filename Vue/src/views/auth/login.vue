@@ -54,7 +54,7 @@ Developers: Damian Rene and Jason Liu
       </v-card-actions>
       <v-divider></v-divider>
       <v-card-actions class="justify-center pa-4">
-        <v-btn class="red"  @click="socialLogin">
+        <v-btn class="red" @click="socialLogin">
           <v-img
             class="mr-2"
             width="20px"
@@ -64,12 +64,8 @@ Developers: Damian Rene and Jason Liu
           Google login
         </v-btn>
         <v-btn @click="guestLogin">
-          <v-icon class="mr-2" size="20">mdi-account-circle</v-icon>
+          <v-icon left size="20">mdi-account-circle</v-icon>
           Guest login
-        </v-btn>
-         <v-btn @click="documents">
-          <v-icon class="mr-2" size="20">mdi-account-circle</v-icon>
-          documents Button
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -115,7 +111,7 @@ export default {
           });
       }
     },
-    socialLogin() {
+     socialLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase
         .auth()
@@ -141,7 +137,6 @@ export default {
       let document_exists = false;
       let lastUser = 0;
       
-
       db.collection("users")
         .where("email", "==", this.user.email)
         .get()
@@ -156,11 +151,12 @@ export default {
           if (!document_exists) {
             console.log("Firebase Document does not exsist... Creating one.");
             db.collection("users")
-              .orderBy("timestamp", "desc")
+              .orderBy("CreatedTimestamp", "desc")
               .limit(1)
               .get()
               .then((snapshot) => {
                 snapshot.docs.forEach((doc) => {
+                  //console.log(doc.data().email)
                   lastUser = doc.data().User_ID + 1;
                   //console.log("USER: " + doc.data().User_ID);
                   //console.log(lastUser);
