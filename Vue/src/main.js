@@ -34,14 +34,15 @@ import AudioRecorder from 'vue-audio-recorder'
 window._ = require('lodash');
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyBeQWRzGbIiVnHijn_eZrBRbbsuT3N5D0s',
-	authDomain: 'question-writing-interface.firebaseapp.com',
-	projectId: 'question-writing-interface',
-	storageBucket: 'question-writing-interface.appspot.com',
-	messagingSenderId: '668025043214',
-	appId: '1:668025043214:web:f49afb9f95c5c906907f5f',
-	measurementId: 'G-8JMB36KVE8'
-};
+	apiKey: "AIzaSyBeQWRzGbIiVnHijn_eZrBRbbsuT3N5D0s",
+	authDomain: "question-writing-interface.firebaseapp.com",
+	databaseURL: "https://question-writing-interface-default-rtdb.firebaseio.com",
+	projectId: "question-writing-interface",
+	storageBucket: "question-writing-interface.appspot.com",
+	messagingSenderId: "668025043214",
+	appId: "1:668025043214:web:f49afb9f95c5c906907f5f",
+	measurementId: "G-8JMB36KVE8"
+  };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 //firebase.analytics();

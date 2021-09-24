@@ -7,6 +7,9 @@ sys.path.insert(0, './app')
 from app import util, import_libraries
 from util import *
 from import_libraries import *
+import pydub
+from pydub import AudioSegment
+import urllib.request
 
 from os.path import join, dirname
 
@@ -219,6 +222,36 @@ def getpronuncation():
     # print(list_of_words_to_remove)
     list_of_words_to_remove = list_of_words_to_remove + [x.capitalize() for x in list_of_words_to_remove]
     return jsonify({"message": ret_value, "list_of_words_to_remove":list_of_words_to_remove})
+
+
+
+
+
+@pronunciation.route('/send_files', methods=['POST'])
+def send_files():
+    if request.method == 'POST':
+        file = request.form.get('file')
+        title = request.form.get('title')
+    
+    start = time.time()
+    end = time.time()
+    print("----TIME (s) : /pronunciation/send_files---", end - start)
+    parent_dir = os.getcwd() 
+    directory = "audio_files"
+    final_path = os.path.join(parent_dir, directory)
+    final_path_and_file = os.path.join(final_path, title)
+
+    
+    sound = AudioSegment.from_wav(file)
+    
+    sound.export(title)    
+
+    
+   
+
+    return jsonify({"message": "recived, thank you"})
+
+
 
 
 # def getpronunciation():

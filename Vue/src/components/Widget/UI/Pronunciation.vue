@@ -4,29 +4,12 @@ Developers: Damien Rene and Jason Liu
 
 <template>
   <div>
-    <!-- <div class="placeholder" v-show="!qa.text">Please enter your question</div>
-    <Highlighter
-      :style="{ color: 'black' }"
-      highlightClassName="highlight"
-      :searchWords="keywords"
-      :autoEscape="true"
-      :textToHighlight="qa.text"
-    /> -->
-    <!-- <div>
-      <h4> Please add the pronunciation guide for the following words </h4>
-    </div> -->
-    <!-- <v-textarea
-      readonly    
-      color="background"
-      rows="1"
-      placeholder="Pronunciation highlighting"
-      v-model="pronunciation"
-    ></v-textarea> -->
-    <h4 class="mb-2" v-on:click="record">
+   
+    <h4 class="mb-2" @click="showpopup">
       Please add the pronunication guide for the following words
     </h4>
     <v-data-table
-      v-on:click="record"
+      @click="showpopup"
       hide-default-header
       hide-default-footer
       dense
@@ -35,25 +18,69 @@ Developers: Damien Rene and Jason Liu
       class="elevation-2"
     ></v-data-table>
 
-    <v-dialog v-model="popup" persistent max-width="500">
+    <v-dialog v-model="popup" persistent max-width="700">
       <v-card>
         <v-card-title class="text-h5"> Record Pronunciation </v-card-title>
         
-        <!--  <input type="file" accept="audio/*" capture id="recorder">
-        <audio id="player" controls></audio> -->
+         <v-text-field
+            v-model="word"
+            text-algin="center"
+            style="margin-left:20%; margin-right:20%; margin-top:2%;"
+            label="Word You are Recording"
+            filled
+          ></v-text-field>
+    
+       
 
-        <button  @clilck="audio">Record</button>
-        <button  @clilck="stop=true">stop</button>
-
+        <v-row align="center" justify="center">
+          
+          
+          <v-btn
+           v-bind:class="{ pulse: recording, 'mx-2': hasError }"
+          @click="record"
+          class="mx-2"
+          fab
+          large
+          v-bind:color="recording ? 'red' : 'accent'"
+        >
+          <v-icon dark>
+            mdi-microphone
+          </v-icon>
+        </v-btn>
         
        
+
+        <v-btn
+          id="stop"
+          @click="stop"
+          class="mx-2"
+          fab
+          large
+          color="accent"
+        >
+          <v-icon dark>
+            mdi-square
+          </v-icon>
+        </v-btn>
        
+
+       <audio id="player" controls></audio>
+          
+          
+        </v-row>
+            
+        
+      
+
+       
+        
+      
+
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red" text @click="popup = false"> Cancel </v-btn>
-          <v-btn color="green darken-1" text @click="sendverification">
-           Submit
+          <v-btn color="blue darken-1" text @click="popup=false">
+           Close
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -67,6 +94,16 @@ Developers: Damien Rene and Jason Liu
 
 <script>
 import Highlighter from "vue-highlight-words";
+import AudioRecorder from 'vue-audio-recorder';
+import firebase from "firebase";
+
+
+const player = document.getElementById('player');
+const downloadLink = document.getElementById('download');
+
+
+
+
 
 export default {
   
@@ -79,11 +116,15 @@ export default {
   },
   data() {
     return {
+    
       popup: false,
-      //recorder: document.getElementById('recorder'),
-      //player: document.getElementById('player'),
+      select: false, 
+      word: "",
+      
+      
   
-      stop: false,
+      
+      recording: false,
       words: "and or the quick",
       headers: [{ text: "Word", value: "Word" }],
     };
@@ -100,32 +141,102 @@ export default {
       return this.words.split(" ");
     },
    
+   
   },
   methods: {
-    
-    paused(){
-        this.pause = true
-    },
-      record(){
+   
+      showpopup(){
         this.popup = true; 
+        
       },
-      audio(){
-        console.log("Recording Audio ")
-        this.stop = false;
-        const player = document.getElementById('player');
+      record(){
+        this.recording = true
+       
+        navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+          const mediaRecorder = new MediaRecorder(stream);
+          const stopButton = document.getElementById('stop');
+          const player = document.getElementById('player');
+          mediaRecorder.start();
 
-        const handleSuccess = function(stream) {
-          if (window.URL) {
-            player.srcObject = stream;
-          } else {
-            player.src = stream;
-          }
-        };
-        while(this.stop == false){
-        navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(handleSuccess);
-      }
-    },
+          const audioChunks = [];
+          mediaRecorder.addEventListener("dataavailable", event => {
+            audioChunks.push(event.data);
+          });
+
+          mediaRecorder.addEventListener("stop", () => {
+            
+             const audioBlob = new Blob(audioChunks);
+            const audioUrl = URL.createObjectURL(audioBlob);
+            player.src = audioUrl;
+            const title = this.word + ".wav"
+            const file = new File([audioBlob], title);
+            let formData = new FormData();
+            formData.append('title', title)
+            formData.append('file' ,file);
+
+             this.axios({
+            url: "http://127.0.0.1:5000/pronunciation/send_files",
+            method: "POST",
+            data: formData,})
+             .then((response) =>{
+               console.log(response)
+             })
+              .catch(error => {
+                this.errorMessage = error.message;
+                console.error("There was an error!", error);
+              });
+
+             
+            
+            
+
+
+            
+          });
+
+          stopButton.addEventListener("click", () => {
+            this.recording = false
+            
+            mediaRecorder.stop();
+            
+            window.localStream.getTracks()[0].stop();
+            navigator.mediaDevices.getUserMedia({ audio: false })
+             
+           
+          });
+        });
+
+      },
+     
+      
+      
       
   },
 };
 </script>
+<style> 
+.pulse {
+  color: red;
+  animation: pulse 2s infinite;
+  margin-right:2%;
+  
+}
+@keyframes pulse {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+	}
+
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+	}
+
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+	}
+}
+
+</style> 

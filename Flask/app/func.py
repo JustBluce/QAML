@@ -3,7 +3,7 @@
 # 1. Finding the top 5 guesses of the tf-idf vectorizer
 
 import sys
-
+import os
 from numpy import divide
 sys.path.append("..")
 sys.path.insert(0, './app')
@@ -191,7 +191,7 @@ def act():
     start = time.time()
     answer = guess(question=[question])
     array_of_top_guesses_strings = [str(x[0]) for x in answer]
-    answer = [{"guess": str(x[0]),"score":str(round(x[1],3))} for x in answer]
+    answer = [{"guess": str(x[0]),"score":str(round(x[1]*100,3))} for x in answer]
     
     end = time.time()
     # print(end - start)
@@ -536,4 +536,12 @@ def insert():
     end=time.time()
     print("----TIME (s) : /func/submit [SUBMIT]---",end-start)
     print(points)
+
+    parent_dir = os.getcwd() 
+    directory = "Edit_History"
+ 
+    
+    final_path = os.path.join(parent_dir, directory)
+
+  
     return jsonify({"status":"submitted", "points":points})
