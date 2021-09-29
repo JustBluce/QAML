@@ -230,22 +230,28 @@ def getpronuncation():
 @pronunciation.route('/send_files', methods=['POST'])
 def send_files():
     if request.method == 'POST':
-        file = request.form.get('file')
-        title = request.form.get('title')
+        file = request.files['file']
+        title = file.filename
+        #file = request.form.get('file')
+        #title = request.form.get('title')
     
     start = time.time()
+    
+    parent_dir = os.getcwd() 
+    directory = "app/audio_files"
+    final_path = os.path.join(parent_dir, directory)
+    final_path_and_file = os.path.join(final_path,title)
+
+    os.chdir(final_path)
+    wav_file = AudioSegment.from_file(file) 
+    
+    wav_file.export(out_f = title, 
+                       format = "wav")
+    #file.save(final_path, title)
+    
+    
     end = time.time()
     print("----TIME (s) : /pronunciation/send_files---", end - start)
-    parent_dir = os.getcwd() 
-    directory = "audio_files"
-    final_path = os.path.join(parent_dir, directory)
-    final_path_and_file = os.path.join(final_path, title)
-
-    
-    sound = AudioSegment.from_wav(file)
-    
-    sound.export(title)    
-
     
    
 

@@ -21,21 +21,25 @@ Developers: Damien Rene and Jason Liu
     <v-dialog v-model="popup" persistent max-width="700">
       <v-card>
         <v-card-title class="text-h5"> Record Pronunciation </v-card-title>
-        
+        <div class="form-group" :class="{ 'form-group--error': $v.word.$error }">
+          
          <v-text-field
             v-model="word"
+            
             text-algin="center"
             style="margin-left:20%; margin-right:20%; margin-top:2%;"
             label="Word You are Recording"
             filled
           ></v-text-field>
-    
+          
+          </div>
        
 
         <v-row align="center" justify="center">
           
           
           <v-btn
+          :disabled="this.word.length == 0"
            v-bind:class="{ pulse: recording, 'mx-2': hasError }"
           @click="record"
           class="mx-2"
@@ -52,6 +56,7 @@ Developers: Damien Rene and Jason Liu
 
         <v-btn
           id="stop"
+          :disabled="this.word.length == 0"
           @click="stop"
           class="mx-2"
           fab
@@ -94,8 +99,9 @@ Developers: Damien Rene and Jason Liu
 
 <script>
 import Highlighter from "vue-highlight-words";
-import AudioRecorder from 'vue-audio-recorder';
 import firebase from "firebase";
+import Vuelidate from 'vuelidate'
+import { required, minLength, between } from 'vuelidate/lib/validators'
 
 
 const player = document.getElementById('player');
@@ -114,6 +120,7 @@ export default {
   components: {
     Highlighter,
   },
+  
   data() {
     return {
     
@@ -129,6 +136,13 @@ export default {
       headers: [{ text: "Word", value: "Word" }],
     };
   },
+  
+  validations: {
+    word: {
+      required,
+      minLength: minLength(4)
+    }
+    },
    
   computed: {
     qa() {
@@ -140,6 +154,7 @@ export default {
     keywords() {
       return this.words.split(" ");
     },
+    
    
    
   },
@@ -166,18 +181,24 @@ export default {
 
           mediaRecorder.addEventListener("stop", () => {
             
-             const audioBlob = new Blob(audioChunks);
+             const audioBlob = new Blob(audioChunks, { 'type' : 'audio/mpeg-3' });
             const audioUrl = URL.createObjectURL(audioBlob);
             player.src = audioUrl;
+
+
             const title = this.word + ".wav"
             const file = new File([audioBlob], title);
             let formData = new FormData();
-            formData.append('title', title)
-            formData.append('file' ,file);
+            formData.append('file' ,file, title);
+            //formData.append('title', title);
+            
 
              this.axios({
             url: "http://127.0.0.1:5000/pronunciation/send_files",
             method: "POST",
+            headers: {
+          "content-type": "multipart/form-data",
+            },
             data: formData,})
              .then((response) =>{
                console.log(response)
@@ -199,9 +220,6 @@ export default {
             this.recording = false
             
             mediaRecorder.stop();
-            
-            window.localStream.getTracks()[0].stop();
-            navigator.mediaDevices.getUserMedia({ audio: false })
              
            
           });
