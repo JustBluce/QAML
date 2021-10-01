@@ -1,4 +1,4 @@
-#Cai and Raj
+#Raj, Atith and Cai
 # Description of this file:
 # 1. Finding the top 5 guesses of the tf-idf vectorizer
 
