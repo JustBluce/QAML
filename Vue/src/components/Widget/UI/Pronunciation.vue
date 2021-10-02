@@ -67,7 +67,10 @@ Developers: Damien Rene and Jason Liu
             mdi-square
           </v-icon>
         </v-btn>
-       
+
+        <div style="font-size:210%; color: red;margin-left:2%;margin-right:2%;"> {{ timerCount }}</div>
+    
+        
 
        <audio id="player" controls></audio>
           
@@ -123,19 +126,39 @@ export default {
   
   data() {
     return {
-    
+      timerEnabled: false,
+      timerCount: 5.00,
       popup: false,
       select: false, 
       word: "",
-      
-      
-  
-      
       recording: false,
       words: "and or the quick",
       headers: [{ text: "Word", value: "Word" }],
     };
   },
+   watch: {
+
+            timerEnabled(value) {
+                if (value) {
+                    setTimeout(() => {
+                        this.timerCount--;
+                    }, 1000);
+                }
+            },
+
+            timerCount: {
+                handler(value) {
+
+                    if (value > 0 && this.timerEnabled) {
+                        setTimeout(() => {
+                            this.timerCount--;
+                        }, 1000);
+                    }
+
+                },
+                immediate: true // This ensures the watcher is triggered upon creation
+            }
+       },
   
   validations: {
     word: {
@@ -164,8 +187,10 @@ export default {
         this.popup = true; 
         
       },
+      
       record(){
         this.recording = true
+        this.timerEnabled = true
        
         navigator.mediaDevices.getUserMedia({ audio: true })
         .then(stream => {
@@ -208,28 +233,27 @@ export default {
                 console.error("There was an error!", error);
               });
 
-             
-            
-            
-
-
             
           });
+           setTimeout(() => {
+            mediaRecorder.stop();
+            this.timerEnabled = false;
+            this.timerCount = 5.00; 
+            this.recording = false;
+          }, 5000);
 
           stopButton.addEventListener("click", () => {
             this.recording = false
-            
+
             mediaRecorder.stop();
+            this.timerEnabled = false;
              
            
           });
+         
         });
 
       },
-     
-      
-      
-      
   },
 };
 </script>
