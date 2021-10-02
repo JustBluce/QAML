@@ -825,14 +825,14 @@ export default {
       });
     },
     downloadQuestion() {
-      let data = [
-        {
+      fileDownload(
+        jsonFormat({
           Question: this.qa.text,
           Answer: this.qa.answer_text,
           Genre: this.qa.genre,
-        },
-      ];
-      fileDownload(jsonFormat(data), `${this.workspace.title}.json`);
+        }),
+        `${this.workspace.title}.json`
+      );
     },
     linkWikipedia() {
       wiki()
