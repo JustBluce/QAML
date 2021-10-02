@@ -17,7 +17,7 @@ Developers: Jason Liu
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </v-card-title>
-    <v-card-text class="pt-4 pb-0">
+    <v-card-text class="pt-4 pb-2">
       <strong>Genre:</strong>
       <p class="text">{{ workspace.qa.genre || "none" }}</p>
       <strong>Question:</strong>
@@ -140,14 +140,14 @@ export default {
       }
     },
     downloadQuestion() {
-      let data = [
-        {
+      fileDownload(
+        jsonFormat({
           Question: this.workspace.qa.text,
           Answer: this.workspace.qa.answer_text,
           Genre: this.workspace.qa.genre,
-        },
-      ];
-      fileDownload(jsonFormat(data), `${this.workspace.title}.json`);
+        }),
+        `${this.workspace.title}.json`
+      );
     },
   },
 };
@@ -158,5 +158,6 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  margin-bottom: 4px;
 }
 </style>
