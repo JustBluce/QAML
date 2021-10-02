@@ -73,24 +73,9 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
 
           <v-spacer></v-spacer>
 
-          <vue-blob-json-csv
-            @error="handleError"
-            file-type="json"
-            :file-name="this.workspace.title"
-            :data="[
-              {
-                Question: this.qa.text,
-                Answer: this.qa.answer_text,
-                Genre: this.qa.genre,
-              },
-            ]"
-            class="button is-primary"
-            color="primary"
-          >
-            <v-btn color="primary">
-              Download <v-icon right>mdi-cloud-download</v-icon>
-            </v-btn>
-          </vue-blob-json-csv>
+          <v-btn color="primary" @click="downloadQuestion()">
+            Download <v-icon right>mdi-cloud-download</v-icon>
+          </v-btn>
         </v-row>
       </v-container>
     </v-card>
@@ -120,6 +105,8 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
 <script>
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
+import fileDownload from "js-file-download";
+import jsonFormat from "json-format";
 
 export default {
   name: "QA",
@@ -401,9 +388,6 @@ export default {
           // Email verification sent!
           // ...
         });
-    },
-    handleError() {
-      alert("Error in downloading the JSON File. Try it after some time !!!");
     },
     keep_looping: _.debounce(function () {
       // this.highlight_words = {}
@@ -791,6 +775,16 @@ export default {
         this.Question_id = response.data["Question_id"];
         console.log(response);
       });
+    },
+    downloadQuestion() {
+      let data = [
+        {
+          Question: this.qa.text,
+          Answer: this.qa.answer_text,
+          Genre: this.qa.genre,
+        },
+      ];
+      fileDownload(jsonFormat(data), `${this.workspace.title}.json`);
     },
   },
   mounted() {

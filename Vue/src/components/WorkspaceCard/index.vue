@@ -56,22 +56,9 @@ Developers: Jason Liu
         Reset
       </v-btn>
       <v-spacer></v-spacer>
-      <vue-blob-json-csv
-        @error="handleError"
-        file-type="json"
-        :file-name="this.workspace.title"
-        :data="[
-          {
-            Genre: this.workspace.qa.genre,
-            Question: this.workspace.qa.text,
-            Answer: this.workspace.qa.answer_text,
-          },
-        ]"
-      >
-        <v-btn icon fab small elevation="2">
-          <v-icon>mdi-cloud-download</v-icon>
-        </v-btn>
-      </vue-blob-json-csv>
+      <v-btn icon fab small elevation="2" @click="downloadQuestion()">
+        <v-icon>mdi-cloud-download</v-icon>
+      </v-btn>
       <v-btn class="ml-2" icon fab small elevation="2" @click="confirmDelete">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
@@ -94,6 +81,9 @@ Developers: Jason Liu
 </template>
 
 <script>
+import fileDownload from "js-file-download";
+import jsonFormat from "json-format";
+
 export default {
   name: "WorkspaceCard",
   props: {
@@ -149,8 +139,15 @@ export default {
         this.$store.commit("resetWorkspace", this.workspace.id);
       }
     },
-    handleError() {
-      alert("Error in downloading the JSON File.");
+    downloadQuestion() {
+      let data = [
+        {
+          Question: this.workspace.qa.text,
+          Answer: this.workspace.qa.answer_text,
+          Genre: this.workspace.qa.genre,
+        },
+      ];
+      fileDownload(jsonFormat(data), `${this.workspace.title}.json`);
     },
   },
 };
