@@ -40,31 +40,71 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           </v-expand-transition>
         </v-card>
 
-        <div class="backdrop" ref="backdrop">
-          <div class="highlight" v-html="highlight_text"></div>
-        </div>
-        <v-textarea
-          ref="textarea"
-          background-color="background"
-          class="highlight-textarea my-4"
-          rows="10"
-          label="Question"
-          solo
-          v-model="qa.text"
-          hide-details="auto"
-          @keydown="keep_looping"
-        ></v-textarea>
+        <div style="position: relative">
+          <div class="backdrop" ref="backdrop">
+            <div class="highlight" v-html="highlight_text"></div>
+          </div>
 
-        <v-textarea
-          background-color="background"
-          class="my-4"
-          rows="1"
-          label="Answer"
-          solo
-          v-model="qa.answer_text"
-          hide-details="auto"
-          @input="update_representation"
-        ></v-textarea>
+          <v-textarea
+            ref="textarea"
+            background-color="background"
+            class="highlight-textarea my-4"
+            rows="10"
+            label="Question"
+            solo
+            v-model="qa.text"
+            hide-details="auto"
+            @keydown="keep_looping"
+          ></v-textarea>
+
+          <v-fab-transition>
+            <v-btn
+              id="answerWiki"
+              v-if="wikiShow"
+              :href="wiki.link"
+              target="_blank"
+              color="primary"
+              class="mt-2"
+              absolute
+              x-small
+              right
+              fab
+            >
+              <v-icon>mdi-wikipedia</v-icon>
+              <v-menu
+                open-on-hover
+                bottom
+                offset-y
+                max-width="400"
+                activator="#answerWiki"
+              >
+                <v-card>
+                  <v-list-item three-line>
+                    <v-list-item-content>
+                      <v-list-item-title>{{ wiki.title }}</v-list-item-title>
+                      <v-list-item-subtitle>{{
+                        wiki.extract
+                      }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                    <img :src="wiki.image" height="80" class="py-2" />
+                  </v-list-item>
+                </v-card>
+              </v-menu>
+            </v-btn>
+          </v-fab-transition>
+
+          <v-textarea
+            background-color="background"
+            class="my-4"
+            rows="1"
+            label="Answer"
+            solo
+            v-model="qa.answer_text"
+            hide-details="auto"
+            @input="update_representation"
+            @change="linkWikipedia()"
+          ></v-textarea>
+        </div>
 
         <v-row class="mx-1" no-gutters>
           <v-btn color="primary" @click="searchData">
@@ -107,6 +147,7 @@ import { GChart } from "vue-google-charts";
 import firebase from "firebase";
 import fileDownload from "js-file-download";
 import jsonFormat from "json-format";
+import wiki from "wikijs";
 
 export default {
   name: "QA",
@@ -155,6 +196,13 @@ export default {
       textarea: {},
       interval: null,
       highlightInterval: null,
+      wikiShow: false,
+      wiki: {
+        title: "",
+        link: "",
+        image: "",
+        extract: "",
+      },
       qid: "",
       user_id: "",
     };
@@ -786,6 +834,23 @@ export default {
       ];
       fileDownload(jsonFormat(data), `${this.workspace.title}.json`);
     },
+    linkWikipedia() {
+      wiki()
+        .page(this.qa.answer_text)
+        .then((page) => {
+          this.wikiShow = true;
+          this.wiki.link = page.url();
+          return page.chain().image().summary().request();
+        })
+        .then((data) => {
+          this.wiki.title = data.title;
+          this.wiki.image = data.image.name ? data.image.thumbnail.source : "";
+          let extract = data.extract;
+          while (extract != (extract = extract.replace(/\([^\(\)]*\)/g, " "))); // Remove nested parens
+          this.wiki.extract = extract;
+        })
+        .catch((e) => (this.wikiShow = false));
+    },
   },
   mounted() {
     let formData = new FormData();
@@ -857,6 +922,8 @@ export default {
       }.bind(this),
       10
     );
+
+    this.linkWikipedia();
   },
   beforeDestroy() {
     clearInterval(this.interval);

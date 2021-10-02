@@ -25,7 +25,7 @@ Developers: Jason Liu
       <strong>Answer:</strong>
       <p class="text">{{ workspace.qa.answer_text || "empty" }}</p>
     </v-card-text>
-    <v-card-actions class="pa-4">
+    <v-card-actions class="pa-4 pt-0">
       <v-btn
         v-if="workspace_stack.includes(workspace.id)"
         color="red"

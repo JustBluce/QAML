@@ -47,6 +47,7 @@
     "vuelidate": "^0.7.6",
     "vuetify": "^2.5.8",
     "vuex": "3.1.0",
+    "wikijs": "^6.3.2",
     "xlsx": "^0.17.0"
   },
   "devDependencies": {
