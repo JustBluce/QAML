@@ -13,9 +13,8 @@ def prCyan(skk): print("\033[96m {}\033[00m" .format(skk))
 
 
 print("***************************")
-prCyan("This script assumes you have Anaconda installed in your system. If not (Visit https://docs.anaconda.com/anaconda/install/index.html) for more information before continuing. This script will create a new Anaconda environment and install all required files in the new environment.")
+prCyan("For the best experience we reccomend that you create a new anaconda environment and activate it before running this script.")
 print("\n \n Y - To Continue" , end =' ' )
-prRed("(Will install all python packages in new CONDA ENV)")
 print("\n N - Stop Installation \n")
 print("*************************** \n")
 
@@ -29,7 +28,7 @@ if input.lower() == "y":
 
 
     ## Create Conda env and activate 
-    subprocess.run(['conda create --name QAML python=3.9', 'conda activate QAML'], shell=True)
+    ##subprocess.run(['conda create --name QAML python=3.9', 'conda activate QAML'], shell=True)
 
     ## install python pacakages required for download script
     prRed("Installing required python packages")
