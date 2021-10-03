@@ -2,25 +2,6 @@
  * Developers: Jason Liu
  */
 
- export function defaultQA() {
-	return {
-		text: '',
-		answer: [],
-		answer_text: '',
-		country_representation: [],
-		people_ethnicity: '',
-		top5_similar_questions: [],
-		binary_search_based_buzzer: 'Buzzer text goes here',
-		importance: [],
-		genre: '',
-		subgenre: '',
-		top_guess_buzzer: '',
-		uid:'',
-		pronunciation: [],
-		buzz_word_this:'',
-		highlight_words : {},
-	};
-}
 export function widgetTemplate(type) {
 	let widget_templates = {
 		Timer: {
@@ -61,6 +42,26 @@ export function widgetTemplate(type) {
 		}
 	};
 	return widget_templates[type];
+}
+
+export function defaultQA() {
+	return {
+		text: '',
+		answer: [],
+		answer_text: '',
+		country_representation: [],
+		people_ethnicity: '',
+		top5_similar_questions: [],
+		binary_search_based_buzzer: 'Buzzer text goes here',
+		importance: [],
+		genre: '',
+		subgenre: '',
+		top_guess_buzzer: '',
+		uid: '',
+		pronunciation: [],
+		buzz_word_this: '',
+		highlight_words: {}
+	};
 }
 
 export function defaultWorkspace(id) {

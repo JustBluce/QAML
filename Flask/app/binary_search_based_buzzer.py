@@ -244,6 +244,15 @@ def insert_into_db(q_id, date_incoming, date_outgoing, question, ans, buzzer_str
                                 
                             })
 
+def all_combinations(list_of_strings, question):
+  for i in list_of_strings:
+    s = i.lower()
+    list_to_ret = set()
+    l1 = list(map(''.join, itertools.product(*zip(s.upper(), s.lower()))))
+    for i in l1:
+      if question.find(i)!=-1:
+        list_to_ret.add(i)
+    return list(list_to_ret)
 
 @binary_search_based_buzzer.route("/buzz_full_question", methods=["POST"])
 def buzz_full_question():
@@ -304,7 +313,10 @@ def buzz_full_question():
     if q_id in prev_highlight:
         temp_highlight = list(set(prev_highlight[q_id]) - set(hightlight_words)) 
         temp_highlight = [x for x in temp_highlight if x not in stop_words]
-    prev_highlight[q_id] = hightlight_words + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words]
+    # print(hightlight_words)
+    hightlight_words = all_combinations(hightlight_words, question)
+    prev_highlight[q_id] = hightlight_words 
+    # + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words]
     print("----TIME (s) : /binary_search_based_buzzer/get_importance_sentence---", end - start)
     
-    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word, "hightlight_words":hightlight_words + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words], "remove_highlight":temp_highlight})
+    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word, "hightlight_words":hightlight_words , "remove_highlight":temp_highlight})

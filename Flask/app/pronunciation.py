@@ -209,6 +209,9 @@ def getpronuncation():
         jsonify({"message": ""})
     
     ret_value, word_list = classify(array_of_words)
+    # for i in range(len(ret_value)):
+    #     ret_value[i]["Word"] = re.sub(r'[^\w\s]','',ret_value[i]["Word"])
+
     end = time.time()
     print("----TIME (s) : /pronunciation/get_pronunciation---", end - start)
     date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")

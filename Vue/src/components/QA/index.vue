@@ -17,23 +17,20 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
               dense
             ></v-select>
             <v-spacer></v-spacer>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  color="primary"
-                  v-bind="attrs"
-                  v-on="on"
-                  @click="showChart = !showChart"
-                >
-                  <v-icon>
-                    {{ showChart ? "mdi-chevron-up" : "mdi-chart-pie" }}
-                  </v-icon>
-                </v-btn>
-              </template>
-              <span v-if="showChart">Close genre chart</span>
-              <span v-else>Show genre chart</span>
-            </v-tooltip>
+            <v-btn
+              id="toggleChart"
+              icon
+              color="primary"
+              @click="showChart = !showChart"
+            >
+              <v-icon>
+                {{ showChart ? "mdi-chevron-up" : "mdi-chart-pie" }}
+              </v-icon>
+              <v-tooltip bottom activator="#toggleChart">
+                <span v-if="showChart">Close genre chart</span>
+                <span v-else>Show genre chart</span>
+              </v-tooltip>
+            </v-btn>
           </v-card-actions>
           <v-expand-transition>
             <div v-show="showChart">
@@ -43,58 +40,82 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           </v-expand-transition>
         </v-card>
 
-        <div class="backdrop" ref="backdrop">
-          <div class="highlight" v-html="highlight_text"></div>
-        </div>
-        <v-textarea
-          ref="textarea"
-          background-color="background"
-          class="highlight-textarea my-4"
-          rows="10"
-          label="Question"
-          solo
-          v-model="qa.text"
-          hide-details="auto"
-           v-on:keydown="log_key"
-          @keydown="keep_looping"
-        ></v-textarea>
+        <div style="position: relative">
+          <div class="backdrop" ref="backdrop">
+            <div class="highlight" v-html="highlight_text"></div>
+          </div>
 
-        <v-textarea
-          background-color="background"
-          class="my-4"
-          rows="1"
-          label="Answer"
-          solo
-          v-model="qa.answer_text"
-          hide-details="auto"
-          @input="update_representation"
-        ></v-textarea>
+          <v-textarea
+            ref="textarea"
+            background-color="background"
+            class="highlight-textarea my-4"
+            rows="10"
+            label="Question"
+            solo
+            v-model="qa.text"
+            hide-details="auto"
+            @keydown="keep_looping"
+          ></v-textarea>
+
+          <v-fab-transition>
+            <v-btn
+              id="answerWiki"
+              v-if="wikiShow"
+              :href="wiki.link"
+              target="_blank"
+              color="primary"
+              class="mt-2"
+              absolute
+              x-small
+              right
+              fab
+            >
+              <v-icon>mdi-wikipedia</v-icon>
+              <v-menu
+                open-on-hover
+                bottom
+                offset-y
+                max-width="400"
+                activator="#answerWiki"
+              >
+                <v-card>
+                  <v-list-item three-line>
+                    <v-list-item-content>
+                      <v-list-item-title>{{ wiki.title }}</v-list-item-title>
+                      <v-list-item-subtitle>{{
+                        wiki.extract
+                      }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                    <img :src="wiki.image" height="80" class="py-2" />
+                  </v-list-item>
+                </v-card>
+              </v-menu>
+            </v-btn>
+          </v-fab-transition>
+
+          <v-textarea
+            background-color="background"
+            class="my-4"
+            rows="1"
+            label="Answer"
+            solo
+            v-model="qa.answer_text"
+            hide-details="auto"
+            @input="update_representation"
+            @change="linkWikipedia()"
+          ></v-textarea>
+        </div>
 
         <v-row class="mx-1" no-gutters>
           <v-btn color="primary" @click="searchData">
-            Submit <v-icon class="ml-1">mdi-cloud-upload</v-icon>
+            Submit <v-icon right>mdi-cloud-upload</v-icon>
           </v-btn>
 
           <v-spacer></v-spacer>
 
-          <vue-blob-json-csv
-            @error="handleError"
-            file-type="json"
-            :file-name="this.workspace.title"
-            :data="[
-              {
-                Question: this.qa.text,
-                Answer: this.qa.answer_text,
-                Genre: this.qa.genre,
-              },
-            ]"
-            class="button is-primary"
-            color="primary"
-          >
-            <v-btn color="primary">
-              Download <v-icon class="ml-1">mdi-cloud-download</v-icon>
-            </v-btn>
-          </vue-blob-json-csv>
+          <v-btn color="primary" @click="downloadQuestion()">
+            Download <v-icon right>mdi-cloud-download</v-icon>
+          </v-btn>
         </v-row>
       </v-container>
     </v-card>
@@ -124,6 +145,9 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
 <script>
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
+import fileDownload from "js-file-download";
+import jsonFormat from "json-format";
+import wiki from "wikijs";
 
 export default {
   name: "QA",
@@ -174,6 +198,13 @@ export default {
       textarea: {},
       interval: null,
       highlightInterval: null,
+      wikiShow: false,
+      wiki: {
+        title: "",
+        link: "",
+        image: "",
+        extract: "",
+      },
       qid: "",
       user_id: "",
     };
@@ -408,37 +439,6 @@ export default {
           // ...
         });
     },
-    handleError() {
-      alert("Error in downloading the JSON File. Try it after some time !!!");
-    },
-    log_key:function(Key_Event){
-      var currentDate = new Date();
-      var currentKey = Key_Event.key; 
-      //Old Only if you need key code
-      //var key = Key_Event.keyCode || Key_Event.charCode;
-      //if( Key_Event.keyCode == 8 ){
-    
-      this.key_arr.push({timestamp: currentDate, key: Key_Event.key});
-      
-      this.key_log += Key_Event.key ;
-    
-      console.log('key ' + currentKey);
-      console.log(this.key_arr);
-
-      
-      /*
-      formData.append("timestamp", currentDate);
-      formData.append("key",currentKey);
-      this.axios({
-        url: "http://127.0.0.1:5000/key_log/log_keys",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.qa.answer = response.data["guess"];
-        // console.log(response);
-      });
-*/
-    },
     keep_looping: _.debounce(function () {
       // this.highlight_words = {}
       console.log(this.qa.highlight_words);
@@ -592,7 +592,8 @@ export default {
         // console.log(response.data["list_of_words_to_remove"]);
         // console.log("_________________");
         for (let i = 0; i < response.data["message"].length; i++) {
-          this.qa.highlight_words[response.data["message"][i]["Word"]] = "Pronunciation";
+          this.qa.highlight_words[response.data["message"][i]["Word"]] =
+            "Pronunciation";
         }
       });
     }, 1000),
@@ -855,6 +856,33 @@ export default {
         console.log(response);
       });
     },
+    downloadQuestion() {
+      fileDownload(
+        jsonFormat({
+          Question: this.qa.text,
+          Answer: this.qa.answer_text,
+          Genre: this.qa.genre,
+        }),
+        `${this.workspace.title}.json`
+      );
+    },
+    linkWikipedia() {
+      wiki()
+        .page(this.qa.answer_text)
+        .then((page) => {
+          this.wikiShow = true;
+          this.wiki.link = page.url();
+          return page.chain().image().summary().request();
+        })
+        .then((data) => {
+          this.wiki.title = data.title;
+          this.wiki.image = data.image.name ? data.image.thumbnail.source : "";
+          let extract = data.extract;
+          while (extract != (extract = extract.replace(/\([^\(\)]*\)/g, " "))); // Remove nested parens
+          this.wiki.extract = extract;
+        })
+        .catch((e) => (this.wikiShow = false));
+    },
   },
   mounted() {
     let formData = new FormData();
@@ -926,6 +954,8 @@ export default {
       }.bind(this),
       10
     );
+
+    this.linkWikipedia();
   },
   beforeDestroy() {
     clearInterval(this.interval);

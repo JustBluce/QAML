@@ -340,7 +340,7 @@ def insert():
     if q_id in time_stamps:
         i = time_stamps[q_id][0]
         big_dict["data"][i] = {}
-        big_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][0]
+        # big_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][0]
         big_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][0]
         big_dict["data"][i]["Relevant"] = "First Time Stamp"
         big_dict["data"][i]["word_list_addition"] = []

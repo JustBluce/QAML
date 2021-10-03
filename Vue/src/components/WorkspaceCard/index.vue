@@ -17,7 +17,7 @@ Developers: Jason Liu
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </v-card-title>
-    <v-card-text class="pt-4 pb-0">
+    <v-card-text class="pt-4 pb-2">
       <strong>Genre:</strong>
       <p class="text">{{ workspace.qa.genre || "none" }}</p>
       <strong>Question:</strong>
@@ -25,7 +25,7 @@ Developers: Jason Liu
       <strong>Answer:</strong>
       <p class="text">{{ workspace.qa.answer_text || "empty" }}</p>
     </v-card-text>
-    <v-card-actions class="pa-4">
+    <v-card-actions class="pa-4 pt-0">
       <v-btn
         v-if="workspace_stack.includes(workspace.id)"
         color="red"
@@ -56,7 +56,10 @@ Developers: Jason Liu
         Reset
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn icon fab small elevation="2" @click="confirmDelete">
+      <v-btn icon fab small elevation="2" @click="downloadQuestion()">
+        <v-icon>mdi-cloud-download</v-icon>
+      </v-btn>
+      <v-btn class="ml-2" icon fab small elevation="2" @click="confirmDelete">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-card-actions>
@@ -78,6 +81,9 @@ Developers: Jason Liu
 </template>
 
 <script>
+import fileDownload from "js-file-download";
+import jsonFormat from "json-format";
+
 export default {
   name: "WorkspaceCard",
   props: {
@@ -125,15 +131,23 @@ export default {
           title: "Confirm workspace reset",
           text: `Are you sure you want to reset <strong>${self.workspace.title}</strong> (including question, answer, and genre)?`,
           action: function () {
-            self.workspace.qa.genre = "";
-            self.workspace.qa.text = "";
-            self.workspace.qa.answer_text = "";
+            self.$store.commit("resetWorkspace", self.workspace.id);
             self.popup.show = false;
           },
         };
       } else {
-        this.workspace.qa.genre = "";
+        this.$store.commit("resetWorkspace", this.workspace.id);
       }
+    },
+    downloadQuestion() {
+      fileDownload(
+        jsonFormat({
+          Question: this.workspace.qa.text,
+          Answer: this.workspace.qa.answer_text,
+          Genre: this.workspace.qa.genre,
+        }),
+        `${this.workspace.title}.json`
+      );
     },
   },
 };
@@ -144,5 +158,6 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  margin-bottom: 4px;
 }
 </style>
