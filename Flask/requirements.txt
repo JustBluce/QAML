@@ -24,7 +24,7 @@ flatbuffers==1.12
 fsspec==2021.7.0
 fuzzywuzzy==0.18.0
 gast==0.4.0
-gensim==4.0.1
+
 google-api-core==1.31.1
 google-api-python-client==2.15.0
 google-auth==1.33.0
