@@ -120,6 +120,10 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
       </v-container>
     </v-card>
 
+    <div id="surveyElement">
+            <SurveyComponent />
+        </div>
+
     <v-dialog v-model="popup" persistent max-width="500">
       <v-card>
         <v-card-title class="text-h5"> Verify email address </v-card-title>
@@ -148,6 +152,7 @@ import firebase from "firebase";
 import fileDownload from "js-file-download";
 import jsonFormat from "json-format";
 import wiki from "wikijs";
+import SurveyComponent from "../SurveyComponent";
 
 export default {
   name: "QA",
@@ -156,6 +161,7 @@ export default {
   },
   components: {
     GChart,
+    SurveyComponent,
   },
   data() {
     return {
@@ -422,6 +428,21 @@ export default {
       }.bind(this),
       15000
     );
+  survey.onComplete.add(function (sender, options) {
+                let formData = new FormData();
+                formData.append("survey", sender.data)
+                this.axios({
+              url: "http://127.0.0.1:5000/users/survey",
+              headers: {
+                "content-Type": "application/json; charset=utf-8",
+            },
+              method: "POST",
+              data: formData,
+            }).then((response) => { 
+                console.log(responses)
+            })
+  })
+    
   },
   methods: {
     sendverification() {
@@ -734,11 +755,15 @@ export default {
               body: response.data["similar_question"][1][0]["text"],
             });
           } else {
+            //Survey stuff
+
+            
             this.axios({
               url: "http://127.0.0.1:5000/difficulty_classifier/classify",
               method: "POST",
               data: formData,
             }).then((response) => {
+              
               if (
                 response.data["difficulty"] === "Hard" ||
                 response.data["difficulty"] === "Easy"

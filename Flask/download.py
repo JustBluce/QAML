@@ -32,7 +32,7 @@ if input.lower() == "y":
 
     ## install python pacakages required for download script
     prRed("Installing required python packages")
-    subprocess.run(['pip3 install requests tqdm'], shell=True)
+    subprocess.run(['pip install requests tqdm'], shell=True)
     import requests
     from tqdm import tqdm
     
@@ -113,8 +113,8 @@ if input.lower() == "y":
             download_file_from_google_drive(id, dest)
 
         #Install requirements.txt and Spacy
-        subprocess.run(['pip3 install -r requirements.txt'], shell=True)
-        subprocess.run('python3 -m spacy download en_core_web_sm', shell = True)
+        subprocess.run(['pip install -r requirements.txt'], shell=True)
+        subprocess.run('python -m spacy download en_core_web_sm', shell = True)
 
     else:
         downloads = False
