@@ -1,1 +1,36 @@
-{}
+{
+  "": [
+    {
+      "edit_history": {
+        "change_in_position": "Buzzer buzzed on the correct answer for the first time",
+        "isRelevant": true
+      },
+      "Timestamp_frontend": "10/04/2021, 24:03:58",
+      "Timestamp_backend": "10/04/2021, 00:04:00",
+      "buzzer_string": "Name this Musician who composed the Fanfare for the Common Man and was greatly inspired",
+      "buzzer_sentence_number": 1,
+      "buzzer_word_number": 15,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "Name this Musician who composed the Fanfare for the Common Man and was greatly inspired",
+      "if_ans_found": 1,
+      "is_relevant": true,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/04/2021, 24:04:08",
+      "Timestamp_backend": "10/04/2021, 00:04:09",
+      "buzzer_string": "Name this Musician who composed the Fanfare for the Common Man and was greatly inspired",
+      "buzzer_sentence_number": 1,
+      "buzzer_word_number": 15,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "Name this Musician who composed the Fanfare for the Common Man and was greatly inspired",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 15
+    }
+  ]
+}
