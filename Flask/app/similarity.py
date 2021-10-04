@@ -118,6 +118,8 @@ def retrieve_similar_question():
         ans = request.form.get("answer_text")
         q_id = request.form.get("qid")
         date_incoming = request.form.get("date")
+    if question.strip()=="":
+        return jsonify({"similar_question": [False, [ {'answer':"", 'text':""}]]})
     start =time.time()
     questions.append(question)
     repre = tfidf_vectorizer.transform([question])
