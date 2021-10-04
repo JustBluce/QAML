@@ -14,14 +14,7 @@ Developers: Jason Liu
         single-line
       ></v-text-field>
       <v-row class="mx-1 justify-center" no-gutters>
-        <vue-blob-json-csv
-          @error="handleError"
-          file-type="json"
-          file-name="Workspaces_all"
-          :data="getQuestionData()"
-        >
-          <v-btn color="primary">Download all</v-btn>
-        </vue-blob-json-csv>
+        <v-btn color="primary" @click="downloadData()">Download all</v-btn>
         <v-btn class="ml-2" color="red" dark @click="popup = true"
           >Delete all</v-btn
         >
@@ -72,6 +65,8 @@ Developers: Jason Liu
 <script>
 import Taskbar from "@/components/Taskbar";
 import WorkspaceCard from "@/components/WorkspaceCard";
+import fileDownload from "js-file-download";
+import jsonFormat from "json-format";
 
 export default {
   name: "Workspaces",
@@ -93,17 +88,17 @@ export default {
     },
   },
   methods: {
-    getQuestionData() {
+    downloadData() {
       let data = [];
       this.filteredWorkspaces.forEach((workspace) => {
         data.push({
           Workspace: workspace.title,
-          Genre: workspace.qa.genre,
           Question: workspace.qa.text,
           Answer: workspace.qa.answer_text,
+          Genre: workspace.qa.genre,
         });
       });
-      return data;
+      fileDownload(jsonFormat(data), "all_questions.json");
     },
     handleError() {
       alert("Error in downloading the JSON File.");
