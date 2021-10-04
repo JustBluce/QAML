@@ -17,7 +17,7 @@ Developers: Jason Liu
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </v-card-title>
-    <v-card-text class="pt-4 pb-0">
+    <v-card-text class="pt-4 pb-2">
       <strong>Genre:</strong>
       <p class="text">{{ workspace.qa.genre || "none" }}</p>
       <strong>Question:</strong>
@@ -25,7 +25,7 @@ Developers: Jason Liu
       <strong>Answer:</strong>
       <p class="text">{{ workspace.qa.answer_text || "empty" }}</p>
     </v-card-text>
-    <v-card-actions class="pa-4">
+    <v-card-actions class="pa-4 pt-0">
       <v-btn
         v-if="workspace_stack.includes(workspace.id)"
         color="red"
@@ -56,22 +56,9 @@ Developers: Jason Liu
         Reset
       </v-btn>
       <v-spacer></v-spacer>
-      <vue-blob-json-csv
-        @error="handleError"
-        file-type="json"
-        :file-name="this.workspace.title"
-        :data="[
-          {
-            Genre: this.workspace.qa.genre,
-            Question: this.workspace.qa.text,
-            Answer: this.workspace.qa.answer_text,
-          },
-        ]"
-      >
-        <v-btn icon fab small elevation="2">
-          <v-icon>mdi-cloud-download</v-icon>
-        </v-btn>
-      </vue-blob-json-csv>
+      <v-btn icon fab small elevation="2" @click="downloadQuestion()">
+        <v-icon>mdi-cloud-download</v-icon>
+      </v-btn>
       <v-btn class="ml-2" icon fab small elevation="2" @click="confirmDelete">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
@@ -94,6 +81,9 @@ Developers: Jason Liu
 </template>
 
 <script>
+import fileDownload from "js-file-download";
+import jsonFormat from "json-format";
+
 export default {
   name: "WorkspaceCard",
   props: {
@@ -149,8 +139,15 @@ export default {
         this.$store.commit("resetWorkspace", this.workspace.id);
       }
     },
-    handleError() {
-      alert("Error in downloading the JSON File.");
+    downloadQuestion() {
+      fileDownload(
+        jsonFormat({
+          Question: this.workspace.qa.text,
+          Answer: this.workspace.qa.answer_text,
+          Genre: this.workspace.qa.genre,
+        }),
+        `${this.workspace.title}.json`
+      );
     },
   },
 };
@@ -161,5 +158,6 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  margin-bottom: 4px;
 }
 </style>

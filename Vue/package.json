@@ -29,6 +29,8 @@
     "firebase": "^8.10.0",
     "firebaseui": "^4.8.1",
     "js-cookie": "2.2.0",
+    "js-file-download": "^0.4.12",
+    "json-format": "^1.0.1",
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
     "particles-bg-vue": "^1.3.5",
@@ -45,6 +47,7 @@
     "vuelidate": "^0.7.6",
     "vuetify": "^2.5.8",
     "vuex": "3.1.0",
+    "wikijs": "^6.3.2",
     "xlsx": "^0.17.0"
   },
   "devDependencies": {
