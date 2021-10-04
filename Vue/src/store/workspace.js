@@ -64,10 +64,10 @@ export function defaultQA() {
 		genre: '',
 		subgenre: '',
 		top_guess_buzzer: '',
-		uid:'',
+		uid: '',
 		pronunciation: [],
-		buzz_word_this:'',
-		highlight_words : {},
+		buzz_word_this: '',
+		highlight_words: {}
 	};
 }
 

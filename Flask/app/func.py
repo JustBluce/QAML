@@ -184,6 +184,8 @@ def act():
         time_stamps[q_id]=[]
         questions_all_time_stamps[q_id] = []
         ans_all_time_stamps[q_id] = []
+    if question.strip()=="":
+        return jsonify({"guess": [{"guess": "","score":""}]})
     time_stamps[q_id].append(date_incoming)
     questions_all_time_stamps[q_id].append(question)
     ans_all_time_stamps[q_id].append(ans)

@@ -43,14 +43,29 @@ def buzz(question, ans, min_index=5):
     temp_word_array = question.split(' ')
     # check if buzzer ever goes above threshold
     index_of_bin_search = len(temp_word_array)
-    
+    set_check = 0
+    note_question = ""
+    index_q = -1
     if(len(temp_word_array)<15):
         return "The string is too short", "", False, "", -1, -1
-    if(len(temp_word_array)<30):
+    # if(len(temp_word_array)<30):
+    if(True):
         question_sentence = question
-        temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=1)
-        if (temp_var[0][1] < threshold_buzz):
-            return "The string does not cross the threshold", "", False, "", -1, -1
+        temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=100)
+        if(len(temp_word_array)<30):
+            if (temp_var[0][1] < threshold_buzz):
+                for i in range(len(temp_var)):
+                    if(temp_var[i][0] == ans.replace(' ','_')):
+                        if ans!="":
+                            return "Buzzer does not cross the threshold: Ans is at rank " + str(i) + " with confidence " + str(temp_var[i][1]), "", False, "", -1, -1
+                return "The string does not cross the threshold", "", False, "", -1, -1
+        else:
+            set_check = 1
+            note_question = question_sentence
+            index_q = len(question_sentence)
+
+            
+            
     
     # print(temp_word_array)
     max_index = index_of_bin_search - 1
@@ -64,7 +79,7 @@ def buzz(question, ans, min_index=5):
         # print(i, max_index)
         index_of_bin_search = i
         question_sentence = " ".join(temp_word_array[:index_of_bin_search])
-        temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=1)
+        temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=100)
         if (temp_var[0][1] > threshold_buzz):
             if(temp_var[0][0] == ans.replace(' ','_')):
                 set_flag = 1
@@ -75,14 +90,35 @@ def buzz(question, ans, min_index=5):
                 first_index_of_bin_search = index_of_bin_search
 
         elif(i == max_index):
+            question_sentence = question
+            temp_var = guess_top_n(question=[question], params=params, max=3, n=100)
+            for i in range(len(temp_var)):
+                if(temp_var[i][0] == ans.replace(' ','_')):
+                    if ans!="":
+                        if i == 0:
+                            if temp_var[i][1]>=threshold_buzz:
+                                set_flag = 2
+                                break
+                            else:
+                                return "Buzzer does not cross the threshold, but it is the top guess with confidence " + str(temp_var[i][1]), "", False, "", -1, -1
+                        return "Buzzer does not cross the threshold: Ans is at rank " + str(i) + " with confidence " + str(temp_var[i][1]), "", False, "", -1, -1
+            # print("HERE")
+            if set_flag == 2:
+                break
             return "Buzzer does not cross the threshold", "", False, "", -1, -1
-        
+    answer_ret = temp_var[0][0]
     if(set_flag == 2):
-        question_sentence = first_question_sentence
-        index_of_bin_search = first_index_of_bin_search
+        if set_check==1:
+            question_sentence = note_question
+            index_of_bin_search = index_q
+            answer_ret = ans.replace(' ','_')
+        else:
+            question_sentence = first_question_sentence
+            index_of_bin_search = first_index_of_bin_search
+            answer_ret = temp_var[0][0]
 
     rest_of_sentence = " ".join(temp_word_array[index_of_bin_search:])
-    return question_sentence, rest_of_sentence, True, temp_var[0][0], set_flag, index_of_bin_search
+    return question_sentence, rest_of_sentence, True, answer_ret, set_flag, index_of_bin_search
 
 def get_actual_guess_with_index(question, max=12):
     """
