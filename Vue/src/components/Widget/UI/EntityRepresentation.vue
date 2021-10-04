@@ -4,9 +4,13 @@ Developers: Atith Gandhi, Raj Shah and Jason Liu
 
 <template>
   <div>
+    <h4 class="mb-2">
+      Please consider adding the following under-represented entities for 10
+      extra points
+    </h4>
     <v-data-table
       :headers="headers"
-      :items="similar_questions"
+      :items="entity_representation"
       :expanded.sync="expanded"
       item-key="id"
       show-expand
@@ -18,7 +22,7 @@ Developers: Atith Gandhi, Raj Shah and Jason Liu
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <span :style="{ color: $vuetify.theme.currentTheme.primary }">{{
-           "Question: " + item.text 
+            item.text
           }}</span>
         </td>
       </template>
@@ -28,7 +32,7 @@ Developers: Atith Gandhi, Raj Shah and Jason Liu
 
 <script>
 export default {
-  name: "SimilarQuestions",
+  name: "EntityRepresentation",
   props: {
     workspace_id: Number,
   },
@@ -45,15 +49,12 @@ export default {
     qa() {
       return this.$store.getters.workspace(this.workspace_id).qa;
     },
-    country_representation() {
-      return this.qa.country_representation;
-    },
+    // entity_representation() {
+    //   return this.qa.entity_representation;
+    // },
     entity_representation() {
-      return this.qa.entity_representation;
-    },
-    similar_questions() {
-      if (this.qa.top5_similar_questions[1]) {
-        return this.qa.top5_similar_questions[1].map((question, index) =>
+      if (this.qa.entity_representation) {
+        return this.qa.entity_representation.map((question, index) =>
           Object.assign(question, { id: index })
         );
       }

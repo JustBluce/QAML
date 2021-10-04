@@ -360,6 +360,25 @@ export default {
           // console.log(response);
         });
         this.axios({
+          url: "http://127.0.0.1:5000/entity_represent/entity_present",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          this.qa.entity_representation =
+            response.data["entity_representation"];
+          for (
+            let i = 0;
+            i < response.data["current_over_entities"].length;
+            i++
+          ) {
+            this.qa.highlight_words[
+              response.data["current_over_entities"][i]
+            ] = "purple";
+          }
+          // console.log(this.highlight_words)
+          // console.log(response);
+        });
+        this.axios({
           url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
           method: "POST",
           data: formData,
@@ -540,6 +559,23 @@ export default {
         // console.log(this.highlight_words)
       });
       this.axios({
+        url: "http://127.0.0.1:5000/entity_represent/entity_present",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.entity_representation =
+          response.data["entity_representation"];
+        for (
+          let i = 0;
+          i < response.data["current_over_entities"].length;
+          i++
+        ) {
+          this.qa.highlight_words[response.data["current_over_entities"][i]] =
+            "EntityRepresentation";
+        }
+        // console.log(this.highlight_words)
+      });
+      this.axios({
         url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
         method: "POST",
         data: formData,
@@ -608,6 +644,25 @@ export default {
         }
         // console.log(this.highlight_words)
       });
+
+      this.axios({
+        url: "http://127.0.0.1:5000/entity_represent/entity_present",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.entity_representation =
+          response.data["entity_representation"];
+        for (
+          let i = 0;
+          i < response.data["current_over_entities"].length;
+          i++
+        ) {
+          this.qa.highlight_words[response.data["current_over_entities"][i]] =
+            "EntityRepresentation";
+        }
+        // console.log(this.highlight_words)
+      });
+
     }, 1000),
     searchData() {
       //clearInterval(this.interval);

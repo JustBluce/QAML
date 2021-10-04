@@ -65,6 +65,7 @@ export default {
             "Guesses",
             "Pronunciation",
             "Country",
+            "Entity",
             "Similarity",
           ],
         },

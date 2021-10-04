@@ -21,7 +21,8 @@ const store = new Vuex.Store({
 			'MachineGuesses',
 			'Buzzer',
 			'Pronunciation',
-			'CountryRepresentation'
+			'CountryRepresentation',
+			'EntityRepresentation'
 		],
 		game_mode: false,
 		genreChartData: [ [ 'Genre', 'Count' ], [ 'None', 1 ] ],
