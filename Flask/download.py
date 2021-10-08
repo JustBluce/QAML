@@ -37,6 +37,7 @@ def save_response_content(response, destination):
 parent_dir = "./model/"
 directories = ['difficulty_models','pronunciation_models' ]
 
+print()
 for directory in tqdm(directories):
     path = os.path.join(parent_dir, directory)
     os.mkdir(path)
@@ -46,6 +47,7 @@ for directory in tqdm(directories):
 ## List of second level directories
 directories = ['difficulty_models/DistilBERT_full_question']
 
+print()
 for directory in tqdm(directories):
     path = os.path.join(parent_dir, directory)
     os.makedirs(path)
