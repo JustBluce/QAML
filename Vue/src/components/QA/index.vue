@@ -141,7 +141,6 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
   </v-container>
 </template>
 
-
 <script>
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
@@ -232,8 +231,13 @@ export default {
           (word) => `<mark class="${this.highlight[word]}">${word}</mark>`
         );
     },
-    genreChartData() {
-      return this.$store.state.genreChartData;
+    genreChartData: {
+      get() {
+        return this.$store.state.genreChartData;
+      },
+      set(value) {
+        this.$store.state.genreChartData = value;
+      },
     },
     options() {
       return {
@@ -244,20 +248,21 @@ export default {
   },
   created: function () {
     this.user_id = firebase.auth().currentUser.uid;
+    this.qid =
+      this.user_id +
+      " " +
+      new Date().toLocaleString("en-US", {
+        hour12: false,
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
     // console.log(this.user_id)
     this.interval = setInterval(
       function () {
-        this.qid =
-          this.user_id +
-          new Date().toLocaleString("en-US", {
-            hour12: false,
-            month: "2-digit",
-            day: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-          });
         this.qa.highlight_words = {};
         let formData = new FormData();
 
