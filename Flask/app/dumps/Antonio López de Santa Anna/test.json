@@ -1,0 +1,339 @@
+{
+  "q_id": "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:04:05",
+  "data": {
+    "10/11/2021, 01:04:35": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That rel",
+      "Answer": "Antonio López de Santa Anna",
+      "Relevant": "First Time Stamp",
+      "machine_guess": {
+        "edit_history": {
+          "change_in_position": "First Entry",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:04:35",
+        "Timestamp_backend": "10/11/2021, 01:04:36",
+        "guesses": [
+          {
+            "guess": "Lothair_I",
+            "score": "0.132"
+          },
+          {
+            "guess": "Isaac",
+            "score": "0.109"
+          },
+          {
+            "guess": "Gaius_Cassius_Longinus",
+            "score": "0.109"
+          },
+          {
+            "guess": "John_Hunyadi",
+            "score": "0.107"
+          },
+          {
+            "guess": "Edmund_Ironside",
+            "score": "0.098"
+          }
+        ],
+        "ans_pos": -1,
+        "prev_pos": -1
+      },
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "rel"
+          ],
+          "old_words_removed_from_pronunication": []
+        },
+        "Timestamp_frontend": "10/11/2021, 01:04:35",
+        "Timestamp_backend": "10/11/2021, 01:04:35",
+        "word_2_pronounce": [
+          {
+            "Word": "rel"
+          }
+        ]
+      }
+    },
+    "10/11/2021, 01:04:38": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos",
+      "Answer": "Antonio López de Santa Anna",
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "martín"
+          ],
+          "old_words_removed_from_pronunication": [
+            "rel"
+          ]
+        },
+        "Timestamp_frontend": "10/11/2021, 01:04:38",
+        "Timestamp_backend": "10/11/2021, 01:04:38",
+        "word_2_pronounce": [
+          {
+            "Word": "Martín"
+          }
+        ]
+      }
+    },
+    "10/11/2021, 01:04:43": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of B",
+      "Answer": "Antonio López de Santa Anna"
+    },
+    "10/11/2021, 01:04:44": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of ",
+      "Answer": "Antonio López de Santa Anna"
+    },
+    "10/11/2021, 01:04:48": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of  Béxar. ",
+      "Answer": "Antonio López de Santa Anna",
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "béxar"
+          ],
+          "old_words_removed_from_pronunication": []
+        },
+        "Timestamp_frontend": "10/11/2021, 01:04:48",
+        "Timestamp_backend": "10/11/2021, 01:04:48",
+        "word_2_pronounce": [
+          {
+            "Word": "Martín"
+          },
+          {
+            "Word": "Béxar."
+          }
+        ]
+      }
+    },
+    "10/11/2021, 01:04:51": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. ",
+      "Answer": "Antonio López de Santa Anna"
+    },
+    "10/11/2021, 01:05:08": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor ",
+      "Answer": "Antonio López de Santa Anna"
+    },
+    "10/11/2021, 01:05:18": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power",
+      "Answer": "Antonio López de Santa Anna",
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "agustín"
+          ],
+          "old_words_removed_from_pronunication": []
+        },
+        "Timestamp_frontend": "10/11/2021, 01:05:18",
+        "Timestamp_backend": "10/11/2021, 01:05:18",
+        "word_2_pronounce": [
+          {
+            "Word": "Martín"
+          },
+          {
+            "Word": "Béxar."
+          },
+          {
+            "Word": "Agustín"
+          }
+        ]
+      }
+    },
+    "10/11/2021, 01:05:31": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". ",
+      "Answer": "Antonio López de Santa Anna",
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "siete",
+            "leyes",
+            "barradas"
+          ],
+          "old_words_removed_from_pronunication": []
+        },
+        "Timestamp_frontend": "10/11/2021, 01:05:31",
+        "Timestamp_backend": "10/11/2021, 01:05:31",
+        "word_2_pronounce": [
+          {
+            "Word": "Martín"
+          },
+          {
+            "Word": "Béxar."
+          },
+          {
+            "Word": "Agustín"
+          },
+          {
+            "Word": "Barradas"
+          },
+          {
+            "Word": "\"Siete"
+          },
+          {
+            "Word": "Leyes\"."
+          }
+        ]
+      }
+    },
+    "10/11/2021, 01:05:47": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors",
+      "Answer": "Antonio López de Santa Anna",
+      "machine_guess": {
+        "edit_history": {
+          "change_in_position": "The machine did not guess previously",
+          "isRelevant": true
+        },
+        "Timestamp_frontend": "10/11/2021, 01:05:47",
+        "Timestamp_backend": "10/11/2021, 01:05:47",
+        "guesses": [
+          {
+            "guess": "Antonio_López_de_Santa_Anna",
+            "score": "0.185"
+          },
+          {
+            "guess": "Cardinal_Richelieu",
+            "score": "0.092"
+          },
+          {
+            "guess": "Napoleon",
+            "score": "0.088"
+          },
+          {
+            "guess": "George_Washington",
+            "score": "0.082"
+          },
+          {
+            "guess": "Lothair_I",
+            "score": "0.082"
+          }
+        ],
+        "ans_pos": 0,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:05:50": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points",
+      "Answer": "Antonio López de Santa Anna"
+    },
+    "10/11/2021, 01:05:55": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general",
+      "Answer": "Antonio López de Santa Anna",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:05:55",
+        "Timestamp_backend": "10/11/2021, 01:05:56",
+        "buzzer_string": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general",
+        "buzzer_sentence_number": 6,
+        "buzzer_word_number": 523,
+        "most_important_sentence_number": 5,
+        "most_important_sentence": "He later fought in the Pastry War when he famously lost and buried his leg with full military honors.",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:06:04": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule saw territorial ",
+      "Answer": "Antonio López de Santa Anna",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "Buzzer buzzed on the correct answer for the first time",
+          "isRelevant": true
+        },
+        "Timestamp_frontend": "10/11/2021, 01:06:04",
+        "Timestamp_backend": "10/11/2021, 01:06:06",
+        "buzzer_string": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule",
+        "buzzer_sentence_number": 6,
+        "buzzer_word_number": 90,
+        "most_important_sentence_number": 5,
+        "most_important_sentence": "He later fought in the Pastry War when he famously lost and buried his leg with full military honors.",
+        "if_ans_found": 1,
+        "is_relevant": true,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:06:08": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule saw territorial losses",
+      "Answer": "Antonio López de Santa Anna",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:06:08",
+        "Timestamp_backend": "10/11/2021, 01:06:09",
+        "buzzer_string": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule",
+        "buzzer_sentence_number": 6,
+        "buzzer_word_number": 90,
+        "most_important_sentence_number": 5,
+        "most_important_sentence": "He later fought in the Pastry War when he famously lost and buried his leg with full military honors.",
+        "if_ans_found": 1,
+        "is_relevant": false,
+        "prev_pos": 90
+      }
+    },
+    "10/11/2021, 01:06:18": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule saw territorial losses during the Texas Revolution and the Mexican-American War.",
+      "Answer": "Antonio López de Santa Anna",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:06:18",
+        "Timestamp_backend": "10/11/2021, 01:06:20",
+        "buzzer_string": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule",
+        "buzzer_sentence_number": 6,
+        "buzzer_word_number": 90,
+        "most_important_sentence_number": 5,
+        "most_important_sentence": "He later fought in the Pastry War when he famously lost and buried his leg with full military honors.",
+        "if_ans_found": 1,
+        "is_relevant": false,
+        "prev_pos": 90
+      }
+    },
+    "10/11/2021, 01:06:30": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule saw territorial losses during the Texas Revolution and the Mexican-American War. ",
+      "Answer": "Antonio López de Santa Anna",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:06:30",
+        "Timestamp_backend": "10/11/2021, 01:06:31",
+        "buzzer_string": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule",
+        "buzzer_sentence_number": 6,
+        "buzzer_word_number": 90,
+        "most_important_sentence_number": 5,
+        "most_important_sentence": "He later fought in the Pastry War when he famously lost and buried his leg with full military honors.",
+        "if_ans_found": 1,
+        "is_relevant": false,
+        "prev_pos": 90
+      }
+    },
+    "10/11/2021, 01:06:31": {
+      "Question": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule saw territorial losses during the Texas Revolution and the Mexican-American War.",
+      "Answer": "Antonio López de Santa Anna",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:06:31",
+        "Timestamp_backend": "10/11/2021, 01:06:33",
+        "buzzer_string": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Martín Perfecto de Cos, surrendered at the Siege of Béxar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agustín de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule",
+        "buzzer_sentence_number": 6,
+        "buzzer_word_number": 90,
+        "most_important_sentence_number": 5,
+        "most_important_sentence": "He later fought in the Pastry War when he famously lost and buried his leg with full military honors.",
+        "if_ans_found": 1,
+        "is_relevant": false,
+        "prev_pos": 90
+      }
+    }
+  },
+  "points": 0,
+  "genre": "History"
+}

@@ -1,0 +1,78 @@
+{
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 24:56:36": [
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "vari"
+        ],
+        "old_words_removed_from_pronunication": []
+      },
+      "Timestamp_frontend": "10/11/2021, 24:56:51",
+      "Timestamp_backend": "10/11/2021, 00:56:51",
+      "word_2_pronounce": [
+        {
+          "Word": "Vari"
+        }
+      ]
+    },
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "varignons"
+        ],
+        "old_words_removed_from_pronunication": [
+          "vari"
+        ]
+      },
+      "Timestamp_frontend": "10/11/2021, 24:57:05",
+      "Timestamp_backend": "10/11/2021, 00:57:05",
+      "word_2_pronounce": [
+        {
+          "Word": "Varignon's"
+        }
+      ]
+    }
+  ],
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 24:58:01": [
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "poin",
+          "sdfjt",
+          "varignons"
+        ],
+        "old_words_removed_from_pronunication": []
+      },
+      "Timestamp_frontend": "10/11/2021, 24:58:05",
+      "Timestamp_backend": "10/11/2021, 00:58:05",
+      "word_2_pronounce": [
+        {
+          "Word": "Varignon's"
+        },
+        {
+          "Word": "poin"
+        },
+        {
+          "Word": "sdfjt"
+        }
+      ]
+    }
+  ],
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 24:58:23": [
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "varignons"
+        ],
+        "old_words_removed_from_pronunication": []
+      },
+      "Timestamp_frontend": "10/11/2021, 24:58:46",
+      "Timestamp_backend": "10/11/2021, 00:58:46",
+      "word_2_pronounce": [
+        {
+          "Word": "Varignon's"
+        }
+      ]
+    }
+  ]
+}

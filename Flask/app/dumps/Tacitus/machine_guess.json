@@ -1,0 +1,68 @@
+{
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 24:16:12": [
+    {
+      "edit_history": {
+        "change_in_position": "First Entry",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 24:20:17",
+      "Timestamp_backend": "10/11/2021, 00:20:17",
+      "guesses": [
+        {
+          "guess": "Rob_Ford",
+          "score": "0.277"
+        },
+        {
+          "guess": "Caiaphas",
+          "score": "0.268"
+        },
+        {
+          "guess": "Clay_Shaw",
+          "score": "0.263"
+        },
+        {
+          "guess": "George_Zimmerman",
+          "score": "0.251"
+        },
+        {
+          "guess": "Ned_Kelly",
+          "score": "0.239"
+        }
+      ],
+      "ans_pos": -1,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "The machine did not guess previously",
+        "isRelevant": true
+      },
+      "Timestamp_frontend": "10/11/2021, 24:20:36",
+      "Timestamp_backend": "10/11/2021, 00:20:37",
+      "guesses": [
+        {
+          "guess": "Tacitus",
+          "score": "0.06"
+        },
+        {
+          "guess": "George_Fitzhugh",
+          "score": "0.059"
+        },
+        {
+          "guess": "Edmund_Hillary",
+          "score": "0.05"
+        },
+        {
+          "guess": "Wilhelm_Dilthey",
+          "score": "0.05"
+        },
+        {
+          "guess": "Neil_Postman",
+          "score": "0.049"
+        }
+      ],
+      "ans_pos": 0,
+      "prev_pos": -1
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:33:35": [
+    {
+      "edit_history": {
+        "change_in_position": "First Entry",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:34:14",
+      "Timestamp_backend": "10/11/2021, 01:34:14",
+      "guesses": [
+        {
+          "guess": "New_York_City",
+          "score": "0.249"
+        },
+        {
+          "guess": "Paris",
+          "score": "0.227"
+        },
+        {
+          "guess": "London",
+          "score": "0.226"
+        },
+        {
+          "guess": "Boston",
+          "score": "0.21"
+        },
+        {
+          "guess": "Prague",
+          "score": "0.207"
+        }
+      ],
+      "ans_pos": -1,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "The machine did not guess previously",
+        "isRelevant": true
+      },
+      "Timestamp_frontend": "10/11/2021, 01:34:51",
+      "Timestamp_backend": "10/11/2021, 01:34:51",
+      "guesses": [
+        {
+          "guess": "Istanbul",
+          "score": "0.226"
+        },
+        {
+          "guess": "New_York_City",
+          "score": "0.206"
+        },
+        {
+          "guess": "Paris",
+          "score": "0.2"
+        },
+        {
+          "guess": "Jerusalem",
+          "score": "0.197"
+        },
+        {
+          "guess": "London",
+          "score": "0.191"
+        }
+      ],
+      "ans_pos": 0,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "The previous position was 0 and the new position is 1",
+        "isRelevant": true
+      },
+      "Timestamp_frontend": "10/11/2021, 01:35:13",
+      "Timestamp_backend": "10/11/2021, 01:35:14",
+      "guesses": [
+        {
+          "guess": "New_York_City",
+          "score": "0.299"
+        },
+        {
+          "guess": "Istanbul",
+          "score": "0.287"
+        },
+        {
+          "guess": "Paris",
+          "score": "0.285"
+        },
+        {
+          "guess": "London",
+          "score": "0.278"
+        },
+        {
+          "guess": "Jerusalem",
+          "score": "0.276"
+        }
+      ],
+      "ans_pos": 1,
+      "prev_pos": 0
+    },
+    {
+      "edit_history": {
+        "change_in_position": "The previous position was 1 and the new position is 0",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:35:26",
+      "Timestamp_backend": "10/11/2021, 01:35:26",
+      "guesses": [
+        {
+          "guess": "Istanbul",
+          "score": "0.294"
+        },
+        {
+          "guess": "New_York_City",
+          "score": "0.292"
+        },
+        {
+          "guess": "Paris",
+          "score": "0.279"
+        },
+        {
+          "guess": "London",
+          "score": "0.273"
+        },
+        {
+          "guess": "Jerusalem",
+          "score": "0.27"
+        }
+      ],
+      "ans_pos": 0,
+      "prev_pos": 1
+    }
+  ]
+}

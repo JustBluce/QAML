@@ -1,0 +1,90 @@
+{
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:30:44": [
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "methone",
+          "theor",
+          "epimethus"
+        ],
+        "old_words_removed_from_pronunication": []
+      },
+      "Timestamp_frontend": "10/11/2021, 01:31:17",
+      "Timestamp_backend": "10/11/2021, 01:31:17",
+      "word_2_pronounce": [
+        {
+          "Word": "Epimethus,"
+        },
+        {
+          "Word": "Methone."
+        },
+        {
+          "Word": "theor"
+        }
+      ]
+    },
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [],
+        "old_words_removed_from_pronunication": [
+          "theor"
+        ]
+      },
+      "Timestamp_frontend": "10/11/2021, 01:31:19",
+      "Timestamp_backend": "10/11/2021, 01:31:19",
+      "word_2_pronounce": [
+        {
+          "Word": "Epimethus,"
+        },
+        {
+          "Word": "Methone."
+        }
+      ]
+    },
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "\u00e9douard"
+        ],
+        "old_words_removed_from_pronunication": []
+      },
+      "Timestamp_frontend": "10/11/2021, 01:31:33",
+      "Timestamp_backend": "10/11/2021, 01:31:33",
+      "word_2_pronounce": [
+        {
+          "Word": "Epimethus,"
+        },
+        {
+          "Word": "Methone."
+        },
+        {
+          "Word": "\u00c9douard"
+        }
+      ]
+    },
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "pierresimon"
+        ],
+        "old_words_removed_from_pronunication": []
+      },
+      "Timestamp_frontend": "10/11/2021, 01:32:02",
+      "Timestamp_backend": "10/11/2021, 01:32:02",
+      "word_2_pronounce": [
+        {
+          "Word": "Epimethus,"
+        },
+        {
+          "Word": "Methone."
+        },
+        {
+          "Word": "\u00c9douard"
+        },
+        {
+          "Word": "Pierre-Simon"
+        }
+      ]
+    }
+  ]
+}

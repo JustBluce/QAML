@@ -1,0 +1,141 @@
+{
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:03:09": [
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "mart"
+        ],
+        "old_words_removed_from_pronunication": []
+      },
+      "Timestamp_frontend": "10/11/2021, 01:03:45",
+      "Timestamp_backend": "10/11/2021, 01:03:45",
+      "word_2_pronounce": [
+        {
+          "Word": "Mart"
+        }
+      ]
+    },
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "mart\u00edn"
+        ],
+        "old_words_removed_from_pronunication": [
+          "mart"
+        ]
+      },
+      "Timestamp_frontend": "10/11/2021, 01:03:52",
+      "Timestamp_backend": "10/11/2021, 01:03:52",
+      "word_2_pronounce": [
+        {
+          "Word": "Mart\u00edn"
+        }
+      ]
+    }
+  ],
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:04:05": [
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "rel"
+        ],
+        "old_words_removed_from_pronunication": []
+      },
+      "Timestamp_frontend": "10/11/2021, 01:04:35",
+      "Timestamp_backend": "10/11/2021, 01:04:35",
+      "word_2_pronounce": [
+        {
+          "Word": "rel"
+        }
+      ]
+    },
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "mart\u00edn"
+        ],
+        "old_words_removed_from_pronunication": [
+          "rel"
+        ]
+      },
+      "Timestamp_frontend": "10/11/2021, 01:04:38",
+      "Timestamp_backend": "10/11/2021, 01:04:38",
+      "word_2_pronounce": [
+        {
+          "Word": "Mart\u00edn"
+        }
+      ]
+    },
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "b\u00e9xar"
+        ],
+        "old_words_removed_from_pronunication": []
+      },
+      "Timestamp_frontend": "10/11/2021, 01:04:48",
+      "Timestamp_backend": "10/11/2021, 01:04:48",
+      "word_2_pronounce": [
+        {
+          "Word": "Mart\u00edn"
+        },
+        {
+          "Word": "B\u00e9xar."
+        }
+      ]
+    },
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "agust\u00edn"
+        ],
+        "old_words_removed_from_pronunication": []
+      },
+      "Timestamp_frontend": "10/11/2021, 01:05:18",
+      "Timestamp_backend": "10/11/2021, 01:05:18",
+      "word_2_pronounce": [
+        {
+          "Word": "Mart\u00edn"
+        },
+        {
+          "Word": "B\u00e9xar."
+        },
+        {
+          "Word": "Agust\u00edn"
+        }
+      ]
+    },
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "siete",
+          "leyes",
+          "barradas"
+        ],
+        "old_words_removed_from_pronunication": []
+      },
+      "Timestamp_frontend": "10/11/2021, 01:05:31",
+      "Timestamp_backend": "10/11/2021, 01:05:31",
+      "word_2_pronounce": [
+        {
+          "Word": "Mart\u00edn"
+        },
+        {
+          "Word": "B\u00e9xar."
+        },
+        {
+          "Word": "Agust\u00edn"
+        },
+        {
+          "Word": "Barradas"
+        },
+        {
+          "Word": "\"Siete"
+        },
+        {
+          "Word": "Leyes\"."
+        }
+      ]
+    }
+  ]
+}

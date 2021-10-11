@@ -1,0 +1,68 @@
+{
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 24:03:36": [
+    {
+      "edit_history": {
+        "change_in_position": "First Entry",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 24:13:26",
+      "Timestamp_backend": "10/11/2021, 00:13:26",
+      "guesses": [
+        {
+          "guess": "Scott_McCloud",
+          "score": "0.091"
+        },
+        {
+          "guess": "The_Unfortunate_Traveller",
+          "score": "0.091"
+        },
+        {
+          "guess": "Georges-Eug\u00e8ne_Haussmann",
+          "score": "0.076"
+        },
+        {
+          "guess": "Levi_Eshkol",
+          "score": "0.073"
+        },
+        {
+          "guess": "Oda_Nobunaga",
+          "score": "0.068"
+        }
+      ],
+      "ans_pos": -1,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "The machine did not guess previously",
+        "isRelevant": true
+      },
+      "Timestamp_frontend": "10/11/2021, 24:14:50",
+      "Timestamp_backend": "10/11/2021, 00:14:50",
+      "guesses": [
+        {
+          "guess": "Aaron_Copland",
+          "score": "0.296"
+        },
+        {
+          "guess": "Anton_Bruckner",
+          "score": "0.186"
+        },
+        {
+          "guess": "Ludwig_van_Beethoven",
+          "score": "0.169"
+        },
+        {
+          "guess": "Robert_Schumann",
+          "score": "0.166"
+        },
+        {
+          "guess": "Jean_Sibelius",
+          "score": "0.166"
+        }
+      ],
+      "ans_pos": 0,
+      "prev_pos": -1
+    }
+  ]
+}

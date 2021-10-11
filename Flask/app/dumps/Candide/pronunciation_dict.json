@@ -1,0 +1,37 @@
+{
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 24:28:47": [
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "manichaeist"
+        ],
+        "old_words_removed_from_pronunication": []
+      },
+      "Timestamp_frontend": "10/11/2021, 24:29:58",
+      "Timestamp_backend": "10/11/2021, 00:29:58",
+      "word_2_pronounce": [
+        {
+          "Word": "Manichaeist"
+        }
+      ]
+    },
+    {
+      "edit_history": {
+        "new_words_added_to_pronunciation": [
+          "cun\u00e9gonde"
+        ],
+        "old_words_removed_from_pronunication": []
+      },
+      "Timestamp_frontend": "10/11/2021, 24:30:49",
+      "Timestamp_backend": "10/11/2021, 00:30:49",
+      "word_2_pronounce": [
+        {
+          "Word": "Manichaeist"
+        },
+        {
+          "Word": "Cun\u00e9gonde"
+        }
+      ]
+    }
+  ]
+}

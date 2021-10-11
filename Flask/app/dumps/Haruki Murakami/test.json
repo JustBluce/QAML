@@ -1,0 +1,260 @@
+{
+  "q_id": "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:24:13",
+  "data": {
+    "10/11/2021, 01:24:41": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by ",
+      "Answer": "Haruki Murakami",
+      "Relevant": "First Time Stamp",
+      "machine_guess": {
+        "edit_history": {
+          "change_in_position": "First Entry",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:24:41",
+        "Timestamp_backend": "10/11/2021, 01:24:41",
+        "guesses": [
+          {
+            "guess": "J._G._Ballard",
+            "score": "0.074"
+          },
+          {
+            "guess": "B._R._Ambedkar",
+            "score": "0.073"
+          },
+          {
+            "guess": "Hymen",
+            "score": "0.07"
+          },
+          {
+            "guess": "Bret_Easton_Ellis",
+            "score": "0.07"
+          },
+          {
+            "guess": "Tom_Clancy",
+            "score": "0.07"
+          }
+        ],
+        "ans_pos": -1,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:24:45": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek",
+      "Answer": "Haruki Murakami",
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "leo\u0161",
+            "jan\u00e1\u010dek"
+          ],
+          "old_words_removed_from_pronunication": []
+        },
+        "Timestamp_frontend": "10/11/2021, 01:24:45",
+        "Timestamp_backend": "10/11/2021, 01:24:45",
+        "word_2_pronounce": [
+          {
+            "Word": "Leo\u0161"
+          },
+          {
+            "Word": "Jan\u00e1\u010dek"
+          }
+        ]
+      }
+    },
+    "10/11/2021, 01:24:47": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek ",
+      "Answer": "Haruki Murakami"
+    },
+    "10/11/2021, 01:24:51": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi",
+      "Answer": "Haruki Murakami"
+    },
+    "10/11/2021, 01:24:57": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character",
+      "Answer": "Haruki Murakami"
+    },
+    "10/11/2021, 01:25:09": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. ",
+      "Answer": "Haruki Murakami"
+    },
+    "10/11/2021, 01:25:12": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening",
+      "Answer": "Haruki Murakami"
+    },
+    "10/11/2021, 01:25:18": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel",
+      "Answer": "Haruki Murakami"
+    },
+    "10/11/2021, 01:25:20": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man",
+      "Answer": "Haruki Murakami"
+    },
+    "10/11/2021, 01:25:27": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man, the main character listens to a Rossini",
+      "Answer": "Haruki Murakami"
+    },
+    "10/11/2021, 01:25:30": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man, the main character listens to a Rossini overture",
+      "Answer": "Haruki Murakami"
+    },
+    "10/11/2021, 01:25:34": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man, the main character listens to a Rossini overture while making spaghetti. ",
+      "Answer": "Haruki Murakami"
+    },
+    "10/11/2021, 01:25:43": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man, the main character listens to a Rossini overture while making spaghetti. That character later meets a war veteran ",
+      "Answer": "Haruki Murakami"
+    },
+    "10/11/2021, 01:25:49": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man, the main character listens to a Rossini overture while making spaghetti. That character later meets a war veteran from the Manchurian campaign",
+      "Answer": "Haruki Murakami",
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "manchurian"
+          ],
+          "old_words_removed_from_pronunication": []
+        },
+        "Timestamp_frontend": "10/11/2021, 01:25:49",
+        "Timestamp_backend": "10/11/2021, 01:25:49",
+        "word_2_pronounce": [
+          {
+            "Word": "Leo\u0161"
+          },
+          {
+            "Word": "Jan\u00e1\u010dek"
+          },
+          {
+            "Word": "Manchurian"
+          }
+        ]
+      }
+    },
+    "10/11/2021, 01:25:59": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man, the main character listens to a Rossini overture while making spaghetti. That character later meets a war veteran from the Manchurian campaign and sits at the bottom of a well while searching for his missing cat. ",
+      "Answer": "Haruki Murakami"
+    },
+    "10/11/2021, 01:26:08": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man, the main character listens to a Rossini overture while making spaghetti. That character later meets a war veteran from the Manchurian campaign and sits at the bottom of a well while searching for his missing cat. For ten points, name this Japanese author of ",
+      "Answer": "Haruki Murakami",
+      "machine_guess": {
+        "edit_history": {
+          "change_in_position": "The machine did not guess previously",
+          "isRelevant": true
+        },
+        "Timestamp_frontend": "10/11/2021, 01:26:08",
+        "Timestamp_backend": "10/11/2021, 01:26:08",
+        "guesses": [
+          {
+            "guess": "Haruki_Murakami",
+            "score": "0.124"
+          },
+          {
+            "guess": "Jun'ichir\u014d_Tanizaki",
+            "score": "0.121"
+          },
+          {
+            "guess": "Yasunari_Kawabata",
+            "score": "0.11"
+          },
+          {
+            "guess": "Yukio_Mishima",
+            "score": "0.108"
+          },
+          {
+            "guess": "Natsume_S\u014dseki",
+            "score": "0.106"
+          }
+        ],
+        "ans_pos": 0,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:26:14": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man, the main character listens to a Rossini overture while making spaghetti. That character later meets a war veteran from the Manchurian campaign and sits at the bottom of a well while searching for his missing cat. For ten points, name this Japanese author of The Wind-Up Bird Chronicle",
+      "Answer": "Haruki Murakami",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:26:14",
+        "Timestamp_backend": "10/11/2021, 01:26:15",
+        "buzzer_string": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man, the main character listens to a Rossini overture while making spaghetti. That character later meets a war veteran from the Manchurian campaign and sits at the bottom of a well while searching for his missing cat. For ten points, name this Japanese author of The Wind-Up Bird Chronicle",
+        "buzzer_sentence_number": 5,
+        "buzzer_word_number": 539,
+        "most_important_sentence_number": 5,
+        "most_important_sentence": "For ten points, name this Japanese author of The Wind-Up Bird Chronicle",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:26:21": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man, the main character listens to a Rossini overture while making spaghetti. That character later meets a war veteran from the Manchurian campaign and sits at the bottom of a well while searching for his missing cat. For ten points, name this Japanese author of The Wind-Up Bird Chronicle and 1Q84.",
+      "Answer": "Haruki Murakami",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:26:21",
+        "Timestamp_backend": "10/11/2021, 01:26:23",
+        "buzzer_string": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man, the main character listens to a Rossini overture while making spaghetti. That character later meets a war veteran from the Manchurian campaign and sits at the bottom of a well while searching for his missing cat. For ten points, name this Japanese author of The Wind-Up Bird Chronicle and 1Q84.",
+        "buzzer_sentence_number": 5,
+        "buzzer_word_number": 549,
+        "most_important_sentence_number": 5,
+        "most_important_sentence": "For ten points, name this Japanese author of The Wind-Up Bird Chronicle and 1Q84.",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      },
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "1q84"
+          ],
+          "old_words_removed_from_pronunication": []
+        },
+        "Timestamp_frontend": "10/11/2021, 01:26:21",
+        "Timestamp_backend": "10/11/2021, 01:26:21",
+        "word_2_pronounce": [
+          {
+            "Word": "Leo\u0161"
+          },
+          {
+            "Word": "Jan\u00e1\u010dek"
+          },
+          {
+            "Word": "Manchurian"
+          },
+          {
+            "Word": "1Q84."
+          }
+        ]
+      }
+    },
+    "10/11/2021, 01:26:26": {
+      "Question": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man, the main character listens to a Rossini overture while making spaghetti. That character later meets a war veteran from the Manchurian campaign and sits at the bottom of a well while searching for his missing cat. For ten points, name this Japanese author of The Wind-Up Bird Chronicle and 1Q84.",
+      "Answer": "Haruki Murakami",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:26:26",
+        "Timestamp_backend": "10/11/2021, 01:26:27",
+        "buzzer_string": "In the opening to one of this man's novels, a woman recognizes the Sinfonietta by Leo\u0161 Jan\u00e1\u010dek while riding a taxi. Another character in that novel is tasked with rewriting the story Air Chrysalis. In the opening chapter of a different novel by this man, the main character listens to a Rossini overture while making spaghetti. That character later meets a war veteran from the Manchurian campaign and sits at the bottom of a well while searching for his missing cat. For ten points, name this Japanese author of The Wind-Up Bird Chronicle and 1Q84.",
+        "buzzer_sentence_number": 5,
+        "buzzer_word_number": 549,
+        "most_important_sentence_number": 5,
+        "most_important_sentence": "For ten points, name this Japanese author of The Wind-Up Bird Chronicle and 1Q84.",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      }
+    }
+  },
+  "points": 0,
+  "genre": "Literature"
+}

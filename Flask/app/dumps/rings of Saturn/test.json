@@ -1,0 +1,374 @@
+{
+  "q_id": "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:30:44",
+  "data": {
+    "10/11/2021, 01:30:59": {
+      "Question": "One part of these",
+      "Answer": "rings of Saturn",
+      "Relevant": "First Time Stamp",
+      "machine_guess": {
+        "edit_history": {
+          "change_in_position": "First Entry",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:30:59",
+        "Timestamp_backend": "10/11/2021, 01:30:59",
+        "guesses": [
+          {
+            "guess": "Tree",
+            "score": "0.157"
+          },
+          {
+            "guess": "Cannoli",
+            "score": "0.154"
+          },
+          {
+            "guess": "River",
+            "score": "0.151"
+          },
+          {
+            "guess": "The_Core",
+            "score": "0.148"
+          },
+          {
+            "guess": "Bipolar_junction_transistor",
+            "score": "0.146"
+          }
+        ],
+        "ans_pos": -1,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:31:01": {
+      "Question": "One part of these structures",
+      "Answer": "rings of Saturn"
+    },
+    "10/11/2021, 01:31:17": {
+      "Question": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theor",
+      "Answer": "rings of Saturn",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:31:17",
+        "Timestamp_backend": "10/11/2021, 01:31:17",
+        "buzzer_string": "One part of these structures is named for Janus and Epimethus, while another is associated",
+        "buzzer_sentence_number": 1,
+        "buzzer_word_number": 15,
+        "most_important_sentence_number": 1,
+        "most_important_sentence": "One part of these structures is named for Janus and Epimethus, while another is associated",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      },
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "methone",
+            "theor",
+            "epimethus"
+          ],
+          "old_words_removed_from_pronunication": []
+        },
+        "Timestamp_frontend": "10/11/2021, 01:31:17",
+        "Timestamp_backend": "10/11/2021, 01:31:17",
+        "word_2_pronounce": [
+          {
+            "Word": "Epimethus,"
+          },
+          {
+            "Word": "Methone."
+          },
+          {
+            "Word": "theor"
+          }
+        ]
+      }
+    },
+    "10/11/2021, 01:31:19": {
+      "Question": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these",
+      "Answer": "rings of Saturn",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:31:19",
+        "Timestamp_backend": "10/11/2021, 01:31:19",
+        "buzzer_string": "One part of these structures is named for Janus and Epimethus, while another is associated",
+        "buzzer_sentence_number": 1,
+        "buzzer_word_number": 15,
+        "most_important_sentence_number": 1,
+        "most_important_sentence": "One part of these structures is named for Janus and Epimethus, while another is associated",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      },
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [],
+          "old_words_removed_from_pronunication": [
+            "theor"
+          ]
+        },
+        "Timestamp_frontend": "10/11/2021, 01:31:19",
+        "Timestamp_backend": "10/11/2021, 01:31:19",
+        "word_2_pronounce": [
+          {
+            "Word": "Epimethus,"
+          },
+          {
+            "Word": "Methone."
+          }
+        ]
+      }
+    },
+    "10/11/2021, 01:31:25": {
+      "Question": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation ",
+      "Answer": "rings of Saturn",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:31:25",
+        "Timestamp_backend": "10/11/2021, 01:31:25",
+        "buzzer_string": "One part of these structures is named for Janus and Epimethus, while another is associated",
+        "buzzer_sentence_number": 1,
+        "buzzer_word_number": 15,
+        "most_important_sentence_number": 1,
+        "most_important_sentence": "One part of these structures is named for Janus and Epimethus, while another is associated",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:31:27": {
+      "Question": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed",
+      "Answer": "rings of Saturn",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:31:27",
+        "Timestamp_backend": "10/11/2021, 01:31:28",
+        "buzzer_string": "One part of these structures is named for Janus and Epimethus, while another is associated",
+        "buzzer_sentence_number": 1,
+        "buzzer_word_number": 15,
+        "most_important_sentence_number": 1,
+        "most_important_sentence": "One part of these structures is named for Janus and Epimethus, while another is associated",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:31:29": {
+      "Question": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by ",
+      "Answer": "rings of Saturn",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:31:29",
+        "Timestamp_backend": "10/11/2021, 01:31:29",
+        "buzzer_string": "One part of these structures is named for Janus and Epimethus, while another is associated",
+        "buzzer_sentence_number": 1,
+        "buzzer_word_number": 15,
+        "most_important_sentence_number": 1,
+        "most_important_sentence": "One part of these structures is named for Janus and Epimethus, while another is associated",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:31:33": {
+      "Question": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by  \u00c9douard Roche",
+      "Answer": "rings of Saturn",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:31:33",
+        "Timestamp_backend": "10/11/2021, 01:31:34",
+        "buzzer_string": "One part of these structures is named for Janus and Epimethus, while another is associated",
+        "buzzer_sentence_number": 1,
+        "buzzer_word_number": 15,
+        "most_important_sentence_number": 1,
+        "most_important_sentence": "One part of these structures is named for Janus and Epimethus, while another is associated",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      },
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "\u00e9douard"
+          ],
+          "old_words_removed_from_pronunication": []
+        },
+        "Timestamp_frontend": "10/11/2021, 01:31:33",
+        "Timestamp_backend": "10/11/2021, 01:31:33",
+        "word_2_pronounce": [
+          {
+            "Word": "Epimethus,"
+          },
+          {
+            "Word": "Methone."
+          },
+          {
+            "Word": "\u00c9douard"
+          }
+        ]
+      }
+    },
+    "10/11/2021, 01:31:50": {
+      "Question": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by  \u00c9douard Roche, who also names a section between these structures. The existence of gaps in these structures",
+      "Answer": "rings of Saturn",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:31:50",
+        "Timestamp_backend": "10/11/2021, 01:31:51",
+        "buzzer_string": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by  \u00c9douard Roche, who also names a section between these structures. The existence of gaps in these structures",
+        "buzzer_sentence_number": 3,
+        "buzzer_word_number": 270,
+        "most_important_sentence_number": 2,
+        "most_important_sentence": "A theory for these structures' formation was proposed by  \u00c9douard Roche, who also names a section between these structures.",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:31:57": {
+      "Question": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by  \u00c9douard Roche, who also names a section between these structures. The existence of gaps in these structures was suggested ",
+      "Answer": "rings of Saturn",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:31:57",
+        "Timestamp_backend": "10/11/2021, 01:31:58",
+        "buzzer_string": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by  \u00c9douard Roche, who also names a section between these structures. The existence of gaps in these structures was suggested ",
+        "buzzer_sentence_number": 3,
+        "buzzer_word_number": 285,
+        "most_important_sentence_number": 1,
+        "most_important_sentence": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone.",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:32:02": {
+      "Question": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by  \u00c9douard Roche, who also names a section between these structures. The existence of gaps in these structures was suggested by Pierre-Simon Laplace",
+      "Answer": "rings of Saturn",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:32:02",
+        "Timestamp_backend": "10/11/2021, 01:32:03",
+        "buzzer_string": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by  \u00c9douard Roche, who also names a section between these structures. The existence of gaps in these structures was suggested by Pierre-Simon Laplace",
+        "buzzer_sentence_number": 3,
+        "buzzer_word_number": 308,
+        "most_important_sentence_number": 1,
+        "most_important_sentence": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone.",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      },
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "pierresimon"
+          ],
+          "old_words_removed_from_pronunication": []
+        },
+        "Timestamp_frontend": "10/11/2021, 01:32:02",
+        "Timestamp_backend": "10/11/2021, 01:32:02",
+        "word_2_pronounce": [
+          {
+            "Word": "Epimethus,"
+          },
+          {
+            "Word": "Methone."
+          },
+          {
+            "Word": "\u00c9douard"
+          },
+          {
+            "Word": "Pierre-Simon"
+          }
+        ]
+      }
+    },
+    "10/11/2021, 01:32:18": {
+      "Question": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by  \u00c9douard Roche, who also names a section between these structures. The existence of gaps in these structures was suggested by Pierre-Simon Laplace. These gaps included those named after Colombo and Maxwell, and the largest is the Cassini Division. ",
+      "Answer": "rings of Saturn",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:32:18",
+        "Timestamp_backend": "10/11/2021, 01:32:19",
+        "buzzer_string": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by  \u00c9douard Roche, who also names a section between these structures. The existence of gaps in these structures was suggested by Pierre-Simon Laplace. These gaps included those named after Colombo and Maxwell, and the largest is the Cassini Division. ",
+        "buzzer_sentence_number": 4,
+        "buzzer_word_number": 410,
+        "most_important_sentence_number": 1,
+        "most_important_sentence": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone.",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:32:29": {
+      "Question": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by  \u00c9douard Roche, who also names a section between these structures. The existence of gaps in these structures was suggested by Pierre-Simon Laplace. These gaps included those named after Colombo and Maxwell, and the largest is the Cassini Division. For ten points, name these structures orbiting the sixth planet from the Sun.",
+      "Answer": "rings of Saturn",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:32:29",
+        "Timestamp_backend": "10/11/2021, 01:32:31",
+        "buzzer_string": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by  \u00c9douard Roche, who also names a section between these structures. The existence of gaps in these structures was suggested by Pierre-Simon Laplace. These gaps included those named after Colombo and Maxwell, and the largest is the Cassini Division. For ten points, name these structures orbiting the sixth planet from the Sun.",
+        "buzzer_sentence_number": 5,
+        "buzzer_word_number": 487,
+        "most_important_sentence_number": 1,
+        "most_important_sentence": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone.",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      }
+    },
+    "10/11/2021, 01:32:36": {
+      "Question": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by  \u00c9douard Roche, who also names a section between these structures. The existence of gaps in these structures was suggested by Pierre-Simon Laplace. These gaps included those named after Colombo and Maxwell, and the largest is the Cassini Division. For ten points, name these structures orbiting the sixth planet from the Sun.",
+      "Answer": "rings of Saturn",
+      "buzzer": {
+        "edit_history": {
+          "change_in_position": "",
+          "isRelevant": false
+        },
+        "Timestamp_frontend": "10/11/2021, 01:32:36",
+        "Timestamp_backend": "10/11/2021, 01:32:37",
+        "buzzer_string": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone. A theory for these structures' formation was proposed by  \u00c9douard Roche, who also names a section between these structures. The existence of gaps in these structures was suggested by Pierre-Simon Laplace. These gaps included those named after Colombo and Maxwell, and the largest is the Cassini Division. For ten points, name these structures orbiting the sixth planet from the Sun.",
+        "buzzer_sentence_number": 5,
+        "buzzer_word_number": 487,
+        "most_important_sentence_number": 1,
+        "most_important_sentence": "One part of these structures is named for Janus and Epimethus, while another is associated with Methone.",
+        "if_ans_found": 2,
+        "is_relevant": false,
+        "prev_pos": -1
+      }
+    }
+  },
+  "points": 0,
+  "genre": "Science"
+}

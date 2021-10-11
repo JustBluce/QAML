@@ -1,0 +1,36 @@
+{
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:30:44": [
+    {
+      "edit_history": {
+        "change_in_position": "First Entry",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:30:59",
+      "Timestamp_backend": "10/11/2021, 01:30:59",
+      "guesses": [
+        {
+          "guess": "Tree",
+          "score": "0.157"
+        },
+        {
+          "guess": "Cannoli",
+          "score": "0.154"
+        },
+        {
+          "guess": "River",
+          "score": "0.151"
+        },
+        {
+          "guess": "The_Core",
+          "score": "0.148"
+        },
+        {
+          "guess": "Bipolar_junction_transistor",
+          "score": "0.146"
+        }
+      ],
+      "ans_pos": -1,
+      "prev_pos": -1
+    }
+  ]
+}

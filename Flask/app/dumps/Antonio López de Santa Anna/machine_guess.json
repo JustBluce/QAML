@@ -1,0 +1,102 @@
+{
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:03:09": [
+    {
+      "edit_history": {
+        "change_in_position": "First Entry",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:03:39",
+      "Timestamp_backend": "10/11/2021, 01:03:39",
+      "guesses": [
+        {
+          "guess": "Lothair_I",
+          "score": "0.144"
+        },
+        {
+          "guess": "Gaius_Cassius_Longinus",
+          "score": "0.119"
+        },
+        {
+          "guess": "Isaac",
+          "score": "0.118"
+        },
+        {
+          "guess": "John_Hunyadi",
+          "score": "0.117"
+        },
+        {
+          "guess": "Edmund_Ironside",
+          "score": "0.107"
+        }
+      ],
+      "ans_pos": -1,
+      "prev_pos": -1
+    }
+  ],
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:04:05": [
+    {
+      "edit_history": {
+        "change_in_position": "First Entry",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:04:35",
+      "Timestamp_backend": "10/11/2021, 01:04:36",
+      "guesses": [
+        {
+          "guess": "Lothair_I",
+          "score": "0.132"
+        },
+        {
+          "guess": "Isaac",
+          "score": "0.109"
+        },
+        {
+          "guess": "Gaius_Cassius_Longinus",
+          "score": "0.109"
+        },
+        {
+          "guess": "John_Hunyadi",
+          "score": "0.107"
+        },
+        {
+          "guess": "Edmund_Ironside",
+          "score": "0.098"
+        }
+      ],
+      "ans_pos": -1,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "The machine did not guess previously",
+        "isRelevant": true
+      },
+      "Timestamp_frontend": "10/11/2021, 01:05:47",
+      "Timestamp_backend": "10/11/2021, 01:05:47",
+      "guesses": [
+        {
+          "guess": "Antonio_L\u00f3pez_de_Santa_Anna",
+          "score": "0.185"
+        },
+        {
+          "guess": "Cardinal_Richelieu",
+          "score": "0.092"
+        },
+        {
+          "guess": "Napoleon",
+          "score": "0.088"
+        },
+        {
+          "guess": "George_Washington",
+          "score": "0.082"
+        },
+        {
+          "guess": "Lothair_I",
+          "score": "0.082"
+        }
+      ],
+      "ans_pos": 0,
+      "prev_pos": -1
+    }
+  ]
+}

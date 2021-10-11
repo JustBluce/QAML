@@ -1,0 +1,524 @@
+{
+  "q_id": "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:08:55",
+  "data": {
+    "10/11/2021, 01:09:25": {
+      "Answer": "aldehydes",
+      "Relevant": "First Time Stamp",
+      "word_list_addition": [],
+      "word_list_removal": [],
+      "add": [],
+      "remove": [],
+      "steps": []
+    },
+    "10/11/2021, 01:09:43": {
+      "word_list_addition": [
+        "these",
+        "compounds",
+        "were",
+        "studied",
+        "by",
+        "Justus",
+        "von",
+        "Liebig ,",
+        "who",
+        "coined",
+        "the",
+        "name",
+        "for",
+        "these",
+        "molecules ."
+      ],
+      "word_list_removal": [],
+      "add": [
+        "Borodin .",
+        "It 's",
+        "fertilizer ,",
+        "these",
+        "compounds",
+        "were",
+        "studied",
+        "by",
+        "Justus",
+        "von",
+        "Liebig ,",
+        "who",
+        "coined",
+        "the",
+        "name",
+        "for",
+        "these",
+        "molecules ."
+      ],
+      "remove": [
+        "Borodin  .",
+        "It  's",
+        "fertilizer  ,"
+      ],
+      "steps": [
+        [
+          2,
+          12,
+          "fertilizer  ,"
+        ],
+        [
+          2,
+          10,
+          "It  's"
+        ],
+        [
+          2,
+          9,
+          "Borodin  ."
+        ]
+      ],
+      "Relevant": "18 words need to be added, deleted or replaced between diff  "
+    },
+    "10/11/2021, 01:09:51": {
+      "word_list_addition": [
+        "molecules .",
+        "Both",
+        "Fehling 's",
+        "solution"
+      ],
+      "word_list_removal": [
+        "molecules  ."
+      ],
+      "add": [
+        "Borodin .",
+        "It 's",
+        "fertilizer ,",
+        "Liebig ,",
+        "molecules .",
+        "Both",
+        "Fehling 's",
+        "solution"
+      ],
+      "remove": [
+        "Borodin  .",
+        "It  's",
+        "fertilizer  ,",
+        "Liebig  ,",
+        "molecules  ."
+      ],
+      "steps": [
+        [
+          2,
+          21,
+          "Liebig  ,"
+        ],
+        [
+          2,
+          12,
+          "fertilizer  ,"
+        ],
+        [
+          2,
+          10,
+          "It  's"
+        ],
+        [
+          2,
+          9,
+          "Borodin  ."
+        ]
+      ],
+      "Relevant": "9 words need to be added, deleted or replaced between diff  "
+    },
+    "10/11/2021, 01:09:53": {
+      "word_list_addition": [],
+      "word_list_removal": [],
+      "add": [],
+      "remove": [],
+      "steps": [],
+      "Relevant": "Not a big enough difference between strings  "
+    },
+    "10/11/2021, 01:09:59": {
+      "word_list_addition": [
+        "and",
+        "Tollen 's",
+        "reagent",
+        "test"
+      ],
+      "word_list_removal": [],
+      "add": [
+        "Borodin .",
+        "It 's",
+        "fertilizer ,",
+        "Liebig ,",
+        "molecules .",
+        "Fehling 's",
+        "and",
+        "Tollen 's",
+        "reagent",
+        "test"
+      ],
+      "remove": [
+        "Borodin  .",
+        "It  's",
+        "fertilizer  ,",
+        "Liebig  ,",
+        "molecules  .",
+        "Fehling  's"
+      ],
+      "steps": [
+        [
+          2,
+          30,
+          "Fehling  's"
+        ],
+        [
+          2,
+          28,
+          "molecules  ."
+        ],
+        [
+          2,
+          21,
+          "Liebig  ,"
+        ],
+        [
+          2,
+          12,
+          "fertilizer  ,"
+        ],
+        [
+          2,
+          10,
+          "It  's"
+        ],
+        [
+          2,
+          9,
+          "Borodin  ."
+        ]
+      ],
+      "Relevant": "10 words need to be added, deleted or replaced between diff  "
+    },
+    "10/11/2021, 01:10:03": {
+      "word_list_addition": [],
+      "word_list_removal": [],
+      "add": [],
+      "remove": [],
+      "steps": [],
+      "Relevant": "Not a big enough difference between strings  "
+    },
+    "10/11/2021, 01:10:08": {
+      "word_list_addition": [
+        "can",
+        "be",
+        "used",
+        "to",
+        "distinguish"
+      ],
+      "word_list_removal": [],
+      "add": [
+        "Borodin .",
+        "It 's",
+        "fertilizer ,",
+        "Liebig ,",
+        "molecules .",
+        "Fehling 's",
+        "Tollen 's",
+        "can",
+        "be",
+        "used",
+        "to",
+        "distinguish"
+      ],
+      "remove": [
+        "Borodin  .",
+        "It  's",
+        "fertilizer  ,",
+        "Liebig  ,",
+        "molecules  .",
+        "Fehling  's",
+        "Tollen  's"
+      ],
+      "steps": [
+        [
+          2,
+          33,
+          "Tollen  's"
+        ],
+        [
+          2,
+          30,
+          "Fehling  's"
+        ],
+        [
+          2,
+          28,
+          "molecules  ."
+        ],
+        [
+          2,
+          21,
+          "Liebig  ,"
+        ],
+        [
+          2,
+          12,
+          "fertilizer  ,"
+        ],
+        [
+          2,
+          10,
+          "It  's"
+        ],
+        [
+          2,
+          9,
+          "Borodin  ."
+        ]
+      ],
+      "Relevant": "12 words need to be added, deleted or replaced between diff  "
+    },
+    "10/11/2021, 01:10:19": {
+      "word_list_addition": [
+        "these",
+        "compounds",
+        "from",
+        "ketones .",
+        "These",
+        "compounds",
+        "are"
+      ],
+      "word_list_removal": [],
+      "add": [
+        "these",
+        "compounds",
+        "from",
+        "ketones .",
+        "These",
+        "compounds",
+        "are"
+      ],
+      "remove": [],
+      "steps": [],
+      "Relevant": "7 words need to be added, deleted or replaced between diff  "
+    },
+    "10/11/2021, 01:10:23": {
+      "word_list_addition": [
+        "commonly",
+        "formed"
+      ],
+      "word_list_removal": [],
+      "add": [
+        "commonly",
+        "formed"
+      ],
+      "remove": [],
+      "steps": [],
+      "Relevant": "Not a big enough difference between strings  "
+    },
+    "10/11/2021, 01:10:39": {
+      "word_list_addition": [
+        "commonly",
+        "formed",
+        "through",
+        "oxidation",
+        "of",
+        "alcohols",
+        "like",
+        "methanol .",
+        "For",
+        "ten",
+        "points ,",
+        "name",
+        "these",
+        "compounds",
+        "containing"
+      ],
+      "word_list_removal": [],
+      "add": [
+        "Borodin .",
+        "It 's",
+        "fertilizer ,",
+        "Liebig ,",
+        "molecules .",
+        "Fehling 's",
+        "Tollen 's",
+        "ketones .",
+        "commonly",
+        "formed",
+        "through",
+        "oxidation",
+        "of",
+        "alcohols",
+        "like",
+        "methanol .",
+        "For",
+        "ten",
+        "points ,",
+        "name",
+        "these",
+        "compounds",
+        "containing"
+      ],
+      "remove": [
+        "Borodin  .",
+        "It  's",
+        "fertilizer  ,",
+        "Liebig  ,",
+        "molecules  .",
+        "Fehling  's",
+        "Tollen  's",
+        "ketones  ."
+      ],
+      "steps": [
+        [
+          2,
+          44,
+          "ketones  ."
+        ],
+        [
+          2,
+          33,
+          "Tollen  's"
+        ],
+        [
+          2,
+          30,
+          "Fehling  's"
+        ],
+        [
+          2,
+          28,
+          "molecules  ."
+        ],
+        [
+          2,
+          21,
+          "Liebig  ,"
+        ],
+        [
+          2,
+          12,
+          "fertilizer  ,"
+        ],
+        [
+          2,
+          10,
+          "It  's"
+        ],
+        [
+          2,
+          9,
+          "Borodin  ."
+        ]
+      ],
+      "Relevant": "23 words need to be added, deleted or replaced between diff  "
+    },
+    "10/11/2021, 01:10:47": {
+      "word_list_addition": [
+        "the",
+        "formyl",
+        "group",
+        " \" -CHO \" ."
+      ],
+      "word_list_removal": [],
+      "add": [
+        "the",
+        "formyl",
+        "group",
+        " \" -CHO \" ."
+      ],
+      "remove": [],
+      "steps": [],
+      "Relevant": "Not a big enough difference between strings  "
+    },
+    "10/11/2021, 01:10:50": {
+      "Question": "The condensation of these compounds was researched by Alexander Borodin. It's not fertilizer, but these compounds were studied by Justus von Liebig, who coined the name for these molecules. Both Fehling's solution and Tollen's reagent test can be used to distinguish these compounds from ketones. These compounds are commonly formed through oxidation of alcohols like methanol. For ten points, name these compounds containing the formyl group \"-CHO\".",
+      "word_list_addition": [
+        "the",
+        "formyl",
+        "group",
+        " \" -CHO \" ."
+      ],
+      "word_list_removal": [],
+      "add": [
+        "Borodin .",
+        "It 's",
+        "fertilizer ,",
+        "Liebig ,",
+        "molecules .",
+        "Fehling 's",
+        "Tollen 's",
+        "ketones .",
+        "methanol .",
+        "points ,",
+        "the",
+        "formyl",
+        "group",
+        " \" -CHO \" ."
+      ],
+      "remove": [
+        "Borodin  .",
+        "It  's",
+        "fertilizer  ,",
+        "Liebig  ,",
+        "molecules  .",
+        "Fehling  's",
+        "Tollen  's",
+        "ketones  .",
+        "methanol  .",
+        "points  ,"
+      ],
+      "steps": [
+        [
+          2,
+          58,
+          "points  ,"
+        ],
+        [
+          2,
+          55,
+          "methanol  ."
+        ],
+        [
+          2,
+          44,
+          "ketones  ."
+        ],
+        [
+          2,
+          33,
+          "Tollen  's"
+        ],
+        [
+          2,
+          30,
+          "Fehling  's"
+        ],
+        [
+          2,
+          28,
+          "molecules  ."
+        ],
+        [
+          2,
+          21,
+          "Liebig  ,"
+        ],
+        [
+          2,
+          12,
+          "fertilizer  ,"
+        ],
+        [
+          2,
+          10,
+          "It  's"
+        ],
+        [
+          2,
+          9,
+          "Borodin  ."
+        ]
+      ],
+      "Relevant": "Last Timestamp  "
+    }
+  },
+  "points": 0,
+  "genre": "Science"
+}

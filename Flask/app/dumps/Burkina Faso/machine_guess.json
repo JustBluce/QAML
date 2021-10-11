@@ -1,0 +1,68 @@
+{
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:27:51": [
+    {
+      "edit_history": {
+        "change_in_position": "First Entry",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:28:21",
+      "Timestamp_backend": "10/11/2021, 01:28:22",
+      "guesses": [
+        {
+          "guess": "Egypt",
+          "score": "0.133"
+        },
+        {
+          "guess": "Spain",
+          "score": "0.111"
+        },
+        {
+          "guess": "Indonesia",
+          "score": "0.107"
+        },
+        {
+          "guess": "Croatia",
+          "score": "0.106"
+        },
+        {
+          "guess": "Sudan",
+          "score": "0.105"
+        }
+      ],
+      "ans_pos": -1,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "The machine did not guess previously",
+        "isRelevant": true
+      },
+      "Timestamp_frontend": "10/11/2021, 01:29:49",
+      "Timestamp_backend": "10/11/2021, 01:29:50",
+      "guesses": [
+        {
+          "guess": "Burkina_Faso",
+          "score": "0.294"
+        },
+        {
+          "guess": "Spain",
+          "score": "0.267"
+        },
+        {
+          "guess": "Canada",
+          "score": "0.263"
+        },
+        {
+          "guess": "Egypt",
+          "score": "0.263"
+        },
+        {
+          "guess": "Brazil",
+          "score": "0.263"
+        }
+      ],
+      "ans_pos": 0,
+      "prev_pos": -1
+    }
+  ]
+}

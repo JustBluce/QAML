@@ -1,0 +1,308 @@
+{
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:33:35": [
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:34:23",
+      "Timestamp_backend": "10/11/2021, 01:34:23",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a",
+      "buzzer_sentence_number": 1,
+      "buzzer_word_number": 15,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a",
+      "if_ans_found": 2,
+      "is_relevant": false,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:34:26",
+      "Timestamp_backend": "10/11/2021, 01:34:26",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a",
+      "buzzer_sentence_number": 1,
+      "buzzer_word_number": 15,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a",
+      "if_ans_found": 2,
+      "is_relevant": false,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:34:35",
+      "Timestamp_backend": "10/11/2021, 01:34:35",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a",
+      "buzzer_sentence_number": 1,
+      "buzzer_word_number": 15,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a",
+      "if_ans_found": 2,
+      "is_relevant": false,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:34:38",
+      "Timestamp_backend": "10/11/2021, 01:34:38",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which",
+      "buzzer_sentence_number": 2,
+      "buzzer_word_number": 154,
+      "most_important_sentence_number": 2,
+      "most_important_sentence": "It's not Rome, but this city is known for its seven hills, on which",
+      "if_ans_found": 2,
+      "is_relevant": false,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:34:41",
+      "Timestamp_backend": "10/11/2021, 01:34:41",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures",
+      "buzzer_sentence_number": 2,
+      "buzzer_word_number": 171,
+      "most_important_sentence_number": 2,
+      "most_important_sentence": "It's not Rome, but this city is known for its seven hills, on which stand structures",
+      "if_ans_found": 2,
+      "is_relevant": false,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:34:45",
+      "Timestamp_backend": "10/11/2021, 01:34:46",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the ",
+      "buzzer_sentence_number": 2,
+      "buzzer_word_number": 184,
+      "most_important_sentence_number": 2,
+      "most_important_sentence": "It's not Rome, but this city is known for its seven hills, on which stand structures such as the",
+      "if_ans_found": 2,
+      "is_relevant": false,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:34:51",
+      "Timestamp_backend": "10/11/2021, 01:34:52",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the Nuruosmaniye Mosque and the Fatih Mosque.",
+      "buzzer_sentence_number": 2,
+      "buzzer_word_number": 225,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack.",
+      "if_ans_found": 2,
+      "is_relevant": false,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "Buzzer buzzed on the correct answer for the first time",
+        "isRelevant": true
+      },
+      "Timestamp_frontend": "10/11/2021, 01:35:13",
+      "Timestamp_backend": "10/11/2021, 01:35:15",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the Nuruosmaniye Mosque and the Fatih Mosque. The architect Sedefkar",
+      "buzzer_sentence_number": 3,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack.",
+      "if_ans_found": 1,
+      "is_relevant": true,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:35:17",
+      "Timestamp_backend": "10/11/2021, 01:35:18",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the Nuruosmaniye Mosque and the Fatih Mosque. The architect Sedefkar",
+      "buzzer_sentence_number": 3,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:35:19",
+      "Timestamp_backend": "10/11/2021, 01:35:19",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the Nuruosmaniye Mosque and the Fatih Mosque. The architect Sedefkar",
+      "buzzer_sentence_number": 3,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:35:21",
+      "Timestamp_backend": "10/11/2021, 01:35:22",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the Nuruosmaniye Mosque and the Fatih Mosque. The architect Sedefkar",
+      "buzzer_sentence_number": 3,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:35:26",
+      "Timestamp_backend": "10/11/2021, 01:35:27",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the Nuruosmaniye Mosque and the Fatih Mosque. The architect Sedefkar",
+      "buzzer_sentence_number": 3,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:35:28",
+      "Timestamp_backend": "10/11/2021, 01:35:29",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the Nuruosmaniye Mosque and the Fatih Mosque. The architect Sedefkar",
+      "buzzer_sentence_number": 3,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:35:32",
+      "Timestamp_backend": "10/11/2021, 01:35:33",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the Nuruosmaniye Mosque and the Fatih Mosque. The architect Sedefkar",
+      "buzzer_sentence_number": 3,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:35:38",
+      "Timestamp_backend": "10/11/2021, 01:35:39",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the Nuruosmaniye Mosque and the Fatih Mosque. The architect Sedefkar",
+      "buzzer_sentence_number": 3,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:35:40",
+      "Timestamp_backend": "10/11/2021, 01:35:41",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the Nuruosmaniye Mosque and the Fatih Mosque. The architect Sedefkar",
+      "buzzer_sentence_number": 3,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:35:48",
+      "Timestamp_backend": "10/11/2021, 01:35:49",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the Nuruosmaniye Mosque and the Fatih Mosque. The architect Sedefkar",
+      "buzzer_sentence_number": 3,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:35:56",
+      "Timestamp_backend": "10/11/2021, 01:35:57",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the Nuruosmaniye Mosque and the Fatih Mosque. The architect Sedefkar",
+      "buzzer_sentence_number": 3,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:36:01",
+      "Timestamp_backend": "10/11/2021, 01:36:02",
+      "buzzer_string": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack. It's not Rome, but this city is known for its seven hills, on which stand structures such as the Nuruosmaniye Mosque and the Fatih Mosque. The architect Sedefkar",
+      "buzzer_sentence_number": 3,
+      "buzzer_word_number": 45,
+      "most_important_sentence_number": 1,
+      "most_important_sentence": "A ruler in this city moved his residence to Y\u0131ld\u0131z Palace in fear of a seaside attack.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 45
+    }
+  ]
+}

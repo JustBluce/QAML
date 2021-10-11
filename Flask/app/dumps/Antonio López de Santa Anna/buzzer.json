@@ -1,0 +1,100 @@
+{
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:04:05": [
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:05:55",
+      "Timestamp_backend": "10/11/2021, 01:05:56",
+      "buzzer_string": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Mart\u00edn Perfecto de Cos, surrendered at the Siege of B\u00e9xar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agust\u00edn de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general",
+      "buzzer_sentence_number": 6,
+      "buzzer_word_number": 523,
+      "most_important_sentence_number": 5,
+      "most_important_sentence": "He later fought in the Pastry War when he famously lost and buried his leg with full military honors.",
+      "if_ans_found": 2,
+      "is_relevant": false,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "Buzzer buzzed on the correct answer for the first time",
+        "isRelevant": true
+      },
+      "Timestamp_frontend": "10/11/2021, 01:06:04",
+      "Timestamp_backend": "10/11/2021, 01:06:06",
+      "buzzer_string": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Mart\u00edn Perfecto de Cos, surrendered at the Siege of B\u00e9xar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agust\u00edn de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule",
+      "buzzer_sentence_number": 6,
+      "buzzer_word_number": 90,
+      "most_important_sentence_number": 5,
+      "most_important_sentence": "He later fought in the Pastry War when he famously lost and buried his leg with full military honors.",
+      "if_ans_found": 1,
+      "is_relevant": true,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:06:08",
+      "Timestamp_backend": "10/11/2021, 01:06:09",
+      "buzzer_string": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Mart\u00edn Perfecto de Cos, surrendered at the Siege of B\u00e9xar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agust\u00edn de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule",
+      "buzzer_sentence_number": 6,
+      "buzzer_word_number": 90,
+      "most_important_sentence_number": 5,
+      "most_important_sentence": "He later fought in the Pastry War when he famously lost and buried his leg with full military honors.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 90
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:06:18",
+      "Timestamp_backend": "10/11/2021, 01:06:20",
+      "buzzer_string": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Mart\u00edn Perfecto de Cos, surrendered at the Siege of B\u00e9xar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agust\u00edn de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule",
+      "buzzer_sentence_number": 6,
+      "buzzer_word_number": 90,
+      "most_important_sentence_number": 5,
+      "most_important_sentence": "He later fought in the Pastry War when he famously lost and buried his leg with full military honors.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 90
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:06:30",
+      "Timestamp_backend": "10/11/2021, 01:06:31",
+      "buzzer_string": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Mart\u00edn Perfecto de Cos, surrendered at the Siege of B\u00e9xar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agust\u00edn de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule",
+      "buzzer_sentence_number": 6,
+      "buzzer_word_number": 90,
+      "most_important_sentence_number": 5,
+      "most_important_sentence": "He later fought in the Pastry War when he famously lost and buried his leg with full military honors.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 90
+    },
+    {
+      "edit_history": {
+        "change_in_position": "",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 01:06:31",
+      "Timestamp_backend": "10/11/2021, 01:06:33",
+      "buzzer_string": "This man's brother-in-law was sent to investigate the Anahuac Disturbances. That relative, Mart\u00edn Perfecto de Cos, surrendered at the Siege of B\u00e9xar. This man led an uprising during the Casa Mata Plan Revolution, leading to the fall of the emperor Agust\u00edn de Iturbide. As he rose to power, this man defeated the Barradas Expedition and formalized the \"Siete Leyes\". He later fought in the Pastry War when he famously lost and buried his leg with full military honors. For ten points, name this Mexican president and general whose centralist rule",
+      "buzzer_sentence_number": 6,
+      "buzzer_word_number": 90,
+      "most_important_sentence_number": 5,
+      "most_important_sentence": "He later fought in the Pastry War when he famously lost and buried his leg with full military honors.",
+      "if_ans_found": 1,
+      "is_relevant": false,
+      "prev_pos": 90
+    }
+  ]
+}

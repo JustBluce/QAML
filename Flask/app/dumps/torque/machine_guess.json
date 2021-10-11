@@ -1,0 +1,104 @@
+{
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 24:56:36": [
+    {
+      "edit_history": {
+        "change_in_position": "First Entry",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 24:56:51",
+      "Timestamp_backend": "10/11/2021, 00:56:51",
+      "guesses": [
+        {
+          "guess": "Stellar_mass",
+          "score": "0.164"
+        },
+        {
+          "guess": "Gehenna",
+          "score": "0.132"
+        },
+        {
+          "guess": "Amalthea_(mythology)",
+          "score": "0.132"
+        },
+        {
+          "guess": "Field_extension",
+          "score": "0.126"
+        },
+        {
+          "guess": "Religious_conversion",
+          "score": "0.118"
+        }
+      ],
+      "ans_pos": -1,
+      "prev_pos": -1
+    }
+  ],
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 24:58:01": [
+    {
+      "edit_history": {
+        "change_in_position": "First Entry",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 24:58:05",
+      "Timestamp_backend": "10/11/2021, 00:58:05",
+      "guesses": [
+        {
+          "guess": "Pressure",
+          "score": "0.191"
+        },
+        {
+          "guess": "Magnetic_flux",
+          "score": "0.177"
+        },
+        {
+          "guess": "Water_content",
+          "score": "0.173"
+        },
+        {
+          "guess": "Molar_mass_distribution",
+          "score": "0.173"
+        },
+        {
+          "guess": "Temperature",
+          "score": "0.169"
+        }
+      ],
+      "ans_pos": -1,
+      "prev_pos": -1
+    }
+  ],
+  "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 24:58:23": [
+    {
+      "edit_history": {
+        "change_in_position": "First Entry",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/11/2021, 24:58:46",
+      "Timestamp_backend": "10/11/2021, 00:58:46",
+      "guesses": [
+        {
+          "guess": "Fermat's_little_theorem",
+          "score": "0.123"
+        },
+        {
+          "guess": "Borsuk\u2013Ulam_theorem",
+          "score": "0.102"
+        },
+        {
+          "guess": "Whitney_embedding_theorem",
+          "score": "0.095"
+        },
+        {
+          "guess": "Central_limit_theorem",
+          "score": "0.094"
+        },
+        {
+          "guess": "Mean_value_theorem",
+          "score": "0.094"
+        }
+      ],
+      "ans_pos": -1,
+      "prev_pos": -1
+    }
+  ]
+}

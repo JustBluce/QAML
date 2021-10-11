@@ -1,0 +1,614 @@
+{
+  "q_id": "sgCkqinZnth3rcmUXVRSA0ugX6m1 10/11/2021, 01:27:51",
+  "data": {
+    "10/11/2021, 01:28:21": {
+      "Answer": "Burkina Faso",
+      "Relevant": "First Time Stamp",
+      "word_list_addition": [],
+      "word_list_removal": [],
+      "add": [],
+      "remove": [],
+      "steps": []
+    },
+    "10/11/2021, 01:28:38": {
+      "word_list_addition": [
+        "colonization .",
+        "The",
+        "Agacher",
+        "Strip",
+        "War",
+        "was",
+        "fought",
+        "between",
+        "this",
+        "country",
+        "and",
+        "its",
+        "northern",
+        "neighbor",
+        "over",
+        "a",
+        "border",
+        "dispute ."
+      ],
+      "word_list_removal": [
+        "c"
+      ],
+      "add": [
+        "present -day",
+        "colonization .",
+        "The",
+        "Agacher",
+        "Strip",
+        "War",
+        "was",
+        "fought",
+        "between",
+        "this",
+        "country",
+        "and",
+        "its",
+        "northern",
+        "neighbor",
+        "over",
+        "a",
+        "border",
+        "dispute ."
+      ],
+      "remove": [
+        "present  -day",
+        "c"
+      ],
+      "steps": [
+        [
+          2,
+          1,
+          "present  -day"
+        ]
+      ],
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "agacher"
+          ],
+          "old_words_removed_from_pronunication": []
+        },
+        "Timestamp_frontend": "10/11/2021, 01:28:38",
+        "Timestamp_backend": "10/11/2021, 01:28:38",
+        "word_2_pronounce": [
+          {
+            "Word": "Agacher"
+          }
+        ]
+      },
+      "Relevant": "20 words need to be added, deleted or replaced between diff  Pronunciation;"
+    },
+    "10/11/2021, 01:28:48": {
+      "word_list_addition": [
+        "During",
+        "a",
+        "2014",
+        "uprising",
+        "in",
+        "this",
+        "country ,",
+        "its",
+        "president",
+        "Blaise"
+      ],
+      "word_list_removal": [],
+      "add": [
+        "During",
+        "a",
+        "2014",
+        "uprising",
+        "in",
+        "this",
+        "country ,",
+        "its",
+        "president",
+        "Blaise"
+      ],
+      "remove": [],
+      "steps": [],
+      "Relevant": "10 words need to be added, deleted or replaced between diff  "
+    },
+    "10/11/2021, 01:28:57": {
+      "word_list_addition": [
+        "Compaor\u00e9",
+        "was",
+        "pressured"
+      ],
+      "word_list_removal": [],
+      "add": [
+        "present -day",
+        "colonization .",
+        "dispute .",
+        "country ,",
+        "Compaor\u00e9",
+        "was",
+        "pressured"
+      ],
+      "remove": [
+        "present  -day",
+        "colonization  .",
+        "dispute  .",
+        "country  ,"
+      ],
+      "steps": [
+        [
+          2,
+          36,
+          "country  ,"
+        ],
+        [
+          2,
+          29,
+          "dispute  ."
+        ],
+        [
+          2,
+          12,
+          "colonization  ."
+        ],
+        [
+          2,
+          1,
+          "present  -day"
+        ]
+      ],
+      "Relevant": "7 words need to be added, deleted or replaced between diff  "
+    },
+    "10/11/2021, 01:29:06": {
+      "word_list_addition": [
+        "to",
+        "resign .",
+        "Another"
+      ],
+      "word_list_removal": [],
+      "add": [
+        "present -day",
+        "colonization .",
+        "dispute .",
+        "country ,",
+        "to",
+        "resign .",
+        "Another"
+      ],
+      "remove": [
+        "present  -day",
+        "colonization  .",
+        "dispute  .",
+        "country  ,"
+      ],
+      "steps": [
+        [
+          2,
+          36,
+          "country  ,"
+        ],
+        [
+          2,
+          29,
+          "dispute  ."
+        ],
+        [
+          2,
+          12,
+          "colonization  ."
+        ],
+        [
+          2,
+          1,
+          "present  -day"
+        ]
+      ],
+      "Relevant": "7 words need to be added, deleted or replaced between diff  "
+    },
+    "10/11/2021, 01:29:14": {
+      "word_list_addition": [
+        "president",
+        "of",
+        "this",
+        "country",
+        "seized",
+        "power",
+        "from"
+      ],
+      "word_list_removal": [],
+      "add": [
+        "president",
+        "of",
+        "this",
+        "country",
+        "seized",
+        "power",
+        "from"
+      ],
+      "remove": [],
+      "steps": [],
+      "Relevant": "7 words need to be added, deleted or replaced between diff  "
+    },
+    "10/11/2021, 01:29:18": {
+      "word_list_addition": [
+        "Jean -Baptiste",
+        "Ou\u00e9draogo"
+      ],
+      "word_list_removal": [],
+      "add": [
+        "Jean -Baptiste",
+        "Ou\u00e9draogo"
+      ],
+      "remove": [],
+      "steps": [],
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "ou\u00e9draogo"
+          ],
+          "old_words_removed_from_pronunication": []
+        },
+        "Timestamp_frontend": "10/11/2021, 01:29:18",
+        "Timestamp_backend": "10/11/2021, 01:29:18",
+        "word_2_pronounce": [
+          {
+            "Word": "Agacher"
+          },
+          {
+            "Word": "Ou\u00e9draogo"
+          }
+        ]
+      },
+      "Relevant": "Not a big enough difference between strings  Pronunciation;"
+    },
+    "10/11/2021, 01:29:20": {
+      "word_list_addition": [
+        "Jean -Baptiste",
+        "Ou\u00e9draogo"
+      ],
+      "word_list_removal": [],
+      "add": [
+        "present -day",
+        "colonization .",
+        "dispute .",
+        "country ,",
+        "resign .",
+        "Jean -Baptiste",
+        "Ou\u00e9draogo"
+      ],
+      "remove": [
+        "present  -day",
+        "colonization  .",
+        "dispute  .",
+        "country  ,",
+        "resign  ."
+      ],
+      "steps": [
+        [
+          2,
+          44,
+          "resign  ."
+        ],
+        [
+          2,
+          36,
+          "country  ,"
+        ],
+        [
+          2,
+          29,
+          "dispute  ."
+        ],
+        [
+          2,
+          12,
+          "colonization  ."
+        ],
+        [
+          2,
+          1,
+          "present  -day"
+        ]
+      ],
+      "Relevant": "7 words need to be added, deleted or replaced between diff  "
+    },
+    "10/11/2021, 01:29:27": {
+      "word_list_addition": [
+        "and",
+        "planted",
+        "millions",
+        "of",
+        "trees ."
+      ],
+      "word_list_removal": [],
+      "add": [
+        "and",
+        "planted",
+        "millions",
+        "of",
+        "trees ."
+      ],
+      "remove": [],
+      "steps": [],
+      "Relevant": "Not a big enough difference between strings  "
+    },
+    "10/11/2021, 01:29:49": {
+      "word_list_addition": [
+        "and",
+        "planted",
+        "millions",
+        "of",
+        "trees .",
+        "That",
+        "president ,",
+        "Thomas",
+        "Sankara ,",
+        "renamed",
+        "the",
+        "country",
+        "from",
+        "Upper",
+        "Volta",
+        "to",
+        "its",
+        "present",
+        "name .",
+        "For",
+        "ten",
+        "points ,",
+        "name",
+        "this",
+        "West",
+        "African",
+        "country",
+        "whose",
+        "capital",
+        "is",
+        "Ouagadougou ."
+      ],
+      "word_list_removal": [],
+      "add": [
+        "present -day",
+        "colonization .",
+        "dispute .",
+        "country ,",
+        "resign .",
+        "Jean -Baptiste",
+        "and",
+        "planted",
+        "millions",
+        "of",
+        "trees .",
+        "That",
+        "president ,",
+        "Thomas",
+        "Sankara ,",
+        "renamed",
+        "the",
+        "country",
+        "from",
+        "Upper",
+        "Volta",
+        "to",
+        "its",
+        "present",
+        "name .",
+        "For",
+        "ten",
+        "points ,",
+        "name",
+        "this",
+        "West",
+        "African",
+        "country",
+        "whose",
+        "capital",
+        "is",
+        "Ouagadougou ."
+      ],
+      "remove": [
+        "present  -day",
+        "colonization  .",
+        "dispute  .",
+        "country  ,",
+        "resign  .",
+        "Jean  -Baptiste"
+      ],
+      "steps": [
+        [
+          2,
+          53,
+          "Jean  -Baptiste"
+        ],
+        [
+          2,
+          44,
+          "resign  ."
+        ],
+        [
+          2,
+          36,
+          "country  ,"
+        ],
+        [
+          2,
+          29,
+          "dispute  ."
+        ],
+        [
+          2,
+          12,
+          "colonization  ."
+        ],
+        [
+          2,
+          1,
+          "present  -day"
+        ]
+      ],
+      "machine_guess": {
+        "edit_history": {
+          "change_in_position": "The machine did not guess previously",
+          "isRelevant": true
+        },
+        "Timestamp_frontend": "10/11/2021, 01:29:49",
+        "Timestamp_backend": "10/11/2021, 01:29:50",
+        "guesses": [
+          {
+            "guess": "Burkina_Faso",
+            "score": "0.294"
+          },
+          {
+            "guess": "Spain",
+            "score": "0.267"
+          },
+          {
+            "guess": "Canada",
+            "score": "0.263"
+          },
+          {
+            "guess": "Egypt",
+            "score": "0.263"
+          },
+          {
+            "guess": "Brazil",
+            "score": "0.263"
+          }
+        ],
+        "ans_pos": 0,
+        "prev_pos": -1
+      },
+      "pronunciation_dict": {
+        "edit_history": {
+          "new_words_added_to_pronunciation": [
+            "sankara",
+            "ouagadougou"
+          ],
+          "old_words_removed_from_pronunication": []
+        },
+        "Timestamp_frontend": "10/11/2021, 01:29:49",
+        "Timestamp_backend": "10/11/2021, 01:29:49",
+        "word_2_pronounce": [
+          {
+            "Word": "Agacher"
+          },
+          {
+            "Word": "Ou\u00e9draogo"
+          },
+          {
+            "Word": "Sankara,"
+          },
+          {
+            "Word": "Ouagadougou."
+          }
+        ]
+      },
+      "Relevant": "37 words need to be added, deleted or replaced between diff  Machine Guess;Pronunciation;"
+    },
+    "10/11/2021, 01:29:53": {
+      "word_list_addition": [],
+      "word_list_removal": [],
+      "add": [],
+      "remove": [],
+      "steps": [],
+      "Relevant": "Not a big enough difference between strings  "
+    },
+    "10/11/2021, 01:29:54": {
+      "Question": "This present-day country was home to the Mossi Kingdoms prior to French colonization. The Agacher Strip War was fought between this country and its northern neighbor over a border dispute. During a 2014 uprising in this country, its president Blaise Compaor\u00e9 was pressured to resign. Another president of this country seized power from Jean-Baptiste Ou\u00e9draogo and planted millions of trees. That president, Thomas Sankara, renamed the country from Upper Volta to its present name. For ten points, name this West African country whose capital is Ouagadougou.",
+      "word_list_addition": [
+        "Ouagadougou ."
+      ],
+      "word_list_removal": [
+        "Ouagadougou  ."
+      ],
+      "add": [
+        "present -day",
+        "colonization .",
+        "dispute .",
+        "country ,",
+        "resign .",
+        "Jean -Baptiste",
+        "trees .",
+        "president ,",
+        "Sankara ,",
+        "name .",
+        "points ,",
+        "Ouagadougou ."
+      ],
+      "remove": [
+        "present  -day",
+        "colonization  .",
+        "dispute  .",
+        "country  ,",
+        "resign  .",
+        "Jean  -Baptiste",
+        "trees  .",
+        "president  ,",
+        "Sankara  ,",
+        "name  .",
+        "points  ,",
+        "Ouagadougou  ."
+      ],
+      "steps": [
+        [
+          2,
+          76,
+          "points  ,"
+        ],
+        [
+          2,
+          73,
+          "name  ."
+        ],
+        [
+          2,
+          63,
+          "Sankara  ,"
+        ],
+        [
+          2,
+          61,
+          "president  ,"
+        ],
+        [
+          2,
+          59,
+          "trees  ."
+        ],
+        [
+          2,
+          53,
+          "Jean  -Baptiste"
+        ],
+        [
+          2,
+          44,
+          "resign  ."
+        ],
+        [
+          2,
+          36,
+          "country  ,"
+        ],
+        [
+          2,
+          29,
+          "dispute  ."
+        ],
+        [
+          2,
+          12,
+          "colonization  ."
+        ],
+        [
+          2,
+          1,
+          "present  -day"
+        ]
+      ],
+      "Relevant": "Last Timestamp  "
+    }
+  },
+  "points": 0,
+  "genre": "History"
+}
