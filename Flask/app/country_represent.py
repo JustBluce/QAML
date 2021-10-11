@@ -309,7 +309,7 @@ def country_present():
     end = time.time()
     # print(current_over_countries[q_id])
     print("----TIME (s): /country_represent/country_present---", end - start)
-    return jsonify({"country_representation": answer, "country": countries, "current_over_countries" : [" " + x for x in current_over_countries[q_id]] + [" " + x.capitalize() for x in current_over_countries[q_id]]})
+    return jsonify({"country_representation": answer, "country": countries, "current_over_countries" : current_over_countries[q_id]})
 
 # def country_present1(question):
 # <<<------DEPRECIATED------>>>
