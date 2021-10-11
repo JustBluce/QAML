@@ -18,22 +18,11 @@ selenium-debug.log
 # Editor directories and files
 .vscode/
 __pycache__/
-model/
-Flask/app/__pycache__/__init__.cpython-38.pyc
-Flask/app/__pycache__/func.cpython-38.pyc
-Flask/app/__pycache__/views.cpython-38.pyc
-Flask/config.py
-Flask/config.py
-Flask/app/dumps
+Flask/app/__pycache__/
 Flask/app/pronunciation.mp3
 Flask/app/question-writing-interface-firebase-adminsdk-jxvw3-623f426f96.json
-.VSCodeCounter/2021-08-12_18-10-47/details.md
-.VSCodeCounter/2021-08-12_18-10-47/results.csv
-.VSCodeCounter/2021-08-12_18-10-47/results.md
-.VSCodeCounter/2021-08-12_18-10-47/results.txt
-.VSCodeCounter/2021-08-12_18-11-17/details.md
-.VSCodeCounter/2021-08-12_18-11-17/results.csv
-.VSCodeCounter/2021-08-12_18-11-17/results.md
-.VSCodeCounter/2021-08-12_18-11-17/results.txt
+Flask/config.py
+Flask/dumps/
+Flask/model/
 .VSCodeCounter/
 Vue/package.json
