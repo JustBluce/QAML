@@ -56,7 +56,7 @@ for directory in tqdm(directories):
 
 
 ##Names MUST match file ids in order
-file_ids = ['1k1akEuLpW02tfZ-ApValJwlcxJji-riO','1-Povi368FMzWRVRXowS9DsrZLWcQBq1S','1-SjMB3dne0FnLX7HZwGih3HVkPaTYHug','16fb-dRHVRxK0JgUW8cT6zOSepIaikbEL','16fb-dRHVRxK0JgUW8cT6zOSepIaikbEL','1PzZMWm_jcJdz22TDvKI5MbBr9RBJKgLa' ]
+file_ids = ['1k1akEuLpW02tfZ-ApValJwlcxJji-riO','1-Povi368FMzWRVRXowS9DsrZLWcQBq1S','1-SjMB3dne0FnLX7HZwGih3HVkPaTYHug','16fb-dRHVRxK0JgUW8cT6zOSepIaikbEL','1hV9WO4Md5Ht_5HuzKtZu0fswnh--1ean','1PzZMWm_jcJdz22TDvKI5MbBr9RBJKgLa' ]
 destinations = ['./model/model.pickle','./model/difficulty_models/DistilBERT_full_question/config.json','./model/difficulty_models/DistilBERT_full_question/pytorch_model.bin','./model/pronunciation_models/pronunciation_regression.pickle','./model/pronunciation_models/pronunciation_tf-idf.pickle','./model/pronunciation_models/word_freq.pickle' ]
 
 
