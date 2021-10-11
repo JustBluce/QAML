@@ -78,7 +78,7 @@ export default {
   mounted() {
     this.user = firebase.auth().currentUser;
     this.axios({
-      url: "http://127.0.0.1:5000/genres/getGenre",
+      url: "http://127.0.0.1:5000/genre_classifier/genre_data",
       method: "GET",
       params: {
         uid: this.user.uid,

@@ -479,13 +479,13 @@ def insert():
             
                 
     # print(json.dumps(big_dict, indent = 10))
-    QA_DIR = os.path.join(DIR, "dumps", ans)
+    QA_DIR = os.path.join(DIR, "../dumps", ans)
     if (not os.path.isdir(QA_DIR)):
         os.makedirs(QA_DIR)
     with open(os.path.join(QA_DIR, "test.json"), "w") as outfile:
-        json.dump(small_dict, outfile)
+        json.dump(small_dict, outfile, indent=2)
     with open(os.path.join(QA_DIR, "test_post_hoc.json"), "w") as outfile:
-        json.dump(big_dict, outfile)
+        json.dump(big_dict, outfile, indent=2)
         try:
             me = Question_json(q_id=q_id, data=big_dict, UID=user_id, points=points)
             db.session.add(me)

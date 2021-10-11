@@ -221,14 +221,14 @@ export default {
     qa() {
       return this.workspace.qa;
     },
-    highlight() {
-      return this.qa.highlight_words;
-    },
     highlight_text() {
-      let highlight_regex = new RegExp(
-        Object.keys(this.highlight).join("|"),
-        "gi"
+      let highlights = Object.fromEntries(
+        Object.entries(this.qa.highlight_words).map(([k, v]) => [
+          this.uniform(k),
+          v,
+        ])
       );
+      let highlight_regex = new RegExp(Object.keys(highlights).join("|"), "gi");
       return this.qa.text
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -236,7 +236,8 @@ export default {
         .replace(/\n$/g, "\n\n")
         .replace(
           highlight_regex,
-          (word) => `<mark class="${this.highlight[word.toUpperCase()]}">${word}</mark>`
+          (word) =>
+            `<mark class="${highlights[this.uniform(word)]}">${word}</mark>`
         );
     },
     genreChartData: {
@@ -467,7 +468,6 @@ export default {
     },
     keep_looping: _.debounce(function () {
       // this.highlight_words = {}
-      console.log(this.qa.highlight_words);
       clearInterval(this.interval);
 
       let formData = new FormData();
@@ -912,6 +912,9 @@ export default {
         })
         .catch((e) => (this.wikiShow = false));
     },
+    uniform(str) {
+      return str.toUpperCase().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    },
   },
   mounted() {
     let formData = new FormData();
@@ -1011,7 +1014,7 @@ mark {
 .backdrop {
   position: absolute;
   margin-top: 10px;
-  padding-left: 13px;
+  padding-left: 12px;
   padding-right: 12px;
   line-height: 1.75rem;
   z-index: 1;
