@@ -220,7 +220,7 @@ def getpronuncation():
         if q_id in state_pronunciation:
             list_of_words_to_remove = state_pronunciation[q_id]
     # print(list_of_words_to_remove)
-    list_of_words_to_remove = list_of_words_to_remove
+    list_of_words_to_remove = list_of_words_to_remove + [x.capitalize() for x in list_of_words_to_remove]
     return jsonify({"message": ret_value, "list_of_words_to_remove":list_of_words_to_remove})
 
 

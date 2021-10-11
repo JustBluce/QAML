@@ -26,3 +26,5 @@ Flask/dumps/
 Flask/model/
 .VSCodeCounter/
 Vue/package.json
+Flask/app/entity_vectorize.json
+Flask/app/entity.json
