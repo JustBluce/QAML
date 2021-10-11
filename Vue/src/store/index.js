@@ -71,7 +71,6 @@ const store = new Vuex.Store({
 			workspace.qa = resetWorkspace.qa;
 			workspace.widgets = resetWorkspace.widgets;
 			workspace.results = resetWorkspace.results;
-			workspace.style = resetWorkspace.style;
 		},
 		deleteWorkspace(state, workspace_id) {
 			this.commit('closeWorkspace', workspace_id);

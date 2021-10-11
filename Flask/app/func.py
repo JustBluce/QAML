@@ -2,15 +2,18 @@
 # Description of this file:
 # 1. Finding the top 5 guesses of the tf-idf vectorizer
 
-import sys
+#import sys
 
 from numpy import divide
-sys.path.append("..")
-sys.path.insert(0, './app')
+#sys.path.append("..")
+#sys.path.insert(0, './app')
 from app import util
 from app.people import getPeoplesInfo1
 # from app.country_represent import country_present1
 # from app.util import highlight_json
+
+import os
+DIR = os.path.dirname(__file__)
 
 from app import util, import_libraries
 from import_libraries import *
@@ -476,10 +479,13 @@ def insert():
             
                 
     # print(json.dumps(big_dict, indent = 10))
-    with open('test.json', 'w') as outfile:
-        json.dump(small_dict, outfile)
-    with open('test_post_hoc.json', 'w') as outfile:
-        json.dump(big_dict, outfile)
+    QA_DIR = os.path.join(DIR, "../dumps", ans)
+    if (not os.path.isdir(QA_DIR)):
+        os.makedirs(QA_DIR)
+    with open(os.path.join(QA_DIR, "test.json"), "w") as outfile:
+        json.dump(small_dict, outfile, indent=2)
+    with open(os.path.join(QA_DIR, "test_post_hoc.json"), "w") as outfile:
+        json.dump(big_dict, outfile, indent=2)
         try:
             me = Question_json(q_id=q_id, data=big_dict, UID=user_id, points=points)
             db.session.add(me)
@@ -500,19 +506,19 @@ def insert():
             print(message_json)
             db.session.rollback()
 
-    with open('machine_guess.json', 'w') as outfile:
+    with open(os.path.join(QA_DIR, "machine_guess.json"), "w") as outfile:
         json.dump(machine_guess, outfile, indent=2)
-    with open('pronunciation_dict.json', 'w') as outfile:
+    with open(os.path.join(QA_DIR, "pronunciation_dict.json"), "w") as outfile:
         json.dump(pronunciation_dict, outfile, indent=2)
-    with open('country_represent_json.json', 'w') as outfile:
+    with open(os.path.join(QA_DIR, "country_represent_json.json"), "w") as outfile:
         json.dump(country_represent_json, outfile)
-    with open('difficulty.json', 'w') as outfile:
+    with open(os.path.join(QA_DIR, "difficulty.json"), "w") as outfile:
         json.dump(difficulty, outfile)
-    with open('buzzer.json', 'w') as outfile:
+    with open(os.path.join(QA_DIR, "buzzer.json"), "w") as outfile:
         json.dump(buzzer, outfile, indent=2)
-    with open('similarity.json', 'w') as outfile:
+    with open(os.path.join(QA_DIR, "similarity.json"), "w") as outfile:
         json.dump(similarity, outfile, indent=2)
-    with open('general_edit_history.json', 'w') as outfile:
+    with open(os.path.join(QA_DIR, "general_edit_history.json"), "w") as outfile:
         json.dump(general_edit_history, outfile, indent=2)
     if q_id in machine_guess:
         machine_guess.pop(q_id)

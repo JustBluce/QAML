@@ -141,7 +141,6 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
   </v-container>
 </template>
 
-
 <script>
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
@@ -214,14 +213,14 @@ export default {
     qa() {
       return this.workspace.qa;
     },
-    highlight() {
-      return this.qa.highlight_words;
-    },
     highlight_text() {
-      let highlight_regex = new RegExp(
-        Object.keys(this.highlight).join("|"),
-        "gi"
+      let highlights = Object.fromEntries(
+        Object.entries(this.qa.highlight_words).map(([k, v]) => [
+          this.uniform(k),
+          v,
+        ])
       );
+      let highlight_regex = new RegExp(Object.keys(highlights).join("|"), "gi");
       return this.qa.text
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -229,11 +228,17 @@ export default {
         .replace(/\n$/g, "\n\n")
         .replace(
           highlight_regex,
-          (word) => `<mark class="${this.highlight[word]}">${word}</mark>`
+          (word) =>
+            `<mark class="${highlights[this.uniform(word)]}">${word}</mark>`
         );
     },
-    genreChartData() {
-      return this.$store.state.genreChartData;
+    genreChartData: {
+      get() {
+        return this.$store.state.genreChartData;
+      },
+      set(value) {
+        this.$store.state.genreChartData = value;
+      },
     },
     options() {
       return {
@@ -244,20 +249,21 @@ export default {
   },
   created: function () {
     this.user_id = firebase.auth().currentUser.uid;
+    this.qid =
+      this.user_id +
+      " " +
+      new Date().toLocaleString("en-US", {
+        hour12: false,
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
     // console.log(this.user_id)
     this.interval = setInterval(
       function () {
-        this.qid =
-          this.user_id +
-          new Date().toLocaleString("en-US", {
-            hour12: false,
-            month: "2-digit",
-            day: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-          });
         this.qa.highlight_words = {};
         let formData = new FormData();
 
@@ -336,8 +342,8 @@ export default {
             }
             this.qa.highlight_words[response.data["buzzer_last_word"]] =
               "yellow";
-            for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-              this.qa.highlight_words[response.data["hightlight_words"][i]] =
+            for (let i = 0; i < response.data["highlight_words"].length; i++) {
+              this.qa.highlight_words[response.data["highlight_words"][i]] =
                 "Buzzer";
             }
 
@@ -389,7 +395,7 @@ export default {
           ) {
             this.qa.highlight_words[
               response.data["current_over_countries"][i]
-            ] = "purple";
+            ] = "CountryRepresentation";
           }
           // console.log(this.highlight_words)
           // console.log(response);
@@ -439,7 +445,6 @@ export default {
     },
     keep_looping: _.debounce(function () {
       // this.highlight_words = {}
-      console.log(this.qa.highlight_words);
       clearInterval(this.interval);
 
       let formData = new FormData();
@@ -520,8 +525,8 @@ export default {
               response.data["remove_highlight"][i]
             ];
           }
-          for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-            this.qa.highlight_words[response.data["hightlight_words"][i]] =
+          for (let i = 0; i < response.data["highlight_words"].length; i++) {
+            this.qa.highlight_words[response.data["highlight_words"][i]] =
               "Buzzer";
           }
           this.qa.highlight_words[response.data["buzzer_last_word"]] = "yellow";
@@ -569,7 +574,6 @@ export default {
           this.qa.highlight_words[response.data["current_over_countries"][i]] =
             "CountryRepresentation";
         }
-        // console.log(this.highlight_words)
       });
       this.axios({
         url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
@@ -679,7 +683,7 @@ export default {
         }).then((response) => {
           let genre_data = response.data["genre_data"];
           this.questions_list = response.data["questions_list"];
-          console.log(genre_data);
+          //console.log(genre_data);
           if (genre_data.length != 0) {
             let header = [["Genre", "Count"]];
             for (let i = 0; i < genre_data.length; i++) {
@@ -851,6 +855,9 @@ export default {
         })
         .catch((e) => (this.wikiShow = false));
     },
+    uniform(str) {
+      return str.toUpperCase().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    },
   },
   mounted() {
     let formData = new FormData();
@@ -950,7 +957,7 @@ mark {
 .backdrop {
   position: absolute;
   margin-top: 10px;
-  padding-left: 13px;
+  padding-left: 12px;
   padding-right: 12px;
   line-height: 1.75rem;
   z-index: 1;
