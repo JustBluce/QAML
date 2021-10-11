@@ -87,21 +87,31 @@
 
             const survey = new Survey.Model(json);
 
-            
-            survey.onComplete.add(function (sender, options) {
-                let formData = new FormData();
+           survey.onComplete.add(function (sender, options) {
+                //Show message about "Saving..." the results
+                options.showDataSaving();//you may pass a text parameter to show your own text 
+                var xhr = new XMLHttpRequest();
+                const formData = new FormData()
+
                 formData.append("survey", sender.data)
-                this.axios({
-              url: "http://127.0.0.1:5000/users/survey",
-              headers: {
-                "content-Type": "application/json; charset=utf-8",
-            },
-              method: "POST",
-              data: formData,
-            }).then((response) => { 
-                console.log(response)
-            })
-})
+            
+                xhr.open("POST", "http://127.0.0.1:5000/users/survey");
+                xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                xhr.onload = xhr.onerror = function () {
+                    if (xhr.status == 200) {
+                        options.showDataSavingSuccess(); // you may pass a text parameter to show your own text
+                        // Or you may clear all messages:
+                        // options.showDataSavingClear();
+                    } else {
+                        //Error
+                        options.showDataSavingError(); // you may pass a text parameter to show your own text
+                    }
+                };
+                //xhr.send(formData)
+                
+              
+                xhr.send(JSON.stringify(sender.data));
+});
            
        
 
@@ -109,20 +119,12 @@
                 survey: survey
             };
             
-        
-        
-       
-        }
-        
+        }  
 
     };
 
     // For Future Reference
     // https://surveyjs.io/Documentation/Library 
-
-
-
-
 
 
 </script>

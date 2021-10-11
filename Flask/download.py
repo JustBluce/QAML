@@ -133,14 +133,14 @@ if input.lower() == "y":
 
 
     ## Install VUE Components
-    if directory == "Vue":
-        prRed("Current Direcgtory = VUE")
-        commands = ['npm install', 'npm install -g @vue/cli', 'npm install -g vue@2.6.14']
-        for i in tqdm(commands):
-            subprocess.run(i, shell=True)
-    else:
-        downloads = False
-        prRed("Error: Wrong Directory")
+   #if directory == "Vue":
+    #    prRed("Current Direcgtory = VUE")
+    #    commands = ['npm install', 'npm install -g @vue/cli', 'npm install -g vue@2.6.14']
+    #    for i in tqdm(commands):
+    #        subprocess.run(i, shell=True)
+   # else:
+    #    downloads = False
+    #    prRed("Error: Wrong Directory")
 
 
 

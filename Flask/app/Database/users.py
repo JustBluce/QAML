@@ -2,6 +2,10 @@ from flask import Flask, jsonify, request #Flask imports
 from flask import Blueprint, render_template, redirect #Flask import to re-route requests on server
 from app import db
 import json
+from import_libraries import *
+import datetime
+os.chdir(os.getcwd()+"/app/Database/Surveys") 
+
 
 users = Blueprint('users', __name__)
 
@@ -24,11 +28,22 @@ def leaderboard():
 @users.route("/survey", methods=["POST"])
 def survey():
     if request.method == "POST":
-        survey = request.form.get("survey")
-        
+        survey = request.json
+    
+    start = time.time()
+    
+    #
+    basename="survey"
+    suffix = datetime.datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
+    filename = "_".join([basename, suffix]) 
+    filename = str(filename + ".json")
+     
 
-        
-    with open('surveys.json', 'w') as outfile:
+    with open(filename , 'w+') as outfile:
+        ##outfile.write(survey)
         json.dump(survey, outfile, indent=2)
+    
+    end = time.time()
+    print("----TIME (s) : /users/survey---", end - start)
 
     return jsonify("thanks")
