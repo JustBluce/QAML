@@ -228,7 +228,7 @@ export default {
         .replace(/\n$/g, "\n\n")
         .replace(
           highlight_regex,
-          (word) => `<mark class="${this.highlight[word]}">${word}</mark>`
+          (word) => `<mark class="${this.highlight[word.toUpperCase()]}">${word}</mark>`
         );
     },
     genreChartData: {
@@ -341,8 +341,8 @@ export default {
             }
             this.qa.highlight_words[response.data["buzzer_last_word"]] =
               "yellow";
-            for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-              this.qa.highlight_words[response.data["hightlight_words"][i]] =
+            for (let i = 0; i < response.data["highlight_words"].length; i++) {
+              this.qa.highlight_words[response.data["highlight_words"][i]] =
                 "Buzzer";
             }
 
@@ -394,7 +394,7 @@ export default {
           ) {
             this.qa.highlight_words[
               response.data["current_over_countries"][i]
-            ] = "purple";
+            ] = "CountryRepresentation";
           }
           // console.log(this.highlight_words)
           // console.log(response);
@@ -525,8 +525,8 @@ export default {
               response.data["remove_highlight"][i]
             ];
           }
-          for (let i = 0; i < response.data["hightlight_words"].length; i++) {
-            this.qa.highlight_words[response.data["hightlight_words"][i]] =
+          for (let i = 0; i < response.data["highlight_words"].length; i++) {
+            this.qa.highlight_words[response.data["highlight_words"][i]] =
               "Buzzer";
           }
           this.qa.highlight_words[response.data["buzzer_last_word"]] = "yellow";
@@ -574,7 +574,6 @@ export default {
           this.qa.highlight_words[response.data["current_over_countries"][i]] =
             "CountryRepresentation";
         }
-        // console.log(this.highlight_words)
       });
       this.axios({
         url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
@@ -684,7 +683,7 @@ export default {
         }).then((response) => {
           let genre_data = response.data["genre_data"];
           this.questions_list = response.data["questions_list"];
-          console.log(genre_data);
+          //console.log(genre_data);
           if (genre_data.length != 0) {
             let header = [["Genre", "Count"]];
             for (let i = 0; i < genre_data.length; i++) {

@@ -205,10 +205,10 @@ def get_importance_of_each_sentence(question):
     ]
     
     """
-    actual_answer, index_of_answer, hightlight_words  = get_actual_guess_with_index(question = [question])
+    actual_answer, index_of_answer, highlight_words  = get_actual_guess_with_index(question = [question])
     # print(np.shape(repre_1), len(repre_1[0][0]))
-    # hightlight_words = sorted(repre_1[0], reverse=True)
-    # print(hightlight_words)
+    # highlight_words = sorted(repre_1[0], reverse=True)
+    # print(highlight_words)
     actual_confidence = actual_answer[1]
     temp_sentence_array = break_into_sentences(question)
     highest_confidence = -10
@@ -230,7 +230,7 @@ def get_importance_of_each_sentence(question):
     for i in range(len(array_of_importances)):
         a = break_into_words(temp_sentence_array[i])
         most_important.append({"sentence":a[0] + " ... " + a[-1], "importance":round(array_of_importances[i],3)})
-    return most_important, temp_sentence_array[highest_confidence_sentence], highest_confidence_sentence+1, hightlight_words
+    return most_important, temp_sentence_array[highest_confidence_sentence], highest_confidence_sentence+1, highlight_words
 
 def insert_into_db(q_id, date_incoming, date_outgoing, question, ans, buzzer_string, buzzer_sentence_number, buzzer_word_number, most_important_sentence_number, most_important_sentence, if_ans_found):
     ans = ans.replace(" ","_")
@@ -331,9 +331,9 @@ def buzz_full_question():
  
     start = time.time()
     buzzer_last_word =""
-    hightlight_words = []
+    highlight_words = []
     if(flag):
-        importance_sentence, sentence_string, sentence_number, hightlight_words = get_importance_of_each_sentence(buzzer_string)
+        importance_sentence, sentence_string, sentence_number, highlight_words = get_importance_of_each_sentence(buzzer_string)
         buzzer_last_word=buzzer_string[-10:]
         buzz_word.append(buzzer_last_word)
         date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
@@ -341,18 +341,17 @@ def buzz_full_question():
         insert_into_db(q_id, date_incoming, date_outgoing, question, ans, buzzer_string, len(break_into_sentences(buzzer_string)), buzzer_word_number, sentence_number, sentence_string, set_flag)
         buzzer_string = buzzer_string + ' 🔔BUZZ '
     else:
-
-        importance_sentence, sentence_string, sentence_number, hightlight_words = get_importance_of_each_sentence(question)
+        importance_sentence, sentence_string, sentence_number, highlight_words = get_importance_of_each_sentence(question)
     end = time.time()
     temp_highlight = []
     stop_words = set(stopwords.words('english'))
     if q_id in prev_highlight:
-        temp_highlight = list(set(prev_highlight[q_id]) - set(hightlight_words)) 
+        temp_highlight = list(set(prev_highlight[q_id]) - set(highlight_words))
         temp_highlight = [x for x in temp_highlight if x not in stop_words]
-    # print(hightlight_words)
-    hightlight_words = all_combinations(hightlight_words, question)
-    prev_highlight[q_id] = hightlight_words 
-    # + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words]
+    # print(highlight_words)
+    prev_highlight[q_id] = [x for x in highlight_words]
+    #highlight_words = all_combinations(highlight_words, question)
+    #prev_highlight[q_id] = highlight_words 
+    # + [x.capitalize() for x in highlight_words] + [x.lower() for x in highlight_words]
     print("----TIME (s) : /binary_search_based_buzzer/get_importance_sentence---", end - start)
-    
-    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word, "hightlight_words":hightlight_words , "remove_highlight":temp_highlight})
+    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word, "highlight_words":highlight_words , "remove_highlight":temp_highlight})
