@@ -144,6 +144,11 @@ if input.lower() == "y":
 
 
 
+print()
+for directory in tqdm(directories):
+    path = os.path.join(parent_dir, directory)
+    os.makedirs(path)
+    print("Directory '% s' created" % directory)
 
 
     ##Check if successfull
