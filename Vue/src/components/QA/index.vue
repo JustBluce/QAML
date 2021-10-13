@@ -213,6 +213,9 @@ export default {
     qa() {
       return this.workspace.qa;
     },
+    answer_wiki() {
+      return this.wiki.title || this.qa.answer_text;
+    },
     highlight_text() {
       let highlights = Object.fromEntries(
         Object.entries(this.qa.highlight_words).map(([k, v]) => [
@@ -277,7 +280,7 @@ export default {
         //     );
         // }
         formData.append("text", this.qa.text);
-        formData.append("answer_text", this.qa.answer_text);
+        formData.append("answer_text", this.answer_wiki);
         formData.append(
           "date",
           new Date().toLocaleString("en-US", {
@@ -446,6 +449,7 @@ export default {
     keep_looping: _.debounce(function () {
       // this.highlight_words = {}
       clearInterval(this.interval);
+      console.log(this.answer_wiki);
 
       let formData = new FormData();
       // console.log(
@@ -469,7 +473,7 @@ export default {
       //     );
       // }
       formData.append("text", this.qa.text);
-      formData.append("answer_text", this.qa.answer_text);
+      formData.append("answer_text", this.answer_wiki);
       formData.append(
         "date",
         new Date().toLocaleString("en-US", {
@@ -602,7 +606,7 @@ export default {
     update_representation: _.debounce(function () {
       let formData = new FormData();
       formData.append("text", this.qa.text);
-      formData.append("answer_text", this.qa.answer_text);
+      formData.append("answer_text", this.answer_wiki);
       formData.append(
         "date",
         new Date().toLocaleString("en-US", {
@@ -659,7 +663,7 @@ export default {
       if (this.user.emailVerified) {
         let formData = new FormData();
         formData.append("text", this.qa.text);
-        formData.append("answer_text", this.qa.answer_text);
+        formData.append("answer_text", this.answer_wiki);
         formData.append(
           "date",
           new Date().toLocaleString("en-US", {
@@ -853,7 +857,10 @@ export default {
           while (extract != (extract = extract.replace(/\([^\(\)]*\)/g, " "))); // Remove nested parens
           this.wiki.extract = extract;
         })
-        .catch((e) => (this.wikiShow = false));
+        .catch((e) => {
+          this.wikiShow = false;
+          this.wiki.title = "";
+        });
     },
     uniform(str) {
       return str.toUpperCase().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
