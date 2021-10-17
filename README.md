@@ -28,6 +28,7 @@ cd Flask
 pip install -r requirements.txt
 python3 download.py
 ```
+- Optional: use the `-t` or `--target` flag when running `pip` to specify path to directory where you want to install packages
 
 Without Script: 
 - Download the following [model.pickle](https://drive.google.com/file/d/1k1akEuLpW02tfZ-ApValJwlcxJji-riO/view?usp=sharing) Place it in `QAML\Flask\model `
@@ -41,10 +42,9 @@ Without Script:
 ### Vue.js ( 2.6.14 )
 
 ```
-npm install 
-npm install -g @vue/cli
-npm install -g vue@2.6.14
+npm install
 ```
+- Optional: use the `--prefix` flag when running `npm install` to specify path to directory where you want to install packages
 
 If this does not work check out the guide below to try and install another way.
 
