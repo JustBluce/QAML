@@ -38,6 +38,7 @@ Without Script:
   -   [Pronunciation_tf-idf.pickle](https://drive.google.com/file/d/1hV9WO4Md5Ht_5HuzKtZu0fswnh--1ean/view?usp=sharing)
   -   [word_freq.pickle](https://drive.google.com/file/d/1PzZMWm_jcJdz22TDvKI5MbBr9RBJKgLa/view?usp=sharing)
 
+Optional: to set the path for the model cache, define the `TRANSFORMERS_CACHE` environment variable
 
 ### Vue.js ( 2.6.14 )
 
