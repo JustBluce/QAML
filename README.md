@@ -28,7 +28,7 @@ cd Flask
 pip install -r requirements.txt
 python3 download.py
 ```
-- Optional: use the `-t` or `--target` flag when running `pip` to specify path to directory where you want to install packages
+- Optional: use the `-t` or `--target` flag when running `pip` to specify path to directory where you want to install packages, and the `--cache-dir` flag to specify the package cache location
 
 Without Script: 
 - Download the following [model.pickle](https://drive.google.com/file/d/1k1akEuLpW02tfZ-ApValJwlcxJji-riO/view?usp=sharing) Place it in `QAML\Flask\model `
@@ -45,7 +45,7 @@ Optional: to set the path for the model cache, define the `TRANSFORMERS_CACHE` e
 ```
 npm install
 ```
-- Optional: use the `--prefix` flag when running `npm install` to specify path to directory where you want to install packages
+- Optional: use the `--prefix` flag when running `npm install` to specify path to directory where you want to install packages, and use `npm config set cache` to specify the cache location
 
 If this does not work check out the guide below to try and install another way.
 
