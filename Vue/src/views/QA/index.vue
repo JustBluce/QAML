@@ -6,7 +6,12 @@ Developers: Jason Liu and Cai Zefan
   <div>
     <Taskbar title="QA Interface" :qa="true" />
     <v-container fluid class="workspaces-container">
-      <transition-group type="transition" name="workspaces">
+      <transition-group
+        tag="div"
+        style="height: 150%; width: 150%"
+        type="transition"
+        name="workspaces"
+      >
         <Workspace
           v-for="workspace_id in workspace_stack"
           :key="workspace_id"
@@ -62,6 +67,7 @@ export default {
   position: relative;
   overflow: hidden;
   height: calc(100vh - 100px);
+  padding: 8px;
 }
 
 .workspaces-enter-active,
