@@ -27,6 +27,7 @@ import '@/icons'; // icon
 import '@/permission'; // permission control
 
 import Vuelidate from 'vuelidate';
+import AudioVisual from 'vue-audio-visual'
 
 window._ = require('lodash');
 
@@ -74,6 +75,8 @@ if (process.env.NODE_ENV === 'production') {
 	mockXHR();
 }
 
+
+Vue.use(AudioVisual)
 Vue.use(ElementUI, { locale });
 Vue.use(Vuelidate);
 Vue.use(VueAxios, axios);
