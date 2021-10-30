@@ -98,7 +98,6 @@ export default {
       this.style.top = data.top;
       this.style.width = data.width;
       this.style.height = data.height;
-      console.log(this.style.width);
     },
     maximize() {
       this.style.top = 0;

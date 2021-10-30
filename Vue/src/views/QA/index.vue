@@ -8,7 +8,7 @@ Developers: Jason Liu and Cai Zefan
     <v-container fluid class="workspaces-container">
       <transition-group
         tag="div"
-        style="height: 180%; width: 180%"
+        style="height: 150%; width: 150%"
         type="transition"
         name="workspaces"
       >
