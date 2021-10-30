@@ -3,53 +3,52 @@ Developers: Jason Liu
 -->
 
 <template>
-  <v-card
-    ref="workspaceContainer"
-    class="workspace-container"
-    :style="{
-      left: style.left + 'px',
-      top: style.top + 'px',
-      width: style.width + 'px',
-      height: style.height + 'px',
-      zIndex: zIndex,
-      border:
-        workspace_selected === id
-          ? `2px solid ${$vuetify.theme.currentTheme.primary}`
-          : '',
-      cursor: 'default',
-    }"
-    elevation="4"
-    @mousedown="$store.commit('selectWorkspace', id)"
+  <vue-resizable
+    class="resizable-container"
+    :left="style.left"
+    :top="style.top"
+    :width="style.width"
+    :height="style.height"
+    :max-width="maxW"
+    :max-height="maxH"
+    :min-width="minW"
+    :min-height="minH"
+    :fit-parent="true"
+    dragSelector=".drag-selector"
+    @resize:move="eHandler"
+    @resize:start="eHandler"
+    @resize:end="eHandler"
+    @drag:move="eHandler"
+    @drag:start="eHandler"
+    @drag:end="eHandler"
   >
-    <Titlebar
-      :id="id"
-      @startDrag="startDrag($event, elementMove)"
-      @maximize="maximize"
-    />
-
-    <v-sheet class="ui-wrapper">
-      <v-sheet class="ui-container">
-        <WidgetContainer :id="id" container="left" />
-        <QA :id="id" />
-        <WidgetContainer :id="id" container="right" />
-      </v-sheet>
-    </v-sheet>
-
-    <v-btn
-      class="mb-8"
-      color="primary"
-      absolute
-      small
-      bottom
-      right
-      fab
-      @mousedown="startDrag($event, elementResize)"
+    <v-card
+      ref="workspaceContainer"
+      class="workspace-container"
+      :style="{
+        zIndex: zIndex,
+        border:
+          workspace_selected === id
+            ? `2px solid ${$vuetify.theme.currentTheme.primary}`
+            : '',
+        cursor: 'default',
+      }"
+      elevation="4"
+      @mousedown="$store.commit('selectWorkspace', id)"
     >
-      <v-icon>mdi-arrow-top-left-bottom-right</v-icon>
-    </v-btn>
+      <Titlebar :id="id" @maximize="maximize" />
 
-    <Results :id="id"/>
-  </v-card>
+      <v-sheet class="ui-wrapper">
+        <v-sheet class="ui-container">
+          <WidgetContainer :id="id" container="left" />
+          <QA :id="id" />
+          <WidgetContainer :id="id" container="right" />
+        </v-sheet>
+      </v-sheet>
+
+      <Results :id="id" />
+    </v-card>
+  </vue-resizable>
 </template>
 
 <script>
@@ -57,23 +56,27 @@ import Titlebar from "./Titlebar";
 import WidgetContainer from "@/components/Widget/WidgetContainer";
 import QA from "@/components/QA";
 import Results from "@/components/Results";
+import VueResizable from "vue-resizable";
 
 export default {
   name: "Workspace",
   props: {
     id: Number,
   },
+  data() {
+    return {
+      maxW: undefined,
+      maxH: undefined,
+      minW: 1024,
+      minH: 64,
+    }
+  },
   components: {
     Titlebar,
     WidgetContainer,
     QA,
     Results,
-  },
-  data() {
-    return {
-      clientX: undefined,
-      clientY: undefined,
-    };
+    VueResizable,
   },
   computed: {
     style() {
@@ -88,62 +91,25 @@ export default {
   },
   methods: {
     app() {
-      return this.$parent.$parent.$parent.$el;
+      return this.$parent.$parent.$el;
     },
-    startDrag(event, func) {
-      event.preventDefault();
-      this.clientX = event.clientX;
-      this.clientY = event.clientY;
-      document.onmousemove = func;
-      document.onmouseup = this.stopDrag;
-    },
-    elementDrag(event) {
-      let movementX = this.clientX - event.clientX;
-      let movementY = this.clientY - event.clientY;
-      this.clientX = event.clientX;
-      this.clientY = event.clientY;
-      return { movementX, movementY };
-    },
-    elementMove(event) {
-      event.preventDefault();
-      let { movementX, movementY } = this.elementDrag(event);
-      this.style.left = Math.min(
-        this.app().offsetWidth - 100,
-        Math.max(0, this.style.left - movementX)
-      );
-      this.style.top = Math.min(
-        this.app().offsetHeight - 200,
-        Math.max(0, this.style.top - movementY)
-      );
-      document.onmouseleave = this.stopDrag;
-    },
-    elementResize(event) {
-      event.preventDefault();
-      let { movementX, movementY } = this.elementDrag(event);
-      this.style.width = Math.min(
-        this.app().offsetWidth - 16,
-        this.style.width - movementX
-      );
-      this.style.height = Math.min(
-        this.app().offsetHeight - 16,
-        this.style.height - movementY
-      );
-    },
-    stopDrag() {
-      document.onmousemove = null;
-      document.onmouseup = null;
-      document.onmouseleave = null;
-      this.style.width = Math.max(1024, this.style.width);
-      this.style.height = Math.max(64, this.style.height);
+    eHandler(data) {
+      this.style.left = data.left;
+      this.style.top = data.top;
+      this.style.width = data.width;
+      this.style.height = data.height;
+      console.log(this.style.width);
     },
     maximize() {
       this.style.top = 0;
       this.style.left = 0;
       this.style.width = this.app().offsetWidth - 16;
-      this.style.height = this.app().offsetHeight - 16;
+      this.style.height = this.app().offsetHeight - 116;
     },
   },
   mounted() {
+    this.maxW = this.app().offsetWidth - 16
+    this.maxH = this.app().offsetHeight - 116
     if (this.style.width === 0 || this.style.height === 0) {
       this.maximize();
     }
@@ -152,15 +118,16 @@ export default {
 </script>
 
 <style scoped>
+.resizable-container {
+  position: absolute;
+  margin: 8px;
+}
+
 .workspace-container {
   display: flex;
   flex-direction: column;
-  position: absolute;
-  min-width: 1024px;
-  max-width: calc(100% - 16px);
-  min-height: 64px;
-  max-height: calc(100% - 16px);
-  margin: 8px;
+  height: 100%;
+  width: 100%;
   padding: 0;
   overflow: hidden;
 }
