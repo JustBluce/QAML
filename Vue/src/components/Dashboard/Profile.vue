@@ -3,25 +3,33 @@ Developers: Damian Rene and Jason Liu
 -->
 
 <template>
-  <v-card class="ma-4 pa-2" max-width="400">
+  <v-card class="ma-4 pa-2 " style="display: block; border-radius: 5%; " max-width="400">
     <v-card-title>
-      <v-avatar size="56" v-if="user && user.photoURL">
+      <v-avatar class="avatar" size="66" v-if="user && user.photoURL">
         <img alt="user" :src="user.photoURL" />
       </v-avatar>
       <v-icon size="56" v-else>mdi-account-circle</v-icon>
-      <p class="text-h4 ml-3 mb-0">Profile</p>
+      
     </v-card-title>
     <v-card-text>
       <div class="text--primary text-body-1" v-if="user">
-        Name: <strong>{{ user.displayName }}</strong
+        <strong class="name">{{ user.displayName }}</strong
         ><br />
-        Email: <strong>{{ user.email }}</strong
-        ><br />
-        Verified:
-        <v-icon v-if="user.emailVerified" color="green">
-          mdi-check-circle </v-icon
-        ><v-icon v-else color="red"> mdi-close-circle </v-icon><br />
-        Provider: <strong>{{ user.providerData[0].providerId }}</strong>
+        <div style="margin-bottom: 5%;"></div>
+        <v-row>
+        <p class="font-weight-thin" style="margin-right: auto; margin-left:auto;">Questions</p>
+      
+        <p class="font-weight-thin" style="margin-right: auto; margin-left:auto;">Answers</p>
+         
+        <p class="font-weight-thin" style="margin-right: auto; margin-left:auto;">Followers</p>
+       </v-row>
+       <v-row >
+        <p class="font-weight-bold" style="margin-right: auto; margin-left:auto;">25</p>
+      
+        <p class="font-weight-bold" style="margin-right: auto; margin-left:auto;">25</p>
+         
+        <p class="font-weight-bold" style="margin-right: auto; margin-left:auto;">20</p>
+       </v-row>
       </div>
       <div v-else>Logged in as guest</div>
     </v-card-text>
@@ -74,3 +82,22 @@ export default {
   },
 };
 </script>
+
+
+<style> 
+.avatar{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+.name{
+  display: block;
+  text-align: center;
+  font-size: 140%;
+  
+
+}
+
+
+</style> 
