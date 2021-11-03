@@ -3,7 +3,7 @@ Developers: Damian Rene and Jason Liu
 -->
 
 <template>
-  <v-card class="ma-4 pa-2 " style="display: block; border-radius: 5%; " max-width="400">
+  <v-card class="ma-4 pa-2 " elevation=4 style="display: block; border-radius: 5%; " max-width="350">
     <v-card-title>
       <v-avatar class="avatar" size="66" v-if="user && user.photoURL">
         <img alt="user" :src="user.photoURL" />

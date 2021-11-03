@@ -25,7 +25,20 @@ const store = new Vuex.Store({
 		],
 		game_mode: false,
 		genreChartData: [ [ 'Genre', 'Count' ], [ 'None', 1 ] ],
-		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ]
+		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ],
+		dashboardArray: [ 
+			{
+			id: 1,
+			name: "Shrek",
+			elements: []
+		  },
+		  {
+			id: 2,
+			name: "Fiona",
+			elements: []
+		  },
+
+						],
 	},
 	modules: {
 		app,
@@ -101,7 +114,10 @@ const store = new Vuex.Store({
 			let workspace = getters.workspace(state)(workspace_id);
 			workspace.results.dialog = false;
 			workspace.results.content = [];
-		}
+		},
+		updateDashboardArray: (state, payload) => {
+			state.dashboardArray = payload;
+		  }
 	},
 	getters: {
 		//isLoggedIn: (state) => state.user.loggedIn,
@@ -110,12 +126,17 @@ const store = new Vuex.Store({
 
 		sidebar: (state) => state.app.sidebar,
 		device: (state) => state.app.device,
+		dashboardArray: (state) => state.dashboardArray,
+		
 		//token: (state) => state.user.token,
 		//avatar: (state) => state.user.avatar,
 		//name: (state) => state.user.name,
 		...getters
 	},
 	actions: {
+		updateDashboardArray: ({ commit }, payload) => {
+			commit("updateDashboardArray", payload);
+		  }
 		/* fetchUser({ commit }, user) {
 			commit('SET_LOGGED_IN', user !== null);
 			if (user) {
