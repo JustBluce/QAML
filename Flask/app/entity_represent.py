@@ -153,11 +153,8 @@ questions = []
 for i in range(0, len(data)):
     questions.append(data[i]['text'])
 
-
 f_pop = open('app/wiki_entities.json')
 wiki_population = json.load(f_pop)
-
-import json 
 
 f_pop = open('app/entity_vectors.json')
 entities_vector = json.load(f_pop)

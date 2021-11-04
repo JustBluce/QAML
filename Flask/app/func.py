@@ -495,7 +495,8 @@ def insert():
             
                 
     # print(json.dumps(big_dict, indent = 10))
-    QA_DIR = os.path.join(DIR, "../dumps", ans)
+    #QA_DIR = os.path.join(DIR, "../dumps", ans)
+    QA_DIR = os.path.join(DIR, "../dumps")
     if (not os.path.isdir(QA_DIR)):
         os.makedirs(QA_DIR)
     with open(os.path.join(QA_DIR, "test.json"), "w") as outfile:
