@@ -346,9 +346,12 @@ def buzz_full_question():
     end = time.time()
     temp_highlight = []
     stop_words = set(stopwords.words('english'))
-    if q_id in prev_highlight:
-        temp_highlight = list(set(prev_highlight[q_id]) - set(hightlight_words)) 
-        temp_highlight = [x for x in temp_highlight if x not in stop_words]
+    try:
+        if q_id in prev_highlight:
+            temp_highlight = list(set(prev_highlight[q_id]) - set(hightlight_words)) 
+            temp_highlight = [x for x in temp_highlight if x not in stop_words]
+    except:
+        print("None Type Object")
     # print(hightlight_words)
     hightlight_words = all_combinations(hightlight_words, question)
     prev_highlight[q_id] = hightlight_words 

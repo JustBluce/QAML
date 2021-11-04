@@ -12,6 +12,9 @@ from app import util, import_libraries
 from util import *
 from import_libraries import *
 
+import spacy
+  
+nlp = spacy.load('en_core_web_sm')
 def guess(question, max=12):
     """
 
@@ -151,12 +154,12 @@ for i in range(0, len(data)):
     questions.append(data[i]['text'])
 
 
-f_pop = open('app/entity.json')
+f_pop = open('app/wiki_entities.json')
 wiki_population = json.load(f_pop)
 
 import json 
 
-f_pop = open('app/entity_vectorize.json')
+f_pop = open('app/entity_vectors.json')
 entities_vector = json.load(f_pop)
 
 entities =  [key for key,value in wiki_population.items() ]
@@ -169,6 +172,7 @@ entity_represent = Blueprint('entity_represent', __name__)
 # total_instance = sum(map_instance.values())
 
 under_entities = []
+ner_under_entities = []
 over_entities = []
 current_over_entities = {}
 current_under_entities = {}
@@ -182,11 +186,13 @@ for entity in entities:
     # if len(list(filter(lambda x: x['entityLabel'].lower() == entity.lower(), wiki_population))) != 0:
     if wiki_population[entity] <  total_instance/len(entities) and len(entity.split()[0]) > 4 :
         under_entities.append(entity)
+        # if (len(nlp(entity).ents)) != 0:
+        #     ner_under_entities.append(entity)
         i = i + 1
     else:
         over_entities.append(entity)
 
-print(len(under_entities))
+# print(len(under_entities))
 # entities_vector = vectorize_albert(under_entities)
 answer = []
 
@@ -268,34 +274,54 @@ def entity_present():
     added_under_represented_entities = []
     # try :
     page = wikipedia.page("\""+ans+"\"")
-    
-    for i in range(len(over_entities)):
-        if over_entities[i].lower() in question.lower():
-            current_over_entities[q_id].append(over_entities[i].lower())
-            if over_entities[i].lower() not in prev_over_entities[q_id]: 
-                added_over_represented_entities.append(over_entities[i].lower())
-                insert_db_flag = 1
-        elif over_entities[i].lower() not in question.lower() and over_entities[i].lower() in prev_over_entities[q_id]: 
-            insert_db_flag = 1
-            removed_over_represented_entities.append(over_entities[i].lower())
+    # print("Title = ", page.title)
+    related_entities = get_related_entities(page.title)
+    # for i in range(len(related_entities)):
+    #     if over_entities[i].lower().split()[0] in question.lower():
+    #         current_over_entities[q_id].append(over_entities[i].lower())
+    #         if over_entities[i].lower() not in prev_over_entities[q_id]: 
+    #             added_over_represented_entities.append(over_entities[i].lower())
+    #             insert_db_flag = 1
+    #     elif over_entities[i].lower().split()[0] not in question.lower() and over_entities[i].lower() in prev_over_entities[q_id]: 
+    #         insert_db_flag = 1
+    #         removed_over_represented_entities.append(over_entities[i].lower())
         
     
     current_under_entities[q_id] = []
-    for i in range(len(under_entities)):
+    for i in range(len(related_entities)):
         # b = " ".join(x for x in i)
-        if under_entities[i].lower() in question.lower(): 
-            
-            if under_entities[i].lower() in suggested_entities[q_id]:
+        # if len(related_entities[i].lower().split()) >= 2 and len(related_entities[i].lower().split()[1]) > 4 and under_entities[i].lower().split()[1] in question.lower(): 
+        if related_entities[i] in under_entities:
+            if related_entities[i].lower() in question.lower(): 
+                if related_entities[i] in suggested_entities[q_id]:
+                    insert_db_flag = 1
+                    added_under_represented_entities.append(related_entities[i])
+                # print(related_entities[i])
+                current_under_entities[q_id].append(related_entities[i].lower())
+
+            # if len(related_entities[i].lower().split()) >= 2 and len(under_entities[i].lower().split()[1]) > 4 and under_entities[i].lower().split()[0] not in question.lower() and  under_entities[i].lower() in page.content.lower():
+            if related_entities[i].lower() not in question.lower():
+                idx = page.content.lower().find(related_entities[i].lower())
+                if (idx == -1 and len(related_entities[i].lower().split())>=1):
+                    idx = page.content.lower().find(related_entities[i].lower().split()[0])
+                if (idx == -1 and len(related_entities[i].lower().split())>=2):
+                    idx = page.content.lower().find(related_entities[i].lower().split()[1])
+                if (idx == -1 and len(related_entities[i].lower().split())>=3):
+                    idx = page.content.lower().find(related_entities[i].lower().split()[2])
+                if idx != -1:
+                    sub_part = page.content[max(idx-300, 0) : min(idx + 300, len(page.content) - 1)]
+                    cosine_sim_ques_entity.append([related_entities[i], 1 - cosine(question_vector[0], entities_vector[related_entities[i]]), sub_part ])
+                # print(related_entities[i])
+
+        elif related_entities[i] in over_entities:
+            if related_entities[i].lower().split()[0] in question.lower():
+                current_over_entities[q_id].append(related_entities[i].lower())
+                if related_entities[i].lower() not in prev_over_entities[q_id]: 
+                    added_over_represented_entities.append(related_entities[i].lower())
+                    insert_db_flag = 1
+            elif related_entities[i].lower().split()[0] not in question.lower() and over_entities[i].lower() in prev_over_entities[q_id]: 
                 insert_db_flag = 1
-                added_under_represented_entities.append(under_entities[i].lower())
-            
-            current_under_entities[q_id].append(under_entities[i].lower())
-
-        if under_entities[i].lower() not in question.lower() and under_entities[i].lower() in page.content.lower():
-            idx = page.content.lower().find(under_entities[i].lower())
-            sub_part = page.content[max(idx-300, 0) : min(idx + 300, len(page.content) - 1)]
-            cosine_sim_ques_entity.append([under_entities[i], 1 - cosine(question_vector[0], entities_vector[i]), sub_part ])
-
+        
     message = Sort(cosine_sim_ques_entity)
     
     answer.clear()
@@ -303,7 +329,7 @@ def entity_present():
     for i in message[:5]:
         answer.append({"answer": i[0], "Score":i[1], "text": i[2]})
         suggested_entities[q_id].append(i[0])
-    
+    # print('Message', message)
     if insert_db_flag == 1:
         date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
         edit_message = ''
@@ -319,7 +345,7 @@ def entity_present():
     #     message = "Couldn't find a related wikipedia article"
     end = time.time()
     entity_representation = answer
-    print(entity_representation)
+    # print(entity_representation)
     
     # print(current_over_entities[q_id])
     print("----TIME (s): /entity_represent/entity_present---", end - start)
