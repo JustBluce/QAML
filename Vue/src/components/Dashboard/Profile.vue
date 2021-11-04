@@ -40,8 +40,8 @@ export default {
   },
   methods: {
     test() {
-      this.user = firebase.auth().currentUser;
-      if (this.user?.isAnonymous) {
+      const user = firebase.auth().currentUser;
+      if (user?.isAnonymous) {
         console.log("ANONYMOUS!!!");
       }
     },

@@ -76,16 +76,23 @@ export default {
     },
   },
   mounted() {
-    this.user = firebase.auth().currentUser;
+    const user = firebase.auth().currentUser;
     this.axios({
-      url: "http://127.0.0.1:5000/genres/getGenre",
+      url: "http://127.0.0.1:5000/genre_classifier/genre_data",
       method: "GET",
       params: {
-        uid: this.user.uid,
+        uid: user.uid,
       },
     }).then((response) => {
       this.genreCount = response.data;
       console.log(response);
+    });
+  },
+  created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user.email) {
+        this.user = user;
+      }
     });
   },
 };
