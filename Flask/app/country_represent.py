@@ -31,118 +31,117 @@ def guess(question, max=12):
         answer.append([(ans[j], matrix[i, j]) for j in indices[i]])
     return answer[0][0]
 
-def break_into_words_with_capital(question):
-    """
+# def break_into_words_with_capital(question):
+#     """
 
-    Parameters
-    ----------
-    question: This contains the string of containing the trivia question.
+#     Parameters
+#     ----------
+#     question: This contains the string of containing the trivia question.
 
-    Returns
-    --------
-    Separates a string in the following manner and returns a list:
-    Hello, How areYou -> ["Hello", ",", "How", "are", "You"]
+#     Returns
+#     --------
+#     Separates a string in the following manner and returns a list:
+#     Hello, How areYou -> ["Hello", ",", "How", "are", "You"]
 
-    """
-    array_of_words =re.split('(?=[A-Z]| )', question)
-    return list(filter(None, [x.strip() for x in array_of_words])) 
+#     """
+#     array_of_words =re.split('(?=[A-Z]| )', question)
+#     return list(filter(None, [x.strip() for x in array_of_words])) 
 
 
 
-def bert_text_preparation(text, tokenizer):
-    """
-    Preparing the input for BERT
+# def bert_text_preparation(text, tokenizer):
+#     """
+#     Preparing the input for BERT
 
-    Takes a string argument and performs
-    pre-processing like adding special tokens,
-    tokenization, tokens to ids, and tokens to
-    segment ids. All tokens are mapped to seg-
-    ment id = 1.
-    Parameters
-        text (str): Text to be converted
-        tokenizer (obj): Tokenizer object
-            to convert text into BERT-re-
-            adable tokens and ids
-    Returns
-        list: List of BERT-readable tokens
-        obj: Torch tensor with token ids
-        obj: Torch tensor segment ids
-    """
-    marked_text = "[CLS] " + text + " [SEP]"
-    tokenized_text = tokenizer.tokenize(marked_text)
-    indexed_tokens = tokenizer.convert_tokens_to_ids(tokenized_text)
-    segments_ids = [1]*len(indexed_tokens)
+#     Takes a string argument and performs
+#     pre-processing like adding special tokens,
+#     tokenization, tokens to ids, and tokens to
+#     segment ids. All tokens are mapped to seg-
+#     ment id = 1.
+#     Parameters
+#         text (str): Text to be converted
+#         tokenizer (obj): Tokenizer object
+#             to convert text into BERT-re-
+#             adable tokens and ids
+#     Returns
+#         list: List of BERT-readable tokens
+#         obj: Torch tensor with token ids
+#         obj: Torch tensor segment ids
+#     """
+#     marked_text = "[CLS] " + text + " [SEP]"
+#     tokenized_text = tokenizer.tokenize(marked_text)
+#     indexed_tokens = tokenizer.convert_tokens_to_ids(tokenized_text)
+#     segments_ids = [1]*len(indexed_tokens)
 
-    # Convert inputs to PyTorch tensors
-    tokens_tensor = torch.tensor([indexed_tokens])
-    segments_tensors = torch.tensor([segments_ids])
+#     # Convert inputs to PyTorch tensors
+#     tokens_tensor = torch.tensor([indexed_tokens])
+#     segments_tensors = torch.tensor([segments_ids])
 
-    return tokenized_text, tokens_tensor, segments_tensors
+#     return tokenized_text, tokens_tensor, segments_tensors
 
-def get_bert_embeddings(tokens_tensor, segments_tensors, model):
-    """Get embeddings from an embedding model
-    Args:
-        tokens_tensor (obj): Torch tensor size [n_tokens]
-            with token ids for each token in text
-        segments_tensors (obj): Torch tensor size [n_tokens]
-            with segment ids for each token in text
-        model (obj): Embedding model to generate embeddings
-            from token and segment ids
-    Returns:
-        list: List of list of floats of size
-            [n_tokens, n_embedding_dimensions]
-            containing embeddings for each token
-    """
-    with torch.no_grad():
-        outputs = model(tokens_tensor, segments_tensors)
-        hidden_states = outputs.hidden_states[1:]
+# def get_bert_embeddings(tokens_tensor, segments_tensors, model):
+#     """Get embeddings from an embedding model
+#     Args:
+#         tokens_tensor (obj): Torch tensor size [n_tokens]
+#             with token ids for each token in text
+#         segments_tensors (obj): Torch tensor size [n_tokens]
+#             with segment ids for each token in text
+#         model (obj): Embedding model to generate embeddings
+#             from token and segment ids
+#     Returns:
+#         list: List of list of floats of size
+#             [n_tokens, n_embedding_dimensions]
+#             containing embeddings for each token
+#     """
+#     with torch.no_grad():
+#         outputs = model(tokens_tensor, segments_tensors)
+#         hidden_states = outputs.hidden_states[1:]
 
-    token_vecs = hidden_states[0]
-    sentence_embedding = torch.mean(token_vecs, dim=0)
-    return sentence_embedding
+#     token_vecs = hidden_states[0]
+#     sentence_embedding = torch.mean(token_vecs, dim=0)
+#     return sentence_embedding
 
-def Sort(sub_li):
-    """
+# def Sort(sub_li):
+#     """
 
-    Parameters
-    ----------
-    sub_li: A list of lists of the following format
-    [
-        [
-            country_name, score
-        ]
-    ]
-    Returns
-    --------
-    Sorted list of lists in the descending order on the basis of score
-    """
-    # reverse = None (Sorts in Ascending order)
-    # key is set to sort using second element of
-    # sublist lambda has been used
-    return(sorted(sub_li, key=lambda x: x[1], reverse=True))
+#     Parameters
+#     ----------
+#     sub_li: A list of lists of the following format
+#     [
+#         [
+#             country_name, score
+#         ]
+#     ]
+#     Returns
+#     --------
+#     Sorted list of lists in the descending order on the basis of score
+#     """
+#     # reverse = None (Sorts in Ascending order)
+#     # key is set to sort using second element of
+#     # sublist lambda has been used
+#     return(sorted(sub_li, key=lambda x: x[1], reverse=True))
 
-def vectorize_albert(texts):
-    """
+# def vectorize_albert(texts):
+#     """
 
-    Parameters
-    ----------
-    texts: a list of strings to obtain the bert embeddings for.
-    Returns
-    --------
-    target_tweet_embeddings: A list containing the embeddings for each string in the list texts.
-    """
-    target_tweet_embeddings = []
-    for text in texts:
-        text = " ".join([word for word in break_into_words_with_capital(text) if word not in stopWords])
-        tokenized_text, tokens_tensor, segments_tensors = bert_text_preparation(text, tokenizer_country)
-        list_token_embeddings = get_bert_embeddings(tokens_tensor, segments_tensors, model_country)
-        tweet_embedding = np.mean(np.array(list_token_embeddings), axis=0)
-        target_tweet_embeddings.append(tweet_embedding)
-    return target_tweet_embeddings
+#     Parameters
+#     ----------
+#     texts: a list of strings to obtain the bert embeddings for.
+#     Returns
+#     --------
+#     target_tweet_embeddings: A list containing the embeddings for each string in the list texts.
+#     """
+#     target_tweet_embeddings = []
+#     for text in texts:
+#         text = " ".join([word for word in break_into_words_with_capital(text) if word not in stopWords])
+#         tokenized_text, tokens_tensor, segments_tensors = bert_text_preparation(text, tokenizer_country)
+#         list_token_embeddings = get_bert_embeddings(tokens_tensor, segments_tensors, model_country)
+#         tweet_embedding = np.mean(np.array(list_token_embeddings), axis=0)
+#         target_tweet_embeddings.append(tweet_embedding)
+#     return target_tweet_embeddings
 
 # Precomputations
-nlp = en_core_web_sm.load()
-stopWords = stopwords.words('english')
+
 f = open('app/qanta.json')
 data = json.load(f)['questions']
 
@@ -286,7 +285,7 @@ def country_present():
                 cosine_sim_ques_country.append([under_countries[i], 1 - cosine(question_vector[0], countries_vector[i]), sub_part ])
     
         message = Sort(cosine_sim_ques_country)
-
+        
         answer = []
         suggested_countries[q_id] = []
         for i in message[:5]:

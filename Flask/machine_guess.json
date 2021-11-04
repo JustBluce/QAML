@@ -1,0 +1,100 @@
+{
+  "": [
+    {
+      "edit_history": {
+        "change_in_position": "First Entry",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/04/2021, 24:03:14",
+      "Timestamp_backend": "10/04/2021, 00:03:18",
+      "guesses": [
+        {
+          "guess": "Art_Tatum",
+          "score": "0.271"
+        },
+        {
+          "guess": "Levine",
+          "score": "0.221"
+        },
+        {
+          "guess": "Charles_Mingus",
+          "score": "0.127"
+        },
+        {
+          "guess": "Stan_Getz",
+          "score": "0.121"
+        },
+        {
+          "guess": "Louis_Armstrong",
+          "score": "0.117"
+        }
+      ],
+      "ans_pos": -1,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "The machine did not guess previously",
+        "isRelevant": true
+      },
+      "Timestamp_frontend": "10/04/2021, 24:03:33",
+      "Timestamp_backend": "10/04/2021, 00:03:34",
+      "guesses": [
+        {
+          "guess": "Art_Tatum",
+          "score": "0.193"
+        },
+        {
+          "guess": "Levine",
+          "score": "0.159"
+        },
+        {
+          "guess": "Aaron_Copland",
+          "score": "0.131"
+        },
+        {
+          "guess": "Charles_Mingus",
+          "score": "0.09"
+        },
+        {
+          "guess": "Stan_Getz",
+          "score": "0.086"
+        }
+      ],
+      "ans_pos": 2,
+      "prev_pos": -1
+    },
+    {
+      "edit_history": {
+        "change_in_position": "The previous position was 2 and the new position is 0",
+        "isRelevant": false
+      },
+      "Timestamp_frontend": "10/04/2021, 24:03:58",
+      "Timestamp_backend": "10/04/2021, 00:03:59",
+      "guesses": [
+        {
+          "guess": "Aaron_Copland",
+          "score": "0.233"
+        },
+        {
+          "guess": "Art_Tatum",
+          "score": "0.13"
+        },
+        {
+          "guess": "Levine",
+          "score": "0.107"
+        },
+        {
+          "guess": "Fanfare",
+          "score": "0.088"
+        },
+        {
+          "guess": "Henry_A._Wallace",
+          "score": "0.079"
+        }
+      ],
+      "ans_pos": 0,
+      "prev_pos": 2
+    }
+  ]
+}

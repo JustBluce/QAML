@@ -1,4 +1,4 @@
-#Cai and Raj
+#Raj, Atith and Cai
 # Description of this file:
 # 1. Finding the top 5 guesses of the tf-idf vectorizer
 
@@ -328,6 +328,10 @@ def insert():
         if len(country_represent_json[q_id])>0:
             under_countries = country_represent_json[q_id][-1]["current_under_countries"]
             points+=len(under_countries)*10
+    if q_id in entity_represent_json:
+        if len(entity_represent_json[q_id])>0:
+            under_entities = entity_represent_json[q_id][-1]["current_under_entities"]
+            points+=len(under_entities)*10
     if q_id in similarity:
         if len(similarity[q_id])>0:
             similar_top_3 = similarity[q_id][-1]["edit_history"]["isSimilar"]
@@ -342,6 +346,7 @@ def insert():
     counter_difficulty = 0
     counter_buzz = 0
     counter_sim = 0
+    counter_entity = 0
     if q_id in time_stamps:
         i = time_stamps[q_id][0]
         big_dict["data"][i] = {}
@@ -378,6 +383,10 @@ def insert():
             if i == country_represent_json[q_id][counter_country]["Timestamp_frontend"]:
                 small_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
                 counter_country+=1
+        if q_id in entity_represent_json and len(entity_represent_json[q_id])!=0:  
+            if i == entity_represent_json[q_id][counter_entity]["Timestamp_frontend"]:
+                small_dict["data"][i]["entity_represent"] = entity_represent_json[q_id][counter_entity]
+                counter_entity+=1
         if q_id in pronunciation_dict and len(pronunciation_dict[q_id])!=0:
             if i == pronunciation_dict[q_id][counter_pron]["Timestamp_frontend"]:
                 small_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]    
@@ -463,6 +472,13 @@ def insert():
                         big_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
                         Flag_String = Flag_String + "Country_Represent;"
                         counter_country+=1
+                if q_id in entity_represent_json and counter_entity < len(entity_represent_json[q_id]):
+                    if i == entity_represent_json[q_id][counter_entity]["Timestamp_frontend"]:
+                        flag = 1
+                        small_dict["data"][i]["entity_represent"] = entity_represent_json[q_id][counter_entity]
+                        big_dict["data"][i]["entity_represent"] = entity_represent_json[q_id][counter_entity]
+                        Flag_String = Flag_String + "Entity_Represent;"
+                        counter_entity+=1
                 if q_id in pronunciation_dict and counter_pron < len(pronunciation_dict[q_id]):
                     if i == pronunciation_dict[q_id][counter_pron]["Timestamp_frontend"]:
                         flag = 1
@@ -512,6 +528,8 @@ def insert():
         json.dump(pronunciation_dict, outfile, indent=2)
     with open(os.path.join(QA_DIR, "country_represent_json.json"), "w") as outfile:
         json.dump(country_represent_json, outfile)
+    with open('entity_represent_json.json', 'w') as outfile:
+        json.dump(entity_represent_json, outfile)
     with open(os.path.join(QA_DIR, "difficulty.json"), "w") as outfile:
         json.dump(difficulty, outfile)
     with open(os.path.join(QA_DIR, "buzzer.json"), "w") as outfile:
@@ -528,9 +546,10 @@ def insert():
         state_pronunciation.pop(q_id)
     if q_id in country_represent_json:
         country_represent_json.pop(q_id)
+    if q_id in entity_represent_json:
+        entity_represent_json.pop(q_id)
     if q_id in general_edit_history:
         general_edit_history.pop(q_id)
-        # state_country_represent_json.pop(q_id)
     if q_id in difficulty:
         difficulty.pop(q_id)
     if q_id in buzzer:

@@ -11,7 +11,8 @@ export const light = {
 	MachineGuesses: colors.orange.accent2,
 	Buzzer: colors.green.accent2,
 	Pronunciation: colors.cyan.accent2,
-	CountryRepresentation: colors.deepPurple.accent2
+	CountryRepresentation: colors.deepPurple.accent2,
+	EntityRepresentation: colors.deepPurple.accent2
 };
 
 export const dark = {
@@ -25,5 +26,6 @@ export const dark = {
 	MachineGuesses: colors.orange.accent3,
 	Buzzer: colors.green.accent3,
 	Pronunciation: colors.cyan.accent3,
-	CountryRepresentation: colors.deepPurple.accent3
+	CountryRepresentation: colors.deepPurple.accent3,
+	EntityRepresentation: colors.deepPurple.accent3
 };

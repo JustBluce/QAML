@@ -39,6 +39,12 @@ export function widgetTemplate(type) {
 			title: 'Country representation',
 			type: 'CountryRepresentation',
 			container: 'right'
+		},
+		EntityRepresentation: {
+			id: 6,
+			title: 'Entity representation',
+			type: 'EntityRepresentation',
+			container: 'right'
 		}
 	};
 	return widget_templates[type];
@@ -50,6 +56,7 @@ export function defaultQA() {
 		answer: [],
 		answer_text: '',
 		country_representation: [],
+		entity_representation: [],
 		people_ethnicity: '',
 		top5_similar_questions: [],
 		binary_search_based_buzzer: 'Buzzer text goes here',
@@ -77,7 +84,8 @@ export function defaultWorkspace(id) {
 			widgetTemplate('MachineGuesses'),
 			widgetTemplate('Buzzer'),
 			widgetTemplate('Pronunciation'),
-			widgetTemplate('CountryRepresentation')
+			widgetTemplate('CountryRepresentation'),
+			widgetTemplate('EntityRepresentation')
 		],
 		results: {
 			dialog: false,
