@@ -6,8 +6,8 @@ Developers: Damian Rene and Jason Liu
   <v-card class="ma-4" v-if="user">
     <v-card-title> {{ user.displayName }}'s statistics </v-card-title>
     <v-divider></v-divider>
-    <v-row class="pa-4 background" no-gutters>
-      <v-card class="mr-4" elevation="4">
+    <v-row class="pl-4 pt-4 background" no-gutters>
+      <v-card class="mr-4 mb-4" elevation="4">
         <v-card-title>
           Question statistics
           <v-spacer></v-spacer>
@@ -30,7 +30,7 @@ Developers: Damian Rene and Jason Liu
         ></v-data-table>
       </v-card>
 
-      <v-card elevation="4">
+      <v-card class="mb-4" elevation="4">
         <v-card-title> Genre distribution </v-card-title>
         <v-divider></v-divider>
         <GChart type="PieChart" :options="options" :data="genreChartData" />

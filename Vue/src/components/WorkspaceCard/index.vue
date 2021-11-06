@@ -3,7 +3,7 @@ Developers: Jason Liu
 -->
 
 <template>
-  <v-card class="ma-2" style="border-radius: 16px" elevation="4">
+  <v-card class="ma-1" style="border-radius: 16px" elevation="4">
     <v-card-title class="background">
       <p class="text mb-0">{{ workspace.title }}</p>
       <v-spacer></v-spacer>
