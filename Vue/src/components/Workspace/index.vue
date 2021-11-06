@@ -69,7 +69,7 @@ export default {
       maxH: undefined,
       minW: 1024,
       minH: 64,
-    }
+    };
   },
   components: {
     Titlebar,
@@ -105,13 +105,22 @@ export default {
       this.style.width = this.app().offsetWidth - 16;
       this.style.height = this.app().offsetHeight - 116;
     },
+    bounds() {
+      this.maxW = this.app().offsetWidth - 16;
+      this.maxH = this.app().offsetHeight - 116;
+      this.style.width = Math.min(this.style.width, this.maxW);
+      this.style.height = Math.min(this.style.height, this.maxH);
+    },
   },
   mounted() {
-    this.maxW = this.app().offsetWidth - 16
-    this.maxH = this.app().offsetHeight - 116
+    this.bounds();
     if (this.style.width === 0 || this.style.height === 0) {
       this.maximize();
     }
+    this.interval = setInterval(this.bounds, 100);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
 };
 </script>
