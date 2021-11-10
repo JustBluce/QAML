@@ -123,8 +123,7 @@ def Sort(sub_li):
     # key is set to sort using second element of
     # sublist lambda has been used
     return(sorted(sub_li, key=lambda x: x[1], reverse=True))
-
- def all_combinations(list_of_strings, question):
+def all_combinations(list_of_strings, question):
   list_to_ret = set()
   for i in list_of_strings:
     s = i.lower()
