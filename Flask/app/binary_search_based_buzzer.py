@@ -104,7 +104,7 @@ def buzz(question, ans, min_index=5):
             if set_flag == 2:
                 break
             if set_flag ==0:
-                return "Buzzer does not cross the threshold", "", False, "", -1, -1
+                return "Buzzer does not cross the threshold", "", False, temp_var[0][0], -1, -1
     answer_ret = temp_var[0][0]
     if(set_flag == 2):
         if set_check==1:
