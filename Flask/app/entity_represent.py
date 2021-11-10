@@ -124,6 +124,15 @@ def Sort(sub_li):
     # sublist lambda has been used
     return(sorted(sub_li, key=lambda x: x[1], reverse=True))
 
+ def all_combinations(list_of_strings, question):
+  list_to_ret = set()
+  for i in list_of_strings:
+    s = i.lower()
+    l1 = list(map(''.join, itertools.product(*zip(s.upper(), s.lower()))))
+    for i in l1:
+      if question.find(i)!=-1:
+        list_to_ret.add(i)
+  return list(list_to_ret)
 def vectorize_albert(texts):
     """
 
@@ -348,8 +357,8 @@ def entity_present():
     
     # print(current_over_entities[q_id])
     print("----TIME (s): /entity_represent/entity_present---", end - start)
-    return jsonify({"entity_representation": entity_representation, "entity": entities, "current_over_entities" : [" " + x for x in current_over_entities[q_id]] + [" " + x.capitalize() for x in current_over_entities[q_id]]})
-
+#    return jsonify({"entity_representation": entity_representation, "entity": entities, "current_over_entities" : [" " + x for x in current_over_entities[q_id]] + [" " + x.capitalize() for x in current_over_entities[q_id]]})
+    return jsonify({"entity_representation": entity_representation, "entity": entities, "current_over_entities" : all_combinations(current_over_entities[q_id])})
 # def entity_present1(question):
 # <<<------DEPRECIATED------>>>
 #     start = time.time()
