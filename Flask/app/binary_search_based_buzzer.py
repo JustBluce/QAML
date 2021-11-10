@@ -89,20 +89,22 @@ def buzz(question, ans, min_index=5):
         elif(i == max_index):
             question_sentence = question
             temp_var = guess_top_n(question=[question], params=params, max=3, n=5000)
-            for i in range(len(temp_var)):
-                if(temp_var[i][0] == ans.replace(' ','_')):
-                    if ans!="":
-                        if i == 0:
-                            if temp_var[i][1]>=threshold_buzz:
-                                set_flag = 2
-                                break
-                            else:
-                                return "Buzzer does not cross the threshold, but it is the top guess with confidence " + str(temp_var[i][1]), "", False, "", -1, -1
-                        return "Buzzer does not cross the threshold: Ans is at rank " + str(i) + " with confidence " + str(temp_var[i][1]), "", False, "", -1, -1
+            if(ans!=""):
+                for i in range(len(temp_var)):
+                    if(temp_var[i][0] == ans.replace(' ','_')):
+                        if ans!="":
+                            if i == 0:
+                                if temp_var[i][1]>=threshold_buzz:
+                                    set_flag = 2
+                                    break
+                                else:
+                                    return "Buzzer does not cross the threshold, but it is the top guess with confidence " + str(temp_var[i][1]), "", False, "", -1, -1
+                            return "Buzzer does not cross the threshold: Ans is at rank " + str(i) + " with confidence " + str(temp_var[i][1]), "", False, "", -1, -1
             # print("HERE")
             if set_flag == 2:
                 break
-            return "Buzzer does not cross the threshold", "", False, "", -1, -1
+            if set_flag ==0:
+                return "Buzzer does not cross the threshold", "", False, "", -1, -1
     answer_ret = temp_var[0][0]
     if(set_flag == 2):
         if set_check==1:
