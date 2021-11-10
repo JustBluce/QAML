@@ -357,7 +357,7 @@ def entity_present():
     # print(current_over_entities[q_id])
     print("----TIME (s): /entity_represent/entity_present---", end - start)
 #    return jsonify({"entity_representation": entity_representation, "entity": entities, "current_over_entities" : [" " + x for x in current_over_entities[q_id]] + [" " + x.capitalize() for x in current_over_entities[q_id]]})
-    return jsonify({"entity_representation": entity_representation, "entity": entities, "current_over_entities" : all_combinations(current_over_entities[q_id])})
+    return jsonify({"entity_representation": entity_representation, "entity": entities, "current_over_entities" : all_combinations(current_over_entities[q_id], question)})
 # def entity_present1(question):
 # <<<------DEPRECIATED------>>>
 #     start = time.time()
