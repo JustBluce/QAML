@@ -60,7 +60,7 @@ def buzz(question, ans, min_index=5):
     # if(len(temp_word_array)<30):
     if True:
         question_sentence = question
-        guesses = guess_top_n(question=[question_sentence], params=params, max=3, n=100)
+        guesses = guess_top_n(question=[question_sentence], params=params, max=3, n=5000)
         if len(temp_word_array) < 30:
             if guesses[0][1] < threshold_buzz:
                 for i in range(len(guesses)):
@@ -95,7 +95,7 @@ def buzz(question, ans, min_index=5):
         # print(i, max_index)
         index_of_bin_search = i
         question_sentence = " ".join(temp_word_array[:index_of_bin_search])
-        guesses = guess_top_n(question=[question_sentence], params=params, max=3, n=100)
+        guesses = guess_top_n(question=[question_sentence], params=params, max=3, n=5000)
         # print(guesses)
         if guesses[0][1] > threshold_buzz:
             if guesses[0][0] == ans.replace(" ", "_"):
@@ -108,7 +108,7 @@ def buzz(question, ans, min_index=5):
 
         elif i == max_index:
             question_sentence = question
-            guesses = guess_top_n(question=[question], params=params, max=3, n=100)
+            guesses = guess_top_n(question=[question], params=params, max=3, n=5000)
             for i in range(len(guesses)):
                 if guesses[i][0] == ans.replace(" ", "_"):
                     if ans != "":
