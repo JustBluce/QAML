@@ -26,3 +26,4 @@ Flask/model/
 .VSCodeCounter/
 Flask/app/entity_vectorize.json
 Flask/app/entity_vectors.json
+Flask/app/entity_vectors_raj_old.json

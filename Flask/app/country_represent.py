@@ -254,6 +254,7 @@ def country_present():
     added_over_represented_countries = []
     removed_over_represented_countries = []
     added_under_represented_countries = []
+    answer = []
     try :
         page = wikipedia.page("\""+ans+"\"")
         
@@ -286,7 +287,7 @@ def country_present():
     
         message = Sort(cosine_sim_ques_country)
         
-        answer = []
+
         suggested_countries[q_id] = []
         for i in message[:5]:
             answer.append({"answer": i[0], "Score":i[1], "text": i[2]})

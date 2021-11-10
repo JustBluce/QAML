@@ -307,6 +307,8 @@ def entity_present():
                     idx = page.content.lower().find(related_entities[i].lower().split()[2])
                 if idx != -1:
                     sub_part = page.content[max(idx-300, 0) : min(idx + 300, len(page.content) - 1)]
+                   # print(related_entities[i])
+                   # print(entities_vector[related_entities[i]])
                     cosine_sim_ques_entity.append([related_entities[i], 1 - cosine(question_vector[0], entities_vector[related_entities[i]]), sub_part ])
                 # print(related_entities[i])
 

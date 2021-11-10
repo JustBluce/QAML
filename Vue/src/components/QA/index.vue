@@ -141,6 +141,7 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
   </v-container>
 </template>
 
+
 <script>
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
@@ -213,17 +214,14 @@ export default {
     qa() {
       return this.workspace.qa;
     },
-    answer_wiki() {
-      return this.wiki.title || this.qa.answer_text;
+    highlight() {
+      return this.qa.highlight_words;
     },
     highlight_text() {
-      let highlights = Object.fromEntries(
-        Object.entries(this.qa.highlight_words).map(([k, v]) => [
-          this.uniform(k),
-          v,
-        ])
+      let highlight_regex = new RegExp(
+        Object.keys(this.highlight).join("|"),
+        "gi"
       );
-      let highlight_regex = new RegExp(Object.keys(highlights).join("|"), "gi");
       return this.qa.text
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -231,17 +229,11 @@ export default {
         .replace(/\n$/g, "\n\n")
         .replace(
           highlight_regex,
-          (word) =>
-            `<mark class="${highlights[this.uniform(word)]}">${word}</mark>`
+          (word) => `<mark class="${this.highlight[word]}">${word}</mark>`
         );
     },
-    genreChartData: {
-      get() {
-        return this.$store.state.genreChartData;
-      },
-      set(value) {
-        this.$store.state.genreChartData = value;
-      },
+    genreChartData() {
+      return this.$store.state.genreChartData;
     },
     options() {
       return {
@@ -252,21 +244,21 @@ export default {
   },
   created: function () {
     this.user_id = firebase.auth().currentUser.uid;
-    this.qid =
-      this.user_id +
-      " " +
-      new Date().toLocaleString("en-US", {
-        hour12: false,
-        month: "2-digit",
-        day: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      });
     // console.log(this.user_id)
+    this.qid =
+          this.user_id +
+          new Date().toLocaleString("en-US", {
+            hour12: false,
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          });
     this.interval = setInterval(
       function () {
+        
         this.qa.highlight_words = {};
         let formData = new FormData();
 
@@ -280,7 +272,7 @@ export default {
         //     );
         // }
         formData.append("text", this.qa.text);
-        formData.append("answer_text", this.answer_wiki);
+        formData.append("answer_text", this.qa.answer_text);
         formData.append(
           "date",
           new Date().toLocaleString("en-US", {
@@ -304,7 +296,8 @@ export default {
         //         }
         // else{
         this.axios({
-          url: "http://127.0.0.1:5000/func/act",
+          url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/func/act",
+          
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -312,7 +305,7 @@ export default {
           // console.log(response);
         });
         this.axios({
-          url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
+	  url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/binary_search_based_buzzer/buzz_full_question",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -345,8 +338,8 @@ export default {
             }
             this.qa.highlight_words[response.data["buzzer_last_word"]] =
               "yellow";
-            for (let i = 0; i < response.data["highlight_words"].length; i++) {
-              this.qa.highlight_words[response.data["highlight_words"][i]] =
+            for (let i = 0; i < response.data["hightlight_words"].length; i++) {
+              this.qa.highlight_words[response.data["hightlight_words"][i]] =
                 "Buzzer";
             }
 
@@ -371,7 +364,7 @@ export default {
         });
 
         this.axios({
-          url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/similar_question/retrieve_similar_question",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -385,7 +378,7 @@ export default {
           // console.log(response);
         });
         this.axios({
-          url: "http://127.0.0.1:5000/country_represent/country_present",
+	  url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/country_represent/country_present",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -398,13 +391,13 @@ export default {
           ) {
             this.qa.highlight_words[
               response.data["current_over_countries"][i]
-            ] = "CountryRepresentation";
+            ] = "purple";
           }
           // console.log(this.highlight_words)
           // console.log(response);
         });
-        this.axios({
-          url: "http://127.0.0.1:5000/entity_represent/entity_present",
+		this.axios({
+          url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/entity_represent/entity_present",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -423,7 +416,7 @@ export default {
           // console.log(response);
         });
         this.axios({
-          url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
+	  url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/pronunciation/get_pronunciation",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -467,8 +460,8 @@ export default {
     },
     keep_looping: _.debounce(function () {
       // this.highlight_words = {}
+      console.log(this.qa.highlight_words);
       clearInterval(this.interval);
-      console.log(this.answer_wiki);
 
       let formData = new FormData();
       // console.log(
@@ -492,7 +485,7 @@ export default {
       //     );
       // }
       formData.append("text", this.qa.text);
-      formData.append("answer_text", this.answer_wiki);
+      formData.append("answer_text", this.qa.answer_text);
       formData.append(
         "date",
         new Date().toLocaleString("en-US", {
@@ -508,7 +501,7 @@ export default {
       formData.append("user_id", this.user_id);
       formData.append("qid", this.qid);
       this.axios({
-        url: "http://127.0.0.1:5000/func/act",
+        url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/func/act",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -516,7 +509,7 @@ export default {
         // console.log(response);
       });
       this.axios({
-        url: "http://127.0.0.1:5000/binary_search_based_buzzer/buzz_full_question",
+	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/binary_search_based_buzzer/buzz_full_question",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -548,8 +541,8 @@ export default {
               response.data["remove_highlight"][i]
             ];
           }
-          for (let i = 0; i < response.data["highlight_words"].length; i++) {
-            this.qa.highlight_words[response.data["highlight_words"][i]] =
+          for (let i = 0; i < response.data["hightlight_words"].length; i++) {
+            this.qa.highlight_words[response.data["hightlight_words"][i]] =
               "Buzzer";
           }
           this.qa.highlight_words[response.data["buzzer_last_word"]] = "yellow";
@@ -570,7 +563,7 @@ export default {
         }
       });
       this.axios({
-        url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/similar_question/retrieve_similar_question",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -583,7 +576,7 @@ export default {
         this.qa.top5_similar_questions = response.data["similar_question"];
       });
       this.axios({
-        url: "http://127.0.0.1:5000/country_represent/country_present",
+	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/country_represent/country_present",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -597,26 +590,29 @@ export default {
           this.qa.highlight_words[response.data["current_over_countries"][i]] =
             "CountryRepresentation";
         }
-      });
-      this.axios({
-        url: "http://127.0.0.1:5000/entity_represent/entity_present",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.qa.entity_representation =
-          response.data["entity_representation"];
-        for (
-          let i = 0;
-          i < response.data["current_over_entities"].length;
-          i++
-        ) {
-          this.qa.highlight_words[response.data["current_over_entities"][i]] =
-            "EntityRepresentation";
-        }
         // console.log(this.highlight_words)
       });
+	  this.axios({
+          url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/entity_represent/entity_present",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          this.qa.entity_representation =
+            response.data["entity_representation"];
+          for (
+            let i = 0;
+            i < response.data["current_over_entities"].length;
+            i++
+          ) {
+            this.qa.highlight_words[
+              response.data["current_over_entities"][i]
+            ] = "purple";
+          }
+          // console.log(this.highlight_words)
+          // console.log(response);
+        });
       this.axios({
-        url: "http://127.0.0.1:5000/pronunciation/get_pronunciation",
+	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/pronunciation/get_pronunciation",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -642,7 +638,7 @@ export default {
     update_representation: _.debounce(function () {
       let formData = new FormData();
       formData.append("text", this.qa.text);
-      formData.append("answer_text", this.answer_wiki);
+      formData.append("answer_text", this.qa.answer_text);
       formData.append(
         "date",
         new Date().toLocaleString("en-US", {
@@ -668,7 +664,7 @@ export default {
       //   console.log(response);
       // });
       this.axios({
-        url: "http://127.0.0.1:5000/country_represent/country_present",
+	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/country_represent/country_present",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -684,25 +680,6 @@ export default {
         }
         // console.log(this.highlight_words)
       });
-
-      this.axios({
-        url: "http://127.0.0.1:5000/entity_represent/entity_present",
-        method: "POST",
-        data: formData,
-      }).then((response) => {
-        this.qa.entity_representation =
-          response.data["entity_representation"];
-        for (
-          let i = 0;
-          i < response.data["current_over_entities"].length;
-          i++
-        ) {
-          this.qa.highlight_words[response.data["current_over_entities"][i]] =
-            "EntityRepresentation";
-        }
-        // console.log(this.highlight_words)
-      });
-
     }, 1000),
     searchData() {
       //clearInterval(this.interval);
@@ -718,7 +695,7 @@ export default {
       if (this.user.emailVerified) {
         let formData = new FormData();
         formData.append("text", this.qa.text);
-        formData.append("answer_text", this.answer_wiki);
+        formData.append("answer_text", this.qa.answer_text);
         formData.append(
           "date",
           new Date().toLocaleString("en-US", {
@@ -736,13 +713,13 @@ export default {
         formData.append("genre", this.qa.genre);
 
         this.axios({
-          url: "http://127.0.0.1:5000/genre_classifier/genre_data",
+	  url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/genre_classifier/genre_data",
           method: "POST",
           data: formData,
         }).then((response) => {
           let genre_data = response.data["genre_data"];
           this.questions_list = response.data["questions_list"];
-          //console.log(genre_data);
+          console.log(genre_data);
           if (genre_data.length != 0) {
             let header = [["Genre", "Count"]];
             for (let i = 0; i < genre_data.length; i++) {
@@ -755,7 +732,7 @@ export default {
           console.log(this.highlight_words);
         });
         this.axios({
-          url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+	  url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/similar_question/retrieve_similar_question",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -766,7 +743,7 @@ export default {
             });
           } else {
             this.axios({
-              url: "http://127.0.0.1:5000/difficulty_classifier/classify",
+	      url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/difficulty_classifier/classify",
               method: "POST",
               data: formData,
             }).then((response) => {
@@ -793,7 +770,7 @@ export default {
                   // console.log("1");
                   window.setTimeout(() => {
                     this.axios({
-                      url: "http://127.0.0.1:5000/func/insert",
+		      url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/func/insert",
                       method: "POST",
                       data: formData,
                     }).then((response) => {
@@ -854,7 +831,7 @@ export default {
       formData.append("qid", this.qid);
       formData.append("user_id", this.user_id);
       this.axios({
-        url: "http://127.0.0.1:5000/genre_classifier/classify",
+	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/genre_classifier/classify",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -878,9 +855,9 @@ export default {
       let formData = new FormData();
       formData.append("username", user.displayName);
       formData.append("email", user.email);
-      formData.append("UID", user.uid);-p
+      formData.append("UID", user.uid);
       this.axios({
-        url: "http://127.0.0.1:5000/test1/json",
+	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/test1/json",
         method: "POST",
       }).then((response) => {
         this.Question_id = response.data["Question_id"];
@@ -912,13 +889,7 @@ export default {
           while (extract != (extract = extract.replace(/\([^\(\)]*\)/g, " "))); // Remove nested parens
           this.wiki.extract = extract;
         })
-        .catch((e) => {
-          this.wikiShow = false;
-          this.wiki.title = "";
-        });
-    },
-    uniform(str) {
-      return str.toUpperCase().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        .catch((e) => (this.wikiShow = false));
     },
   },
   mounted() {
@@ -953,7 +924,7 @@ export default {
       formData.append("genre", this.qa.genre);
       if (this.user_id != "") {
         this.axios({
-          url: "http://127.0.0.1:5000/genre_classifier/genre_data",
+	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/genre_classifier/genre_data",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -1019,7 +990,7 @@ mark {
 .backdrop {
   position: absolute;
   margin-top: 10px;
-  padding-left: 12px;
+  padding-left: 13px;
   padding-right: 12px;
   line-height: 1.75rem;
   z-index: 1;
