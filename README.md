@@ -77,14 +77,14 @@ If no Conda:
 
 1. Navigate to the root directory
 2. `cd Flask `
-5. `python3 run.py`
+3. `python3 run.py`
 
 ### Run the Vue Framework (Front End)
 
-6. (In a seperate terminal) Navigate to the root directory
-7. `cd Vue`
-8. `npm install`
-9. `npm run dev`
+4. (In a seperate terminal) Navigate to the root directory
+5. `cd Vue`
+6. `npm install`
+7. `npm run dev`
 
 
 ## Setup Error
