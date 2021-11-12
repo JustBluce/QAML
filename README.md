@@ -77,9 +77,7 @@ If no Conda:
 
 1. Navigate to the root directory
 2. `cd Flask `
-3. `python3 run.py`
-OR
-3. `gunicorn --bind 0.0.0.0:7600 wsgi:app`
+3. `python3 run.py` OR `gunicorn --bind 0.0.0.0:7600 wsgi:app`
 
 ### Run the Vue Framework (Front End)
 
