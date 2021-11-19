@@ -12,7 +12,7 @@ export const light = {
 	Buzzer: colors.green.accent2,
 	Pronunciation: colors.cyan.accent2,
 	CountryRepresentation: colors.deepPurple.accent2,
-	EntityRepresentation: colors.deepPurple.accent2
+	EntityRepresentation: colors.deepPurple.accent1
 };
 
 export const dark = {
@@ -27,5 +27,5 @@ export const dark = {
 	Buzzer: colors.green.accent3,
 	Pronunciation: colors.cyan.accent3,
 	CountryRepresentation: colors.deepPurple.accent3,
-	EntityRepresentation: colors.deepPurple.accent3
+	EntityRepresentation: colors.deepPurple.accent2
 };

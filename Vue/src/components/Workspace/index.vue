@@ -108,15 +108,21 @@ export default {
     bounds() {
       this.maxW = this.app().offsetWidth - 16;
       this.maxH = this.app().offsetHeight - 116;
-      this.style.width = Math.min(this.style.width, this.maxW);
-      this.style.height = Math.min(this.style.height, this.maxH);
+      this.style.width = Math.max(
+        Math.min(this.style.width, this.maxW),
+        this.minW
+      );
+      this.style.height = Math.max(
+        Math.min(this.style.height, this.maxH),
+        this.minH
+      );
     },
   },
   mounted() {
-    this.bounds();
     if (this.style.width === 0 || this.style.height === 0) {
       this.maximize();
     }
+    this.bounds();
     this.interval = setInterval(this.bounds, 100);
   },
   beforeDestroy() {

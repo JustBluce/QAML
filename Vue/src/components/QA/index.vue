@@ -246,19 +246,18 @@ export default {
     this.user_id = firebase.auth().currentUser.uid;
     // console.log(this.user_id)
     this.qid =
-          this.user_id +
-          new Date().toLocaleString("en-US", {
-            hour12: false,
-            month: "2-digit",
-            day: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-          });
+      this.user_id +
+      new Date().toLocaleString("en-US", {
+        hour12: false,
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
     this.interval = setInterval(
       function () {
-        
         this.qa.highlight_words = {};
         let formData = new FormData();
 
@@ -296,8 +295,11 @@ export default {
         //         }
         // else{
         this.axios({
-          url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/func/act",
-          
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/func/act",
+
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -305,7 +307,10 @@ export default {
           // console.log(response);
         });
         this.axios({
-	  url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/binary_search_based_buzzer/buzz_full_question",
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/binary_search_based_buzzer/buzz_full_question",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -364,7 +369,10 @@ export default {
         });
 
         this.axios({
-	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/similar_question/retrieve_similar_question",
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/similar_question/retrieve_similar_question",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -378,7 +386,10 @@ export default {
           // console.log(response);
         });
         this.axios({
-	  url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/country_represent/country_present",
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/country_represent/country_present",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -396,8 +407,11 @@ export default {
           // console.log(this.highlight_words)
           // console.log(response);
         });
-		this.axios({
-          url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/entity_represent/entity_present",
+        this.axios({
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/entity_represent/entity_present",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -408,15 +422,17 @@ export default {
             i < response.data["current_over_entities"].length;
             i++
           ) {
-            this.qa.highlight_words[
-              response.data["current_over_entities"][i]
-            ] = "purple";
+            this.qa.highlight_words[response.data["current_over_entities"][i]] =
+              "purple";
           }
           // console.log(this.highlight_words)
           // console.log(response);
         });
         this.axios({
-	  url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/pronunciation/get_pronunciation",
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/pronunciation/get_pronunciation",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -501,7 +517,10 @@ export default {
       formData.append("user_id", this.user_id);
       formData.append("qid", this.qid);
       this.axios({
-        url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/func/act",
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/func/act",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -509,7 +528,10 @@ export default {
         // console.log(response);
       });
       this.axios({
-	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/binary_search_based_buzzer/buzz_full_question",
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/binary_search_based_buzzer/buzz_full_question",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -563,7 +585,10 @@ export default {
         }
       });
       this.axios({
-	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/similar_question/retrieve_similar_question",
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/similar_question/retrieve_similar_question",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -576,7 +601,10 @@ export default {
         this.qa.top5_similar_questions = response.data["similar_question"];
       });
       this.axios({
-	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/country_represent/country_present",
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/country_represent/country_present",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -592,27 +620,31 @@ export default {
         }
         // console.log(this.highlight_words)
       });
-	  this.axios({
-          url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/entity_represent/entity_present",
-          method: "POST",
-          data: formData,
-        }).then((response) => {
-          this.qa.entity_representation =
-            response.data["entity_representation"];
-          for (
-            let i = 0;
-            i < response.data["current_over_entities"].length;
-            i++
-          ) {
-            this.qa.highlight_words[
-              response.data["current_over_entities"][i]
-            ] = "purple";
-          }
-          // console.log(this.highlight_words)
-          // console.log(response);
-        });
       this.axios({
-	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/pronunciation/get_pronunciation",
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/entity_represent/entity_present",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.entity_representation = response.data["entity_representation"];
+        for (
+          let i = 0;
+          i < response.data["current_over_entities"].length;
+          i++
+        ) {
+          this.qa.highlight_words[response.data["current_over_entities"][i]] =
+            "purple";
+        }
+        // console.log(this.highlight_words)
+        // console.log(response);
+      });
+      this.axios({
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/pronunciation/get_pronunciation",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -664,7 +696,10 @@ export default {
       //   console.log(response);
       // });
       this.axios({
-	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/country_represent/country_present",
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/country_represent/country_present",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -713,7 +748,10 @@ export default {
         formData.append("genre", this.qa.genre);
 
         this.axios({
-	  url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/genre_classifier/genre_data",
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/genre_classifier/genre_data",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -732,7 +770,10 @@ export default {
           console.log(this.highlight_words);
         });
         this.axios({
-	  url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/similar_question/retrieve_similar_question",
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/similar_question/retrieve_similar_question",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -743,7 +784,10 @@ export default {
             });
           } else {
             this.axios({
-	      url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/difficulty_classifier/classify",
+              url:
+                process.env.VUE_APP_HOST +
+                process.env.VUE_APP_BACKEND_PORT +
+                "/difficulty_classifier/classify",
               method: "POST",
               data: formData,
             }).then((response) => {
@@ -770,7 +814,10 @@ export default {
                   // console.log("1");
                   window.setTimeout(() => {
                     this.axios({
-		      url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/func/insert",
+                      url:
+                        process.env.VUE_APP_HOST +
+                        process.env.VUE_APP_BACKEND_PORT +
+                        "/func/insert",
                       method: "POST",
                       data: formData,
                     }).then((response) => {
@@ -831,7 +878,10 @@ export default {
       formData.append("qid", this.qid);
       formData.append("user_id", this.user_id);
       this.axios({
-	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/genre_classifier/classify",
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/genre_classifier/classify",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -857,7 +907,10 @@ export default {
       formData.append("email", user.email);
       formData.append("UID", user.uid);
       this.axios({
-	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/test1/json",
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/test1/json",
         method: "POST",
       }).then((response) => {
         this.Question_id = response.data["Question_id"];
@@ -924,7 +977,10 @@ export default {
       formData.append("genre", this.qa.genre);
       if (this.user_id != "") {
         this.axios({
-	url:process.env.VUE_APP_HOST + process.env.VUE_APP_BACKEND_PORT +"/genre_classifier/genre_data",
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/genre_classifier/genre_data",
           method: "POST",
           data: formData,
         }).then((response) => {
