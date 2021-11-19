@@ -15,11 +15,22 @@ Developers: Atith Gandhi, Raj Shah and Jason Liu
       dense
       class="elevation-2 background"
     >
+      <template #item.answer="{ item }">
+        <a
+          target="_blank"
+          :href="links[item.answer]"
+          :style="{
+            color: links[item.answer]
+              ? $vuetify.theme.currentTheme.primary
+              : $vuetify.theme.currentTheme.red,
+          }"
+        >
+          {{ item.answer }}
+        </a>
+      </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
-          <span :style="{ color: $vuetify.theme.currentTheme.primary }">{{
-           "Question: " + item.text 
-          }}</span>
+          {{ item.text }}
         </td>
       </template>
     </v-data-table>
@@ -27,6 +38,9 @@ Developers: Atith Gandhi, Raj Shah and Jason Liu
 </template>
 
 <script>
+import Vue from "vue";
+import wiki from "wikijs";
+
 export default {
   name: "SimilarQuestions",
   props: {
@@ -39,6 +53,7 @@ export default {
         { text: "Answer", value: "answer" },
         { text: "", value: "data-table-expand", align: "right" },
       ],
+      links: {},
     };
   },
   computed: {
@@ -53,9 +68,20 @@ export default {
     },
     similar_questions() {
       if (this.qa.top5_similar_questions[1]) {
-        return this.qa.top5_similar_questions[1].map((question, index) =>
-          Object.assign(question, { id: index })
-        );
+        return this.qa.top5_similar_questions[1].map((question, index) => {
+          question.answer = question.answer.replace("Answer: ", "");
+          while (
+            question.answer !=
+            (question.answer = question.answer.replace(/\[[^\[\]]*\]/g, ""))
+          );
+          wiki()
+            .page(question.answer)
+            .then((page) => {
+              Vue.set(this.links, question.answer, page.url());
+            })
+            .catch((e) => {});
+          return Object.assign(question, { id: index });
+        });
       }
       return [];
     },
