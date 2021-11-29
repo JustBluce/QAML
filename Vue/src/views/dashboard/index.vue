@@ -26,6 +26,8 @@ Developers: Jason Liu, Damian Rene, and Cai Zefan
 
          
        <Leaderboard />
+       <Friends/>
+
       
 
   </div>
@@ -38,6 +40,7 @@ import Profile from "@/components/Dashboard/Profile.vue";
 import WorkspaceStats from "@/components/Dashboard/WorkspaceStats.vue";
 import Leaderboard from "@/components/Dashboard/Leaderboard.vue";
 import GenreStats from "@/components/Dashboard/GenreStats.vue"
+import Friends from "@/components/Dashboard/Friends.vue";
 
 
 export default {
@@ -45,7 +48,7 @@ export default {
   components: {
     Taskbar,
     Profile,
-    
+    Friends,
     WorkspaceStats,
     GenreStats,
     Leaderboard,

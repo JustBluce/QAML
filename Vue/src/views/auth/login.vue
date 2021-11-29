@@ -98,13 +98,35 @@ export default {
     };
   },
   methods: {
+    //Checks if email already in use
+    checkEmail(){
+        firebase
+         .auth()
+         .fetchSignInMethodsForEmail(this.email)
+         .then((result) => {
+              alert('Email already LoggedIn With: ' + result);
+         })
+         .catch((error) => {
+            alert(error)
+         })
+    },
     emailLogin() {
+      const db = firebase.firestore();
+      this.checkEmail()
       if (this.$refs.form.validate()) {
         firebase
           .auth()
           .signInWithEmailAndPassword(this.email, this.password)
           .then(() => {
             this.$router.push("/dashboard");
+            this.user = firebase.auth().currentUser;
+            let UID = this.user.uid
+            let lastSignInDate = this.user.metadata.lastSignInTime
+            
+            db.collection('users').doc(UID).update({
+              lastSignIn: lastSignInDate
+
+            })
           })
           .catch((error) => {
             alert(error.message);
@@ -113,6 +135,8 @@ export default {
     },
      socialLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
+      const db = firebase.firestore();
+    
       firebase
         .auth()
         .signInWithPopup(provider)
@@ -122,6 +146,16 @@ export default {
           //console.log(this.qa.uid);
           this.$router.push("/dashboard");
           this.user = firebase.auth().currentUser;
+          let UID = this.user.uid
+          let lastSignInDate = this.user.metadata.lastSignInTime
+          
+          db.collection('users').doc(UID).update({
+            lastSignIn: lastSignInDate
+
+          })
+
+          //console.log(this.user.metadata.lastSignInTime)
+
           this.documents();
           
         })
@@ -130,52 +164,32 @@ export default {
         });
     },
     documents() {
-      
-      
       const db = firebase.firestore();
       const docs = db.collection("users");
       let document_exists = false;
-      let lastUser = 0;
-      
       db.collection("users")
         .where("email", "==", this.user.email)
         .get()
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
             if (doc.exists) {
-              console.log("Firebase Document already exsists. Easy for me. thanks");
-              //console.log(doc.data().email);
               document_exists = true;
             }
           });
           if (!document_exists) {
-            console.log("Firebase Document does not exsist... Creating one.");
-            db.collection("users")
-              .orderBy("CreatedTimestamp", "desc")
-              .limit(1)
-              .get()
-              .then((snapshot) => {
-                snapshot.docs.forEach((doc) => {
-                  //console.log(doc.data().email)
-                  lastUser = doc.data().User_ID + 1;
-                  //console.log("USER: " + doc.data().User_ID);
-                  //console.log(lastUser);
-                  //document titles correlate to User UID
                   db.collection("users").doc(this.user.uid).set({
-                    User_ID: lastUser,
                     displayName: this.user.displayName,
                     email: this.user.email,
                     signInMethod: "Google",
                     CreatedTimestamp: firebase.firestore.Timestamp.now(),
-                  });
-                });
-              })
+                    points: 0, 
+                  })
+      
               .catch((err) => {
                 alert("DOCUMENTS Oops. " + err.message);
               });
           }
-        });
-      
+        })
     },
     guestLogin() {
       firebase

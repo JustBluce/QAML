@@ -19,14 +19,14 @@ Developers: Damian Rene and Jason Liu
         <v-row>
         <p class="font-weight-thin" style="margin-right: auto; margin-left:auto;">Questions</p>
       
-        <p class="font-weight-thin" style="margin-right: auto; margin-left:auto;">Answers</p>
+        <p class="font-weight-thin" style="margin-right: auto; margin-left:auto;">Points</p>
          
         <p class="font-weight-thin" style="margin-right: auto; margin-left:auto;">Followers</p>
        </v-row>
        <v-row >
         <p class="font-weight-bold" style="margin-right: auto; margin-left:auto;">25</p>
       
-        <p class="font-weight-bold" style="margin-right: auto; margin-left:auto;">25</p>
+        <p class="font-weight-bold" style="margin-right: auto; margin-left:auto;" >{{points}}</p>
          
         <p class="font-weight-bold" style="margin-right: auto; margin-left:auto;">20</p>
        </v-row>
@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       user: null,
+      points: 0, 
     };
   },
   methods: {
@@ -73,13 +74,34 @@ export default {
         });
     },
   },
+
   created() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user.email) {
-        this.user = user;
-      }
-    });
-  },
+    this.user = firebase.auth().currentUser;
+    const db = firebase.firestore();
+    const docs = db.collection("users");
+
+    //Sets points on dashboard initially
+    docs.where('email', '==', this.user.email).get().then( snapshot => {
+        snapshot.forEach(doc => {
+          this.points = doc.data().points;
+          //console.log(doc.id, '=>', doc.data().points);
+      });
+
+    })
+      
+    //updates points on change in firestore
+    db.collection("users").onSnapshot(res => {
+      const changes = res.docChanges()
+
+      changes.forEach(change => {
+        if (change.type === 'modified'){
+          //console.log(change.doc.data().points)
+          this.points = change.doc.data().points
+        }
+      })
+    })
+
+  }
 };
 </script>
 
