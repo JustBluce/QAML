@@ -151,18 +151,17 @@ export default {
           
           db.collection('users').doc(UID).update({
             lastSignIn: lastSignInDate
-
           })
-
           //console.log(this.user.metadata.lastSignInTime)
-
           this.documents();
+          
           
         })
         .catch((err) => {
           alert("Login Error. " + err.message);
         });
     },
+    
     documents() {
       const db = firebase.firestore();
       const docs = db.collection("users");

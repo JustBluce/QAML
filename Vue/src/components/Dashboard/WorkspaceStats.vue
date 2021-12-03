@@ -99,4 +99,11 @@ export default {
   
   
 }
+
+
+.leaderboard-title{
+  
+  background-color: #8ecae6;
+}
+
 </style>

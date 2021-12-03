@@ -3,8 +3,8 @@ Developers: Damian Rene and Jason Liu
 -->
 
 <template>
-  <v-card class="ma-4 pa-2 " elevation=4 style="display: block; border-radius: 5%; " max-width="350">
-    <v-card-title>
+  <v-card class="leaderboard-title ma-4 pa-2 " elevation=4 style="display: block; border-radius: 5%; " max-width="350">
+    <v-card-title >
       <v-avatar class="avatar" size="66" v-if="user && user.photoURL">
         <img alt="user" :src="user.photoURL" />
       </v-avatar>
@@ -15,6 +15,7 @@ Developers: Damian Rene and Jason Liu
       <div class="text--primary text-body-1" v-if="user">
         <strong class="name">{{ user.displayName }}</strong
         ><br />
+        
         <div style="margin-bottom: 5%;"></div>
         <v-row>
         <p class="font-weight-thin" style="margin-right: auto; margin-left:auto;">Questions</p>
@@ -22,6 +23,7 @@ Developers: Damian Rene and Jason Liu
         <p class="font-weight-thin" style="margin-right: auto; margin-left:auto;">Points</p>
          
         <p class="font-weight-thin" style="margin-right: auto; margin-left:auto;">Followers</p>
+        
        </v-row>
        <v-row >
         <p class="font-weight-bold" style="margin-right: auto; margin-left:auto;">25</p>
@@ -45,9 +47,15 @@ export default {
     return {
       user: null,
       points: 0, 
+      db: null, 
+      status: "",
+      docs: null, 
     };
   },
   methods: {
+    mounted(){
+        this.getConnectionStatus();
+    },
     test() {
       const user = firebase.auth().currentUser;
       if (user?.isAnonymous) {
@@ -75,11 +83,37 @@ export default {
     },
   },
 
+
   created() {
     this.user = firebase.auth().currentUser;
+    const UID = this.user.uid
     const db = firebase.firestore();
+    this.db = db
     const docs = db.collection("users");
 
+    const userStatusDatabaseRef = firebase.database().ref('/status/' + UID);
+    const isOfflineForDatabase = {
+      status_state: 'offline',
+      //status_last_changed: firebase.database.ServerValue.TIMESTAMP,
+    };
+
+    const isOnlineForDatabase = {
+        status_state: 'online',
+        //status_last_changed: firebase.database.ServerValue.TIMESTAMP,
+    };
+
+    firebase.database().ref('.info/connected').on('value', function(snapshot) {
+    // If we're not currently connected, don't do anything.
+    if (snapshot.val() == false) {
+        return;
+    };
+    userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
+        userStatusDatabaseRef.set(isOnlineForDatabase);
+    });
+    })
+   
+
+    //Get status
     //Sets points on dashboard initially
     docs.where('email', '==', this.user.email).get().then( snapshot => {
         snapshot.forEach(doc => {
@@ -90,7 +124,7 @@ export default {
     })
       
     //updates points on change in firestore
-    db.collection("users").onSnapshot(res => {
+    docs.onSnapshot(res => {
       const changes = res.docChanges()
 
       changes.forEach(change => {
@@ -100,6 +134,18 @@ export default {
         }
       })
     })
+    
+      // Get a database reference to our posts
+    
+    const ref = firebase.database().ref('/status/' + UID);
+
+    // Attach an asynchronous callback to read the data at our posts reference
+
+    firebase.database().ref('status').child(UID).child('status_state').get()
+      .then ((snapshot) => {
+          this.status = snapshot.val()
+      });
+
 
   }
 };
@@ -120,6 +166,11 @@ export default {
   
 
 }
+.leaderboard-title{
+  background-color: #8ecae6;
+  color: #8ecae6;
+}
+
 
 
 </style> 

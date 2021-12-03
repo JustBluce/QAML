@@ -3,37 +3,46 @@ Developers: Cai Zefan, Jason Liu, and Damian Rene
 -->
 
 <template>
-  <v-card class="ma-4" >
-    <v-card-title class="leaderboard-title">
-      Leaderboard
-      <v-spacer></v-spacer>
-      <v-text-field 
+
+<v-card class=" pa-2 " style="display: block; border-radius: 0%; " max-width="500"  height="100%">
+      <v-card-title class="leaderboard-title">Friends
+       
+       <v-row style="margin-left: 10px">
+        <v-col md=12>
+       <v-text-field 
+        class="search"
         v-model="search"
         append-icon="mdi-magnify"
         label="Search"
         single-line
         hide-details
       ></v-text-field>
+      </v-col>
+      </v-row>
+
     </v-card-title>
+
     <v-divider></v-divider>
+
     <v-data-table
       :headers="headers"
       :items="leaderboard"
       :search="search"
       :sort-by="['Score']"
       :sort-desc="[true]"
-      
-      
       multi-sort
     ></v-data-table>
-  </v-card>
+
+      <v-divider></v-divider>
+
+</v-card>
 </template>
 
 <script>
 import firebase from "firebase";
 
 export default {
-  name: "Leaderboard",
+  name: "Online_Status",
   data() {
     return {
       search: "",
@@ -110,6 +119,9 @@ export default {
 <style> 
 .leaderboard-title{
   background-color:  #007ea7  ;
+  color: white;
+}
+.search{
   color: white;
 }
 

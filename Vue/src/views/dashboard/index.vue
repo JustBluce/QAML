@@ -6,30 +6,51 @@ Developers: Jason Liu, Damian Rene, and Cai Zefan
   <div class="dashboard-container">
     <Taskbar title="Dashboard" />
   
-   
-      <v-row no-gutters>
-        <draggable tag="v-layout" >
-          
-          <v-col md=4 >
-        <WorkspaceStats/>
+       
+      
+      <v-row no-gutters> 
+        
+         <!-- Left SIDE   <draggable tag="v-layout" > -->
+        <v-col md=9>
+
+            <v-row no-gutters> 
+                <v-col md=4>
+                  <!--Blank left Area > -->
+                </v-col>
+                <v-col md=4>
+                    <Profile /> 
+                </v-col>
+                <v-col md=4>
+                     <!--Blank right Area > -->
+                </v-col>
+            </v-row>
+
+            <v-row no-gutters> 
+               <WorkspaceStats/>
+            
+                <GenreStats/>
+
+            </v-row>
+    
+            
         </v-col>
 
-        <v-col md=4 >
-        <Profile />  
-        </v-col>
 
-        <v-col md=4 >
-        <GenreStats/>
-        </v-col>
-        </draggable>
-        </v-row>
-
+        <!-- Right SIDE -->
          
+        <v-col md=3>
+            <Status/>
+            
+
+        </v-col>
+        
+      </v-row>
+
+         <!--
        <Leaderboard />
        <Friends/>
-
+          -->
       
-
   </div>
 </template>
 
@@ -41,6 +62,8 @@ import WorkspaceStats from "@/components/Dashboard/WorkspaceStats.vue";
 import Leaderboard from "@/components/Dashboard/Leaderboard.vue";
 import GenreStats from "@/components/Dashboard/GenreStats.vue"
 import Friends from "@/components/Dashboard/Friends.vue";
+import Status from '@/components/Dashboard/Status.vue';
+
 
 
 export default {
@@ -52,7 +75,9 @@ export default {
     WorkspaceStats,
     GenreStats,
     Leaderboard,
-    draggable,
+    Status,
+    draggable
+   
   },
   data() {
     return {

@@ -6,7 +6,7 @@ Developers: Damian Rene and Jason Liu
 
 
 
-    <v-card class="ma-4 pa-2 " style="display: block; border-radius: 5%" max-width="500" elevation="4">
+    <v-card class="ma-4 pa-2 " style="display: block; border-radius: 5%" max-width="300" elevation="4">
         <v-card-title> Genre distribution </v-card-title>
         <v-divider></v-divider>
         
@@ -43,7 +43,7 @@ export default {
         ["2017", 1030],
       ],
       options: {
-        width: 400,
+        width: 300,
         backgroundColor: "none",
       },
     };
