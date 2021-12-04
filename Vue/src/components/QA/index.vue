@@ -216,9 +216,9 @@ export default {
       return this.workspace.qa;
     },
     highlight_text() {
-      let keys = Object.keys(this.highlight);
+      let keys = Object.keys(this.highlight).join("|");
       let highlight_regex = keys
-        ? new RegExp(keys.join("|"), "gi")
+        ? new RegExp(keys, "gi")
         : new RegExp("$^");
       return this.qa.text
         .replace(/&/g, "&amp;")
@@ -1011,11 +1011,7 @@ export default {
         backdrop.style.width = textarea.$el.offsetWidth + "px";
         backdrop.scrollTop =
           textarea.$el.getElementsByTagName("textarea")[0].scrollTop;
-        this.highlight = Object.assign(
-          {},
-          this.highlight,
-          this.qa.highlight_words
-        );
+        this.highlight = Object.assign({}, this.qa.highlight_words);
       }.bind(this),
       10
     );

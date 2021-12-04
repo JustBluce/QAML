@@ -164,8 +164,8 @@ for i in range(0, len(data)):
 f_pop = open('app/wiki_entities.json')
 wiki_population = json.load(f_pop)
 
-f_pop = open('app/entity_vectors.json')
-entities_vector = json.load(f_pop)
+#f_pop = open('app/entity_vectors.json')
+#entities_vector = json.load(f_pop)
 
 entities =  [key for key,value in wiki_population.items() ]
 no_instances =  [value for key,value in wiki_population.items() ]
