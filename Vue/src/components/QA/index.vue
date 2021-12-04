@@ -143,6 +143,7 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
 
 
 <script>
+import Vue from "vue";
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
 import fileDownload from "js-file-download";
@@ -928,7 +929,7 @@ export default {
       );
     },
     linkWikipedia() {
-      wiki()
+      wiki({ apiUrl: "https://en.wikipedia.org/w/api.php" })
         .page(this.qa.answer_text)
         .then((page) => {
           this.wikiShow = true;

@@ -70,7 +70,7 @@ export default {
     entity_representation() {
       if (this.qa.entity_representation) {
         return this.qa.entity_representation.map((question, index) => {
-          wiki()
+          wiki({ apiUrl: "https://en.wikipedia.org/w/api.php" })
             .page(question.answer)
             .then((page) => {
               Vue.set(this.links, question.answer, page.url());
