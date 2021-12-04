@@ -42,7 +42,6 @@ Developers: Atith Gandhi, Raj Shah and Jason Liu
 </template>
 
 <script>
-import Vue from "vue";
 import wiki from "wikijs";
 
 export default {
@@ -73,7 +72,7 @@ export default {
           wiki({ apiUrl: "https://en.wikipedia.org/w/api.php" })
             .page(question.answer)
             .then((page) => {
-              Vue.set(this.links, question.answer, page.url());
+              this.$set(this.links, question.answer, page.url());
             })
             .catch((e) => {});
           return Object.assign(question, { id: index });

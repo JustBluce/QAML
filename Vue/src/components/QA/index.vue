@@ -196,6 +196,7 @@ export default {
       points: 0,
       textarea: {},
       interval: null,
+      highlight: {},
       highlightInterval: null,
       wikiShow: false,
       wiki: {
@@ -215,14 +216,11 @@ export default {
     qa() {
       return this.workspace.qa;
     },
-    highlight() {
-      return this.qa.highlight_words;
-    },
     highlight_text() {
-      let highlight_regex = new RegExp(
-        Object.keys(this.highlight).join("|"),
-        "gi"
-      );
+      let keys = Object.keys(this.highlight);
+      let highlight_regex = keys
+        ? new RegExp(keys.join("|"), "gi")
+        : new RegExp("$^");
       return this.qa.text
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -259,7 +257,7 @@ export default {
       });
     this.interval = setInterval(
       function () {
-        this.qa.highlight_words = {};
+        //this.qa.highlight_words = {};
         let formData = new FormData();
 
         // console.log(this.qa.text.lastIndexOf("🔔") > 0);
@@ -768,7 +766,6 @@ export default {
             this.genreChartData = header;
             console.log(this.genreChartData);
           }
-          console.log(this.highlight_words);
         });
         this.axios({
           url:
@@ -998,7 +995,6 @@ export default {
             this.genreChartData = header;
             console.log(this.genreChartData);
           }
-          console.log(this.highlight_words);
         });
       }
     }
@@ -1016,6 +1012,11 @@ export default {
         backdrop.style.width = textarea.$el.offsetWidth + "px";
         backdrop.scrollTop =
           textarea.$el.getElementsByTagName("textarea")[0].scrollTop;
+        this.highlight = Object.assign(
+          {},
+          this.highlight,
+          this.qa.highlight_words
+        );
       }.bind(this),
       10
     );
