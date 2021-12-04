@@ -340,7 +340,7 @@ export default {
               ];
             }
             this.qa.highlight_words[response.data["buzzer_last_word"]] =
-              "yellow";
+              "orange";
             for (let i = 0; i < response.data["hightlight_words"].length; i++) {
               this.qa.highlight_words[response.data["hightlight_words"][i]] =
                 "Buzzer";
@@ -565,7 +565,7 @@ export default {
             this.qa.highlight_words[response.data["hightlight_words"][i]] =
               "Buzzer";
           }
-          this.qa.highlight_words[response.data["buzzer_last_word"]] = "yellow";
+          this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
           // this.qa.text =
           //   this.qa.text.substr(
           //     0,
