@@ -143,7 +143,6 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
 
 
 <script>
-import Vue from "vue";
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
 import fileDownload from "js-file-download";

@@ -66,7 +66,7 @@ export function defaultQA() {
 		answer: [],
 		answer_text: '',
 		country_representation: [],
-		entity_representation: [{answer: "Harrison Ford", text: "Blah blha blah "}],
+		entity_representation: [],
 		people_ethnicity: '',
 		top5_similar_questions: [],
 		binary_search_based_buzzer: 'Buzzer text goes here',
