@@ -72,7 +72,7 @@ export default {
 
 <style scoped>
 .highlight {
-  background-color: #ee9a00;
+  background-color: var(--v-orange-base);
   opacity: 0.8;
   color: black;
   white-space: pre-wrap;

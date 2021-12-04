@@ -29,28 +29,40 @@ def buzz(question, ans, min_index=5):
     ----------
     question: This contains the string of containing the trivia question.
     min_index: The index of the string to the binary search from.
-
-
     Returns
     --------
     question_sentence: The substring on which the tf-idf model buzzes.
     rest_of_sentence: The remaining substring of the question.
     Flag: True/ False, True siginifies that the buzzer crosses the threshold.
-
     """
     answer = []
     # start = time.time()
     temp_word_array = question.split(' ')
     # check if buzzer ever goes above threshold
     index_of_bin_search = len(temp_word_array)
-    
+    set_check = 0
+    note_question = ""
+    index_q = -1
     if(len(temp_word_array)<15):
         return "The string is too short", "", False, "", -1, -1
-    if(len(temp_word_array)<30):
+    # if(len(temp_word_array)<30):
+    if(True):
         question_sentence = question
-        temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=1)
-        if (temp_var[0][1] < threshold_buzz):
-            return "The string does not cross the threshold", "", False, "", -1, -1
+        temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=5000)
+        if(len(temp_word_array)<30):
+            if (temp_var[0][1] < threshold_buzz):
+                for i in range(len(temp_var)):
+                    if(temp_var[i][0] == ans.replace(' ','_')):
+                        if ans!="":
+                            return "Buzzer does not cross the threshold: Ans is at rank " + str(i) + " with confidence " + str(temp_var[i][1]), "", False, "", -1, -1
+                return "The string does not cross the threshold", "", False, "", -1, -1
+        else:
+            set_check = 1
+            note_question = question_sentence
+            index_q = len(question_sentence)
+
+            
+            
     
     # print(temp_word_array)
     max_index = index_of_bin_search - 1
@@ -64,7 +76,7 @@ def buzz(question, ans, min_index=5):
         # print(i, max_index)
         index_of_bin_search = i
         question_sentence = " ".join(temp_word_array[:index_of_bin_search])
-        temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=1)
+        temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=5000)
         if (temp_var[0][1] > threshold_buzz):
             if(temp_var[0][0] == ans.replace(' ','_')):
                 set_flag = 1
@@ -75,14 +87,37 @@ def buzz(question, ans, min_index=5):
                 first_index_of_bin_search = index_of_bin_search
 
         elif(i == max_index):
-            return "Buzzer does not cross the threshold", "", False, "", -1, -1
-        
+            question_sentence = question
+            temp_var = guess_top_n(question=[question], params=params, max=3, n=5000)
+            if(ans!=""):
+                for i in range(len(temp_var)):
+                    if(temp_var[i][0] == ans.replace(' ','_')):
+                        if ans!="":
+                            if i == 0:
+                                if temp_var[i][1]>=threshold_buzz:
+                                    set_flag = 2
+                                    break
+                                else:
+                                    return "Buzzer does not cross the threshold, but it is the top guess with confidence " + str(temp_var[i][1]), "", False, "", -1, -1
+                            return "Buzzer does not cross the threshold: Ans is at rank " + str(i) + " with confidence " + str(temp_var[i][1]), "", False, "", -1, -1
+            # print("HERE")
+            if set_flag == 2:
+                break
+            if set_flag ==0:
+                return "Buzzer does not cross the threshold", "", False, temp_var[0][0], -1, -1
+    answer_ret = temp_var[0][0]
     if(set_flag == 2):
-        question_sentence = first_question_sentence
-        index_of_bin_search = first_index_of_bin_search
+        if set_check==1:
+            question_sentence = note_question
+            index_of_bin_search = index_q
+            answer_ret = ans.replace(' ','_')
+        else:
+            question_sentence = first_question_sentence
+            index_of_bin_search = first_index_of_bin_search
+            answer_ret = temp_var[0][0]
 
     rest_of_sentence = " ".join(temp_word_array[index_of_bin_search:])
-    return question_sentence, rest_of_sentence, True, temp_var[0][0], set_flag, index_of_bin_search
+    return question_sentence, rest_of_sentence, True, answer_ret, set_flag, index_of_bin_search
 
 def get_actual_guess_with_index(question, max=12):
     """
@@ -90,12 +125,10 @@ def get_actual_guess_with_index(question, max=12):
     ----------
     question: This contains a list of the strings containing the trivia question(s).
     max: The top max number of results to be considered for ranking.
-
     Returns
     --------
     answer[0][0][0:]: Retrieves the top guess from the tf-idf model in the following format: tuple ("name_of_wikipedia_document", confidence_score)
     indices[0][0]: The index of the top guess in the corpus.
-
     """
     start = time.time()
     vectorizer, Matrix, ans = params[0], params[1], params[2]
@@ -130,7 +163,6 @@ def check_drop_in_confidence(question, actual_confidence, max=50, ind = -1):
     max: The top max number of results to be considered for ranking.
     actual_confidence: The confidence of the top guess from the tf-idf model.
     ind: The index of the top guess in the corpus.
-
     Returns
     --------
     confidence: confidence of the top guess of the corpus.
@@ -157,7 +189,6 @@ def get_importance_of_each_sentence(question):
     Parameters
     ----------
     question: This contains the string of containing the trivia question.
-
     Returns
     --------
     list of key:value pairs of the following format:
@@ -244,6 +275,15 @@ def insert_into_db(q_id, date_incoming, date_outgoing, question, ans, buzzer_str
                                 
                             })
 
+def all_combinations(list_of_strings, question):
+    list_to_ret = set()
+    for i in list_of_strings:
+        s = i.lower()
+        l1 = list(map(''.join, itertools.product(*zip(s.upper(), s.lower()))))
+        for i in l1:
+            if question.find(i)!=-1:
+                list_to_ret.add(i)
+    return list(list_to_ret)
 
 @binary_search_based_buzzer.route("/buzz_full_question", methods=["POST"])
 def buzz_full_question():
@@ -252,7 +292,6 @@ def buzz_full_question():
     Parameters
     ----------
     None
-
     Returns
     --------
     Json object of the following format is returned:
@@ -262,7 +301,6 @@ def buzz_full_question():
         "flag":flag, #Flag which tells us whether the model buzzes or not.
         "importance": importance_sentence #Importance of each individual sentence in terms of drop in tf-idf model score due to the absence of the particular sentence.
     }
-
     Prints
     --------
     The time taken of the two sub-modules in the terminal:
@@ -304,7 +342,10 @@ def buzz_full_question():
     if q_id in prev_highlight:
         temp_highlight = list(set(prev_highlight[q_id]) - set(hightlight_words)) 
         temp_highlight = [x for x in temp_highlight if x not in stop_words]
-    prev_highlight[q_id] = hightlight_words + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words]
+    # print(hightlight_words)
+    hightlight_words = all_combinations(hightlight_words, question)
+    prev_highlight[q_id] = hightlight_words 
+    # + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words]
     print("----TIME (s) : /binary_search_based_buzzer/get_importance_sentence---", end - start)
     
-    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word, "hightlight_words":hightlight_words + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words], "remove_highlight":temp_highlight})
+    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word, "hightlight_words":hightlight_words , "remove_highlight":temp_highlight})

@@ -12,6 +12,7 @@ Back end: Flask
 
 Database: MySQL
 
+
 ## Preparations
 
 1. Clone the Repo
@@ -24,26 +25,27 @@ Please try our new model download script first! If there are any problems, you c
 With Script: 
 ```
 cd Flask
+pip install -r requirements.txt
 python3 download.py
 ```
-
+- Optional: use the `-t` or `--target` flag when running `pip` to specify path to directory where you want to install packages, and the `--cache-dir` flag to specify the package cache location
 
 Without Script: 
 - Download the following [model.pickle](https://drive.google.com/file/d/1k1akEuLpW02tfZ-ApValJwlcxJji-riO/view?usp=sharing) Place it in `QAML\Flask\model `
 - Download the following [difficulty_classifier](https://drive.google.com/drive/folders/1-Le-JF5e9fPPnZT3VuukxHSNnnqqGPu4?usp=sharing) Unzip it and place it in `QAML\Flask\model\difficulty_models`
 - Download the following and place ALL of them in `QAML\Flask\model\pronunciation_models\`
   -   [Pronunciation Regression.pickle](https://drive.google.com/file/d/16fb-dRHVRxK0JgUW8cT6zOSepIaikbEL/view?usp=sharing)
-  -   [Pronunciation_tf-idf.pickle](https://drive.google.com/file/d/1hV9WO4Md5Ht_5HuzKtZu0fswnh--1ean/view)
+  -   [Pronunciation_tf-idf.pickle](https://drive.google.com/file/d/1hV9WO4Md5Ht_5HuzKtZu0fswnh--1ean/view?usp=sharing)
   -   [word_freq.pickle](https://drive.google.com/file/d/1PzZMWm_jcJdz22TDvKI5MbBr9RBJKgLa/view?usp=sharing)
 
+Optional: to set the path for the model cache, define the `TRANSFORMERS_CACHE` environment variable
 
 ### Vue.js ( 2.6.14 )
 
 ```
-npm install 
-npm install -g @vue/cli
-npm install -g vue@2.6.14
+npm install
 ```
+- Optional: use the `--prefix` flag when running `npm install` to specify path to directory where you want to install packages, and use `npm config set cache` to specify the cache location
 
 If this does not work check out the guide below to try and install another way.
 
@@ -69,26 +71,20 @@ If no Conda:
 - `pip3 install -r requirements.txt`
 
 
-
-
 ## Running the Code
-
 
 ### Run the Flask App (Back End)
 
 1. Navigate to the root directory
 2. `cd Flask `
-5. `python3 run.py`
+3. `python3 run.py`
 
 ### Run the Vue Framework (Front End)
 
-6. (In a seperate terminal) Navigate to the root directory
-7. `cd Vue`
-8. `npm install`
-9. `npm run dev`
-
-
-
+4. (In a seperate terminal) Navigate to the root directory
+5. `cd Vue`
+6. `npm install`
+7. `npm run dev`
 
 
 ## Setup Error

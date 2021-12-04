@@ -2,6 +2,16 @@
  * Developers: Jason Liu
  */
 
+export const widget_types = [
+	'Timer',
+	'MachineGuesses',
+	'SimilarQuestions',
+	'Buzzer',
+	'Pronunciation',
+	'CountryRepresentation',
+	'EntityRepresentation'
+];
+
 export function widgetTemplate(type) {
 	let widget_templates = {
 		Timer: {
@@ -39,6 +49,12 @@ export function widgetTemplate(type) {
 			title: 'Country representation',
 			type: 'CountryRepresentation',
 			container: 'right'
+		},
+		EntityRepresentation: {
+			id: 6,
+			title: 'Entity representation',
+			type: 'EntityRepresentation',
+			container: 'right'
 		}
 	};
 	return widget_templates[type];
@@ -50,6 +66,7 @@ export function defaultQA() {
 		answer: [],
 		answer_text: '',
 		country_representation: [],
+		entity_representation: [],
 		people_ethnicity: '',
 		top5_similar_questions: [],
 		binary_search_based_buzzer: 'Buzzer text goes here',
@@ -57,10 +74,10 @@ export function defaultQA() {
 		genre: '',
 		subgenre: '',
 		top_guess_buzzer: '',
-		uid:'',
+		uid: '',
 		pronunciation: [],
-		buzz_word_this:'',
-		highlight_words : {},
+		buzz_word_this: '',
+		highlight_words: {}
 	};
 }
 
@@ -71,14 +88,8 @@ export function defaultWorkspace(id) {
 		tab: true,
 		title: id === 0 ? 'Workspace' : `Workspace (${id})`,
 		qa: defaultQA(),
-		widgets: [
-			widgetTemplate('Timer'),
-			widgetTemplate('SimilarQuestions'),
-			widgetTemplate('MachineGuesses'),
-			widgetTemplate('Buzzer'),
-			widgetTemplate('Pronunciation'),
-			widgetTemplate('CountryRepresentation')
-		],
+		widgets: widget_types.map((widget) => widgetTemplate(widget)),
+		widget_timestamps: widget_types.reduce((ac, a) => ({ ...ac, [a]: Date.now() }), {}),
 		results: {
 			dialog: false,
 			content: []

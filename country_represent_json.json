@@ -1,9 +1,0 @@
-<<<<<<< HEAD
-<<<<<<< .merge_file_a22204
-{"0": [{"Timestamp_frontend": "08/17/2021, 10:24:06", "Timestamp_backend": "08/17/2021, 10:24:09", "current_over_countries": [], "current_under_countries": [], "suggested_countries": []}, {"Timestamp_frontend": "08/17/2021, 10:24:52", "Timestamp_backend": "08/17/2021, 10:24:52", "current_over_countries": ["mexico"], "current_under_countries": [], "suggested_countries": ["japan"]}, {"Timestamp_frontend": "08/17/2021, 10:24:57", "Timestamp_backend": "08/17/2021, 10:24:58", "current_over_countries": [], "current_under_countries": ["japan"], "suggested_countries": []}]}
-=======
-{"0": [{"Timestamp_frontend": "08/12/2021, 01:29:14", "Timestamp_backend": "08/12/2021, 01:29:15", "current_over_countries": [], "current_under_countries": [], "suggested_countries": ["japan"]}, {"Timestamp_frontend": "08/12/2021, 01:29:43", "Timestamp_backend": "08/12/2021, 01:29:44", "current_over_countries": ["mexico"], "current_under_countries": [], "suggested_countries": ["japan"]}, {"Timestamp_frontend": "08/12/2021, 01:29:50", "Timestamp_backend": "08/12/2021, 01:29:50", "current_over_countries": [], "current_under_countries": ["japan"], "suggested_countries": []}]}
->>>>>>> .merge_file_a29528
-=======
-{"0": [{"Timestamp_frontend": "08/12/2021, 01:29:14", "Timestamp_backend": "08/12/2021, 01:29:15", "current_over_countries": [], "current_under_countries": [], "suggested_countries": ["japan"]}, {"Timestamp_frontend": "08/12/2021, 01:29:43", "Timestamp_backend": "08/12/2021, 01:29:44", "current_over_countries": ["mexico"], "current_under_countries": [], "suggested_countries": ["japan"]}, {"Timestamp_frontend": "08/12/2021, 01:29:50", "Timestamp_backend": "08/12/2021, 01:29:50", "current_over_countries": [], "current_under_countries": ["japan"], "suggested_countries": []}]}
->>>>>>> origin

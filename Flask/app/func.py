@@ -1,4 +1,4 @@
-#Cai and Raj
+#Raj, Atith and Cai
 # Description of this file:
 # 1. Finding the top 5 guesses of the tf-idf vectorizer
 
@@ -187,6 +187,8 @@ def act():
         time_stamps[q_id]=[]
         questions_all_time_stamps[q_id] = []
         ans_all_time_stamps[q_id] = []
+    if question.strip()=="":
+        return jsonify({"guess": [{"guess": "","score":""}]})
     time_stamps[q_id].append(date_incoming)
     questions_all_time_stamps[q_id].append(question)
     ans_all_time_stamps[q_id].append(ans)
@@ -326,6 +328,10 @@ def insert():
         if len(country_represent_json[q_id])>0:
             under_countries = country_represent_json[q_id][-1]["current_under_countries"]
             points+=len(under_countries)*10
+    if q_id in entity_represent_json:
+        if len(entity_represent_json[q_id])>0:
+            under_entities = entity_represent_json[q_id][-1]["current_under_entities"]
+            points+=len(under_entities)*10
     if q_id in similarity:
         if len(similarity[q_id])>0:
             similar_top_3 = similarity[q_id][-1]["edit_history"]["isSimilar"]
@@ -340,10 +346,11 @@ def insert():
     counter_difficulty = 0
     counter_buzz = 0
     counter_sim = 0
+    counter_entity = 0
     if q_id in time_stamps:
         i = time_stamps[q_id][0]
         big_dict["data"][i] = {}
-        big_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][0]
+        # big_dict["data"][i]["Question"] = questions_all_time_stamps[q_id][0]
         big_dict["data"][i]["Answer"] = ans_all_time_stamps[q_id][0]
         big_dict["data"][i]["Relevant"] = "First Time Stamp"
         big_dict["data"][i]["word_list_addition"] = []
@@ -376,6 +383,10 @@ def insert():
             if i == country_represent_json[q_id][counter_country]["Timestamp_frontend"]:
                 small_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
                 counter_country+=1
+        if q_id in entity_represent_json and len(entity_represent_json[q_id])!=0:  
+            if i == entity_represent_json[q_id][counter_entity]["Timestamp_frontend"]:
+                small_dict["data"][i]["entity_represent"] = entity_represent_json[q_id][counter_entity]
+                counter_entity+=1
         if q_id in pronunciation_dict and len(pronunciation_dict[q_id])!=0:
             if i == pronunciation_dict[q_id][counter_pron]["Timestamp_frontend"]:
                 small_dict["data"][i]["pronunciation_dict"] = pronunciation_dict[q_id][counter_pron]    
@@ -461,6 +472,13 @@ def insert():
                         big_dict["data"][i]["country_represent"] = country_represent_json[q_id][counter_country]
                         Flag_String = Flag_String + "Country_Represent;"
                         counter_country+=1
+                if q_id in entity_represent_json and counter_entity < len(entity_represent_json[q_id]):
+                    if i == entity_represent_json[q_id][counter_entity]["Timestamp_frontend"]:
+                        flag = 1
+                        small_dict["data"][i]["entity_represent"] = entity_represent_json[q_id][counter_entity]
+                        big_dict["data"][i]["entity_represent"] = entity_represent_json[q_id][counter_entity]
+                        Flag_String = Flag_String + "Entity_Represent;"
+                        counter_entity+=1
                 if q_id in pronunciation_dict and counter_pron < len(pronunciation_dict[q_id]):
                     if i == pronunciation_dict[q_id][counter_pron]["Timestamp_frontend"]:
                         flag = 1
@@ -477,12 +495,14 @@ def insert():
             
                 
     # print(json.dumps(big_dict, indent = 10))
-    QA_DIR = os.path.join(DIR, q_id)
-    os.mkdir(QA_DIR)
-    with open(os.path.join(QA_DIR, 'test.json'), 'w') as outfile:
-        json.dump(small_dict, outfile)
-    with open(os.path.join(QA_DIR, 'test_post_hoc.json'), 'w') as outfile:
-        json.dump(big_dict, outfile)
+    #QA_DIR = os.path.join(DIR, "../dumps", ans)
+    QA_DIR = os.path.join(DIR, "../dumps")
+    if (not os.path.isdir(QA_DIR)):
+        os.makedirs(QA_DIR)
+    with open(os.path.join(QA_DIR, "test.json"), "w") as outfile:
+        json.dump(small_dict, outfile, indent=2)
+    with open(os.path.join(QA_DIR, "test_post_hoc.json"), "w") as outfile:
+        json.dump(big_dict, outfile, indent=2)
         try:
             me = Question_json(q_id=q_id, data=big_dict, UID=user_id, points=points)
             db.session.add(me)
@@ -503,19 +523,21 @@ def insert():
             print(message_json)
             db.session.rollback()
 
-    with open(os.path.join(QA_DIR, 'machine_guess.json'), 'w') as outfile:
+    with open(os.path.join(QA_DIR, "machine_guess.json"), "w") as outfile:
         json.dump(machine_guess, outfile, indent=2)
-    with open(os.path.join(QA_DIR, 'pronunciation_dict.json'), 'w') as outfile:
+    with open(os.path.join(QA_DIR, "pronunciation_dict.json"), "w") as outfile:
         json.dump(pronunciation_dict, outfile, indent=2)
-    with open(os.path.join(QA_DIR, 'country_represent_json.json'), 'w') as outfile:
+    with open(os.path.join(QA_DIR, "country_represent_json.json"), "w") as outfile:
         json.dump(country_represent_json, outfile)
-    with open(os.path.join(QA_DIR, 'difficulty.json'), 'w') as outfile:
+    with open('entity_represent_json.json', 'w') as outfile:
+        json.dump(entity_represent_json, outfile)
+    with open(os.path.join(QA_DIR, "difficulty.json"), "w") as outfile:
         json.dump(difficulty, outfile)
-    with open(os.path.join(QA_DIR, 'buzzer.json'), 'w') as outfile:
+    with open(os.path.join(QA_DIR, "buzzer.json"), "w") as outfile:
         json.dump(buzzer, outfile, indent=2)
-    with open(os.path.join(QA_DIR, 'similarity.json'), 'w') as outfile:
+    with open(os.path.join(QA_DIR, "similarity.json"), "w") as outfile:
         json.dump(similarity, outfile, indent=2)
-    with open(os.path.join(QA_DIR, 'general_edit_history.json'), 'w') as outfile:
+    with open(os.path.join(QA_DIR, "general_edit_history.json"), "w") as outfile:
         json.dump(general_edit_history, outfile, indent=2)
     if q_id in machine_guess:
         machine_guess.pop(q_id)
@@ -525,9 +547,10 @@ def insert():
         state_pronunciation.pop(q_id)
     if q_id in country_represent_json:
         country_represent_json.pop(q_id)
+    if q_id in entity_represent_json:
+        entity_represent_json.pop(q_id)
     if q_id in general_edit_history:
         general_edit_history.pop(q_id)
-        # state_country_represent_json.pop(q_id)
     if q_id in difficulty:
         difficulty.pop(q_id)
     if q_id in buzzer:

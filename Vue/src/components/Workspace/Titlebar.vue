@@ -4,13 +4,7 @@ Developers: Jason Liu
 
 <template>
   <v-toolbar style="flex-grow: 0; z-index: 1">
-    <v-btn
-      icon
-      large
-      class="mr-1"
-      style="cursor: grab"
-      @mousedown="$emit('startDrag', $event)"
-    >
+    <v-btn icon large class="drag-selector mr-1" style="cursor: grab">
       <v-icon>mdi-drag</v-icon>
     </v-btn>
 
@@ -31,7 +25,7 @@ Developers: Jason Liu
 
     <v-spacer></v-spacer>
 
-    <v-btn :id="'toggleWidgets-'+id" icon large>
+    <v-btn :id="'toggleWidgets-' + id" icon large>
       <v-icon>mdi-hammer-wrench</v-icon>
       <v-tooltip bottom activator="#toggleWidgets">
         <span>Toggle widgets</span>
@@ -40,7 +34,7 @@ Developers: Jason Liu
         transition="fade-transition"
         offset-y
         rounded
-        :activator="'#toggleWidgets-'+id"
+        :activator="'#toggleWidgets-' + id"
         :close-on-content-click="false"
       >
         <v-list>

@@ -4,6 +4,8 @@ sys.path.append("..")
 sys.path.insert(0, "./app")
 from app import import_libraries
 from import_libraries import *
+import requests
+
 
 threshold_buzz = 0.2
 threshold_similar = 0.5
@@ -550,6 +552,7 @@ def find_basic_diff(s1,s2):
 tokenizer_difficulty, model_difficulty = load_bert_model_difficulty()
 params = get_pretrained_tfidf_vectorizer()
 tokenizer_country, model_country = load_bert_country_model()
+tokenizer_entity, model_entity = load_bert_country_model()
 pron_vectorizer, pron_regression, pron_word_freq = get_pronunciation_models()
 # tokenizer_pronunciation, model_pronunciation = load_pron_model_pronunciation()
 
@@ -685,6 +688,9 @@ genres = [
 country_represent_json = {}
 state_country_represent_json = {}
 
+entity_represent_json = {}
+state_entity_represent_json = {}
+
 machine_guess = {}
 state_machine_guess = {}
 
@@ -705,3 +711,161 @@ state_buzzer = {}
 # Raj: Might synchronize using locks
 # This is when I will access using the following method:
 modules_responsible = {}
+nlp = en_core_web_sm.load()
+stopWords = stopwords.words('english')
+
+def break_into_words_with_capital(question):
+    """
+
+    Parameters
+    ----------
+    question: This contains the string of containing the trivia question.
+
+    Returns
+    --------
+    Separates a string in the following manner and returns a list:
+    Hello, How areYou -> ["Hello", ",", "How", "are", "You"]
+
+    """
+    array_of_words =re.split('(?=[A-Z]| )', question)
+    return list(filter(None, [x.strip() for x in array_of_words])) 
+
+
+
+def bert_text_preparation(text, tokenizer):
+    """
+    Preparing the input for BERT
+
+    Takes a string argument and performs
+    pre-processing like adding special tokens,
+    tokenization, tokens to ids, and tokens to
+    segment ids. All tokens are mapped to seg-
+    ment id = 1.
+    Parameters
+        text (str): Text to be converted
+        tokenizer (obj): Tokenizer object
+            to convert text into BERT-re-
+            adable tokens and ids
+    Returns
+        list: List of BERT-readable tokens
+        obj: Torch tensor with token ids
+        obj: Torch tensor segment ids
+    """
+    marked_text = "[CLS] " + text + " [SEP]"
+    # print(marked_text)
+    tokenized_text = tokenizer.tokenize(marked_text)
+    # print(token)
+    indexed_tokens = tokenizer.convert_tokens_to_ids(tokenized_text)
+    segments_ids = [1]*len(indexed_tokens)
+
+    # Convert inputs to PyTorch tensors
+    tokens_tensor = torch.tensor([indexed_tokens])
+    segments_tensors = torch.tensor([segments_ids])
+
+    return tokenized_text, tokens_tensor, segments_tensors
+
+def get_bert_embeddings(tokens_tensor, segments_tensors, model):
+    """Get embeddings from an embedding model
+    Args:
+        tokens_tensor (obj): Torch tensor size [n_tokens]
+            with token ids for each token in text
+        segments_tensors (obj): Torch tensor size [n_tokens]
+            with segment ids for each token in text
+        model (obj): Embedding model to generate embeddings
+            from token and segment ids
+    Returns:
+        list: List of list of floats of size
+            [n_tokens, n_embedding_dimensions]
+            containing embeddings for each token
+    """
+    with torch.no_grad():
+        outputs = model(tokens_tensor, segments_tensors)
+        hidden_states = outputs.hidden_states[1:]
+
+    token_vecs = hidden_states[0]
+    sentence_embedding = torch.mean(token_vecs, dim=0)
+    return sentence_embedding
+
+def Sort(sub_li):
+    """
+
+    Parameters
+    ----------
+    sub_li: A list of lists of the following format
+    [
+        [
+            country_name, score
+        ]
+    ]
+    Returns
+    --------
+    Sorted list of lists in the descending order on the basis of score
+    """
+    # reverse = None (Sorts in Ascending order)
+    # key is set to sort using second element of
+    # sublist lambda has been used
+    return(sorted(sub_li, key=lambda x: x[1], reverse=True))
+
+def vectorize_albert(texts):
+    """
+
+    Parameters
+    ----------
+    texts: a list of strings to obtain the bert embeddings for.
+    Returns
+    --------
+    target_tweet_embeddings: A list containing the embeddings for each string in the list texts.
+    """
+    target_tweet_embeddings = []
+    for text in texts:
+        text = " ".join([word for word in break_into_words_with_capital(text) if word not in stopWords])
+        tokenized_text, tokens_tensor, segments_tensors = bert_text_preparation(text, tokenizer_country)
+        list_token_embeddings = get_bert_embeddings(tokens_tensor, segments_tensors, model_country)
+        tweet_embedding = np.mean(np.array(list_token_embeddings), axis=0)
+        target_tweet_embeddings.append(tweet_embedding)
+    return target_tweet_embeddings
+
+def get_related_entities(title):
+ 
+  session = requests.Session()
+
+  url = "https://en.wikipedia.org/w/api.php"
+  params = {
+      "action": "query",
+      "format": "json",
+      "titles": title,
+      "prop": "links",
+      "pllimit": "max"
+  }
+
+  response = session.get(url=url, params=params)
+  data = response.json()
+  pages = data["query"]["pages"]
+
+  pg_count = 1
+  page_titles = []
+
+  # print("Page %d" % pg_count)
+  for key, val in pages.items():
+      for link in val["links"]:
+          # print(link["title"])
+          page_titles.append(link["title"])
+
+  while "continue" in data:
+      plcontinue = data["continue"]["plcontinue"]
+      params["plcontinue"] = plcontinue
+
+      response = session.get(url=url, params=params)
+      data = response.json()
+      pages = data["query"]["pages"]
+
+      pg_count += 1
+
+      # print("\nPage %d" % pg_count)
+      for key, val in pages.items():
+          for link in val["links"]:
+              # print(link["title"])
+              page_titles.append(link["title"])
+
+  return page_titles
+

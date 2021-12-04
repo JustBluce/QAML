@@ -40,31 +40,71 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           </v-expand-transition>
         </v-card>
 
-        <div class="backdrop" ref="backdrop">
-          <div class="highlight" v-html="highlight_text"></div>
-        </div>
-        <v-textarea
-          ref="textarea"
-          background-color="background"
-          class="highlight-textarea my-4"
-          rows="10"
-          label="Question"
-          solo
-          v-model="qa.text"
-          hide-details="auto"
-          @keydown="keep_looping"
-        ></v-textarea>
+        <div style="position: relative">
+          <div class="backdrop" ref="backdrop">
+            <div class="highlight" v-html="highlight_text"></div>
+          </div>
 
-        <v-textarea
-          background-color="background"
-          class="my-4"
-          rows="1"
-          label="Answer"
-          solo
-          v-model="qa.answer_text"
-          hide-details="auto"
-          @input="update_representation"
-        ></v-textarea>
+          <v-textarea
+            ref="textarea"
+            background-color="background"
+            class="highlight-textarea my-4"
+            rows="10"
+            label="Question"
+            solo
+            v-model="qa.text"
+            hide-details="auto"
+            @keydown="keep_looping"
+          ></v-textarea>
+
+          <v-fab-transition>
+            <v-btn
+              id="answerWiki"
+              v-if="wikiShow"
+              :href="wiki.link"
+              target="_blank"
+              color="primary"
+              class="mt-2"
+              absolute
+              x-small
+              right
+              fab
+            >
+              <v-icon>mdi-wikipedia</v-icon>
+              <v-menu
+                open-on-hover
+                bottom
+                offset-y
+                max-width="400"
+                activator="#answerWiki"
+              >
+                <v-card>
+                  <v-list-item three-line>
+                    <v-list-item-content>
+                      <v-list-item-title>{{ wiki.title }}</v-list-item-title>
+                      <v-list-item-subtitle>{{
+                        wiki.extract
+                      }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                    <img :src="wiki.image" height="80" class="py-2" />
+                  </v-list-item>
+                </v-card>
+              </v-menu>
+            </v-btn>
+          </v-fab-transition>
+
+          <v-textarea
+            background-color="background"
+            class="my-4"
+            rows="1"
+            label="Answer"
+            solo
+            v-model="qa.answer_text"
+            hide-details="auto"
+            @input="update_representation"
+            @change="linkWikipedia()"
+          ></v-textarea>
+        </div>
 
         <v-row class="mx-1" no-gutters>
           <v-btn color="primary" @click="searchData">
@@ -73,24 +113,9 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
 
           <v-spacer></v-spacer>
 
-          <vue-blob-json-csv
-            @error="handleError"
-            file-type="json"
-            :file-name="this.workspace.title"
-            :data="[
-              {
-                Question: this.qa.text,
-                Answer: this.qa.answer_text,
-                Genre: this.qa.genre,
-              },
-            ]"
-            class="button is-primary"
-            color="primary"
-          >
-            <v-btn color="primary">
-              Download <v-icon right>mdi-cloud-download</v-icon>
-            </v-btn>
-          </vue-blob-json-csv>
+          <v-btn color="primary" @click="downloadQuestion()">
+            Download <v-icon right>mdi-cloud-download</v-icon>
+          </v-btn>
         </v-row>
       </v-container>
     </v-card>
@@ -120,6 +145,9 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
 <script>
 import { GChart } from "vue-google-charts";
 import firebase from "firebase";
+import fileDownload from "js-file-download";
+import jsonFormat from "json-format";
+import wiki from "wikijs";
 
 export default {
   name: "QA",
@@ -167,7 +195,15 @@ export default {
       points: 0,
       textarea: {},
       interval: null,
+      highlight: {},
       highlightInterval: null,
+      wikiShow: false,
+      wiki: {
+        title: "",
+        link: "",
+        image: "",
+        extract: "",
+      },
       qid: "",
       user_id: "",
     };
@@ -179,17 +215,11 @@ export default {
     qa() {
       return this.workspace.qa;
     },
-    widget_types() {
-      return this.workspace.widgets.map((widget) => widget.type);
-    },
-    highlight() {
-      return this.qa.highlight_words;
-    },
     highlight_text() {
-      let highlight_regex = new RegExp(
-        Object.keys(this.highlight).join("|"),
-        "gi"
-      );
+      let keys = Object.keys(this.highlight).join("|");
+      let highlight_regex = keys
+        ? new RegExp(keys, "gi")
+        : new RegExp("$^");
       return this.qa.text
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -214,10 +244,35 @@ export default {
   created: function () {
     this.user_id = firebase.auth().currentUser.uid;
     // console.log(this.user_id)
+    this.qid =
+      this.user_id +
+      new Date().toLocaleString("en-US", {
+        hour12: false,
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
     this.interval = setInterval(
       function () {
-        this.qid =
-          this.user_id +
+        //this.qa.highlight_words = {};
+        let formData = new FormData();
+
+        // console.log(this.qa.text.lastIndexOf("🔔") > 0);
+        // while (this.qa.text.lastIndexOf("🔔") > 0) {
+        //   this.qa.text =
+        //     this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+        //     this.qa.text.substr(
+        //       this.qa.text.lastIndexOf("🔔") + "🔔".length,
+        //       this.qa.text.length
+        //     );
+        // }
+        formData.append("text", this.qa.text);
+        formData.append("answer_text", this.qa.answer_text);
+        formData.append(
+          "date",
           new Date().toLocaleString("en-US", {
             hour12: false,
             month: "2-digit",
@@ -226,14 +281,178 @@ export default {
             hour: "2-digit",
             minute: "2-digit",
             second: "2-digit",
-          });
-        this.qa.highlight_words = {};
+          })
+        );
+        formData.append("user_id", this.user_id);
+        formData.append("qid", this.qid);
+        // this.qa.genre = this.selected_genre
+        // if(this.answer_text === "" || this.text ==="" || this.qa.genre === "")
+        //         {
+        //           this.addModal(
+        //           "Warning !!! Please some fields are empty","Please make sure the QA box and the Answer box are filled and the Genre is selected"
+        //         );
+        //         }
+        // else{
+        this.axios({
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/func/act",
 
-        this.updateGuess();
-        this.updateBuzzer();
-        this.updateSimilarity();
-        this.updateCountry();
-        this.updatePronunciation();
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          this.qa.answer = response.data["guess"];
+          // console.log(response);
+        });
+        this.axios({
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/binary_search_based_buzzer/buzz_full_question",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          // while (this.qa.text.lastIndexOf("🔔") > 0) {
+          //   this.qa.text =
+          //     this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+          //     this.qa.text.substr(
+          //       this.qa.text.lastIndexOf("🔔") + "🔔".length,
+          //       this.qa.text.length
+          //     );
+          // }
+
+          this.qa.binary_search_based_buzzer = response.data["buzz"];
+          this.qa.importance = response.data["importance"];
+          // this.highlight = response.data["buzz_word"];
+          this.qa.top_guess_buzzer = response.data["top_guess"];
+          if (
+            this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
+            response.data["flag"]
+          ) {
+            if (this.qa.buzz_word_this in this.qa.highlight_words) {
+              delete this.qa.highlight_words[this.qa.buzz_word_this];
+            }
+            this.qa.buzz_word_this = response.data["buzzer_last_word"];
+
+            for (let i = 0; i < response.data["remove_highlight"].length; i++) {
+              delete this.qa.highlight_words[
+                response.data["remove_highlight"][i]
+              ];
+            }
+            this.qa.highlight_words[response.data["buzzer_last_word"]] =
+              "orange";
+            for (let i = 0; i < response.data["hightlight_words"].length; i++) {
+              this.qa.highlight_words[response.data["hightlight_words"][i]] =
+                "Buzzer";
+            }
+
+            // this.qa.text =
+            //   this.qa.text.substr(
+            //     0,
+            //     this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10
+            //   ) +
+            //   "🔔" +
+            //   this.qa.text.substr(
+            //     this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
+            //     this.qa.text.length
+            //   );
+          } else {
+            if (this.qa.buzz_word_this in this.qa.highlight_words) {
+              delete this.qa.highlight_words[this.qa.buzz_word_this];
+            }
+          }
+          // console.log(this.qa.text.lastIndexOf(response.data["buzz_word"]));
+          // console.log(this.qa.text.indexOf(response.data["buzz_word"]));
+          // console.log(response);
+        });
+
+        this.axios({
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/similar_question/retrieve_similar_question",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          // if (response.data["similar_question"][0]) {
+          //   this.addModal(
+          //     "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+          //     response.data["similar_question"][1][0]['text']
+          //   );
+          // }
+          this.qa.top5_similar_questions = response.data["similar_question"];
+          // console.log(response);
+        });
+        this.axios({
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/country_represent/country_present",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          this.qa.country_representation =
+            response.data["country_representation"];
+          for (
+            let i = 0;
+            i < response.data["current_over_countries"].length;
+            i++
+          ) {
+            this.qa.highlight_words[
+              response.data["current_over_countries"][i]
+            ] = "purple";
+          }
+          // console.log(this.highlight_words)
+          // console.log(response);
+        });
+        this.axios({
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/entity_represent/entity_present",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          this.qa.entity_representation =
+            response.data["entity_representation"];
+          for (
+            let i = 0;
+            i < response.data["current_over_entities"].length;
+            i++
+          ) {
+            this.qa.highlight_words[response.data["current_over_entities"][i]] =
+              "purple";
+          }
+          // console.log(this.highlight_words)
+          // console.log(response);
+        });
+        this.axios({
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/pronunciation/get_pronunciation",
+          method: "POST",
+          data: formData,
+        }).then((response) => {
+          this.qa.pronunciation = response.data["message"];
+          // console.log( response.data["list_of_words_to_remove"]);
+          for (
+            let i = 0;
+            i < response.data["list_of_words_to_remove"].length;
+            i++
+          ) {
+            delete this.qa.highlight_words[
+              response.data["list_of_words_to_remove"][i]
+            ];
+          }
+          for (let i = 0; i < response.data["message"].length; i++) {
+            this.qa.highlight_words[response.data["message"][i]["Word"]] =
+              "Pronunciation";
+          }
+          // console.log(this.highlight_words)
+          // console.log(response);
+        });
       }.bind(this),
       15000
     );
@@ -255,25 +474,248 @@ export default {
           // ...
         });
     },
-
-    handleError() {
-      alert("Error in downloading the JSON File. Try it after some time !!!");
-    },
-
     keep_looping: _.debounce(function () {
       // this.highlight_words = {}
       console.log(this.qa.highlight_words);
       clearInterval(this.interval);
 
-      this.updateGuess();
-      this.updateBuzzer();
-      this.updateSimilarity();
-      this.updateCountry();
-      this.updatePronunciation();
+      let formData = new FormData();
+      // console.log(
+      //   new Date().toLocaleString("en-US", {
+      //     hour12: false,
+      //     month: "2-digit",
+      //     day: "2-digit",
+      //     year: "numeric",
+      //     hour: "2-digit",
+      //     minute: "2-digit",
+      //     second: "2-digit",
+      //   })
+      // );
+      // console.log(new Date().toString())
+      // while (this.qa.text.lastIndexOf("🔔") > 0) {
+      //   this.qa.text =
+      //     this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+      //     this.qa.text.substr(
+      //       this.qa.text.lastIndexOf("🔔") + "🔔".length,
+      //       this.qa.text.length
+      //     );
+      // }
+      formData.append("text", this.qa.text);
+      formData.append("answer_text", this.qa.answer_text);
+      formData.append(
+        "date",
+        new Date().toLocaleString("en-US", {
+          hour12: false,
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
+      formData.append("user_id", this.user_id);
+      formData.append("qid", this.qid);
+      this.axios({
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/func/act",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.answer = response.data["guess"];
+        // console.log(response);
+      });
+      this.axios({
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/binary_search_based_buzzer/buzz_full_question",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        // while (this.qa.text.lastIndexOf("🔔") > 0) {
+        //   this.qa.text =
+        //     this.qa.text.substr(0, this.qa.text.lastIndexOf("🔔")) +
+        //     this.qa.text.substr(
+        //       this.qa.text.lastIndexOf("🔔") + "🔔".length,
+        //       this.qa.text.length
+        //     );
+        // }
+
+        this.qa.binary_search_based_buzzer = response.data["buzz"];
+        this.qa.importance = response.data["importance"];
+        // this.highlight = response.data["buzz_word"];
+
+        this.qa.top_guess_buzzer = response.data["top_guess"];
+        if (
+          this.qa.text.lastIndexOf(response.data["buzz_word"]) > 0 &&
+          response.data["flag"]
+        ) {
+          if (this.qa.buzz_word_this in this.qa.highlight_words) {
+            delete this.qa.highlight_words[this.qa.buzz_word_this];
+          }
+          this.qa.buzz_word_this = response.data["buzzer_last_word"];
+          //
+          for (let i = 0; i < response.data["remove_highlight"].length; i++) {
+            delete this.qa.highlight_words[
+              response.data["remove_highlight"][i]
+            ];
+          }
+          for (let i = 0; i < response.data["hightlight_words"].length; i++) {
+            this.qa.highlight_words[response.data["hightlight_words"][i]] =
+              "Buzzer";
+          }
+          this.qa.highlight_words[response.data["buzzer_last_word"]] = "orange";
+          // this.qa.text =
+          //   this.qa.text.substr(
+          //     0,
+          //     this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10
+          //   ) +
+          //   "🔔" +
+          //   this.qa.text.substr(
+          //     this.qa.text.lastIndexOf(response.data["buzz_word"]) + 10,
+          //     this.qa.text.length
+          //   );
+        } else {
+          if (this.qa.buzz_word_this in this.qa.highlight_words) {
+            delete this.qa.highlight_words[this.qa.buzz_word_this];
+          }
+        }
+      });
+      this.axios({
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/similar_question/retrieve_similar_question",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        // if (response.data["similar_question"][0]) {
+        //   this.addModal(
+        //     "Warning !!! Your question is similar to the below given question. Please rewrite it again:",
+        //     response.data["similar_question"][1][0]['text']
+        //   );
+        // }
+        this.qa.top5_similar_questions = response.data["similar_question"];
+      });
+      this.axios({
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/country_represent/country_present",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.country_representation =
+          response.data["country_representation"];
+        for (
+          let i = 0;
+          i < response.data["current_over_countries"].length;
+          i++
+        ) {
+          this.qa.highlight_words[response.data["current_over_countries"][i]] =
+            "CountryRepresentation";
+        }
+        // console.log(this.highlight_words)
+      });
+      this.axios({
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/entity_represent/entity_present",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.entity_representation = response.data["entity_representation"];
+        for (
+          let i = 0;
+          i < response.data["current_over_entities"].length;
+          i++
+        ) {
+          this.qa.highlight_words[response.data["current_over_entities"][i]] =
+            "purple";
+        }
+        // console.log(this.highlight_words)
+        // console.log(response);
+      });
+      this.axios({
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/pronunciation/get_pronunciation",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.pronunciation = response.data["message"];
+        for (
+          let i = 0;
+          i < response.data["list_of_words_to_remove"].length;
+          i++
+        ) {
+          delete this.qa.highlight_words[
+            response.data["list_of_words_to_remove"][i]
+          ];
+        }
+        // console.log("_________________");
+        // console.log(response.data["list_of_words_to_remove"]);
+        // console.log("_________________");
+        for (let i = 0; i < response.data["message"].length; i++) {
+          this.qa.highlight_words[response.data["message"][i]["Word"]] =
+            "Pronunciation";
+        }
+      });
     }, 1000),
 
     update_representation: _.debounce(function () {
-      this.updateCountry();
+      let formData = new FormData();
+      formData.append("text", this.qa.text);
+      formData.append("answer_text", this.qa.answer_text);
+      formData.append(
+        "date",
+        new Date().toLocaleString("en-US", {
+          hour12: false,
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
+      formData.append("user_id", this.user_id);
+      formData.append("qid", this.qid);
+      // this.axios({
+      //   url: "http://127.0.0.1:5000/over_present/highlight",
+      //   method: "POST",
+      //   data: formData,
+      // }).then((response) => {
+      //   this.highlight_text = response.data["highlight_text"];
+      //   // this.qa.importance = response.data["importance"];
+      //   // this.highlight = response.data["buzz_word"];
+      //   console.log(response);
+      // });
+      this.axios({
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/country_represent/country_present",
+        method: "POST",
+        data: formData,
+      }).then((response) => {
+        this.qa.country_representation =
+          response.data["country_representation"];
+        for (
+          let i = 0;
+          i < response.data["current_over_countries"].length;
+          i++
+        ) {
+          this.qa.highlight_words[response.data["current_over_countries"][i]] =
+            "CountryRepresentation";
+        }
+        // console.log(this.highlight_words)
+      });
     }, 1000),
 
     searchData() {
@@ -299,7 +741,10 @@ export default {
         formData.append("genre", this.qa.genre);
 
         this.axios({
-          url: "http://127.0.0.1:5000/genre_classifier/genre_data",
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/genre_classifier/genre_data",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -315,10 +760,12 @@ export default {
             this.genreChartData = header;
             console.log(this.genreChartData);
           }
-          console.log(this.highlight_words);
         });
         this.axios({
-          url: "http://127.0.0.1:5000/similar_question/retrieve_similar_question",
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/similar_question/retrieve_similar_question",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -329,7 +776,10 @@ export default {
             });
           } else {
             this.axios({
-              url: "http://127.0.0.1:5000/difficulty_classifier/classify",
+              url:
+                process.env.VUE_APP_HOST +
+                process.env.VUE_APP_BACKEND_PORT +
+                "/difficulty_classifier/classify",
               method: "POST",
               data: formData,
             }).then((response) => {
@@ -356,7 +806,10 @@ export default {
                   // console.log("1");
                   window.setTimeout(() => {
                     this.axios({
-                      url: "http://127.0.0.1:5000/func/insert",
+                      url:
+                        process.env.VUE_APP_HOST +
+                        process.env.VUE_APP_BACKEND_PORT +
+                        "/func/insert",
                       method: "POST",
                       data: formData,
                     }).then((response) => {
@@ -409,7 +862,10 @@ export default {
       formData.append("qid", this.qid);
       formData.append("user_id", this.user_id);
       this.axios({
-        url: "http://127.0.0.1:5000/genre_classifier/classify",
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/genre_classifier/classify",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -552,12 +1008,42 @@ export default {
       formData.append("email", user.email);
       formData.append("UID", user.uid);
       this.axios({
-        url: "http://127.0.0.1:5000/test1/json",
+        url:
+          process.env.VUE_APP_HOST +
+          process.env.VUE_APP_BACKEND_PORT +
+          "/test1/json",
         method: "POST",
       }).then((response) => {
         this.Question_id = response.data["Question_id"];
         console.log(response);
       });
+    },
+    downloadQuestion() {
+      fileDownload(
+        jsonFormat({
+          Question: this.qa.text,
+          Answer: this.qa.answer_text,
+          Genre: this.qa.genre,
+        }),
+        `${this.workspace.title}.json`
+      );
+    },
+    linkWikipedia() {
+      wiki({ apiUrl: "https://en.wikipedia.org/w/api.php" })
+        .page(this.qa.answer_text)
+        .then((page) => {
+          this.wikiShow = true;
+          this.wiki.link = page.url();
+          return page.chain().image().summary().request();
+        })
+        .then((data) => {
+          this.wiki.title = data.title;
+          this.wiki.image = data.image.name ? data.image.thumbnail.source : "";
+          let extract = data.extract;
+          while (extract != (extract = extract.replace(/\([^\(\)]*\)/g, " "))); // Remove nested parens
+          this.wiki.extract = extract;
+        })
+        .catch((e) => (this.wikiShow = false));
     },
   },
 
@@ -584,7 +1070,10 @@ export default {
       formData.append("genre", this.qa.genre);
       if (this.user_id != "") {
         this.axios({
-          url: "http://127.0.0.1:5000/genre_classifier/genre_data",
+          url:
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_BACKEND_PORT +
+            "/genre_classifier/genre_data",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -601,7 +1090,6 @@ export default {
             this.genreChartData = header;
             console.log(this.genreChartData);
           }
-          console.log(this.highlight_words);
         });
       }
     }
@@ -619,9 +1107,12 @@ export default {
         backdrop.style.width = textarea.$el.offsetWidth + "px";
         backdrop.scrollTop =
           textarea.$el.getElementsByTagName("textarea")[0].scrollTop;
+        this.highlight = Object.assign({}, this.qa.highlight_words);
       }.bind(this),
       10
     );
+
+    this.linkWikipedia();
   },
 
   beforeDestroy() {
