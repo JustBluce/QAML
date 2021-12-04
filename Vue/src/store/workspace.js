@@ -2,6 +2,16 @@
  * Developers: Jason Liu
  */
 
+export const widget_types = [
+	'Timer',
+	'MachineGuesses',
+	'SimilarQuestions',
+	'Buzzer',
+	'Pronunciation',
+	'CountryRepresentation',
+	'EntityRepresentation'
+];
+
 export function widgetTemplate(type) {
 	let widget_templates = {
 		Timer: {
@@ -78,15 +88,8 @@ export function defaultWorkspace(id) {
 		tab: true,
 		title: id === 0 ? 'Workspace' : `Workspace (${id})`,
 		qa: defaultQA(),
-		widgets: [
-			widgetTemplate('Timer'),
-			widgetTemplate('SimilarQuestions'),
-			widgetTemplate('MachineGuesses'),
-			widgetTemplate('Buzzer'),
-			widgetTemplate('Pronunciation'),
-			widgetTemplate('CountryRepresentation'),
-			widgetTemplate('EntityRepresentation')
-		],
+		widgets: widget_types.map((widget) => widgetTemplate(widget)),
+		widget_timestamps: widget_types.reduce((ac, a) => ({ ...ac, [a]: Date.now() }), {}),
 		results: {
 			dialog: false,
 			content: []
