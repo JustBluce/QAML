@@ -20,14 +20,17 @@ Developers: Jason Liu
 
       <section class="primary">
         <div class="text-h4 font-weight-bold">Cybernetic question writing</div>
-        <div class="text-h5 mt-6">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+        <div class="text-justify mt-6 par">
+          Whether you are a professional Quiz Bowl writer, or just new to the
+          game, QAML helps you unlock the full potential of your trivia writing
+          skills. Users benefit from QAML’s suite of machine-learning tools that
+          expose in real-time our AI’s buzz position, top guesses, giveaway
+          clues, and more. Additional widgets help users improve question
+          diversity by recommending relevant yet underrepresented topics, and
+          identifying similar phrases from past questions. Combining the
+          robustness of machine models with the ingenuity of human creativity,
+          we can make question-answering an exciting community for computer
+          scientists and trivia enthusiasts alike.
         </div>
         <div class="wave">
           <svg
@@ -46,14 +49,14 @@ Developers: Jason Liu
 
       <section class="background">
         <div class="text-h4 font-weight-bold">AI-enhanced gameplay</div>
-        <div class="text-h5 mt-6">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+        <div class="text-justify mt-6 par">
+          Play with your friends against the timer to write the most adversarial
+          trivia question you can in 5 minutes! QAML incentivizes adversarial
+          question-writing by rewarding users with points for submitting
+          questions that our AI finds difficult and diverse. Characteristics of
+          an adversarial question include late or incorrect machine buzzes,
+          novel clues, and inclusion of underrepresented entities. Points and
+          high leaderboard positions can be exchanged for prizes.
         </div>
         <div class="wave">
           <svg
@@ -72,11 +75,21 @@ Developers: Jason Liu
 
       <section class="primary">
         <div class="text-h4 font-weight-bold">Meet the team</div>
-        <div class="text-h5 mt-6">
+        <div class="mt-6 par">
           <strong>Developers:</strong>
-          Zefan Cai, Atith Gandhi, Jason Liu, Damian Rene, Raj Shah<br />
+          <ul>
+            <li>Raj Shah (Georgia Institute of Technology)</li>
+            <li>Atith Gandhi</li>
+            <li>Zefan Cai (Peking University)</li>
+            <li>Jason Liu (Montgomery Blair High School)</li>
+            <li>Damian Rene (The Gunston School)</li>
+          </ul>
+          <br />
           <strong>Mentors:</strong>
-          Saptarashmi Bandyopadhyay, Jordan Boyd-Graber
+          <ul>
+            <li>Dr. Jordan Boyd-Graber (University of Maryland)</li>
+            <li>Saptarashmi Bandyopadhyay (University of Maryland)</li>
+          </ul>
         </div>
         <div class="wave">
           <svg
@@ -108,9 +121,9 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 600px;
-  padding: 100px 30vw;
-  padding-top: 250px;
+  min-height: 200px;
+  padding: 50px;
+  padding-top: 200px;
 }
 
 span {
@@ -119,8 +132,13 @@ span {
 }
 
 .title {
-  min-height: 200px;
+  min-height: 100px;
   padding: 50px 20vw;
+}
+
+.par {
+  width: 600px;
+  font-size: 1.25em;
 }
 
 .wave {
