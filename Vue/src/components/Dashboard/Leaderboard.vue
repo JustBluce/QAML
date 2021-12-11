@@ -4,19 +4,24 @@ Developers: Cai Zefan, Jason Liu, and Damian Rene
 
 <template>
   <v-card class="ma-4" >
-    <v-card-title class="leaderboard-title">
+    <v-card-title class="leaderboard-title " >
       Leaderboard
       <v-spacer></v-spacer>
       <v-text-field 
+        dark
+        filled
+       
         v-model="search"
         append-icon="mdi-magnify"
         label="Search"
         single-line
         hide-details
+        
       ></v-text-field>
     </v-card-title>
     <v-divider></v-divider>
-    <v-data-table
+    <v-data-table 
+  
       :headers="headers"
       :items="leaderboard"
       :search="search"
@@ -112,5 +117,7 @@ export default {
   background-color:  #007ea7  ;
   color: white;
 }
-
+.search{
+  color: red;
+}
 </style>

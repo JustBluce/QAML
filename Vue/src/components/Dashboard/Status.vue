@@ -4,36 +4,35 @@ Developers: Cai Zefan, Jason Liu, and Damian Rene
 
 <template>
 
-<v-card class=" pa-2 " style="display: block; border-radius: 0%; " max-width="500"  height="100%">
-      <v-card-title class="leaderboard-title">Friends
+<v-card class=" pa-2 " style="display: block; border-radius: 0%; " max-width="500"  height="70%">
+      <v-card-title class="leaderboard-title">Leaderbaord
        
-       <v-row style="margin-left: 10px">
-        <v-col md=12>
-       <v-text-field 
-        class="search"
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-      </v-col>
-      </v-row>
+     
+          <v-text-field 
+          dark
+            class="search"
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+     
 
     </v-card-title>
 
     <v-divider></v-divider>
 
-    <v-data-table
-      :headers="headers"
-      :items="leaderboard"
-      :search="search"
-      :sort-by="['Score']"
-      :sort-desc="[true]"
-      multi-sort
-    ></v-data-table>
-
-      <v-divider></v-divider>
+    <v-layout column style="height: 100vh">  
+    <v-flex md6 style="overflow: auto">
+      <v-data-table
+        :headers="headers"
+        :items="leaderboard"
+        :search="search"
+        :sort-desc="[true]"
+      ></v-data-table>
+    </v-flex>
+    </v-layout>
 
 </v-card>
 </template>
