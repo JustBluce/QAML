@@ -1,7 +1,6 @@
 <!--
 Developers: Jason Liu
 -->
-
 <template>
   <v-container
     fluid
@@ -17,17 +16,22 @@ Developers: Jason Liu
           <span>M</span>achine <span>L</span>earning
         </div>
       </section>
-
       <section class="primary">
-        <div class="text-h4 font-weight-bold">Cybernetic question writing</div>
-        <div class="text-h5 mt-6">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+        <div class="text-h4 font-weight-bold">Adversarial question writing</div>
+        <div class="text-justify mt-6 par">
+          Whether you are a professional Quiz Bowl writer, or just new to
+          playing trivia games, the Trick interface helps you unlock the full
+          potential of your question writing skills. In order to assist users,
+          Trick has a suite of interactive machine-learning tools working in
+          real time, including our AI’s buzz position, top guesses, giveaway
+          clues, and more. Additional widgets aim to assist users in improving
+          question diversity by recommending relevant yet underrepresented
+          topics, and identifying similar phrases from past questions. Users can
+          download their trivia questions which can help them while practicing
+          for trivia competitions. Combining the robustness of machine models
+          with the ingenuity of human creativity, we can make question-answering
+          an exciting community for all while improving the paradigms of
+          adversarial learning.
         </div>
         <div class="wave">
           <svg
@@ -43,17 +47,16 @@ Developers: Jason Liu
           </svg>
         </div>
       </section>
-
       <section class="background">
         <div class="text-h4 font-weight-bold">AI-enhanced gameplay</div>
-        <div class="text-h5 mt-6">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+        <div class="text-justify mt-6 par">
+          Play with your friends against the timer to write the most adversarial
+          trivia question you can in 5 minutes! Trick incentivizes adversarial
+          question-writing by rewarding users with points for submitting
+          questions that our AI finds difficult and diverse. Characteristics of
+          an adversarial question include late or incorrect machine buzzes,
+          novel clues, and inclusion of underrepresented entities. Points and
+          high leaderboard positions can be exchanged for prizes.
         </div>
         <div class="wave">
           <svg
@@ -69,14 +72,19 @@ Developers: Jason Liu
           </svg>
         </div>
       </section>
-
       <section class="primary">
         <div class="text-h4 font-weight-bold">Meet the team</div>
-        <div class="text-h5 mt-6">
+        <div class="mt-6 par">
           <strong>Developers:</strong>
-          Zefan Cai, Atith Gandhi, Jason Liu, Damian Rene, Raj Shah<br />
-          <strong>Mentors:</strong>
-          Saptarashmi Bandyopadhyay, Jordan Boyd-Graber
+          <ul>
+            <li>Saptarashmi Bandyopadhyay (University of Maryland)</li>
+            <li>Raj Shah (Georgia Institute of Technology)</li>
+            <li>Atith Gandhi</li>
+            <li>Zefan Cai (Peking University)</li>
+            <li>Jason Liu (Montgomery Blair High School)</li>
+            <li>Damian Rene (The Gunston School)</li>
+            <li>Dr. Jordan Boyd-Graber (University of Maryland)</li>
+          </ul>
         </div>
         <div class="wave">
           <svg
@@ -108,21 +116,22 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 600px;
-  padding: 100px 30vw;
-  padding-top: 250px;
+  min-height: 200px;
+  padding: 50px;
+  padding-top: 200px;
 }
-
 span {
   color: var(--v-primary-base);
   font-weight: bold;
 }
-
 .title {
-  min-height: 200px;
+  min-height: 100px;
   padding: 50px 20vw;
 }
-
+.par {
+  width: 600px;
+  font-size: 1.25em;
+}
 .wave {
   position: absolute;
   top: 0;
@@ -131,18 +140,15 @@ span {
   overflow: hidden;
   line-height: 0;
 }
-
 .wave svg {
   position: relative;
   display: block;
   width: calc(131% + 1.3px);
   height: 300px;
 }
-
 .wave .background-fill {
   fill: var(--v-background-base);
 }
-
 .wave .primary-fill {
   fill: var(--v-primary-base);
 }

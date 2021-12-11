@@ -25,4 +25,4 @@ Flask/dumps/
 Flask/model/
 .VSCodeCounter/
 Flask/app/entity_vectorize.json
-Flask/app/entity.json
+Flask/app/entity_vectors_raj_old.json

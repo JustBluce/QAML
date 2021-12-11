@@ -14,8 +14,21 @@ Developers: Jason Liu
         single-line
       ></v-text-field>
       <v-row class="mx-1 justify-center" no-gutters>
-        <v-btn color="primary" @click="downloadData()">Download all</v-btn>
-        <v-btn class="ml-2" color="red" dark @click="popup = true"
+        <v-btn
+          color="primary"
+          @click="downloadData()"
+          :disabled="filteredWorkspaces.length == 0"
+          >Download all</v-btn
+        >
+        <v-btn
+          class="ml-2"
+          color="red"
+          dark
+          @click="
+            if (filteredWorkspaces.length != 0) {
+              popup = true;
+            }
+          "
           >Delete all</v-btn
         >
       </v-row>
@@ -115,7 +128,7 @@ export default {
 
 <style scoped>
 .workspaceContainer {
-  height: calc(100vh - 200px);
+  height: calc(100vh - 220px);
   overflow: auto;
 }
 

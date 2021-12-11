@@ -6,18 +6,6 @@ Developers: Jason Liu and Cai Zefan
   <div>
     <Taskbar title="QA Interface" :qa="true" />
     <v-container fluid class="workspaces-container">
-      <transition-group
-        tag="div"
-        style="height: 150%; width: 150%"
-        type="transition"
-        name="workspaces"
-      >
-        <Workspace
-          v-for="workspace_id in workspace_stack"
-          :key="workspace_id"
-          :id="workspace_id"
-        />
-      </transition-group>
       <div
         v-if="workspace_stack.length == 0"
         style="height: 100%; opacity: 0.7"
@@ -33,6 +21,18 @@ Developers: Jason Liu and Cai Zefan
           </p>
         </v-row>
       </div>
+      <transition-group
+        tag="div"
+        style="height: 150%; width: 150%"
+        type="transition"
+        name="workspaces"
+      >
+        <Workspace
+          v-for="workspace_id in workspace_stack"
+          :key="workspace_id"
+          :id="workspace_id"
+        />
+      </transition-group>
     </v-container>
   </div>
 </template>

@@ -19,11 +19,22 @@ Developers: Atith Gandhi, Raj Shah and Jason Liu
       dense
       class="elevation-2 background"
     >
+      <template #item.answer="{ item }">
+        <a
+          target="_blank"
+          :href="links[item.answer]"
+          :style="{
+            color: links[item.answer]
+              ? $vuetify.theme.currentTheme.primary
+              : $vuetify.theme.currentTheme.red,
+          }"
+        >
+          {{ item.answer }}
+        </a>
+      </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
-          <span :style="{ color: $vuetify.theme.currentTheme.primary }">{{
-            item.text
-          }}</span>
+          {{ item.text }}
         </td>
       </template>
     </v-data-table>
@@ -31,6 +42,8 @@ Developers: Atith Gandhi, Raj Shah and Jason Liu
 </template>
 
 <script>
+import wiki from "wikijs";
+
 export default {
   name: "CountryRepresentation",
   props: {
@@ -43,6 +56,7 @@ export default {
         { text: "Answer", value: "answer" },
         { text: "", value: "data-table-expand", align: "right" },
       ],
+      links: {},
     };
   },
   computed: {
@@ -54,9 +68,15 @@ export default {
     // },
     country_representation() {
       if (this.qa.country_representation) {
-        return this.qa.country_representation.map((question, index) =>
-          Object.assign(question, { id: index })
-        );
+        return this.qa.country_representation.map((question, index) => {
+          wiki({ apiUrl: "https://en.wikipedia.org/w/api.php" })
+            .page(question.answer)
+            .then((page) => {
+              this.$set(this.links, question.answer, page.url());
+            })
+            .catch((e) => {});
+          return Object.assign(question, { id: index });
+        });
       }
       return [];
     },
