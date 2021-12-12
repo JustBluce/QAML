@@ -18,25 +18,27 @@ Developers: Cai Zefan, Jason Liu, and Damian Rene
      
     </v-card-title>
         
-    <v-flex  style="overflow: auto; height: 70vh; border-radius:10px;">        
+    <v-flex  style="overflow: auto; height: 70vh; border-radius:10px; ">        
       <v-data-table
+      dense
         :headers="headers"
         :items="leaderboard"
         hide-actions
-        class="elevation-1"
+        :items-per-page="20"
+        :footer-props="{
+          'items-per-page-options': [10, 20, 30, -1]
+        }"
         :search="search"
-        :sort-by="['name', 'score']"
-        :sort-desc="[false, true]"
-        multi-sort
+        :sort-by="[ 'Score']"
+        :sort-desc="[true]"
+        no-data-text="We are having trouble accessing the leaderboard right now."
+        
       >
       </v-data-table>
     </v-flex>
 
-
  </v-container>
-
 </template>
-
 <script>
 import firebase from "firebase";
 
@@ -116,7 +118,7 @@ export default {
 };
 </script>
 
-<style> 
+<style > 
 .leaderboard-title{
   background-color:  #007ea7  ;
   color: white;
@@ -129,11 +131,12 @@ export default {
   overflow-y: auto;
   
 }
-.leaderboard-container {
-  
-  max-height: calc(100vh - 24px);
-  
+
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
+.v-data-table > .v-data-table__wrapper > table > tfoot > tr > td,
+.v-data-table > .v-data-table__wrapper > table > thead > tr > td {
+    font-size: 12px;
+    padding:3%;
+   
 }
-
-
 </style>
