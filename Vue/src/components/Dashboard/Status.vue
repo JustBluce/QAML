@@ -3,13 +3,11 @@ Developers: Cai Zefan, Jason Liu, and Damian Rene
 -->
 
 <template>
-
-<v-card class=" pa-2 " style="display: block; border-radius: 0%; " max-width="500"  height="70%">
-      <v-card-title class="leaderboard-title">Leaderbaord
+<v-container  >
+  <v-card-title class="leaderboard-title">Leaderbaord
        
-     
           <v-text-field 
-          dark
+            dark
             class="search"
             v-model="search"
             append-icon="mdi-magnify"
@@ -18,23 +16,25 @@ Developers: Cai Zefan, Jason Liu, and Damian Rene
             hide-details
           ></v-text-field>
      
-
     </v-card-title>
-
-    <v-divider></v-divider>
-
-    <v-layout column style="height: 100vh">  
-    <v-flex md6 style="overflow: auto">
+        
+    <v-flex  style="overflow: auto; height: 70vh; border-radius:10px;">        
       <v-data-table
         :headers="headers"
         :items="leaderboard"
+        hide-actions
+        class="elevation-1"
         :search="search"
-        :sort-desc="[true]"
-      ></v-data-table>
+        :sort-by="['name', 'score']"
+        :sort-desc="[false, true]"
+        multi-sort
+      >
+      </v-data-table>
     </v-flex>
-    </v-layout>
 
-</v-card>
+
+ </v-container>
+
 </template>
 
 <script>
@@ -64,6 +64,7 @@ export default {
         console.log(response);
       });
     },
+  
     created() {
       this.user = firebase.auth().currentUser;
 
@@ -119,9 +120,20 @@ export default {
 .leaderboard-title{
   background-color:  #007ea7  ;
   color: white;
+  border-radius: 10px
 }
 .search{
   color: white;
 }
+.right-side{
+  overflow-y: auto;
+  
+}
+.leaderboard-container {
+  
+  max-height: calc(100vh - 24px);
+  
+}
+
 
 </style>

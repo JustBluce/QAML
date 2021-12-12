@@ -539,8 +539,8 @@ def insert():
         json.dump(similarity, outfile, indent=2)
     with open(os.path.join(QA_DIR, "general_edit_history.json"), "w") as outfile:
         json.dump(general_edit_history, outfile, indent=2)
-    with open(os.path.join(QA_DIR, "points.json"), "w") as outfile:
-        json.dump(points, outfile, indent=2)
+    #with open(os.path.join(QA_DIR, "points.json"), "w") as outfile:
+        #json.dump(points, outfile, indent=2)
     if q_id in machine_guess:
         machine_guess.pop(q_id)
         state_machine_guess.pop(q_id)
@@ -567,7 +567,6 @@ def insert():
     print("----TIME (s) : /func/submit [SUBMIT]---",end-start)
     print(points)
 
-    ## Send points to vue to save to Firebase
 
 
     return jsonify({"status":"submitted", "points":points})

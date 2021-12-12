@@ -5,14 +5,10 @@ Developers: Jason Liu, Damian Rene, and Cai Zefan
 <template>
   <div class="dashboard-container">
     <Taskbar title="Dashboard" />
-  
-       
       
       <v-row no-gutters> 
-        
          <!-- Left SIDE   <draggable tag="v-layout" > -->
         <v-col md=9>
-
             <v-row no-gutters> 
                 <v-col md=4>
                   <!--Blank left Area > -->
@@ -27,29 +23,22 @@ Developers: Jason Liu, Damian Rene, and Cai Zefan
 
             <v-row no-gutters> 
                <WorkspaceStats/>
-            
                 <GenreStats/>
-
             </v-row>
-    
             
         </v-col>
 
 
         <!-- Right SIDE -->
+        <!-- Status contians Leaderboards -->
          
         <v-col md=3>
             <Status/>
-            
-
         </v-col>
         
       </v-row>
 
-         <!--
-       <Leaderboard />
-       <Friends/>
-          -->
+       
       
   </div>
 </template>
