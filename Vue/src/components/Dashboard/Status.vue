@@ -4,6 +4,7 @@ Developers: Cai Zefan, Jason Liu, and Damian Rene
 
 <template>
 <v-container  >
+   
   <v-card-title class="leaderboard-title">Leaderbaord
        
           <v-text-field 
@@ -17,6 +18,7 @@ Developers: Cai Zefan, Jason Liu, and Damian Rene
           ></v-text-field>
      
     </v-card-title>
+    
         
     <v-flex  style="overflow: auto; height: 70vh; border-radius:10px; ">        
       <v-data-table
@@ -24,20 +26,32 @@ Developers: Cai Zefan, Jason Liu, and Damian Rene
         :headers="headers"
         :items="leaderboard"
         hide-actions
-        :items-per-page="20"
+        :items-per-page="itemsPerPage"
         :footer-props="{
           'items-per-page-options': [10, 20, 30, -1]
         }"
         :search="search"
         :sort-by="[ 'Score']"
+        :page.sync="page"
         :sort-desc="[true]"
         no-data-text="We are having trouble accessing the leaderboard right now."
-        
+        hide-default-footer
       >
       </v-data-table>
+         <v-pagination
+          v-model="page"
+          :length="pageCount"
+          circle>
+      </v-pagination>
+        
     </v-flex>
+   
+    
+           
+      
 
  </v-container>
+  
 </template>
 <script>
 import firebase from "firebase";
@@ -49,12 +63,24 @@ export default {
       search: "",
       name: "", 
       points: "", 
+      page: 1,
+      itemsPerPage: 10,
       headers: [
         { text: "Name", value: "Name", width: "30%" },
         { text: "Score", value: "Score", width: "30%" },
       ],
       leaderboard: [],
     };
+  },
+   computed: {
+      totalRecords() {
+          return this.leaderboard.length
+      },
+      pageCount() {
+         
+          return Math.round(this.totalRecords / this.itemsPerPage)
+         
+      },
   },
 
     mounted() {
