@@ -45,6 +45,7 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             <div class="highlight" v-html="highlight_text"></div>
           </div>
 
+        <!--
           <v-textarea
             ref="textarea"
             background-color="background"
@@ -56,6 +57,114 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             hide-details="auto"
             @keydown="keep_looping"
           ></v-textarea>
+          -->
+          
+         
+          <v-toolbar dense style="margin-top:2%; margin-bottom:2%;">
+            
+            <v-overflow-btn
+              v-model="selectedFont"
+              :items="dropdown_fonts"
+              label="Select font"
+              hide-details
+              class="pa-0"
+              overflow
+              @change="editor.chain().focus().setFontFamily(selectedFont).run()"
+
+              
+            ></v-overflow-btn>
+      
+              <v-divider vertical></v-divider>
+
+             
+
+             
+
+              <div class="mx-4"></div>
+         
+                <v-btn
+                  @click="editor.chain().focus().toggleBold().run()"
+                  :class="{ 'is-active': editor.isActive('bold') }"
+                  :value="1"
+                  text
+                >
+                  <v-icon>mdi-format-bold</v-icon>
+                </v-btn>
+
+                <v-btn
+                @click="editor.chain().focus().toggleItalic().run()"
+                  :class="{ 'is-active': editor.isActive('italic') }"
+                  :value="2"
+                  text
+                >
+                  <v-icon>mdi-format-italic</v-icon>
+                </v-btn>
+
+                <v-btn
+                @click="editor.chain().focus().toggleUnderline().run()"
+                  :class="{ 'is-active': editor.isActive('underline') }"
+                  :value="3"
+                  text
+                >
+                  <v-icon>mdi-format-underline</v-icon>
+                </v-btn>
+
+             
+
+              <div class="mx-4"></div>
+          <!--
+              <v-btn-toggle
+                v-model="toggle_exclusive"
+                color="primary"
+                dense
+                group
+              >
+                <v-btn
+                  :value="1"
+                  text
+                >
+                  <v-icon>mdi-format-align-left</v-icon>
+                </v-btn>
+
+                <v-btn
+                  :value="2"
+                  text
+                >
+                  <v-icon>mdi-format-align-center</v-icon>
+                </v-btn>
+
+                <v-btn
+                  :value="3"
+                  text
+                >
+                  <v-icon>mdi-format-align-right</v-icon>
+                </v-btn>
+
+                <v-btn
+                  :value="4"
+                  text
+                >
+                  <v-icon>mdi-format-align-justify</v-icon>
+                </v-btn>
+              </v-btn-toggle>
+           -->
+          </v-toolbar>
+
+      
+          <v-container @click="editor.chain().focus().run()" overflow-y-auto>
+          <editor-content 
+          :editor="editor" 
+          ref="textarea"
+            background-color="background"
+            class="highlight-textarea my-4"
+            rows="10"
+            label="Question"
+            solo
+            v-model="qa.text"
+            hide-details="auto"
+            @keydown="keep_looping"
+          />
+          </v-container>
 
           <v-fab-transition>
             <v-btn
@@ -149,16 +258,45 @@ import fileDownload from "js-file-download";
 import jsonFormat from "json-format";
 import wiki from "wikijs";
 
+import { Editor, EditorContent, BubbleMenu } from '@tiptap/vue-2';
+import StarterKit from '@tiptap/starter-kit';
+import { Heading, Code, CharacterCount} from 'tiptap-extensions';
+import Underline from '@tiptap/extension-underline';
+import TextStyle from '@tiptap/extension-text-style'
+import FontFamily from '@tiptap/extension-font-family'
+
+
 export default {
   name: "QA",
   props: {
     id: Number,
+    editorValue: {
+      type: String,
+      default: ' ',
+    },
   },
   components: {
     GChart,
+    EditorContent,
+    BubbleMenu,
+    
+  
+    
+    
+
   },
   data() {
     return {
+      editor: null,
+      toggle_multiple: [1, 2, 3],
+      dropdown_fonts: ['Arial', 'Inter', 'Courier', 'Verdana'],
+       dropdown_edit: [
+        { value: 'Arial' },
+        { value: 'Courier' },
+        { value: 'Verdana' },
+       
+      ],
+      selectedFont: null,
       popup: false,
       email: "",
       user: null,
@@ -208,6 +346,7 @@ export default {
       user_id: "",
     };
   },
+
   computed: {
     workspace() {
       return this.$store.getters.workspace(this.id);
@@ -942,7 +1081,23 @@ export default {
         .catch((e) => (this.wikiShow = false));
     },
   },
+  beforeDestroy() {
+    this.editor.destroy()
+  },
   mounted() {
+    this.editor = new Editor({
+      content: this.editorValue,
+      extensions: [
+        StarterKit,
+       Underline,
+       TextStyle,
+        FontFamily,
+        
+      ],
+      
+      
+    })
+
     let formData = new FormData();
     // formData.append("Timestamp", "2021-08-02 19:57:42");
     // this.axios({
@@ -1026,6 +1181,10 @@ export default {
 </script>
 
 <style>
+.is-active{
+  background-color: rgb(139,	177,	249);
+  
+}
 .highlight-textarea textarea {
   z-index: 2;
 }
