@@ -40,12 +40,13 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           </v-expand-transition>
         </v-card>
 
+        <!--  OLD TEXT AREA
         <div style="position: relative">
           <div class="backdrop" ref="backdrop">
             <div class="highlight" v-html="highlight_text"></div>
           </div>
 
-        <!--
+        
           <v-textarea
             ref="textarea"
             background-color="background"
@@ -58,29 +59,25 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             @keydown="keep_looping"
           ></v-textarea>
           -->
-          
-         
-          <v-toolbar dense style="margin-top:2%; margin-bottom:2%;">
-            
-            <v-overflow-btn
+           <div @click="editor.chain().focus()">
+         <v-card class="mb-4 overflow-y-auto" color="background" style="height:350px;" >
+          <v-toolbar dense flat>
+            <v-select
               v-model="selectedFont"
               :items="dropdown_fonts"
               label="Select font"
               hide-details
               class="pa-0"
               overflow
-              @change="editor.chain().focus().setFontFamily(selectedFont).run()"
-
-              
-            ></v-overflow-btn>
-      
-              <v-divider vertical></v-divider>
-
-             
-
-             
+              outlined
+              dense
+              @change="editor.chain().focus().selectAll().setFontFamily(selectedFont).run()"
+            ></v-select>
+            
 
               <div class="mx-4"></div>
+
+              <v-btn-toggle  multiple >
          
                 <v-btn
                   @click="editor.chain().focus().toggleBold().run()"
@@ -89,7 +86,9 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
                   text
                 >
                   <v-icon>mdi-format-bold</v-icon>
+                
                 </v-btn>
+                
 
                 <v-btn
                 @click="editor.chain().focus().toggleItalic().run()"
@@ -109,52 +108,41 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
                   <v-icon>mdi-format-underline</v-icon>
                 </v-btn>
 
-             
+              </v-btn-toggle>
 
               <div class="mx-4"></div>
-          <!--
-              <v-btn-toggle
-                v-model="toggle_exclusive"
-                color="primary"
-                dense
-                group
+              
+
+              <v-btn-toggle>
+                <v-btn @click="editor.chain().focus().toggleSuperscript().run()" 
+                :class="{ 'is-active': editor.isActive('superscript') }"
+                :value="4"
+                text
+                >
+                <v-icon>mdi-format-superscript</v-icon>
+              </v-btn>
+
+              <v-btn @click="editor.chain().focus().toggleSubscript().run()" 
+              :class="{ 'is-active': editor.isActive('subscript') }"
+              :value="5"
+              text
               >
-                <v-btn
-                  :value="1"
-                  text
-                >
-                  <v-icon>mdi-format-align-left</v-icon>
-                </v-btn>
+                 <v-icon>mdi-format-subscript</v-icon>
+              </v-btn>
 
-                <v-btn
-                  :value="2"
-                  text
-                >
-                  <v-icon>mdi-format-align-center</v-icon>
-                </v-btn>
-
-                <v-btn
-                  :value="3"
-                  text
-                >
-                  <v-icon>mdi-format-align-right</v-icon>
-                </v-btn>
-
-                <v-btn
-                  :value="4"
-                  text
-                >
-                  <v-icon>mdi-format-align-justify</v-icon>
-                </v-btn>
               </v-btn-toggle>
-           -->
+
+              <div class="mx-4"></div>
+        
           </v-toolbar>
 
-      
-          <v-container @click="editor.chain().focus().run()" overflow-y-auto>
-          <editor-content 
-          :editor="editor" 
-          ref="textarea"
+        
+         
+          <editor-content
+            style="max-width:550px; margin:2%; " 
+            :editor="editor" 
+            
+            ref="textarea"
             background-color="background"
             class="highlight-textarea my-4"
             rows="10"
@@ -164,7 +152,10 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             hide-details="auto"
             @keydown="keep_looping"
           />
-          </v-container>
+      
+         
+         </v-card>
+          </div>  
 
           <v-fab-transition>
             <v-btn
@@ -213,7 +204,7 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             @input="update_representation"
             @change="linkWikipedia()"
           ></v-textarea>
-        </div>
+       
 
         <v-row class="mx-1" no-gutters>
           <v-btn color="primary" @click="searchData">
@@ -260,10 +251,14 @@ import wiki from "wikijs";
 
 import { Editor, EditorContent, BubbleMenu } from '@tiptap/vue-2';
 import StarterKit from '@tiptap/starter-kit';
-import { Heading, Code, CharacterCount} from 'tiptap-extensions';
 import Underline from '@tiptap/extension-underline';
 import TextStyle from '@tiptap/extension-text-style'
 import FontFamily from '@tiptap/extension-font-family'
+import Superscript from '@tiptap/extension-superscript'
+import Subscript from '@tiptap/extension-subscript'
+import WorkspaceBtns from '../Taskbar/WorkspaceBtns.vue';
+import Highlight from '@tiptap/extension-highlight'
+
 
 
 export default {
@@ -272,13 +267,14 @@ export default {
     id: Number,
     editorValue: {
       type: String,
-      default: ' ',
+      default: '',
     },
   },
   components: {
     GChart,
     EditorContent,
     BubbleMenu,
+    WorkspaceBtns,
     
   
     
@@ -289,14 +285,14 @@ export default {
     return {
       editor: null,
       toggle_multiple: [1, 2, 3],
-      dropdown_fonts: ['Arial', 'Inter', 'Courier', 'Verdana'],
+      dropdown_fonts: ['Arial',  'Courier','Helvetica','Calibri', 'Futura', 'Garamond','Times New Roman'],
        dropdown_edit: [
         { value: 'Arial' },
         { value: 'Courier' },
         { value: 'Verdana' },
        
       ],
-      selectedFont: null,
+      selectedFont: 'Arial',
       popup: false,
       email: "",
       user: null,
@@ -1092,6 +1088,9 @@ export default {
        Underline,
        TextStyle,
         FontFamily,
+        Superscript,
+        Subscript,
+        Highlight.configure({ multicolor: true }),
         
       ],
       
