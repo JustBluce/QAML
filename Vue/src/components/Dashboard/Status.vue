@@ -5,7 +5,7 @@ Developers: Cai Zefan, Jason Liu, and Damian Rene
 <template>
 <v-container  >
    
-  <v-card-title class="leaderboard-title">Leaderbaord
+  <v-card-title class="leaderboard-title">Leaderboard
        
           <v-text-field 
             dark
