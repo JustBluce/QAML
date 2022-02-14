@@ -2,6 +2,9 @@
  * Developers: Jason Liu
  */
 
+
+
+
 export const widget_types = [
 	'Timer',
 	'MachineGuesses',
@@ -103,4 +106,9 @@ export function defaultWorkspace(id) {
 	};
 }
 
-export const initial_workspaces = [ defaultWorkspace(0) ];
+
+	
+	
+	
+
+export const initial_workspaces = [ defaultWorkspace(0) ];;

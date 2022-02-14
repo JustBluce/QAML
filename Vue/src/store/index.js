@@ -5,9 +5,16 @@ import { defaultWorkspace, initial_workspaces, widgetTemplate, widget_types } fr
 import app from './modules/app';
 import settings from './modules/settings';
 import VueGoogleCharts from 'vue-google-charts';
+import firebase from "firebase"
+import { vuexfireMutations, firestoreAction } from 'vuexfire'
+
 
 Vue.use(VueGoogleCharts);
 Vue.use(Vuex);
+
+	
+		
+
 
 const store = new Vuex.Store({
 	state: {
@@ -21,11 +28,13 @@ const store = new Vuex.Store({
 		genreChartData: [ [ 'Genre', 'Count' ], [ 'None', 1 ] ],
 		recommended: [ 'Baltimore', 'Washington, D.C.', 'Cleveland' ]
 	},
+	
 	modules: {
 		app,
 		settings
 	},
 	mutations: {
+		...vuexfireMutations,
 		createWorkspace(state, title) {
 			let newWorkspace = defaultWorkspace(state.workspace_index);
 			if (title) {
@@ -130,6 +139,7 @@ const store = new Vuex.Store({
 		}
 	},
 	getters: {
+		
 		//isLoggedIn: (state) => state.user.loggedIn,
 		//userData: (state) => state.user.data,
 		//verified: (state) => state.user.verified,
@@ -139,9 +149,16 @@ const store = new Vuex.Store({
 		//token: (state) => state.user.token,
 		//avatar: (state) => state.user.avatar,
 		//name: (state) => state.user.name,
+		workspaces: (state) => {
+			return state.workspaces
+		  },
 		...getters
 	},
 	actions: {
+		
+			
+		
+		
 		/* fetchUser({ commit }, user) {
 			commit('SET_LOGGED_IN', user !== null);
 			if (user) {

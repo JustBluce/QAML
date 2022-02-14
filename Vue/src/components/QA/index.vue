@@ -40,11 +40,16 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           </v-expand-transition>
         </v-card>
 
+        
+    <!--
         <div style="position: relative">
           <div class="backdrop" ref="backdrop">
             <div class="highlight" v-html="highlight_text"></div>
           </div>
 
+
+        <VueTrix ref="textarea" v-model="qa.text"  autofocus @keydown="keep_looping" hide-details="auto"/> 
+          -->
           <v-textarea
             ref="textarea"
             background-color="background"
@@ -56,6 +61,8 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             hide-details="auto"
             @keydown="keep_looping"
           ></v-textarea>
+          
+           
 
           <v-fab-transition>
             <v-btn
@@ -104,7 +111,7 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             @input="update_representation"
             @change="linkWikipedia()"
           ></v-textarea>
-        </div>
+       
 
         <v-row class="mx-1" no-gutters>
           <v-btn color="primary" @click="searchData">
@@ -148,6 +155,10 @@ import firebase from "firebase";
 import fileDownload from "js-file-download";
 import jsonFormat from "json-format";
 import wiki from "wikijs";
+import VueTrix from "vue-trix";
+
+import { mapGetters } from 'vuex'
+
 
 export default {
   name: "QA",
@@ -156,10 +167,12 @@ export default {
   },
   components: {
     GChart,
+    VueTrix,
   },
   data() {
     return {
       popup: false,
+      editorContent: "",
       email: "",
       user: null,
       password: "",
@@ -209,6 +222,7 @@ export default {
     };
   },
   computed: {
+    
     workspace() {
       return this.$store.getters.workspace(this.id);
     },
@@ -240,8 +254,14 @@ export default {
       };
     },
   },
+
+   
+
   created: function () {
+
+    this.timer = setInterval(() => { this.updateFirebaseVuex()  }, 10000)
     this.user_id = firebase.auth().currentUser.uid;
+    //console.log(this.$store.state);
     // console.log(this.user_id)
     this.qid =
       this.user_id +
@@ -294,8 +314,7 @@ export default {
         // else{
         this.axios({
           url:
-            process.env.VUE_APP_HOST +
-            process.env.VUE_APP_BACKEND_PORT +
+            "http://127.0.0.1:7600" + 
             "/func/act",
 
           method: "POST",
@@ -306,8 +325,7 @@ export default {
         });
         this.axios({
           url:
-            process.env.VUE_APP_HOST +
-            process.env.VUE_APP_BACKEND_PORT +
+            "http://127.0.0.1:7600" + 
             "/binary_search_based_buzzer/buzz_full_question",
           method: "POST",
           data: formData,
@@ -368,8 +386,7 @@ export default {
 
         this.axios({
           url:
-            process.env.VUE_APP_HOST +
-            process.env.VUE_APP_BACKEND_PORT +
+            "http://127.0.0.1:7600" + 
             "/similar_question/retrieve_similar_question",
           method: "POST",
           data: formData,
@@ -385,8 +402,7 @@ export default {
         });
         this.axios({
           url:
-            process.env.VUE_APP_HOST +
-            process.env.VUE_APP_BACKEND_PORT +
+            "http://127.0.0.1:7600" + 
             "/country_represent/country_present",
           method: "POST",
           data: formData,
@@ -407,8 +423,7 @@ export default {
         });
         this.axios({
           url:
-            process.env.VUE_APP_HOST +
-            process.env.VUE_APP_BACKEND_PORT +
+            "http://127.0.0.1:7600" + 
             "/entity_represent/entity_present",
           method: "POST",
           data: formData,
@@ -428,8 +443,7 @@ export default {
         });
         this.axios({
           url:
-            process.env.VUE_APP_HOST +
-            process.env.VUE_APP_BACKEND_PORT +
+            "http://127.0.0.1:7600" + 
             "/pronunciation/get_pronunciation",
           method: "POST",
           data: formData,
@@ -472,10 +486,19 @@ export default {
           // ...
         });
     },
+
+   
+
     keep_looping: _.debounce(function () {
       // this.highlight_words = {}
       console.log(this.qa.highlight_words);
       clearInterval(this.interval);
+
+
+        
+     //this.updateFirebaseVuex()
+
+
 
       let formData = new FormData();
       // console.log(
@@ -516,8 +539,7 @@ export default {
       formData.append("qid", this.qid);
       this.axios({
         url:
-          process.env.VUE_APP_HOST +
-          process.env.VUE_APP_BACKEND_PORT +
+          "http://127.0.0.1:7600" + 
           "/func/act",
         method: "POST",
         data: formData,
@@ -527,8 +549,7 @@ export default {
       });
       this.axios({
         url:
-          process.env.VUE_APP_HOST +
-          process.env.VUE_APP_BACKEND_PORT +
+          "http://127.0.0.1:7600" + 
           "/binary_search_based_buzzer/buzz_full_question",
         method: "POST",
         data: formData,
@@ -584,8 +605,7 @@ export default {
       });
       this.axios({
         url:
-          process.env.VUE_APP_HOST +
-          process.env.VUE_APP_BACKEND_PORT +
+          "http://127.0.0.1:7600" + 
           "/similar_question/retrieve_similar_question",
         method: "POST",
         data: formData,
@@ -600,8 +620,7 @@ export default {
       });
       this.axios({
         url:
-          process.env.VUE_APP_HOST +
-          process.env.VUE_APP_BACKEND_PORT +
+          "http://127.0.0.1:7600" + 
           "/country_represent/country_present",
         method: "POST",
         data: formData,
@@ -620,8 +639,7 @@ export default {
       });
       this.axios({
         url:
-          process.env.VUE_APP_HOST +
-          process.env.VUE_APP_BACKEND_PORT +
+          "http://127.0.0.1:7600" + 
           "/entity_represent/entity_present",
         method: "POST",
         data: formData,
@@ -640,8 +658,7 @@ export default {
       });
       this.axios({
         url:
-          process.env.VUE_APP_HOST +
-          process.env.VUE_APP_BACKEND_PORT +
+          "http://127.0.0.1:7600" + 
           "/pronunciation/get_pronunciation",
         method: "POST",
         data: formData,
@@ -695,8 +712,7 @@ export default {
       // });
       this.axios({
         url:
-          process.env.VUE_APP_HOST +
-          process.env.VUE_APP_BACKEND_PORT +
+          "http://127.0.0.1:7600" + 
           "/country_represent/country_present",
         method: "POST",
         data: formData,
@@ -747,8 +763,7 @@ export default {
 
         this.axios({
           url:
-            process.env.VUE_APP_HOST +
-            process.env.VUE_APP_BACKEND_PORT +
+            "http://127.0.0.1:7600" + 
             "/genre_classifier/genre_data",
           method: "POST",
           data: formData,
@@ -768,8 +783,7 @@ export default {
         });
         this.axios({
           url:
-            process.env.VUE_APP_HOST +
-            process.env.VUE_APP_BACKEND_PORT +
+            "http://127.0.0.1:7600" + 
             "/similar_question/retrieve_similar_question",
           method: "POST",
           data: formData,
@@ -782,8 +796,7 @@ export default {
           } else {
             this.axios({
               url:
-                process.env.VUE_APP_HOST +
-                process.env.VUE_APP_BACKEND_PORT +
+                "http://127.0.0.1:7600" + 
                 "/difficulty_classifier/classify",
               method: "POST",
               data: formData,
@@ -812,8 +825,7 @@ export default {
                   window.setTimeout(() => {
                     this.axios({
                       url:
-                        process.env.VUE_APP_HOST +
-                        process.env.VUE_APP_BACKEND_PORT +
+                        "http://127.0.0.1:7600" + 
                         "/func/insert",
                       method: "POST",
                       data: formData,
@@ -856,6 +868,24 @@ export default {
       //   this.highlight = response.data["Highlight"];
       // });
     },
+    updateFirebaseVuex(){
+    // Sends state to firestore
+    console.log("Updating Workspace On the Backend")
+    const db = firebase.firestore();
+    const docs = db.collection("users").doc(this.user_id).collection("workspace").doc("workspaceState");
+    //console.log(this.$store.state.workspaces)
+       docs.set({
+          workspaces: this.$store.state.workspaces,
+          //widget_types: this.$store.state.widget_types,
+          //game_mode: this.$store.state.game_mode,
+          
+          //recommended: this.$store.state.recommended,
+          //timestamp: firebase.firestore.Timestamp.now(),
+        }, { merge: false }).catch((err) => {
+                alert("DOCUMENTS Oops. " + err.message);
+              });
+       
+  },
     changeGenre() {
       let formData = new FormData();
       formData.append("text", this.qa.text);
@@ -876,8 +906,7 @@ export default {
       formData.append("user_id", this.user_id);
       this.axios({
         url:
-          process.env.VUE_APP_HOST +
-          process.env.VUE_APP_BACKEND_PORT +
+          "http://127.0.0.1:7600" + 
           "/genre_classifier/classify",
         method: "POST",
         data: formData,
@@ -891,6 +920,9 @@ export default {
         }
       });
     },
+
+   
+
     addResult(result) {
       this.$store.commit("addResult", {
         workspace_id: this.id,
@@ -905,8 +937,7 @@ export default {
       formData.append("UID", user.uid);
       this.axios({
         url:
-          process.env.VUE_APP_HOST +
-          process.env.VUE_APP_BACKEND_PORT +
+          "http://127.0.0.1:7600" + 
           "/test1/json",
         method: "POST",
       }).then((response) => {
@@ -943,6 +974,31 @@ export default {
     },
   },
   mounted() {
+    //this.$store.dispatch('bindworkspaces')
+
+     // console.log(this.$store.state.workspaces[0])
+
+     const db = firebase.firestore();
+				const user_id = firebase.auth().currentUser.uid;
+				const docs = db.collection("users").doc(user_id).collection("workspace");
+				docs 
+				.where("workspaces", "!=", null) 
+				.get() 
+				.then((snapshot) =>
+				{ snapshot.docs.forEach((doc) => {
+					if (doc.exists) 
+					{ 
+						console.log("Found old Workspace... Restoring"); 
+            console.log(doc.data().workspaces)
+						//console.log(doc.data().workspaces[0])
+						this.$store.state.workspaces = doc.data().workspaces;
+					} 
+				})})
+
+
+    //Updates state in firestore once every 10 seconds
+    
+    
     let formData = new FormData();
     // formData.append("Timestamp", "2021-08-02 19:57:42");
     // this.axios({
@@ -975,8 +1031,7 @@ export default {
       if (this.user_id != "") {
         this.axios({
           url:
-            process.env.VUE_APP_HOST +
-            process.env.VUE_APP_BACKEND_PORT +
+            "http://127.0.0.1:7600" + 
             "/genre_classifier/genre_data",
           method: "POST",
           data: formData,
@@ -1018,10 +1073,12 @@ export default {
 
     this.linkWikipedia();
   },
+  
   beforeDestroy() {
     clearInterval(this.interval);
     clearInterval(this.highlightInterval);
   },
+
 };
 </script>
 
