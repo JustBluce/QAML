@@ -40,14 +40,12 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           </v-expand-transition>
         </v-card>
 
-        
-    <!--
         <div style="position: relative">
           <div class="backdrop" ref="backdrop">
             <div class="highlight" v-html="highlight_text"></div>
           </div>
 
-
+          <!--
         <VueTrix ref="textarea" v-model="qa.text"  autofocus @keydown="keep_looping" hide-details="auto"/> 
           -->
           <v-textarea
@@ -61,8 +59,6 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             hide-details="auto"
             @keydown="keep_looping"
           ></v-textarea>
-          
-           
 
           <v-fab-transition>
             <v-btn
@@ -111,7 +107,7 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             @input="update_representation"
             @change="linkWikipedia()"
           ></v-textarea>
-       
+        </div>
 
         <v-row class="mx-1" no-gutters>
           <v-btn color="primary" @click="searchData">
@@ -157,8 +153,7 @@ import jsonFormat from "json-format";
 import wiki from "wikijs";
 import VueTrix from "vue-trix";
 
-import { mapGetters } from 'vuex'
-
+import { mapGetters } from "vuex";
 
 export default {
   name: "QA",
@@ -222,7 +217,6 @@ export default {
     };
   },
   computed: {
-    
     workspace() {
       return this.$store.getters.workspace(this.id);
     },
@@ -231,9 +225,7 @@ export default {
     },
     highlight_text() {
       let keys = Object.keys(this.highlight).join("|");
-      let highlight_regex = keys
-        ? new RegExp(keys, "gi")
-        : new RegExp("$^");
+      let highlight_regex = keys ? new RegExp(keys, "gi") : new RegExp("$^");
       return this.qa.text
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -255,11 +247,7 @@ export default {
     },
   },
 
-   
-
-  created: function () {
-
-    this.timer = setInterval(() => { this.updateFirebaseVuex()  }, 10000)
+  created() {
     this.user_id = firebase.auth().currentUser.uid;
     //console.log(this.$store.state);
     // console.log(this.user_id)
@@ -313,9 +301,7 @@ export default {
         //         }
         // else{
         this.axios({
-          url:
-            "http://127.0.0.1:7600" + 
-            "/func/act",
+          url: "http://127.0.0.1:7600" + "/func/act",
 
           method: "POST",
           data: formData,
@@ -325,7 +311,7 @@ export default {
         });
         this.axios({
           url:
-            "http://127.0.0.1:7600" + 
+            "http://127.0.0.1:7600" +
             "/binary_search_based_buzzer/buzz_full_question",
           method: "POST",
           data: formData,
@@ -386,7 +372,7 @@ export default {
 
         this.axios({
           url:
-            "http://127.0.0.1:7600" + 
+            "http://127.0.0.1:7600" +
             "/similar_question/retrieve_similar_question",
           method: "POST",
           data: formData,
@@ -401,9 +387,7 @@ export default {
           // console.log(response);
         });
         this.axios({
-          url:
-            "http://127.0.0.1:7600" + 
-            "/country_represent/country_present",
+          url: "http://127.0.0.1:7600" + "/country_represent/country_present",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -422,9 +406,7 @@ export default {
           // console.log(response);
         });
         this.axios({
-          url:
-            "http://127.0.0.1:7600" + 
-            "/entity_represent/entity_present",
+          url: "http://127.0.0.1:7600" + "/entity_represent/entity_present",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -442,9 +424,7 @@ export default {
           // console.log(response);
         });
         this.axios({
-          url:
-            "http://127.0.0.1:7600" + 
-            "/pronunciation/get_pronunciation",
+          url: "http://127.0.0.1:7600" + "/pronunciation/get_pronunciation",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -487,18 +467,12 @@ export default {
         });
     },
 
-   
-
     keep_looping: _.debounce(function () {
       // this.highlight_words = {}
       console.log(this.qa.highlight_words);
       clearInterval(this.interval);
 
-
-        
-     //this.updateFirebaseVuex()
-
-
+      //this.updateFirebaseVuex()
 
       let formData = new FormData();
       // console.log(
@@ -538,9 +512,7 @@ export default {
       formData.append("user_id", this.user_id);
       formData.append("qid", this.qid);
       this.axios({
-        url:
-          "http://127.0.0.1:7600" + 
-          "/func/act",
+        url: "http://127.0.0.1:7600" + "/func/act",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -549,7 +521,7 @@ export default {
       });
       this.axios({
         url:
-          "http://127.0.0.1:7600" + 
+          "http://127.0.0.1:7600" +
           "/binary_search_based_buzzer/buzz_full_question",
         method: "POST",
         data: formData,
@@ -605,7 +577,7 @@ export default {
       });
       this.axios({
         url:
-          "http://127.0.0.1:7600" + 
+          "http://127.0.0.1:7600" +
           "/similar_question/retrieve_similar_question",
         method: "POST",
         data: formData,
@@ -619,9 +591,7 @@ export default {
         this.qa.top5_similar_questions = response.data["similar_question"];
       });
       this.axios({
-        url:
-          "http://127.0.0.1:7600" + 
-          "/country_represent/country_present",
+        url: "http://127.0.0.1:7600" + "/country_represent/country_present",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -638,9 +608,7 @@ export default {
         // console.log(this.highlight_words)
       });
       this.axios({
-        url:
-          "http://127.0.0.1:7600" + 
-          "/entity_represent/entity_present",
+        url: "http://127.0.0.1:7600" + "/entity_represent/entity_present",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -657,9 +625,7 @@ export default {
         // console.log(response);
       });
       this.axios({
-        url:
-          "http://127.0.0.1:7600" + 
-          "/pronunciation/get_pronunciation",
+        url: "http://127.0.0.1:7600" + "/pronunciation/get_pronunciation",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -711,9 +677,7 @@ export default {
       //   console.log(response);
       // });
       this.axios({
-        url:
-          "http://127.0.0.1:7600" + 
-          "/country_represent/country_present",
+        url: "http://127.0.0.1:7600" + "/country_represent/country_present",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -762,9 +726,7 @@ export default {
         formData.append("genre", this.qa.genre);
 
         this.axios({
-          url:
-            "http://127.0.0.1:7600" + 
-            "/genre_classifier/genre_data",
+          url: "http://127.0.0.1:7600" + "/genre_classifier/genre_data",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -783,7 +745,7 @@ export default {
         });
         this.axios({
           url:
-            "http://127.0.0.1:7600" + 
+            "http://127.0.0.1:7600" +
             "/similar_question/retrieve_similar_question",
           method: "POST",
           data: formData,
@@ -795,9 +757,7 @@ export default {
             });
           } else {
             this.axios({
-              url:
-                "http://127.0.0.1:7600" + 
-                "/difficulty_classifier/classify",
+              url: "http://127.0.0.1:7600" + "/difficulty_classifier/classify",
               method: "POST",
               data: formData,
             }).then((response) => {
@@ -824,9 +784,7 @@ export default {
                   // console.log("1");
                   window.setTimeout(() => {
                     this.axios({
-                      url:
-                        "http://127.0.0.1:7600" + 
-                        "/func/insert",
+                      url: "http://127.0.0.1:7600" + "/func/insert",
                       method: "POST",
                       data: formData,
                     }).then((response) => {
@@ -868,24 +826,6 @@ export default {
       //   this.highlight = response.data["Highlight"];
       // });
     },
-    updateFirebaseVuex(){
-    // Sends state to firestore
-    console.log("Updating Workspace On the Backend")
-    const db = firebase.firestore();
-    const docs = db.collection("users").doc(this.user_id).collection("workspace").doc("workspaceState");
-    //console.log(this.$store.state.workspaces)
-       docs.set({
-          workspaces: this.$store.state.workspaces,
-          //widget_types: this.$store.state.widget_types,
-          //game_mode: this.$store.state.game_mode,
-          
-          //recommended: this.$store.state.recommended,
-          //timestamp: firebase.firestore.Timestamp.now(),
-        }, { merge: false }).catch((err) => {
-                alert("DOCUMENTS Oops. " + err.message);
-              });
-       
-  },
     changeGenre() {
       let formData = new FormData();
       formData.append("text", this.qa.text);
@@ -905,9 +845,7 @@ export default {
       formData.append("qid", this.qid);
       formData.append("user_id", this.user_id);
       this.axios({
-        url:
-          "http://127.0.0.1:7600" + 
-          "/genre_classifier/classify",
+        url: "http://127.0.0.1:7600" + "/genre_classifier/classify",
         method: "POST",
         data: formData,
       }).then((response) => {
@@ -920,8 +858,6 @@ export default {
         }
       });
     },
-
-   
 
     addResult(result) {
       this.$store.commit("addResult", {
@@ -936,9 +872,7 @@ export default {
       formData.append("email", user.email);
       formData.append("UID", user.uid);
       this.axios({
-        url:
-          "http://127.0.0.1:7600" + 
-          "/test1/json",
+        url: "http://127.0.0.1:7600" + "/test1/json",
         method: "POST",
       }).then((response) => {
         this.Question_id = response.data["Question_id"];
@@ -976,29 +910,10 @@ export default {
   mounted() {
     //this.$store.dispatch('bindworkspaces')
 
-     // console.log(this.$store.state.workspaces[0])
-
-     const db = firebase.firestore();
-				const user_id = firebase.auth().currentUser.uid;
-				const docs = db.collection("users").doc(user_id).collection("workspace");
-				docs 
-				.where("workspaces", "!=", null) 
-				.get() 
-				.then((snapshot) =>
-				{ snapshot.docs.forEach((doc) => {
-					if (doc.exists) 
-					{ 
-						console.log("Found old Workspace... Restoring"); 
-            console.log(doc.data().workspaces)
-						//console.log(doc.data().workspaces[0])
-						this.$store.state.workspaces = doc.data().workspaces;
-					} 
-				})})
-
+    // console.log(this.$store.state.workspaces[0])
 
     //Updates state in firestore once every 10 seconds
-    
-    
+
     let formData = new FormData();
     // formData.append("Timestamp", "2021-08-02 19:57:42");
     // this.axios({
@@ -1030,9 +945,7 @@ export default {
       formData.append("genre", this.qa.genre);
       if (this.user_id != "") {
         this.axios({
-          url:
-            "http://127.0.0.1:7600" + 
-            "/genre_classifier/genre_data",
+          url: "http://127.0.0.1:7600" + "/genre_classifier/genre_data",
           method: "POST",
           data: formData,
         }).then((response) => {
@@ -1073,12 +986,11 @@ export default {
 
     this.linkWikipedia();
   },
-  
+
   beforeDestroy() {
     clearInterval(this.interval);
     clearInterval(this.highlightInterval);
   },
-
 };
 </script>
 

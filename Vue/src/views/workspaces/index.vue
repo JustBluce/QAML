@@ -78,6 +78,7 @@ Developers: Jason Liu
 <script>
 import Taskbar from "@/components/Taskbar";
 import WorkspaceCard from "@/components/WorkspaceCard";
+import firebase from "firebase";
 import fileDownload from "js-file-download";
 import jsonFormat from "json-format";
 
@@ -122,6 +123,63 @@ export default {
       });
       this.popup = false;
     },
+    updateFirebaseVuex() {
+      // Sends state to firestore
+      console.log("Updating Workspace On the Backend");
+      const db = firebase.firestore();
+      const docs = db
+        .collection("users")
+        .doc(this.user_id)
+        .collection("workspace")
+        .doc("workspaceState");
+      //console.log(this.$store.state.workspaces)
+      docs
+        .set(
+          {
+            workspaces: this.$store.state.workspaces,
+            //widget_types: this.$store.state.widget_types,
+            //game_mode: this.$store.state.game_mode,
+
+            //recommended: this.$store.state.recommended,
+            //timestamp: firebase.firestore.Timestamp.now(),
+          },
+          { merge: false }
+        )
+        .catch((err) => {
+          alert("DOCUMENTS Oops. " + err.message);
+        });
+    },
+  },
+  created() {
+    this.user_id = firebase.auth().currentUser.uid;
+  },
+  mounted() {
+    const db = firebase.firestore();
+    const docs = db
+      .collection("users")
+      .doc(this.user_id)
+      .collection("workspace");
+    docs
+      .where("workspaces", "!=", null)
+      .get()
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          if (doc.exists) {
+            console.log("Found old Workspace... Restoring");
+            console.log(doc.data().workspaces);
+            //console.log(doc.data().workspaces[0])
+            this.$store.commit("uploadWorkspaces", doc.data().workspaces);
+          }
+        });
+      });
+
+    this.timer = setInterval(() => {
+      this.updateFirebaseVuex();
+    }, 10000);
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
+    this.updateFirebaseVuex();
   },
 };
 </script>
