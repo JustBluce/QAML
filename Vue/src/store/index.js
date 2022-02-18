@@ -91,6 +91,7 @@ const store = new Vuex.Store({
         deleteWorkspace(state, workspace_id) {
             this.commit('closeWorkspace', workspace_id);
             state.workspaces = state.workspaces.filter((workspace) => workspace.id !== workspace_id);
+            state.workspace_index--;
             this.commit('updateTabs');
         },
         updateTabs(state) {
@@ -133,12 +134,14 @@ const store = new Vuex.Store({
             workspace.results.dialog = false;
             workspace.results.content = [];
         },
-        uploadWorkspaces(state, workspaces) {
+        uploadWorkspaces(state, workspaces,  selected) {
             state.workspaces = workspaces;
-            state.workspace_stack = workspaces.map((workspace) => workspace.id);
+            
             // Need to update the following:
+            state.workspace_stack = workspaces.map((workspace) => workspace.id);
             state.workspace_index = workspaces.length;
-            state.workspace_selected = 0;
+            state.workspace_selected = selected;
+
             this.commit('updateTabs');
         }
     },
