@@ -123,49 +123,17 @@ export default {
       });
       this.popup = false;
     },
-    updateFirebaseVuex() {
-      // Sends state to firestore
-      
-       if(firebase.auth().currentUser.isAnonymous == false){
-          console.log("Updating Workspace On the Backend");
-          const db = firebase.firestore();
-          const docs = db
-            .collection("users")
-            .doc(this.user_id)
-            .collection("workspace")
-            .doc("workspaceState");
-          //console.log(this.$store.state.workspaces)
-          docs
-            .set(
-              {
-                
-                workspaces: this.$store.state.workspaces,
-                workspace_selected: this.$store.state.workspace_selected,
-               
-                //widget_types: this.$store.state.widget_types,
-                //game_mode: this.$store.state.game_mode,
-
-                //recommended: this.$store.state.recommended,
-                //timestamp: firebase.firestore.Timestamp.now(),
-              },
-              { merge: true }
-            )
-            .catch((err) => {
-              alert("DOCUMENTS Oops.(workspaces.index) " + err.message);
-            });
-       }else{
-         console.log("GUEST MODE: Not sending updates to backend")
-       }
-    },
   },
   created() {
-   
     this.user_id = firebase.auth().currentUser.uid;
   },
   mounted() {
     const db = firebase.firestore();
-    if(firebase.auth().currentUser.uid != null){
-      const docs = db.collection("users").doc(this.user_id).collection("workspace");
+    if (firebase.auth().currentUser.uid != null) {
+      const docs = db
+        .collection("users")
+        .doc(this.user_id)
+        .collection("workspace");
       docs
         .where("workspaces", "!=", null)
         .get()
@@ -174,24 +142,52 @@ export default {
             if (doc.exists) {
               console.log("Found old Workspace... Restoring");
               console.log(doc.data().workspaces);
+
               //console.log(doc.data().workspaces[0])
-               
-               this.$store.commit("uploadWorkspaces", doc.data().workspaces,doc.data().workspace_selected );
+              this.$store.commit("uploadWorkspaces", {
+                workspaces: doc.data().workspaces,
+                stack: doc.data().workspace_stack,
+                index: doc.data().workspace_index,
+                selected: doc.data().workspace_selected,
+              });
             }
           });
         });
-
-      this.timer = setInterval(() => {
-        this.updateFirebaseVuex();
-      }, 10000);
-    }else{
-      console.log("GUEST ACCOUNT: Not sending updates to the backend")
+    } else {
+      console.log("GUEST ACCOUNT: Not sending updates to the backend");
     }
-    
   },
-  beforeDestroy() {
-    clearInterval(this.timer);
-    this.updateFirebaseVuex();
+  updated() {
+    if (firebase.auth().currentUser.isAnonymous == false) {
+      console.log("Updating Workspace On the Backend");
+      const db = firebase.firestore();
+      const docs = db
+        .collection("users")
+        .doc(this.user_id)
+        .collection("workspace")
+        .doc("workspaceState");
+      docs
+        .set(
+          {
+            workspaces: this.$store.state.workspaces,
+            workspace_stack: this.$store.state.workspace_stack,
+            workspace_index: this.$store.state.workspace_index,
+            workspace_selected: this.$store.state.workspace_selected,
+
+            //widget_types: this.$store.state.widget_types,
+            //game_mode: this.$store.state.game_mode,
+
+            //recommended: this.$store.state.recommended,
+            //timestamp: firebase.firestore.Timestamp.now(),
+          },
+          { merge: true }
+        )
+        .catch((err) => {
+          alert("DOCUMENTS Oops.(QA.index) " + err.message);
+        });
+    } else {
+      console.log("GUEST ACCOUNT: Not sending updates to the backend");
+    }
   },
 };
 </script>

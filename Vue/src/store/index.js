@@ -134,14 +134,11 @@ const store = new Vuex.Store({
             workspace.results.dialog = false;
             workspace.results.content = [];
         },
-        uploadWorkspaces(state, workspaces,  selected) {
+        uploadWorkspaces(state, {workspaces, stack, index, selected} ) {
             state.workspaces = workspaces;
-            
-            // Need to update the following:
-            state.workspace_stack = workspaces.map((workspace) => workspace.id);
-            state.workspace_index = workspaces.length;
+            state.workspace_stack = stack;
+            state.workspace_index = index;
             state.workspace_selected = selected;
-
             this.commit('updateTabs');
         }
     },
