@@ -134,7 +134,7 @@ const store = new Vuex.Store({
             workspace.results.dialog = false;
             workspace.results.content = [];
         },
-        uploadWorkspaces(state, {workspaces, stack, index, selected} ) {
+        uploadWorkspaces(state, { workspaces, stack, index, selected }) {
             state.workspaces = workspaces;
             state.workspace_stack = stack;
             state.workspace_index = index;
