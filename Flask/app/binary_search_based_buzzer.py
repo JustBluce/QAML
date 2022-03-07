@@ -22,6 +22,17 @@ def get_tfidf_for_words(text, tfidf):
     sort_orders = sorted(foodict.items(), key=lambda x: x[1], reverse=True)[:4]
     return sort_orders
 
+def Oracle_buzzer(question, ans):
+    if(True):
+        question_sentence = question
+        temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=5000)
+
+        # TODO: Implementation of ORACLE buzzer that just as soon as it gets to the right answer, it buzzes in.
+        if (temp_var[0][0] == ans.replace(' ','_')):
+            return question_sentence, "", True, temp_var[0][0], 1, len(question_sentence) - 1
+        else:
+            return "Buzzer does not get the correct answer.", "", False, "", -1, -1
+
 def buzz(question, ans, min_index=5):
     """
     
@@ -49,6 +60,7 @@ def buzz(question, ans, min_index=5):
     if(True):
         question_sentence = question
         temp_var = guess_top_n(question=[question_sentence], params=params, max=3, n=5000)
+
         if(len(temp_word_array)<30):
             if (temp_var[0][1] < threshold_buzz):
                 for i in range(len(temp_var)):
@@ -312,40 +324,80 @@ def buzz_full_question():
         date_incoming = request.form.get("date")
         ans = request.form.get("answer_text")
         q_id = request.form.get("qid")
-    ans = ans.strip()
-    if(question.strip()==""):
-        return jsonify({"buzz": "", "buzz_word": "", "flag": False, "top_guess" : "", "importance": [{"sentence":"-", "importance":-1}] })
-    start = time.time()
-    buzzer_string, rest_of_sentence, flag, top_guess, set_flag, buzzer_word_number = buzz(question, ans)
+        buzzer_type = request.form.get("buzzer_type")
 
-    end = time.time()
-    buzz_word = []
-    print("----TIME (s) : /binary_search_based_buzzer/buzz_full_question---", end - start)
- 
-    start = time.time()
-    buzzer_last_word =""
-    hightlight_words = []
-    if(flag):
-        importance_sentence, sentence_string, sentence_number, hightlight_words = get_importance_of_each_sentence(buzzer_string)
-        buzzer_last_word=buzzer_string[-10:]
-        buzz_word.append(buzzer_last_word)
-        date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-        date_outgoing.replace(', 00',', 24')
-        insert_into_db(q_id, date_incoming, date_outgoing, question, ans, buzzer_string, len(break_into_sentences(buzzer_string)), buzzer_word_number, sentence_number, sentence_string, set_flag)
-        buzzer_string = buzzer_string + ' 🔔BUZZ '
-    else:
-
-        importance_sentence, sentence_string, sentence_number, hightlight_words = get_importance_of_each_sentence(question)
-    end = time.time()
-    temp_highlight = []
-    stop_words = set(stopwords.words('english'))
-    if q_id in prev_highlight:
-        temp_highlight = list(set(prev_highlight[q_id]) - set(hightlight_words)) 
-        temp_highlight = [x for x in temp_highlight if x not in stop_words]
-    # print(hightlight_words)
-    hightlight_words = all_combinations(hightlight_words, question)
-    prev_highlight[q_id] = hightlight_words 
-    # + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words]
-    print("----TIME (s) : /binary_search_based_buzzer/get_importance_sentence---", end - start)
+    if buzzer_type == "Oracle_buzzer":
+        ans = ans.strip()
+        if(question.strip()==""):
+            return jsonify({"buzz": "", "buzz_word": "", "flag": False, "top_guess" : "", "importance": [{"sentence":"-", "importance":-1}] })
+        start = time.time()
+        buzzer_string, rest_of_sentence, flag, top_guess, set_flag, buzzer_word_number = Oracle_buzzer(question, ans)
+        end = time.time()
+        buzz_word = []
+        print("----TIME (s) : /binary_search_based_buzzer/buzz_full_question---", end - start)
     
-    return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word, "hightlight_words":hightlight_words , "remove_highlight":temp_highlight})
+        start = time.time()
+        buzzer_last_word =""
+        hightlight_words = []
+        if(flag):
+            importance_sentence, sentence_string, sentence_number, hightlight_words = get_importance_of_each_sentence(buzzer_string)
+            buzzer_last_word=buzzer_string[-10:]
+            buzz_word.append(buzzer_last_word)
+            date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+            date_outgoing.replace(', 00',', 24')
+            insert_into_db(q_id, date_incoming, date_outgoing, question, ans, buzzer_string, len(break_into_sentences(buzzer_string)), buzzer_word_number, sentence_number, sentence_string, set_flag)
+            buzzer_string = buzzer_string + ' 🔔BUZZ '
+        else:
+
+            importance_sentence, sentence_string, sentence_number, hightlight_words = get_importance_of_each_sentence(question)
+        end = time.time()
+        temp_highlight = []
+        stop_words = set(stopwords.words('english'))
+        if q_id in prev_highlight:
+            temp_highlight = list(set(prev_highlight[q_id]) - set(hightlight_words)) 
+            temp_highlight = [x for x in temp_highlight if x not in stop_words]
+        # print(hightlight_words)
+        hightlight_words = all_combinations(hightlight_words, question)
+        prev_highlight[q_id] = hightlight_words 
+        # + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words]
+        print("----TIME (s) : /binary_search_based_buzzer/get_importance_sentence---", end - start)
+        return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word, "hightlight_words":hightlight_words , "remove_highlight":temp_highlight})
+
+    elif buzzer_type == "threshold_buzzer":
+        ans = ans.strip()
+        if(question.strip()==""):
+            return jsonify({"buzz": "", "buzz_word": "", "flag": False, "top_guess" : "", "importance": [{"sentence":"-", "importance":-1}] })
+        start = time.time()
+        buzzer_string, rest_of_sentence, flag, top_guess, set_flag, buzzer_word_number = buzz(question, ans)
+
+        end = time.time()
+        buzz_word = []
+        print("----TIME (s) : /binary_search_based_buzzer/buzz_full_question---", end - start)
+    
+        start = time.time()
+        buzzer_last_word =""
+        hightlight_words = []
+        if(flag):
+            importance_sentence, sentence_string, sentence_number, hightlight_words = get_importance_of_each_sentence(buzzer_string)
+            buzzer_last_word=buzzer_string[-10:]
+            buzz_word.append(buzzer_last_word)
+            date_outgoing = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+            date_outgoing.replace(', 00',', 24')
+            insert_into_db(q_id, date_incoming, date_outgoing, question, ans, buzzer_string, len(break_into_sentences(buzzer_string)), buzzer_word_number, sentence_number, sentence_string, set_flag)
+            buzzer_string = buzzer_string + ' 🔔BUZZ '
+        else:
+
+            importance_sentence, sentence_string, sentence_number, hightlight_words = get_importance_of_each_sentence(question)
+        end = time.time()
+        temp_highlight = []
+        stop_words = set(stopwords.words('english'))
+        if q_id in prev_highlight:
+            temp_highlight = list(set(prev_highlight[q_id]) - set(hightlight_words)) 
+            temp_highlight = [x for x in temp_highlight if x not in stop_words]
+        # print(hightlight_words)
+        hightlight_words = all_combinations(hightlight_words, question)
+        prev_highlight[q_id] = hightlight_words 
+        # + [x.capitalize() for x in hightlight_words] + [x.lower() for x in hightlight_words]
+        print("----TIME (s) : /binary_search_based_buzzer/get_importance_sentence---", end - start)
+        
+        return jsonify({"buzz": buzzer_string, "buzz_word": buzz_word, "flag": flag, "top_guess" : top_guess, "importance": importance_sentence,"buzzer_last_word":buzzer_last_word, "hightlight_words":hightlight_words , "remove_highlight":temp_highlight})
