@@ -1,17 +1,13 @@
 <!--
-Original Developers: Jason Liu and Damian Rene
-
-Redesign By: Damian Rene
+Developers: Jason Liu and Damian Rene
 -->
 
 <template>
   <div>
     <v-btn id="profile" icon>
-
       <v-avatar size="44px" v-if="email && user.photoURL">
         <img v-if="user.photoURL" :src="user.photoURL" />
       </v-avatar>
-
       <v-icon size="44px" v-else>mdi-account-circle</v-icon>
       <v-tooltip bottom activator="#profile">
         <span>User profile</span>

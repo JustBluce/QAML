@@ -6,7 +6,7 @@ from firebase_admin import auth
 
 from firebase_admin import firestore
 
-cred = credentials.Certificate("/Users/Damian/Downloads/question-writing-interface-firebase-adminsdk-f21ks-5fde8c0ce2.json")
+cred = credentials.Certificate("question-writing-interface-firebase-adminsdk-jxvw3-623f426f96.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 

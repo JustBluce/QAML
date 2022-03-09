@@ -74,7 +74,6 @@ if (process.env.NODE_ENV === 'production') {
 	mockXHR();
 }
 
-
 Vue.use(ElementUI, { locale });
 Vue.use(Vuelidate);
 Vue.use(VueAxios, axios);
