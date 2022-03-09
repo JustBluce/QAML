@@ -1,0 +1,32 @@
+vue-cli-service build 
+/bin/sh: vue-cli-service: command not found
+/Users/Damian/Documents/GitHub/QAML/Vue/node_modules/runjs/lib/index.js:25
+        throw new common_1.RunJSError(error.message);
+        ^
+
+RunJSError: Command failed: vue-cli-service build 
+    at runSync (/Users/Damian/Documents/GitHub/QAML/Vue/node_modules/runjs/lib/index.js:25:15)
+    at run (/Users/Damian/Documents/GitHub/QAML/Vue/node_modules/runjs/lib/index.js:83:12)
+    at Object.<anonymous> (/Users/Damian/Documents/GitHub/QAML/Vue/build/index.js:34:3)
+    at Module._compile (node:internal/modules/cjs/loader:1109:14)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1138:10)
+    at Module.load (node:internal/modules/cjs/loader:989:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:829:14)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:76:12)
+    at node:internal/main/run_main_module:17:47
+vue-cli-service build 
+/bin/sh: vue-cli-service: command not found
+/Users/Damian/Documents/GitHub/QAML/Vue/node_modules/runjs/lib/index.js:25
+        throw new common_1.RunJSError(error.message);
+        ^
+
+RunJSError: Command failed: vue-cli-service build 
+    at runSync (/Users/Damian/Documents/GitHub/QAML/Vue/node_modules/runjs/lib/index.js:25:15)
+    at run (/Users/Damian/Documents/GitHub/QAML/Vue/node_modules/runjs/lib/index.js:83:12)
+    at Object.<anonymous> (/Users/Damian/Documents/GitHub/QAML/Vue/build/index.js:34:3)
+    at Module._compile (node:internal/modules/cjs/loader:1109:14)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1138:10)
+    at Module.load (node:internal/modules/cjs/loader:989:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:829:14)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:76:12)
+    at node:internal/main/run_main_module:17:47

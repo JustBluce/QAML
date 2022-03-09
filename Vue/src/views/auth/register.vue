@@ -40,8 +40,10 @@ Developers: Damian Rene and Jason Liu
         ></v-text-field>
       </v-form>
 
+    
+
       <v-card-actions class="justify-center pb-4">
-        <v-btn class="primary" @click="createUser">
+        <v-btn class="primary" @click="login">
           <v-icon left> mdi-account-plus </v-icon>
           Register
         </v-btn>
@@ -63,7 +65,9 @@ export default {
     return {
       name: "",
       email: "",
+      user: "",
       password: "",
+      errors: [],
       showPassword: false,
       nameRules: [
         (v) => !!v || "Name is required",
@@ -80,43 +84,53 @@ export default {
     };
   },
   methods: {
+    created() {
+    firebase.auth().onAuthStateChanged((result) => {
+      this.user = result;
+    })
+    },
+    login() {
+      firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch(function(error) {
+      console.log(error.code);
+      console.log(error.message);
+      
+    }).then((userCredential) => {
+    // Signed in 
+      this.user = userCredential.user
+      //this.user = userCredential.user;
+    // ...
+  })
+      this.createUser();
+    },
     createUser() {
+      
       const db = firebase.firestore();
       const docs = db.collection("users");
-      let lastUser = 0;
+      let document_exists = false;
 
-      if (this.$refs.form.validate()) {
-        firebase
-          .auth()
-          .createUserWithEmailAndPassword(this.email, this.password)
-          .then((cred) => {
-            db.collection("users")
-              .orderBy("timestamp", "desc")
-              .limit(1)
-              .get()
-              .then((snapshot) => {
-                snapshot.docs.forEach((doc) => {
-                  lastUser = doc.data().User_ID + 1;
-                  //console.log("USER: " + doc.data().User_ID);
-                  //console.log(lastUser);
-                  //document titles correlate to User UID
-                  db.collection("users").doc(cred.user.uid).set({
-                    User_ID: lastUser,
-                    displayName: this.name,
-                    email: this.email,
-                    signInMethod: "Email and Password",
-                    timestamp: firebase.firestore.Timestamp.now(),
-                  });
-                });
-              });
-
-            this.$router.push("/dashboard");
-          })
-          .catch((error) => {
-            alert(error.message);
+      db.collection("users")
+        .where("email", "==", this.email)
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            if (doc.exists) {
+              document_exists = true;
+            }
           });
-      }
-    },
-  },
-};
+          if (!document_exists) {
+              db.collection("users").doc(this.user.uid).set({
+                displayName: this.name,
+                email: this.email,
+                signInMethod: "Email and Password",
+                CreatedTimestamp: firebase.firestore.Timestamp.now(),
+                points: 0, 
+              })
+              .catch((err) => {
+                alert("DOCUMENTS Oops. " + err.message);
+              });
+          }
+        })
+    }
+  }
+}
 </script>
