@@ -165,6 +165,7 @@ export default {
                     User_ID: lastUser,
                     displayName: this.user.displayName,
                     email: this.user.email,
+                    points: 0,
                     signInMethod: "Google",
                     CreatedTimestamp: firebase.firestore.Timestamp.now(),
                   });
