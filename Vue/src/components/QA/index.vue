@@ -48,10 +48,7 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
           <!--
         <VueTrix ref="textarea" v-model="qa.text"  autofocus @keydown="keep_looping" hide-details="auto"/> 
           -->
-           
-          
- 
-      
+
           <v-textarea
             ref="textarea"
             background-color="background"
@@ -62,15 +59,16 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             v-model="qa.text"
             hide-details="auto"
             @keydown="keep_looping"
+            @input="$store.commit('updateFirebaseVuex')"
           ></v-textarea>
-          
 
-
-      <div align="right">
-         <v-card class="mb-3"  width="130" >
-           <div align="center" style="padding:1px;" >Word Count: {{wordCount}}</div>
-          </v-card>
-         </div>
+          <div align="right">
+            <v-card class="mb-3" width="130" color="background">
+              <div align="center" style="padding: 1px">
+                Word Count: {{ wordCount }}
+              </div>
+            </v-card>
+          </div>
 
           <v-fab-transition>
             <v-btn
@@ -116,8 +114,11 @@ Developers: Jason Liu, Raj Shah, Atith Gandhi, Damian Rene, and Cai Zefan
             solo
             v-model="qa.answer_text"
             hide-details="auto"
-            @input="update_representation"
-            @change="linkWikipedia()"
+            @keydown="update_representation"
+            @input="
+              linkWikipedia();
+              $store.commit('updateFirebaseVuex');
+            "
           ></v-textarea>
         </div>
 
@@ -233,8 +234,8 @@ export default {
       return this.$store.getters.workspace(this.id);
     },
     wordCount() {
-		  return this.qa.text.split(' ').length - 1
-	  },
+      return this.qa.text.split(" ").length - 1;
+    },
     qa() {
       return this.workspace.qa;
     },
@@ -807,32 +808,38 @@ export default {
                       this.points = response.data["points"];
                       console.log(this.points);
 
-                        //Insert points into firebase as well 505
-                       
-                        if (firebase.auth().currentUser.uid != null) {
-                          console.log("Updating Points in Firebase");
-                            
-                            const db = firebase.firestore();
-                            
-                            const pointsdocs = db
-                              .collection("users")
-                              .doc(this.user_id)
-                              .get()
-                              .then((snapshot) => {
-                    
-                                    
-                                    let oldpoints = snapshot.data().points
+                      //Insert points into firebase as well 505
 
-                                      const docs = db
-                                        .collection("users")
-                                        .doc(this.user_id)
-                                        docs.update({
-                                            points: oldpoints + this.points,
-                                        }, { merge: true }) .catch((err) => {
-                                            alert("Failed to upload points to the Backend(QA.index.vue" + err.message);
-                                          });
-                                  })
-                              }
+                      if (firebase.auth().currentUser.uid != null) {
+                        console.log("Updating Points in Firebase");
+
+                        const db = firebase.firestore();
+
+                        const pointsdocs = db
+                          .collection("users")
+                          .doc(this.user_id)
+                          .get()
+                          .then((snapshot) => {
+                            let oldpoints = snapshot.data().points;
+
+                            const docs = db
+                              .collection("users")
+                              .doc(this.user_id);
+                            docs
+                              .update(
+                                {
+                                  points: oldpoints + this.points,
+                                },
+                                { merge: true }
+                              )
+                              .catch((err) => {
+                                alert(
+                                  "Failed to upload points to the Backend(QA.index.vue" +
+                                    err.message
+                                );
+                              });
+                          });
+                      }
 
                       // this.$router.push({ name: 'Dashboard' });
                       this.addResult({
@@ -900,6 +907,7 @@ export default {
           this.chartData = header.concat(this.qa.subgenre);
         }
       });
+      this.$store.commit("updateFirebaseVuex");
     },
 
     addResult(result) {
@@ -1029,7 +1037,6 @@ export default {
 
     this.linkWikipedia();
   },
-
   beforeDestroy() {
     clearInterval(this.interval);
     clearInterval(this.highlightInterval);
@@ -1061,5 +1068,4 @@ mark {
   z-index: 1;
   overflow: auto;
 }
-
 </style>

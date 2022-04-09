@@ -122,7 +122,7 @@ export default {
       this.widget_types.forEach(
         (type) =>
           (switches[type] = Boolean(
-            this.workspace.widgets.find((widget) => widget.type === type)
+            this.workspace.widgets.find((widget) => widget.type === type).show
           ))
       );
       return switches;
@@ -130,17 +130,11 @@ export default {
   },
   methods: {
     toggleSwitch(type) {
-      if (this.switches[type]) {
-        this.$store.commit("addWidget", {
-          workspace_id: this.id,
-          type: type,
-        });
-      } else {
-        this.$store.commit("deleteWidget", {
-          workspace_id: this.id,
-          type: type,
-        });
-      }
+      this.$store.commit("toggleWidget", {
+        workspace_id: this.id,
+        type: type,
+        toggle: this.switches[type] ? 1 : 0,
+      });
     },
     toggleAll(mode) {
       this.widget_types.forEach((type) => {
@@ -148,6 +142,9 @@ export default {
         this.toggleSwitch(type);
       });
     },
+  },
+  updated() {
+    this.$store.commit("updateFirebaseVuex");
   },
 };
 </script>

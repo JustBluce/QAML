@@ -1,7 +1,11 @@
+/**
+ * Developers: Jason Liu, Damian Rene
+ */
+
 import Vue from 'vue';
 import Vuex from 'vuex';
 import * as getters from './getters';
-import { defaultWorkspace, initial_workspaces, widgetTemplate, widget_types } from './workspace';
+import { defaultWorkspace, initial_workspaces, widget_types } from './workspace';
 import app from './modules/app';
 import settings from './modules/settings';
 import VueGoogleCharts from 'vue-google-charts';
@@ -52,20 +56,24 @@ const store = new Vuex.Store({
         },
         selectWorkspace(state, workspace_id) {
             let last_workspace_id = state.workspace_stack.slice(-1)[0];
-            if (last_workspace_id) {
-                widget_types.forEach((type) =>
-                    this.commit('toggleWidget', { workspace_id: last_workspace_id, type, toggle: 0 })
-                );
-            }
             state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
             state.workspace_stack.push(workspace_id);
-            widget_types.forEach((type) => this.commit('toggleWidget', { workspace_id, type, toggle: 1 }));
             state.workspace_selected = getters.workspace(state)(workspace_id).tab_id;
+            if (last_workspace_id != null && last_workspace_id != workspace_id) {
+                widget_types.forEach((type) =>
+                    this.commit('toggleWidget', { workspace_id: last_workspace_id, type, toggle: 0, select: true })
+                );
+                widget_types.forEach((type) =>
+                    this.commit('toggleWidget', { workspace_id, type, toggle: 1, select: true })
+                );
+            }
         },
         minimizeWorkspace(state, workspace_id) {
             let toggle = workspace_id === state.workspace_stack.slice(-1)[0];
             if (toggle) {
-                widget_types.forEach((type) => this.commit('toggleWidget', { workspace_id, type, toggle: 0 }));
+                widget_types.forEach((type) =>
+                    this.commit('toggleWidget', { workspace_id, type, toggle: 0, select: true })
+                );
             }
             state.workspace_stack = state.workspace_stack.filter((id) => id !== workspace_id);
             if (state.workspace_stack.length > 0) {
@@ -73,7 +81,7 @@ const store = new Vuex.Store({
                 state.workspace_selected = getters.workspace(state)(newWorkspace_id).tab_id;
                 if (toggle) {
                     widget_types.forEach((type) =>
-                        this.commit('toggleWidget', { workspace_id: newWorkspace_id, type, toggle: 1 })
+                        this.commit('toggleWidget', { workspace_id: newWorkspace_id, type, toggle: 1, select: true })
                     );
                 }
             } else {
@@ -99,21 +107,13 @@ const store = new Vuex.Store({
                 state.workspaces.findIndex((workspace) => workspace.tab_id === state.workspace_selected) + 1;
             state.workspaces = state.workspaces.map((workspace, i) => Object.assign(workspace, { tab_id: i + 1 }));
         },
-        addWidget(state, { workspace_id, type }) {
+        toggleWidget(state, { workspace_id, type, toggle, select = false }) {
             let workspace = getters.workspace(state)(workspace_id);
-            if (!workspace.widgets.find((widget) => widget.type === type)) {
-                workspace.widgets.push(widgetTemplate(type));
-                this.commit('toggleWidget', { workspace_id, type, toggle: 1 });
-            }
-        },
-        deleteWidget(state, { workspace_id, type }) {
-            let workspace = getters.workspace(state)(workspace_id);
-            this.commit('toggleWidget', { workspace_id, type, toggle: 0 });
-            workspace.widgets = workspace.widgets.filter((widget) => widget.type !== type);
-        },
-        toggleWidget(state, { workspace_id, type, toggle }) {
-            let workspace = getters.workspace(state)(workspace_id);
-            if (workspace.widgets.find((widget) => widget.type === type)) {
+            let widget = workspace.widgets.find((widget) => widget.type === type);
+            if ((!select && widget.show !== toggle) || (select && widget.show)) {
+                if (!select) {
+                    widget.show = toggle;
+                }
                 switch (toggle) {
                     case 0:
                         state.widget_usages[type] += Math.floor(
@@ -134,12 +134,59 @@ const store = new Vuex.Store({
             workspace.results.dialog = false;
             workspace.results.content = [];
         },
-        uploadWorkspaces(state, { workspaces, stack, index, selected }) {
-            state.workspaces = workspaces;
-            state.workspace_stack = stack;
-            state.workspace_index = index;
-            state.workspace_selected = selected;
-            this.commit('updateTabs');
+        loadFirebaseVuex(state) {
+            const db = firebase.firestore();
+            const user_id = firebase.auth().currentUser.uid;
+            const override = false; // this is very scuffed if our Vuex json structure changes
+            if (firebase.auth().currentUser.uid != null && !override) {
+                const docs = db.collection('users').doc(user_id).collection('workspace');
+                docs.where('workspaces', '!=', null).get().then((snapshot) => {
+                    snapshot.docs.forEach((doc) => {
+                        if (doc.exists) {
+                            console.log('Found old Workspace... Restoring');
+                            console.log(doc.data().workspaces);
+
+                            //console.log(doc.data().workspaces[0])
+                            state.workspaces = doc.data().workspaces;
+                            state.workspace_stack = doc.data().workspace_stack;
+                            state.workspace_index = doc.data().workspace_index;
+                            state.workspace_selected = doc.data().workspace_selected;
+                            this.commit('updateTabs');
+                        }
+                    });
+                });
+            } else {
+                console.log('GUEST ACCOUNT: Not sending updates to the backend');
+            }
+        },
+        updateFirebaseVuex(state) {
+            if (firebase.auth().currentUser.isAnonymous == false) {
+                console.log('Updating Workspace On the Backend');
+                const db = firebase.firestore();
+                const user_id = firebase.auth().currentUser.uid;
+                const docs = db.collection('users').doc(user_id).collection('workspace').doc('workspaceState');
+                docs
+                    .set(
+                        {
+                            workspaces: state.workspaces,
+                            workspace_stack: state.workspace_stack,
+                            workspace_index: state.workspace_index,
+                            workspace_selected: state.workspace_selected
+
+                            //widget_types: this.$store.state.widget_types,
+                            //game_mode: this.$store.state.game_mode,
+
+                            //recommended: this.$store.state.recommended,
+                            //timestamp: firebase.firestore.Timestamp.now(),
+                        },
+                        { merge: true }
+                    )
+                    .catch((err) => {
+                        alert('DOCUMENTS Oops.(QA.index) ' + err.message);
+                    });
+            } else {
+                console.log('GUEST ACCOUNT: Not sending updates to the backend');
+            }
         }
     },
     getters: {

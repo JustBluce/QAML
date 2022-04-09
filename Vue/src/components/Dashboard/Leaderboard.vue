@@ -22,7 +22,6 @@ Developers: Cai Zefan, Jason Liu, and Damian Rene
         dense
         :headers="headers"
         :items="leaderboard"
-        hide-actions
         :items-per-page="itemsPerPage"
         :footer-props="{
           'items-per-page-options': [10, 20, 30, -1],

@@ -12,53 +12,64 @@ export const widget_types = [
     'EntityRepresentation'
 ];
 
-export function widgetTemplate(type) {
-    let widget_templates = {
-        Timer: {
-            id: 0,
-            title: 'Timer',
-            type: 'Timer',
-            container: 'left'
-        },
-        MachineGuesses: {
-            id: 1,
-            title: 'Machine guesses',
-            type: 'MachineGuesses',
-            container: 'left'
-        },
-        SimilarQuestions: {
-            id: 2,
-            title: 'Similar questions',
-            type: 'SimilarQuestions',
-            container: 'left'
-        },
-        Buzzer: {
-            id: 3,
-            title: 'Buzzer',
-            type: 'Buzzer',
-            container: 'right'
-        },
-        Pronunciation: {
-            id: 4,
-            title: 'Pronunciation difficulty',
-            type: 'Pronunciation',
-            container: 'right'
-        },
-        CountryRepresentation: {
-            id: 5,
-            title: 'Country representation',
-            type: 'CountryRepresentation',
-            container: 'right'
-        },
-        EntityRepresentation: {
-            id: 6,
-            title: 'Entity representation',
-            type: 'EntityRepresentation',
-            container: 'right'
-        }
-    };
-    return widget_templates[type];
-}
+const widgets = [
+    {
+        id: 0,
+        show: 0,
+        title: 'Timer',
+        type: 'Timer',
+        container: 'left',
+        info: 'Timer for game mode'
+    },
+    {
+        id: 1,
+        show: 1,
+        title: 'Machine guesses',
+        type: 'MachineGuesses',
+        container: 'left',
+        info: 'List of top machine guesses w/ confidence scores'
+    },
+    {
+        id: 2,
+        show: 1,
+        title: 'Similar questions',
+        type: 'SimilarQuestions',
+        container: 'left',
+        info: 'List of past questions the AI finds similar to yours'
+    },
+    {
+        id: 3,
+        show: 1,
+        title: 'Buzzer',
+        type: 'Buzzer',
+        container: 'right',
+        info: 'Buzzer text w/ buzz position highlighting and sentence importance scores'
+    },
+    {
+        id: 4,
+        show: 1,
+        title: 'Pronunciation difficulty',
+        type: 'Pronunciation',
+        container: 'right',
+        info: 'List of words that are suggested to have a pronunciation guide'
+    },
+    {
+        id: 5,
+        show: 1,
+        title: 'Country representation',
+        type: 'CountryRepresentation',
+        container: 'right',
+        info: 'List of suggested underrepresented countries related to your question'
+    },
+    {
+        id: 6,
+        show: 1,
+        title: 'Entity representation',
+        type: 'EntityRepresentation',
+        container: 'right',
+        info: 'List of suggested underrepresented answer entities related to your question'
+    }
+];
 
 export function defaultQA() {
     return {
@@ -88,7 +99,9 @@ export function defaultWorkspace(id) {
         tab: true,
         title: id === 0 ? 'Workspace' : `Workspace (${id})`,
         qa: defaultQA(),
-        widgets: widget_types.map((widget) => widgetTemplate(widget)),
+        widgets: widgets.map((widget) => {
+            return { ...widget };
+        }),
         widget_timestamps: widget_types.reduce((ac, a) => ({ ...ac, [a]: Date.now() }), {}),
         results: {
             dialog: false,
