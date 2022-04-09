@@ -15,11 +15,7 @@ Developers: Jason Liu
         style="font-size: 24px"
         :rules="rules"
         :value="workspace.title"
-        @input="
-          (title) => {
-            if ($refs.form.validate()) workspace.title = title;
-          }
-        "
+        @input="updateTitle"
       ></v-text-field>
     </v-form>
 
@@ -129,6 +125,12 @@ export default {
     },
   },
   methods: {
+    updateTitle(title) {
+      if (this.$refs.form.validate()) {
+        this.workspace.title = title;
+        this.$store.commit("updateFirebaseVuex");
+      }
+    },
     toggleSwitch(type) {
       this.$store.commit("toggleWidget", {
         workspace_id: this.id,
@@ -142,9 +144,6 @@ export default {
         this.toggleSwitch(type);
       });
     },
-  },
-  updated() {
-    this.$store.commit("updateFirebaseVuex");
   },
 };
 </script>

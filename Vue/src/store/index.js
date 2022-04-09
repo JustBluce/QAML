@@ -49,10 +49,12 @@ const store = new Vuex.Store({
             getters.workspace(state)(workspace_id).tab = true;
             this.commit('updateTabs');
             this.commit('selectWorkspace', workspace_id);
+            this.commit("updateFirebaseVuex");
         },
         closeWorkspace(state, workspace_id) {
             this.commit('minimizeWorkspace', workspace_id);
             getters.workspace(state)(workspace_id).tab = false;
+            this.commit("updateFirebaseVuex");
         },
         selectWorkspace(state, workspace_id) {
             let last_workspace_id = state.workspace_stack.slice(-1)[0];
@@ -87,6 +89,7 @@ const store = new Vuex.Store({
             } else {
                 state.workspace_selected = 0;
             }
+            this.commit("updateFirebaseVuex");
         },
         resetWorkspace(state, workspace_id) {
             initial_workspaces;
@@ -95,12 +98,14 @@ const store = new Vuex.Store({
             workspace.qa = resetWorkspace.qa;
             workspace.widgets = resetWorkspace.widgets;
             workspace.results = resetWorkspace.results;
+            this.commit("updateFirebaseVuex");
         },
         deleteWorkspace(state, workspace_id) {
             this.commit('closeWorkspace', workspace_id);
             state.workspaces = state.workspaces.filter((workspace) => workspace.id !== workspace_id);
             state.workspace_index--;
             this.commit('updateTabs');
+            this.commit("updateFirebaseVuex");
         },
         updateTabs(state) {
             state.workspace_selected =
@@ -122,6 +127,7 @@ const store = new Vuex.Store({
                     case 1:
                         workspace.widget_timestamps[type] = Date.now();
                 }
+                this.commit("updateFirebaseVuex");
             }
         },
         addResult(state, { workspace_id, result }) {

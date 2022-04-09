@@ -123,9 +123,6 @@ export default {
       this.popup = false;
     },
   },
-  updated() {
-    this.$store.commit("updateFirebaseVuex");
-  },
 };
 </script>
 
