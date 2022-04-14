@@ -40,10 +40,14 @@ const firebaseConfig = {
 	measurementId: 'G-8JMB36KVE8'
 };
 // Initialize Firebase
+
 firebase.initializeApp(firebaseConfig);
 //firebase.analytics();
 
 var db = firebase.firestore();
+
+export var db ;
+
 db.settings({ timestampsInSnapshots: true });
 
 /* firebase.auth().onAuthStateChanged((user) => {

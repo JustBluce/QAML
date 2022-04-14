@@ -24,5 +24,14 @@ export default {
       showBar: ["Login", "Register", "About", "Tutorial"],
     };
   },
+  mounted() {
+    window.addEventListener(
+      "beforeunload",
+      () => {
+        this.$store.commit("updateFirebaseVuex");
+      },
+      false
+    );
+  },
 };
 </script>

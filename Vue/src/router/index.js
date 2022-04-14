@@ -145,6 +145,7 @@ router.beforeEach((to, from, next) => {
 		firebase.auth().onAuthStateChanged((user) => {
 			if (user) {
 				next();
+				store.commit("loadFirebaseVuex");
 			} else {
 				next('/login');
 			}

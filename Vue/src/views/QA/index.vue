@@ -1,5 +1,5 @@
 <!--
-Developers: Jason Liu and Cai Zefan
+Developers: Jason Liu, Cai Zefan, and Damian Rene
 -->
 
 <template>
@@ -58,6 +58,9 @@ export default {
     workspace_stack() {
       return this.$store.state.workspace_stack;
     },
+  },
+  updated() {
+    this.$store.commit("updateFirebaseVuex");
   },
 };
 </script>

@@ -11,6 +11,13 @@ Developers: Jason Liu
   >
     <v-card-title class="handle py-2" style="font-size: 18px; cursor: grab">
       {{ widget.title }}
+      <v-spacer></v-spacer>
+      <v-btn :id="info_id" icon>
+        <v-icon>mdi-information-outline</v-icon>
+        <v-tooltip bottom max-width="350" :activator="`#${info_id}`">
+          <span>{{ widget.info }}</span>
+        </v-tooltip>
+      </v-btn>
       <v-progress-linear
         class="my-1"
         :color="widget.type"
@@ -38,6 +45,11 @@ export default {
   props: {
     workspace_id: Number,
     widget: Object,
+  },
+  computed: {
+    info_id() {
+      return `info-${this.workspace_id}-${this.widget.id}`;
+    },
   },
 };
 </script>

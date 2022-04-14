@@ -48,7 +48,7 @@ export default {
     widgets: {
       get() {
         return this.workspace.widgets.filter(
-          (widgets) => widgets.container === this.container
+          (widget) => (widget.show && widget.container === this.container)
         );
       },
       set(widgets) {

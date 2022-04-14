@@ -15,11 +15,7 @@ Developers: Jason Liu
         style="font-size: 24px"
         :rules="rules"
         :value="workspace.title"
-        @input="
-          (title) => {
-            if ($refs.form.validate()) workspace.title = title;
-          }
-        "
+        @input="updateTitle"
       ></v-text-field>
     </v-form>
 
@@ -122,25 +118,25 @@ export default {
       this.widget_types.forEach(
         (type) =>
           (switches[type] = Boolean(
-            this.workspace.widgets.find((widget) => widget.type === type)
+            this.workspace.widgets.find((widget) => widget.type === type).show
           ))
       );
       return switches;
     },
   },
   methods: {
-    toggleSwitch(type) {
-      if (this.switches[type]) {
-        this.$store.commit("addWidget", {
-          workspace_id: this.id,
-          type: type,
-        });
-      } else {
-        this.$store.commit("deleteWidget", {
-          workspace_id: this.id,
-          type: type,
-        });
+    updateTitle(title) {
+      if (this.$refs.form.validate()) {
+        this.workspace.title = title;
+        this.$store.commit("updateFirebaseVuex");
       }
+    },
+    toggleSwitch(type) {
+      this.$store.commit("toggleWidget", {
+        workspace_id: this.id,
+        type: type,
+        toggle: this.switches[type] ? 1 : 0,
+      });
     },
     toggleAll(mode) {
       this.widget_types.forEach((type) => {

@@ -46,11 +46,13 @@
     "vue-highlight-words": "^1.2.0",
     "vue-resizable": "^1.2.5",
     "vue-router": "^3.5.2",
+    "vue-trix": "^1.2.0",
     "vue2-editor": "^1.0.1",
     "vuedraggable": "^2.24.3",
     "vuelidate": "^0.7.6",
     "vuetify": "^2.5.8",
     "vuex": "3.1.0",
+    "vuexfire": "^3.2.5",
     "wikijs": "^6.3.2",
     "xlsx": "^0.17.0"
   },
