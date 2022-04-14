@@ -12,7 +12,7 @@ export const widget_types = [
     'EntityRepresentation'
 ];
 
-const widgets = [
+const default_widgets = [
     {
         id: 0,
         show: 0,
@@ -83,7 +83,7 @@ export function defaultQA() {
         binary_search_based_buzzer: 'Buzzer text goes here',
         importance: [],
         genre: '',
-        subgenre: '',
+        subgenre: {},
         top_guess_buzzer: '',
         uid: '',
         pronunciation: [],
@@ -99,7 +99,7 @@ export function defaultWorkspace(id) {
         tab: true,
         title: id === 0 ? 'Workspace' : `Workspace (${id})`,
         qa: defaultQA(),
-        widgets: widgets.map((widget) => {
+        widgets: default_widgets.map((widget) => {
             return { ...widget };
         }),
         widget_timestamps: widget_types.reduce((ac, a) => ({ ...ac, [a]: Date.now() }), {}),

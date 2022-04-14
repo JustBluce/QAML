@@ -754,7 +754,6 @@ export default {
             for (let i = 0; i < genre_data.length; i++) {
               header.push(genre_data[i]);
             }
-            // console.log(header.concat(this.qa.subgenre));
             this.genreChartData = header;
             console.log(this.genreChartData);
           }
@@ -899,12 +898,17 @@ export default {
         method: "POST",
         data: formData,
       }).then((response) => {
-        // console.log(response.data["subgenre"][this.qa.genre]);
-        this.qa.subgenre = response.data["subgenre"][this.qa.genre];
-        if (this.qa.subgenre != "") {
+        this.qa.subgenre = Object.fromEntries(
+          response.data["subgenre"][this.qa.genre]
+        );
+        if (Object.keys(this.qa.subgenre).length != 0) {
           let header = [["Subgenre", "Count"]];
-          // console.log(header.concat(this.qa.subgenre));
-          this.chartData = header.concat(this.qa.subgenre);
+          this.chartData = header.concat(
+            Object.keys(this.qa.subgenre).map((key) => [
+              key,
+              this.qa.subgenre[key],
+            ])
+          );
         }
       });
       this.$store.commit("updateFirebaseVuex");
@@ -1009,7 +1013,6 @@ export default {
             for (let i = 0; i < genre_data.length; i++) {
               header.push(genre_data[i]);
             }
-            // console.log(header.concat(this.qa.subgenre));
             this.genreChartData = header;
             console.log(this.genreChartData);
           }

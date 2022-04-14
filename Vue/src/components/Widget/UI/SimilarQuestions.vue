@@ -66,8 +66,8 @@ export default {
       return this.qa.entity_representation;
     },
     similar_questions() {
-      if (this.qa.top5_similar_questions[1]) {
-        return this.qa.top5_similar_questions[1].map((question, index) => {
+      if (this.qa.top5_similar_questions.similar) {
+        return this.qa.top5_similar_questions.questions.map((question, index) => {
           question.answer = question.answer.replace("Answer: ", "");
           while (
             question.answer !=

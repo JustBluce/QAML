@@ -72,15 +72,19 @@ export default {
       return this.qa.genre;
     },
     subgenre() {
-      if (this.qa.subgenre === "") {
+      if (Object.keys(this.qa.subgenre).length === 0) {
         return [
           ["Subgenre", "Count"],
           ["None", 1],
         ];
       } else {
         let header = [["Subgenre", "Count"]];
-        console.log(header.concat(this.qa.subgenre));
-        return header.concat(this.qa.subgenre);
+        return header.concat(
+          Object.keys(this.qa.subgenre).map((key) => [
+            key,
+            this.qa.subgenre[key],
+          ])
+        );
       }
     },
   },

@@ -121,7 +121,7 @@ def retrieve_similar_question():
         q_id = request.form.get("qid")
         date_incoming = request.form.get("date")
     if question.strip()=="":
-        return jsonify({"similar_question": [False, [ {'answer':"", 'text':""}]]})
+        return jsonify({"similar_question": {"similar": False, "questions": [ {'answer':"", 'text':""}]}})
     start =time.time()
     questions.append(question)
     repre = tfidf_vectorizer.transform([question])
@@ -143,4 +143,4 @@ def retrieve_similar_question():
     date_outgoing.replace(', 00',', 24')
     add_to_db(q_id, date_incoming, date_outgoing, question, ans, isSimilar, [data[index]['answer'] for index in top_3_idx])
     print("----TIME (s) : /similar_question/retrieve_similar_question---",end - start)
-    return jsonify({"similar_question": [isSimilar, [ {'answer':"Answer: " + data[index]['answer'], 'text':data[index]['text']} for index in top_3_idx]]})
+    return jsonify({"similar_question": {"similar": isSimilar, "questions": [ {'answer':"Answer: " + data[index]['answer'], 'text':data[index]['text']} for index in top_3_idx]}})
